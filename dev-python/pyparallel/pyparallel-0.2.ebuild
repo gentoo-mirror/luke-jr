@@ -17,3 +17,11 @@ DEPEND="app-arch/unzip"
 
 DOCS="CHANGES.txt README.txt"
 PYTHON_MODNAME="parallel"
+
+src_unpack() {
+        unpack ${A}
+        cd "${S}"
+	tr -d '\r' <setup.py >setup.py.new
+	mv setup.py{.new,}
+        epatch "${FILESDIR}/${P}-setup-bugfix.patch"
+}
