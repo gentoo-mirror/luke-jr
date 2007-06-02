@@ -74,8 +74,18 @@ pkg_setup() {
 }
 
 src_unpack() {
-	base_src_unpack
+	unpack ${A}
 	cd "${S}"
+	if use longturn; then
+		local p
+		for p in \
+			1-adding-player-by-hand.diff \
+			2-max-number-of-players.diff \
+			3-take-nonexistent-conn.diff \
+		; do
+			epatch ${DISTDIR}/${p}
+		done
+	fi
 
 	# install locales in /usr/share/locale
 	sed -i \
