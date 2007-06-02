@@ -9,6 +9,11 @@ DESCRIPTION="multiplayer strategy game (Civilization Clone)"
 HOMEPAGE="http://www.freeciv.org/"
 SRC_URI="ftp://ftp.freeciv.org/pub/freeciv/stable/${MY_P}.tar.bz2
 	mirror://gentoo/${PN}.png
+	longturn? (
+		http://www.longturn.org/files/1-adding-player-by-hand.diff
+		http://www.longturn.org/files/2-max-number-of-players.diff
+		http://www.longturn.org/files/3-take-nonexistent-conn.diff
+	)
 	!dedicated? (
 		alsa? (
 			ftp://ftp.freeciv.org/freeciv/contrib/audio/soundsets/stdsounds3.tar.gz )
@@ -21,7 +26,7 @@ SRC_URI="ftp://ftp.freeciv.org/pub/freeciv/stable/${MY_P}.tar.bz2
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="alpha amd64 mips ppc ppc64 sparc x86"
-IUSE="alsa auth dedicated esd gtk nls readline sdl Xaw3d"
+IUSE="alsa auth dedicated esd gtk longturn nls readline sdl Xaw3d"
 
 RDEPEND="readline? ( sys-libs/readline )
 	!dedicated? (
@@ -69,7 +74,7 @@ pkg_setup() {
 }
 
 src_unpack() {
-	unpack ${A}
+	base_src_unpack
 	cd "${S}"
 
 	# install locales in /usr/share/locale
