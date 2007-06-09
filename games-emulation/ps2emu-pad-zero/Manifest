@@ -1,0 +1,8 @@
+DIST 8022 2488887 RMD160 937c068bdec49bf7659f8a977dbad5b26c401580 SHA1 75223a6768579561b6e5d6b01dd681e1cdcf0205 SHA256 cdee0ff7476fe0df9314d5474c67656a2ddc61ae196ed0eb6ef873b1801a061f
+EBUILD ps2emu-pad-zero-0.2.1.ebuild 45 RMD160 f23df96edaabfc4c67077036ea4ebc2a6c9d0570 SHA1 6d6236a1c190c6266ae0ee5e1673845e463ded47 SHA256 f8f682e1cafaa5931a32b65a71f1ababa358581f3c7a75cefda45ba78e971479
+MD5 ae74549299b5702f001b1bd3e3fcf238 ps2emu-pad-zero-0.2.1.ebuild 45
+RMD160 f23df96edaabfc4c67077036ea4ebc2a6c9d0570 ps2emu-pad-zero-0.2.1.ebuild 45
+SHA256 f8f682e1cafaa5931a32b65a71f1ababa358581f3c7a75cefda45ba78e971479 ps2emu-pad-zero-0.2.1.ebuild 45
+MD5 293e879315df54765a565086abd1d378 files/digest-ps2emu-pad-zero-0.2.1 196
+RMD160 f5e97e5d169d19aff3c5eff4a8eb7038e5e6def1 files/digest-ps2emu-pad-zero-0.2.1 196
+SHA256 9ffaffe38d5fe7f1cbc6a9c76e5774262c94b0ce028289ad0c3e549005b5e771 files/digest-ps2emu-pad-zero-0.2.1 196

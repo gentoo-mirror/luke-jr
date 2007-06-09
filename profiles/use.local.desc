@@ -1,1 +1,2 @@
 games-strategy/freeciv:longturn - adds patches for longturn games
+games-emulation/pcsx2:iso - enables support for iso disc images
