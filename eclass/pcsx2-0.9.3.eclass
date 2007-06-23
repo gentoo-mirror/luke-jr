@@ -42,6 +42,7 @@ pcsx2_prepcompile() {
 pcsx2_compile() {
 	pcsx2_prepcompile "$@"
 	sh build.sh all || die "build failed"
+	sh build.sh install || die "buildinstall failed"
 }
 pcsx2-0.9.3_src_compile() { pcsx2_compile "$@"; }
 
