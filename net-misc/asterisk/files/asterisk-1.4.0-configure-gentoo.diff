@@ -1,0 +1,27 @@
+--- asterisk-1.4.0.orig/configure	2007-01-05 07:31:31.000000000 +0300
++++ asterisk-1.4.0/configure	2007-01-05 08:32:32.000000000 +0300
+@@ -15987,8 +15987,13 @@
+    if test -f ${IMAP_TK_DIR}/c-client/LDFLAGS ; then
+       imap_ldflags=`cat ${IMAP_TK_DIR}/c-client/LDFLAGS`
+    fi
+-   CPPFLAGS="${CPPFLAGS} -I${IMAP_TK_DIR}/c-client"
+-   LIBS="${LIBS} ${IMAP_TK_DIR}/c-client/c-client.a "`echo ${imap_ldflags}`
++#   CPPFLAGS="${CPPFLAGS} -I${IMAP_TK_DIR}/c-client"
++#   LIBS="${LIBS} ${IMAP_TK_DIR}/c-client/c-client.a "`echo ${imap_ldflags}`
++    CPPFLAGS="${CPPFLAGS} -I/usr/include/imap"
++    LIBS="${LIBS} /usr/lib/c-client.a -lssl -lpam"
++    if test -f /usr/bin/krb5-config; then
++     LIBS="${LIBS} "`/usr/bin/krb5-config --libs krb5 gssapi kadm-client kadm-server`
++    fi
+    cat >conftest.$ac_ext <<_ACEOF
+ /* confdefs.h.  */
+ _ACEOF
+@@ -23011,7 +23016,7 @@
+ cat confdefs.h >>conftest.$ac_ext
+ cat >>conftest.$ac_ext <<_ACEOF
+ /* end confdefs.h.  */
+-#include <qt3/qdatetime.h>
++#include <qdatetime.h>
+ int
+ main ()
+ {

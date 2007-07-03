@@ -1,2 +1,20 @@
 games-strategy/freeciv:longturn - adds patches for longturn games
 games-emulation/pcsx2:iso - enables support for iso disc images
+net-misc/asterisk:bri - Enable ISDN BRI support (bristuff)
+net-misc/asterisk:genericjb - Experimental generic jitterbuffer
+net-misc/asterisk:h323 - Build the H.323 channel driver bundled with Asterisk
+net-misc/asterisk:keepsrc - Install sources into /usr/src for custom patching
+net-misc/asterisk:lowmem - Build Asterisk for environments with low amounts of memory (embedded devices)
+net-misc/asterisk:misdn - Build with mISDN (chan_misdn) support for BRI ISDN cards
+net-misc/asterisk:newt - Include additional tools that require redhats windowing toolkit 
+net-misc/asterisk:nopri - Disable pri support
+net-misc/asterisk:nosamples - Don't install sample sound and configuration files
+net-misc/asterisk:nozaptel - Disable zaptel support
+net-misc/asterisk:osp - Enable support for the Open Settlement Protocol
+net-misc/asterisk:pri - Enables pri support (>=asterisk-1.0.1)
+net-misc/asterisk:resperl - Enables support for embedded perl in extensions.conf
+net-misc/asterisk:t38 - Experimental support for T.38 (Fax over IP) pass-through
+net-misc/asterisk:ukcid - Enables support for UK Callerid
+net-misc/asterisk:vmdbmysql - Enable mysql db support in voicemail application
+net-misc/asterisk:vmdbpostgres - Enable postgres db support in voicemail application
+net-misc/asterisk:zaptel - Enables zaptel support (>=asterisk-1.0.1)
