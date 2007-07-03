@@ -23,10 +23,10 @@ MD5 b3b846f9eb76a2b59d17ae3ba5ace805 files/asterisk-1.4.1-gsm-pic.patch 1881
 RMD160 1d72cc69250916dd02e1b16ed46f5c1148bf1dd0 files/asterisk-1.4.1-gsm-pic.patch 1881
 SHA256 140a37be6d84738e0cb4898cbe9e8302d939430628be3bc72af91744f45c9745 files/asterisk-1.4.1-gsm-pic.patch 1881
 DIST asterisk-1.4.6.tar.gz 11157378 RMD160 2cefbf8f7f7191bc1ffe88000bfabb0f46aab8ed SHA1 0a6bcfcbdd07674efccc933fbf8431deabd6e7c8 SHA256 f15bb0a6e23e9e2952248917098beeedf9f3333cf2f3ad77e46996ce8298c934
-EBUILD asterisk-1.4.6.ebuild 10724 RMD160 a5ce301dd342db5a12b4e789dff8d813a6a294bf SHA1 b2af6339c817daad1ce60e919407db63547b3aef SHA256 0e20b11011bd5e081083d0e1a57b4adc78fc2e36d9b07cbd764ff310d53f3545
-MD5 aacb6294a76bd6374785b3bef5dae7e9 asterisk-1.4.6.ebuild 10724
-RMD160 a5ce301dd342db5a12b4e789dff8d813a6a294bf asterisk-1.4.6.ebuild 10724
-SHA256 0e20b11011bd5e081083d0e1a57b4adc78fc2e36d9b07cbd764ff310d53f3545 asterisk-1.4.6.ebuild 10724
+EBUILD asterisk-1.4.6_pre0.ebuild 10731 RMD160 7614a784a761adf1a82f1a5b24191493cb4d3776 SHA1 fbd2999f0b07494f0a3a5bfa1d12af74092bb127 SHA256 a82bfa43cd35c2e1cf44b6fd48fbe51983c6194a56de729c11c929dfb33771c4
+MD5 d099a84252a7fe3f837dcf3e93bfa538 asterisk-1.4.6_pre0.ebuild 10731
+RMD160 7614a784a761adf1a82f1a5b24191493cb4d3776 asterisk-1.4.6_pre0.ebuild 10731
+SHA256 a82bfa43cd35c2e1cf44b6fd48fbe51983c6194a56de729c11c929dfb33771c4 asterisk-1.4.6_pre0.ebuild 10731
 MISC ChangeLog 584 RMD160 adc0fa4c0187acd86552b6209f072d5924e4ada2 SHA1 f89f6149d04ec4194fcc3dd25cbadcdca4962199 SHA256 68ddb2bae3d382623f4e0a1c66ea3123b8ad96504e1e83db71f29aca75c3cb68
 MD5 de7f92b99193bc79f722a61e0a3be2e0 ChangeLog 584
 RMD160 adc0fa4c0187acd86552b6209f072d5924e4ada2 ChangeLog 584
@@ -35,6 +35,6 @@ MISC metadata.xml 139 RMD160 c84b2b78f85074cc5c7d26cb757d91c8384fa16a SHA1 00e3a
 MD5 0f2aac95667fb13e6a1a7086a466c0e6 metadata.xml 139
 RMD160 c84b2b78f85074cc5c7d26cb757d91c8384fa16a metadata.xml 139
 SHA256 5cdc1888ebc8807b9a37b1d33429c61cabe7415a4f240e21a4c2ff8eca7a34ed metadata.xml 139
-MD5 f7bb23c32cd8eb938d8d8ec91a9a6e6b files/digest-asterisk-1.4.6 250
-RMD160 2af575054556a8168e49f85fbe7b31c5d5dae042 files/digest-asterisk-1.4.6 250
-SHA256 6b81dd84457aa8e13b3b993eca4da3a47e2fa5bbc353aaeaf57872c49e752dda files/digest-asterisk-1.4.6 250
+MD5 f7bb23c32cd8eb938d8d8ec91a9a6e6b files/digest-asterisk-1.4.6_pre0 250
+RMD160 2af575054556a8168e49f85fbe7b31c5d5dae042 files/digest-asterisk-1.4.6_pre0 250
+SHA256 6b81dd84457aa8e13b3b993eca4da3a47e2fa5bbc353aaeaf57872c49e752dda files/digest-asterisk-1.4.6_pre0 250
