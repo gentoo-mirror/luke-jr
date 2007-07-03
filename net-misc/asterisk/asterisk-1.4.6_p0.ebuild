@@ -4,7 +4,7 @@
 
 inherit eutils qt3
 
-MY_P="${PN}-${PV/_/-}"
+MY_P="${PN}-${PV/_*/}"
 
 DESCRIPTION="Asterisk: A Modular Open Source PBX System"
 HOMEPAGE="http://www.asterisk.org/"
