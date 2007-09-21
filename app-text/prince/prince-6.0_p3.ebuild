@@ -1,7 +1,9 @@
-MyP="${P/_p/r}"
+inherit eutils
+
+MyP="${P/_p/r}-linux"
 DESCRIPTION="Prince is a computer program that converts XML and HTML into PDF documents."
 HOMEPAGE="http://www.princexml.com/"
-SRC_URI="http://www.princexml.com/download/${MyP}-linux.tar.gz"
+SRC_URI="http://www.princexml.com/download/${MyP}.tar.gz"
 LICENSE="Prince-EULA"
 SLOT="0"
 KEYWORDS="-* ~x86"
@@ -13,6 +15,7 @@ S="${WORKDIR}/${MyP}"
 
 src_unpack() {
 	unpack ${A}
+	cd "${S}"
 	epatch "${FILESDIR}/destdir.patch"
 }
 
