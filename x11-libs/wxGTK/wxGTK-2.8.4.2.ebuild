@@ -117,7 +117,7 @@ pkg_setup() {
 src_unpack() {
 	unpack ${A}
 	cd "${S}"
-	epatch "${FILESDIR}/socketfix.patch"
+#	epatch "${FILESDIR}/socketfix.patch"
 #	epatch "${FILESDIR}/${P}-wxrc_build_fix.patch"
 #	epatch "${FILESDIR}/${P}-dialog_focus.patch"
 #	epatch "${FILESDIR}/${P}-slider_linesize.patch"
