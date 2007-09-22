@@ -21,7 +21,9 @@ S="${WORKDIR}/${PN/q/Q}${PV}"
 
 src_compile() {
 	echo ${S}
+	echo "UIC=$(which uic3)">>quimup.pro
 	econf || die "econf failed"
+	eqmake3
 	sed -ie 's%^prefix.*=.*%prefix = ${D}%' Makefile
 	emake || die "emake failed"
 }
