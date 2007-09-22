@@ -54,8 +54,8 @@ maketarball() { #For building the tarball. To be used only by ebuild maintainers
 src_unpack() {
 	unpack ${A}
 	cd ${S}
-	epatch "${FILESDIR}/${P}-gentoo.patch"
-	epatch "${FILESDIR}/${P}-ffmpeg_quality.patch"
+	epatch "${FILESDIR}/${PN}-0.9.15-gentoo.patch"
+	epatch "${FILESDIR}/${PN}-0.9.15-ffmpeg_quality.patch"
 	sed -i "s/python2.3/${python}/" "${S}/src/native/usb/build.sh"
 }
 
