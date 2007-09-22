@@ -22,8 +22,11 @@ S="${WORKDIR}/${PN/q/Q}${PV}"
 src_compile() {
 	echo ${S}
 	echo "UIC=$(which uic3)">>quimup.pro
-	econf || die "econf failed"
 	eqmake3
+	mv Makefile ${PN}.mk
+	econf || die "econf failed"
+	mv ${PN}.m{,a}k	# configure deletes the target name, so we need to delay
+	touch ${PN}.mak
 	sed -ie 's%^prefix.*=.*%prefix = ${D}%' Makefile
 	emake || die "emake failed"
 }
