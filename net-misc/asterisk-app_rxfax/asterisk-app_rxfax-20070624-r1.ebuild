@@ -17,16 +17,12 @@ DEPEND=">=media-libs/spandsp-0.0.4_pre9
 
 S="${WORKDIR}"
 
-AST_MODULES="app_rxfax"
-AST_APP_RXFAX_LIBS="-lspandsp -ltiff"
-AST_APP_TXFAX_LIBS="-lspandsp -ltiff"
-
 src_unpack() {
 	cp "${DISTDIR}/${A}" "$S" || die copy
 }
 
 src_compile() {
-	gcc $CFLAGS -shared -fPIC -o "${MyPN}".{so,c} || die compile
+	gcc $CFLAGS -shared -fPIC -lspandsp -ltiff -o "${MyPN}".{so,c} || die compile
 }
 
 src_install() {
