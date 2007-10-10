@@ -4,6 +4,7 @@ net-misc/asterisk:bri - Enable ISDN BRI support (bristuff)
 net-misc/asterisk:genericjb - Experimental generic jitterbuffer
 net-misc/asterisk:h323 - Build the H.323 channel driver bundled with Asterisk
 net-misc/asterisk:keepsrc - Install sources into /usr/src for custom patching
+net-misc/asterisk:ljr - Use Luke-Jr's Jabber patch
 net-misc/asterisk:lowmem - Build Asterisk for environments with low amounts of memory (embedded devices)
 net-misc/asterisk:misdn - Build with mISDN (chan_misdn) support for BRI ISDN cards
 net-misc/asterisk:newt - Include additional tools that require redhats windowing toolkit 
