@@ -23,6 +23,7 @@ src_unpack() {
 	cd "${S}"
 	cp "${DISTDIR}/${A}" ./
 	epatch "${FILESDIR}/adbren-3-argvfile.patch"
+	epatch "${FILESDIR}/adbren-3-dotnet.patch"
 }
 
 src_install() {
