@@ -17,6 +17,11 @@ DEPEND="
 
 S="${WORKDIR}"
 
+src_unpack() {
+	cd "${S}"
+	cp "${DISTDIR}/${A}" ./
+}
+
 src_install() {
 	exeinto "/usr/bin"
 	doexe "adbren.pl"
