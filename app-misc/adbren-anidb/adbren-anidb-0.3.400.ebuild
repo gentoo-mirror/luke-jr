@@ -17,12 +17,14 @@ DEPEND="
 
 S="${WORKDIR}"
 
+MyPL='adbren.pl'
+
 src_unpack() {
 	cd "${S}"
-	cp "${DISTDIR}/${A}" ./
+	cp "${DISTDIR}/${A}" "${MyPL}"
 }
 
 src_install() {
 	exeinto "/usr/bin"
-	doexe "adbren.pl"
+	doexe "${MyPL}"
 }
