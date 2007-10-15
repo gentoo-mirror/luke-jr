@@ -1,8 +1,8 @@
 inherit eutils
 
 DESCRIPTION="AniDB Renamer"
-SRC_URI="http://www.svarteper.com/${PN}.pl"
-HOMEPAGE="${SRC_URI}"
+HOMEPAGE="http://dev.anidb.info/websvn/listing.php?repname=AniDB+CSS&path=%2Ftrunk%2Fudp_clients%2Fadbren%2F"
+SRC_URI="http://luke.dashjr.org/tmp/${P}.pl"
 
 LICENSE="as-is"
 SLOT="0"
@@ -10,21 +10,12 @@ KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86
 IUSE=""
 
 DEPEND="
+	!app-misc/adbren
 	dev-perl/Getopt-ArgvFile
 	virtual/perl-Getopt-Long
-	virtual/perl-IO
-	dev-perl/Digest-MD4
-	virtual/perl-File-Spec
 	dev-lang/perl"
 
 S="${WORKDIR}"
-
-src_unpack() {
-	cd "${S}"
-	cp "${DISTDIR}/${A}" ./
-	epatch "${FILESDIR}/adbren-3-argvfile.patch"
-	epatch "${FILESDIR}/adbren-3-dotnet.patch"
-}
 
 src_install() {
 	exeinto "/usr/bin"
