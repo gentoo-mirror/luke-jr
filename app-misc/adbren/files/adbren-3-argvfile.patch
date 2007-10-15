@@ -1,5 +1,5 @@
 --- adbren.pl.1	2007-06-09 07:29:43.000000000 -0500
-+++ adbren.pl	2007-10-15 09:11:09.000000000 -0500
++++ adbren.pl	2007-10-15 09:15:45.000000000 -0500
 @@ -21,13 +21,11 @@
  # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  # DEALINGS IN THE SOFTWARE.
@@ -28,8 +28,8 @@
      "debug"     => \$debug,
      "format=s"  => \$format,
      "onlyhash"  => \$onlyhash,
-+    "username"  => \$username,
-+    "password"  => \$password,
++    "username=s"=> \$username,
++    "password=s"=> \$password,
  );
  
  my @files;
