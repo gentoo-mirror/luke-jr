@@ -4,7 +4,7 @@ DESCRIPTION="AniDB Renamer"
 MyPN="${PN/-anidb/}"
 HOMEPAGE="http://dev.anidb.info/websvn/listing.php?repname=AniDB+CSS&path=%2Ftrunk%2Fudp_clients%2F${MyPN}"
 SvnRev="${PV/*_pre/}"
-SRC_URI="http://dev.anidb.info/websvn/dl.php?repname=AniDB+CSS&path=%2Ftrunk%2Fudp_clients%2F${MyPN}&rev=${SvnRev}&.tgz"
+SRC_URI="http://dev.anidb.info/websvn/dl.php?repname=AniDB+CSS&path=%2Ftrunk%2Fudp_clients%2F${MyPN}%2F&rev=${SvnRev}&.tgz"
 
 LICENSE="as-is"
 SLOT="0"
@@ -17,7 +17,7 @@ DEPEND="
 	virtual/perl-Getopt-Long
 	dev-lang/perl"
 
-S="${WORKDIR}/${MyPN:0:${#MyPN}-1}"	# some weird bug with WebSvn's tar generation
+S="${WORKDIR}/${MyPN}"
 
 MyPL='adbren.pl'
 
