@@ -4,7 +4,7 @@ DESCRIPTION="Perl clients for AniDB"
 MyPN="${PN}-perl"
 HOMEPAGE="http://dev.anidb.info/websvn/listing.php?repname=AniDB+CSS&path=%2Ftrunk%2Fudp_clients%2F${MyPN}"
 SvnRev="${PV/*_pre/}"
-SRC_URI="http://dev.anidb.info/websvn/dl.php?repname=AniDB+CSS&path=%2Ftrunk%2Fudp_clients%2F${MyPN}&rev=${SvnRev}&.tgz"
+SRC_URI="http://dev.anidb.info/websvn/dl.php?repname=AniDB+CSS&path=%2Ftrunk%2Fudp_clients%2F${MyPN}%2F&rev=${SvnRev}&.tgz"
 
 LICENSE="as-is"
 SLOT="0"
@@ -19,4 +19,4 @@ DEPEND="
 	dev-perl/File-HomeDir
 	dev-lang/perl"
 
-S="${WORKDIR}/${PN}-per"
+S="${WORKDIR}/${MyPN}"
