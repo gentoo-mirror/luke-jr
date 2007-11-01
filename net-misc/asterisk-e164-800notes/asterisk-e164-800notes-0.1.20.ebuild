@@ -1,4 +1,4 @@
-DESCRIPTION="Asterisk AGI script to search and append an IMAP vCard addressbook with CallerID"
+DESCRIPTION="Asterisk AGI script to search 800notes for CallerID info"
 HOMEPAGE="http://luke.dashjr.org/programs/AGI/"
 MyP="${P/asterisk-/}"
 SRC_URI="http://luke.dashjr.org/programs/AGI/${MyP}.tbz2"
