@@ -15,6 +15,7 @@ DEPEND="
 	!app-misc/adbren
 	dev-perl/Getopt-ArgvFile
 	virtual/perl-Getopt-Long
+	dev-perl/AniDB
 	dev-lang/perl"
 
 S="${WORKDIR}/${MyPN}"
