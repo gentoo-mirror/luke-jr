@@ -1,0 +1,8 @@
+DIST qca-gnupg-2.0.0-beta1.tar.bz2 34646 RMD160 b5f5b695cae602b33bc65811e3828319624e69c0 SHA1 111a3550e073814a37a5bed9056c369bf1cf7f49 SHA256 964d81bdc8192c1c34629781573e339391c5248d4ad98c23131dc83e2ef197ec
+EBUILD qca-gnupg-2.0.0_beta1.ebuild 1320 RMD160 263e19537d1d0817e883ff8e08bde20868549d51 SHA1 a452e77e09bed2e2807538f27316d64678ad4034 SHA256 3d1f10c4d79bfb1eba0ffc43b89c75ce2dfe22aac4feabd38bfc6b75a1f788ca
+MD5 8ce3e8adbb2d8a1edc54dffd899682f9 qca-gnupg-2.0.0_beta1.ebuild 1320
+RMD160 263e19537d1d0817e883ff8e08bde20868549d51 qca-gnupg-2.0.0_beta1.ebuild 1320
+SHA256 3d1f10c4d79bfb1eba0ffc43b89c75ce2dfe22aac4feabd38bfc6b75a1f788ca qca-gnupg-2.0.0_beta1.ebuild 1320
+MD5 c4bad60750decbb95ff00eec8f62b150 files/digest-qca-gnupg-2.0.0_beta1 265
+RMD160 f183e391a112f2e872c05167d14ab72e9ac61414 files/digest-qca-gnupg-2.0.0_beta1 265
+SHA256 9d96fbe86e2a838d26ff527e6d8929e050d1cb43ec1d065c7c0fbc624b01eb13 files/digest-qca-gnupg-2.0.0_beta1 265
