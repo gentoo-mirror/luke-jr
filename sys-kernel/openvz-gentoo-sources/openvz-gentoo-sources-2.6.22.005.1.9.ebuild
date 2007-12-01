@@ -26,7 +26,7 @@ HOMEPAGE="
 	http://dev.gentoo.org/~dsd/genpatches
 "
 
-DESCRIPTION="Full sources including the OpenVZ and Gentoo patchsets for the ${KV_MAJOR}.${KV_MINOR} kernel tree"
+DESCRIPTION="Full sources including the OpenVZ and Gentoo patchsets for Linux ${OKV}"
 OPENVZ_PATCH="patch-${OVZ_KERNEL}-combined.gz"
 SRC_URI="${KERNEL_URI} ${GENPATCHES_URI} ${ARCH_URI}
 	http://download.openvz.org/kernel/branches/${OKV}/${OKV}-${OVZ_KERNEL}/patches/${OPENVZ_PATCH}
