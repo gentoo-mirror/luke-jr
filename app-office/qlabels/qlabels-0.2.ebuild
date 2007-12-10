@@ -6,6 +6,8 @@ SRC_URI="http://qlabels.p34.net/files/${P/-/_}.tar.bz2"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
+DEPEND="$(qt4_min_version 4)"
+RDEPEND="${DEPEND}"
 
 src_compile() {
 	eqmake4
