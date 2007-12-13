@@ -30,6 +30,8 @@ DEPEND="${RDEPEND}
 	x11-base/xorg-server
 	x11-proto/xextproto"
 
+S="${WORKDIR}/${P/_pre0/}"
+
 need-kde 3
 
 pkg_setup() {
