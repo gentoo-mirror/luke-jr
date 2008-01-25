@@ -6,7 +6,7 @@ SLOT="0"
 KEYWORDS="~x86 ~amd64"
 IUSE="aspell libedit lua sdl"
 DEPEND="
-	dev-util/jam
+	|| ( dev-util/jam dev-util/ftjam )
 	media-libs/libpng:1.2
 	media-libs/jpeg
 	media-libs/tiff
@@ -30,9 +30,9 @@ src_compile() {
 		$(use_with lua ocroscript) \
 		$(use_with sdl SDL) \
 		|| die "econf failed"
-	jam || die "jam failed"
+	jam -q || die "jam failed"
 }
 
 src_install() {
-	jam DESTDIR="${D}" install || die "jam install failed"
+	jam -q -s DESTDIR="${D}" install || die "jam install failed"
 }
