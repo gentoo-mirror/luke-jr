@@ -34,5 +34,6 @@ src_compile() {
 }
 
 src_install() {
-	jam -q -s DESTDIR="${D}" install || die "jam install failed"
+	sed -i 's,^\(INSTALL_DIR = \).*$,\1'"${D}/bin ;," Jamfile
+	jam -q install || die "jam install failed"
 }
