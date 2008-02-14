@@ -1,8 +1,0 @@
-DIST qca-cyrus-sasl-2.0.0-beta1.tar.bz2 24052 RMD160 4ae5336c53c56075f40cefd922f757ec2592ec1c SHA1 d30a034579e60bab9773185a076d5fed58b0b804 SHA256 95621c5a2bcd61cb6d6bbe9a8f536c5254f6b943fa0fba8f8150112dfdda0afb
-EBUILD qca-cyrus-sasl-2.0.0_beta1.ebuild 1322 RMD160 81a2c9389d3dfb140c2828c395cd02fa95ffb7fb SHA1 4906bd1d4e8a4fff7c96d22a534b1f3f79e1b333 SHA256 c4f5ab7e54951a788feb0b216f093a06fff37ec0538b808947b01755b0d08685
-MD5 4952dfc2e9e1a3e7007a599acde7247b qca-cyrus-sasl-2.0.0_beta1.ebuild 1322
-RMD160 81a2c9389d3dfb140c2828c395cd02fa95ffb7fb qca-cyrus-sasl-2.0.0_beta1.ebuild 1322
-SHA256 c4f5ab7e54951a788feb0b216f093a06fff37ec0538b808947b01755b0d08685 qca-cyrus-sasl-2.0.0_beta1.ebuild 1322
-MD5 10f374da55e9e352646b006f38db5cff files/digest-qca-cyrus-sasl-2.0.0_beta1 280
-RMD160 dce260e993baf8c547ecb006373dfd746f909cde files/digest-qca-cyrus-sasl-2.0.0_beta1 280
-SHA256 19dbf096637fa515611eeccd7d3b290ed2a0ff6777d076084fa0dc0e0d26e4b9 files/digest-qca-cyrus-sasl-2.0.0_beta1 280
