@@ -28,9 +28,7 @@ src_compile() {
 
 src_install() {
 	newbin moo gammamoo
-	insinto /usr/share/${PN}
-	doins Minimal.db
-	dodoc *.txt README*
+	dodoc *.txt README* BUGS Minimal.db
 
 	newinitd "${FILESDIR}"/gammamoo.rc ${PN}
 	newconfd "${FILESDIR}"/gammamoo.conf ${PN}
