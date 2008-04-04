@@ -185,7 +185,7 @@ src_unpack() {
 
 	if use ljr; then
 		einfo "ljr useflag: Enabling Luke-Jr's enhancements"
-		epatch "${FILESDIR}"/1.4/asterisk-1.4.11-jabber-priority.patch
+		epatch "${FILESDIR}"/1.4/${MY_P}-jabber-priority.patch
 	fi
 	
 	# add custom device state function (func_devstate)
