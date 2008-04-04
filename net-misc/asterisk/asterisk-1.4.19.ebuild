@@ -1,4 +1,4 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -8,13 +8,12 @@ MY_P="${PN}-${PV/_/-}"
 
 DESCRIPTION="Asterisk: A Modular Open Source PBX System"
 HOMEPAGE="http://www.asterisk.org/"
-SRC_URI="http://ftp.digium.com/pub/asterisk/old-releases/${MY_P}.tar.gz
-		http://downloads.digium.com/pub/asterisk/old-releases/${MY_P}.tar.gz"
+SRC_URI="http://downloads.digium.com/pub/asterisk/releases/${MY_P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-IUSE="alsa curl debug freetds h323 imap jabber kde keepsrc ljr misdn mmx mysql newt nosamples odbc oss pic postgres qt3 radius snmp speex ssl sqlite static vorbis zaptel"
+IUSE="alsa +caps curl debug freetds h323 imap jabber kde keepsrc ljr misdn mmx mysql newt nosamples odbc oss pic postgres qt3 radius snmp speex ssl sqlite static vorbis zaptel"
 
 RDEPEND="virtual/libc
 	sys-libs/ncurses
@@ -23,6 +22,7 @@ RDEPEND="virtual/libc
 	qt3? ( $(qt_min_version 3.0) )
 	ssl? ( dev-libs/openssl )
 	alsa? ( media-libs/alsa-lib )
+	caps? ( sys-libs/libcap )
 	curl? ( net-misc/curl )
 	newt? ( dev-libs/newt )
 	h323? ( dev-libs/pwlib
@@ -85,29 +85,13 @@ get_available_modules() {
 	echo "${modules}"
 }
 
-#
-# Display a nice countdown...
-#
-countdown() {
-	local n
-
-	ebeep
-
-	n=${1:-10}
-	while [[ $n -gt 0 ]]; do
-		echo -en "  Waiting $n second(s)...\r"
-		sleep 1
-		(( n-- ))
-	done
-}
-
 pkg_setup() {
 	local checkfailed=0 waitaftermsg=0
 
 	if is_ast10update || is_ast12update; then
 		ewarn "      Asterisk UPGRADE Warning"
 		ewarn ""
-		ewarn "- Please read ${ROOT}usr/share/doc/${PF}/UPGRADE.txt.gz after the installation!"
+		ewarn "- Please read \"${ROOT}\"usr/share/doc/${PF}/UPGRADE.txt.gz after the installation!"
 		ewarn ""
 		ewarn "      Asterisk UPGRADE Warning"
 		echo
@@ -117,7 +101,7 @@ pkg_setup() {
 	if [[ $waitaftermsg -eq 1 ]]; then
 		einfo "Press Ctrl+C to abort"
 		echo
-		countdown
+		ebeep 10
 	fi
 
 	#
@@ -175,7 +159,7 @@ src_unpack() {
 	# fix gsm codec cflags (e.g. i586 core epias) and disable
 	# assembler optimizations (on non-mmx / non-x86 or x86 PIC systems)
 	#
-	epatch "${FILESDIR}"/1.4/${PN}-1.4.18-gsm-pic.patch
+	epatch "${FILESDIR}"/1.4/${PN}-1.4.19-gsm-pic.patch
 
 
 	#
@@ -197,7 +181,7 @@ src_unpack() {
 	# fix imap & qt include check in configure
 	# (TODO: patch configure.ac & run eautoreconf ?)
 	#
-	epatch "${FILESDIR}"/1.4/${PN}-1.4.18-configure-gentoo.diff
+	epatch "${FILESDIR}"/1.4/${PN}-1.4.19-configure-gentoo.diff
 
 	if use ljr; then
 		einfo "ljr useflag: Enabling Luke-Jr's enhancements"
@@ -251,12 +235,13 @@ src_compile() {
 		$(use_with oss) \
 		$(use_with ssl) \
 		$(use_with alsa asound) \
+		$(use_with caps cap) \
 		$(use_with curl) \
 		$(use_with h323 h323 "/usr/share/openh323") \
 		$(use_with imap) \
 		$(use_with newt) \
 		$(use_with odbc) \
-		$(use_with snmp) \
+		$(use_with snmp netsnmp) \
 		$(use_with misdn) \
 		$(use_with misdn isdnnet) \
 		$(use_with mysql) \
@@ -337,6 +322,10 @@ src_compile() {
 }
 
 src_install() {
+	# setup directory structure
+	#
+	mkdir -p "${D}"usr/lib/pkgconfig
+
 	emake -j1 DESTDIR="${D}" install || die "emake install failed"
 	emake -j1 DESTDIR="${D}" samples || die "emake samples failed"
 
@@ -354,7 +343,7 @@ src_install() {
 	# move sample configuration files to doc directory
 	if is_ast10update || is_ast12update; then
 		einfo "Updating from old (pre-1.4) asterisk version, new configuration files have been installed"
-		einfo "into ${ROOT}etc/asterisk, use etc-update or dispatch-conf to update them"
+		einfo "into \"${ROOT}\"etc/asterisk, use etc-update or dispatch-conf to update them"
 	fi
 
 	einfo "Configuration samples have been moved to: $ROOT/usr/share/doc/${PF}/conf"
@@ -378,7 +367,7 @@ src_install() {
 		cp -dPR "${S}" "${D}"/usr/src/${PF} || die "copying source tree failed"
 
 		ebegin "running make clean..."
-		make -C "${D}"/usr/src/${PF} clean >/dev/null || die "make clean failed"
+		emake -C "${D}"/usr/src/${PF} clean >/dev/null || die "make clean failed"
 		eend $?
 
 		einfo "Source files have been saved to ${ROOT}usr/src/${PF}"
@@ -422,7 +411,7 @@ pkg_postinst() {
 	#
 	if is_ast10update || is_ast12update; then
 		ewarn ""
-		ewarn "- Please read ${ROOT}usr/share/doc/${PF}/UPGRADE.txt.gz before continuing"
+		ewarn "- Please read \"${ROOT}\"usr/share/doc/${PF}/UPGRADE.txt.gz before continuing"
 		ewarn ""
 	fi
 
