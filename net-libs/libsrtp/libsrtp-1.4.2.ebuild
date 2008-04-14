@@ -14,6 +14,7 @@ S="${WORKDIR}/srtp"
 
 src_compile() {
 	econf \
+		--enable-pic \
 		$(use_enable debug) \
 		$(use_enable syslog) \
 	|| die "econf failed"
