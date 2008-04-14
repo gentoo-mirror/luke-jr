@@ -19,8 +19,6 @@ RDEPEND="${DEPEND}"
 subS="${FS_P}/libs/${PN}"
 S="${WORKDIR}/${subS}"
 
-inherit autotools libtool
-
 src_unpack() {
 	tar -xzf "${DISTDIR}/${A}" "${subS}"
 }
@@ -28,7 +26,6 @@ src_unpack() {
 src_compile() {
 	econf \
 		--with-sofia-sip=/usr \
-		$(use_enable debug) \
 	|| die "econf failed"
 	emake || die "emake failed"
 }
