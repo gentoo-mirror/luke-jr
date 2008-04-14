@@ -6,7 +6,7 @@ FS_P='freeswitch-1.0.rc3'
 SRC_URI="http://files.freeswitch.org/${FS_P}.tar.gz"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="debug"
+IUSE=""
 
 DEPEND=""
 RDEPEND="${DEPEND}"
