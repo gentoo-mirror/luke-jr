@@ -13,13 +13,17 @@ RDEPEND="${DEPEND}"
 src_compile() {
 	./configure \
 		$(use_enable ipv6) \
+		--enable-dso \
 	|| die "configure failed"
-	emake || die "emake failed"
+	emake all shared || die "emake failed"
 }
 
 src_install() {
 	dobin dnsget ex-rdns rblcheck
 	dolib.a libudns.a
+	dolib.so libudns*.so*
 	doman *.1
 	dodoc COPYING.LGPL NEWS NOTES TODO
+	insinto /usr/include
+	doins udns.h
 }
