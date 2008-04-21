@@ -63,11 +63,11 @@ inherit autotools eutils
 S="${WORKDIR}/${FS_P}"
 
 pkg_setup() {
+	ewarn 'Please note that you need to chown -R runuser /opt/freeswitch'
 	if ! use static-blob; then
 		ewarn 'Nobody really supports this.'
 		ewarn 'Email luke_freeswitch@dashjr.org if you have issues.'
 		ewarn 'USE=static-blob if you want support from the FreeSwitch developers.'
-		ewarn 'Please also note that you need to chown -R runuser /opt/freeswitch'
 		ebeep 5
 	fi
 }
