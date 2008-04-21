@@ -10,6 +10,10 @@ IUSE="alsa cepstral debug g7xx gsm iax ilbc jabber javascript jingle ldap libedi
 IUSE_LINGUAS="de en es fr it nl"
 # TODO: USE flags for other modules
 
+for i in ${IUSE_LINGUAS}; do
+	IUSE="$IUSE linguas_$i"
+done
+
 # TODO: supposedly zeroconf requires howl... which says it is dead
 # resample, lpc10, wanpipe, php
 RDEPEND="
@@ -121,7 +125,7 @@ src_compile() {
 	use_mod javascript languages/mod_spidermonkey'.*'
 	use odbc || use_mod odbc languages/mod_spidermonkey_odbc
 	use_mod xmlrpc     xml_int/mod_xml_rpc
-	for i in ${LINGUAS}; do
+	for i in ${IUSE_LINGUAS}; do
 	use_mod linguas_$i say/mod_say_$i
 	done
 	
