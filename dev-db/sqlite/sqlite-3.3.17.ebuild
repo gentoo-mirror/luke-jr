@@ -7,6 +7,7 @@ inherit flag-o-matic eutils alternatives libtool
 DESCRIPTION="an SQL Database Engine in a C Library"
 HOMEPAGE="http://www.sqlite.org/"
 SRC_URI="http://www.sqlite.org/${P}.tar.gz"
+SRC_URI="http://be.lunar-linux.org/lunar/cache/${P}.tar.gz"
 
 LICENSE="as-is"
 SLOT="3"
