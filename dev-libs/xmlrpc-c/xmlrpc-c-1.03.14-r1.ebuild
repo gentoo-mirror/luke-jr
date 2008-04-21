@@ -28,6 +28,12 @@ pkg_setup() {
 	fi
 }
 
+src_unpack() {
+	unpack ${A}
+	cd "${S}"
+	epatch "${FILESDIR}/${PV}_freeswitch.patch"
+}
+
 src_compile() {
 	econf --disable-wininet-client \
 		$(use_enable curl curl-client) \
