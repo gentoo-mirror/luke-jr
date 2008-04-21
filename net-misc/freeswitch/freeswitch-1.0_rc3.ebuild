@@ -32,7 +32,7 @@ RDEPEND="
 		net-libs/libdingaling
 		dev-libs/iksemel
 	)
-	iax? ( net-libs/iax )
+	iax? ( net-libs/iaxclient )
 	jabber? ( dev-libs/iksemel )
 	portaudio? ( media-libs/portaudio )
 	dev-libs/libpcre
