@@ -35,4 +35,6 @@ src_compile() {
 
 src_install() {
 	einstall || die "einstall failed"
+	insinto /usr/lib/pkgconfig
+	newins "${FILESDIR}/${P}.pc" "${PN}.pc"
 }
