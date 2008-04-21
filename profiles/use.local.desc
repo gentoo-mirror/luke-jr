@@ -1,4 +1,3 @@
-games-strategy/freeciv:longturn - adds patches for longturn games
 net-misc/asterisk:bri - Enable ISDN BRI support (bristuff)
 net-misc/asterisk:genericjb - Experimental generic jitterbuffer
 net-misc/asterisk:h323 - Build the H.323 channel driver bundled with Asterisk
