@@ -6,7 +6,7 @@ FS_P="${P/_/.}"
 SRC_URI="http://files.freeswitch.org/${FS_P}.tar.gz"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="alsa cepstral debug g7xx gsm iax ilbc jabber javascript jingle ldap libedit lpc10 odbc mrcp php portaudio radius resample sip sndfile speex static-blob wanpipe xmlrpc zeroconf"
+IUSE="alsa cepstral debug g7xx gsm iax ilbc jabber javascript jingle ldap libedit lpc10 odbc mrcp php portaudio python radius resample sip sndfile speex static-blob wanpipe xmlrpc zeroconf"
 IUSE_LINGUAS="de en es fr it nl"
 # TODO: USE flags for other modules
 
