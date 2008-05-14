@@ -38,7 +38,7 @@ RDEPEND="
 	portaudio? ( media-libs/portaudio )
 	dev-libs/libpcre
 	sndfile? ( media-libs/libsndfile )
-	sip? ( net-libs/sofia-sip )
+	sip? ( >net-libs/sofia-sip-99999z )
 	speex? ( media-libs/speex )
 	g7xx? ( media-libs/voipcodecs )
 	ilbc? ( dev-libs/ilbc-rfc3951 )
