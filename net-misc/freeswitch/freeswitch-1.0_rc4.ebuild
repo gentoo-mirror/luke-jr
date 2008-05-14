@@ -86,7 +86,7 @@ if ! use static-blob; then
 	mv -v libs/srtp/include/srtp.h src/
 	mv -v libs/sqlite/src/hash.h src/
 	rm -rf libs
-	epatch "${FILESDIR}/${PN}-system-libs.patch"
+	epatch "${FILESDIR}/${FS_P}_system-libs.patch"
 	
 	# this is basically bootstrap.sh
 	cp -v build/modules.conf.in modules.conf
