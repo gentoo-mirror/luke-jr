@@ -2,7 +2,7 @@ DESCRIPTION=""
 HOMEPAGE="http://freeswitch.org/"
 LICENSE="LGPL-2"
 
-FS_P='freeswitch-1.0.rc3'
+FS_P='freeswitch-1.0.rc4'
 MyPN='iax'
 SRC_URI="http://files.freeswitch.org/${FS_P}.tar.gz"
 SLOT="0"
