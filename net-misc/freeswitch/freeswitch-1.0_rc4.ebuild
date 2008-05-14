@@ -92,6 +92,9 @@ if ! use static-blob; then
 	cp -v build/modules.conf.in modules.conf
 	eautoreconf
 fi
+	
+	# Bugfix: mod_perl wants to install outside of DESTDIR
+	sed -i 's:$(PR:$(DESTDIR)\0:g' "${S}/src/mod/languages/mod_perl/Makefile"
 }
 
 use_mod() {
