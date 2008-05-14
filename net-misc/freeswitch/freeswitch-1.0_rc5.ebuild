@@ -76,9 +76,9 @@ pkg_setup() {
 src_unpack() {
 	unpack ${A}
 	
-if ! use static-blob; then
 	cd "${S}"
 	
+if ! use static-blob; then
 	einfo "Patching source to use system libraries..."
 	mv -v libs/apr/build/apr_common.m4 build/config/
 	mv -v libs/xmlrpc-c/lib/abyss/src/token.h src/mod/xml_int/mod_xml_rpc/
@@ -91,6 +91,8 @@ if ! use static-blob; then
 	cp -v build/modules.conf.in modules.conf
 	eautoreconf
 fi
+	
+	epatch "${FILESDIR}/${FS_P}_fix_mod_iax.patch"
 }
 
 use_mod() {
