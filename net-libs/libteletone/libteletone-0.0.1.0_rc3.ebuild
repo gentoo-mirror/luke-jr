@@ -2,7 +2,7 @@ DESCRIPTION=""
 HOMEPAGE="http://freeswitch.org/"
 LICENSE="MPL-1.1"
 
-FS_P='freeswitch-1.0.rc3'
+FS_P='freeswitch-1.0.rc4'
 SRC_URI="http://files.freeswitch.org/${FS_P}.tar.gz"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
