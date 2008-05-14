@@ -8,8 +8,8 @@ FS_P="${P/_/.}"
 SRC_URI="http://files.freeswitch.org/${FS_P}.tar.gz"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="alsa cepstral debug +g7xx +gsm iax ilbc jabber javascript jingle ldap libedit lpc10 odbc mrcp php portaudio python radius resample +sip sndfile speex static-blob wanpipe xmlrpc zeroconf"
-IUSE_LINGUAS="de en es fr it nl"
+IUSE="alsa cepstral debug +g7xx +gsm iax ilbc jabber javascript jingle ldap libedit lpc10 lua odbc mrcp perl php portaudio python radius resample +sip sndfile speex static-blob wanpipe xmlrpc zeroconf"
+IUSE_LINGUAS="de en es fr it nl zh"
 # TODO: USE flags for other modules
 
 for i in ${IUSE_LINGUAS}; do
@@ -124,6 +124,8 @@ src_compile() {
 	use_mod alsa       endpoints/mod_alsa
 	use_mod radius     event_handlers/mod_radius_cdr
 	use_mod sndfile    formats/mod_sndfile
+	use_mod lua        languages/mod_lua
+	use_mod perl       languages/mod_perl
 	use_mod python     languages/mod_python
 	use_mod javascript languages/mod_spidermonkey'.*'
 	use odbc || use_mod odbc languages/mod_spidermonkey_odbc
