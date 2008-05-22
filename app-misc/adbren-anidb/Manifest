@@ -1,8 +1,2 @@
-DIST dl.php?repname=AniDB+CSS&path=%2Ftrunk%2Fudp_clients%2Fadbren%2F&rev=400&.tgz 2230 RMD160 8883e6c04cc818b52bf2b656409fead10c4b03f9 SHA1 87f2610632c112706da6ad553789ff70bbce6285 SHA256 b9af2e5769cceaf96f593fe654820dcdc5c150e56e1097c9761f8cb9f94405d6
+DIST dl.php?repname=AniDB+CSS&path=%2Ftrunk%2Fudp_clients%2Fadbren%2F&rev=400&.tgz 2232 RMD160 732abaa13fb8f893fb6e52bccb6e605df43dfad2 SHA1 5437c8d25245b2cf02889d79e2f08bb8a8460b2e SHA256 14f648cdef9085a9606dcb82281b4ee0bf001ae17fc49da2e0f68119a3bb67c4
 EBUILD adbren-anidb-0.3_pre400.ebuild 655 RMD160 5cd592f5bd881291fc540d2a0db2c0ddad50776b SHA1 b1cd4b2572a1899e66a1e2bd4b6ed3fe055fb9d1 SHA256 013e4445af93d3a6f23eaf14fd19eb78385a74398e135b510f8975858a2b9b9a
-MD5 5aca08700a21f05c6a5038c820b3dce6 adbren-anidb-0.3_pre400.ebuild 655
-RMD160 5cd592f5bd881291fc540d2a0db2c0ddad50776b adbren-anidb-0.3_pre400.ebuild 655
-SHA256 013e4445af93d3a6f23eaf14fd19eb78385a74398e135b510f8975858a2b9b9a adbren-anidb-0.3_pre400.ebuild 655
-MD5 16b8b6a5367e2917b5bc4e2de591c83d files/digest-adbren-anidb-0.3_pre400 406
-RMD160 214a92f7d8518e4e2c9e76f02ce7c3bd18984a5a files/digest-adbren-anidb-0.3_pre400 406
-SHA256 9aeda885f53c505fd4b367d6545066afb083cfffaf862d7cf84c1948456b0a3a files/digest-adbren-anidb-0.3_pre400 406
