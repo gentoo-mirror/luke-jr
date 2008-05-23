@@ -1,9 +1,8 @@
 inherit eutils
 
 DESCRIPTION="AniDB Renamer"
-SRC_URI="${P}.pl"
+SRC_URI="http://www.svarteper.com/${PN}.pl"
 HOMEPAGE="${SRC_URI}"
-RESTRICT="fetch"
 
 LICENSE="as-is"
 SLOT="0"
@@ -22,8 +21,8 @@ S="${WORKDIR}"
 
 src_unpack() {
 	cd "${S}"
-	cp "${DISTDIR}/${A}" ./adbren.pl
-	epatch "${FILESDIR}/adbren-3-argvfile.patch"
+	cp "${DISTDIR}/${A}" ./
+	epatch "${FILESDIR}/${P}-argvfile.patch"
 	epatch "${FILESDIR}/adbren-3-dotnet.patch"
 }
 
