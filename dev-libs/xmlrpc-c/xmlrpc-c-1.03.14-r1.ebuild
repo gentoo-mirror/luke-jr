@@ -4,7 +4,7 @@
 
 inherit eutils
 
-DESCRIPTION="A lightweigt RPC library based on XML and HTTP"
+DESCRIPTION="A lightweight RPC library based on XML and HTTP"
 SRC_URI="mirror://sourceforge/xmlrpc-c/${P}.tgz"
 HOMEPAGE="http://xmlrpc-c.sourceforge.net/"
 
