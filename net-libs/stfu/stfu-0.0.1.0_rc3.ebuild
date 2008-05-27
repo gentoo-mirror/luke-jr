@@ -2,7 +2,7 @@ DESCRIPTION="(S)ort (T)ransportable (F)ramed (U)tterances"
 HOMEPAGE="http://freeswitch.org/"
 LICENSE="MIT"
 
-FS_P='freeswitch-1.0.rc4'
+FS_P='freeswitch-1.0.0'
 SRC_URI="http://files.freeswitch.org/${FS_P}.tar.gz"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
