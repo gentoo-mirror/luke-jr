@@ -14,7 +14,9 @@ DEPEND="
 	virtual/os-headers
 	app-arch/unzip
 "
-RDEPEND=""
+RDEPEND="
+	sys-libs/labjackusb-udev-rules
+"
 
 MODULE_NAMES="labjackue9(usb/misc:${S}/Driver/UE9)"
 BUILD_TARGETS="default"
