@@ -14,7 +14,9 @@ DEPEND="
 	virtual/os-headers
 	app-arch/unzip
 "
-RDEPEND=""
+RDEPEND="
+	sys-libs/labjackusb-udev-rules
+"
 
 MODULE_NAMES="labjacku3(usb/misc:${S}/Driver/U3)"
 BUILD_TARGETS="default"

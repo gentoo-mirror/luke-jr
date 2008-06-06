@@ -1,0 +1,1 @@
+KERNEL=="labjack*", GROUP="uucp", NAME="usb/%k"
