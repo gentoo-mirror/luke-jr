@@ -12,6 +12,6 @@ RDEPEND=""
 
 src_install() {
 	cd "${FILESDIR}"
-	insinto '/usr/udev/rules.d'
+	insinto '/etc/udev/rules.d'
 	doins '70-labjackusb.rules'
 }
