@@ -18,7 +18,13 @@ DEPEND="
 	"
 RDEPEND="
 	dev-lang/python
-	usb? ( app-misc/labjack-usb )
+	usb? (
+		sys-libs/liblabjackusb
+		|| (
+			sys-libs/labjackusb-ue9-driver
+			sys-libs/labjackusb-u3-driver
+		)
+	)
 	|| (
 		dev-python/ctypes
 		>=dev-lang/python-2.5
