@@ -38,7 +38,7 @@ src_compile() {
 
 src_install() {
 	dodoc README.txt
-	for d in Documentation Examples; do
+	for d in Documentation EI1050_Sample_App Examples; do
 		docinto $d
 		dodoc $d/*
 	done
