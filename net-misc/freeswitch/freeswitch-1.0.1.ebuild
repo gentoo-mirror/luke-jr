@@ -8,8 +8,8 @@ FS_P="${P/_/.}"
 SRC_URI="http://files.freeswitch.org/${FS_P}.tar.gz"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="alsa cepstral debug +g7xx +gsm iax ilbc jabber javascript jingle ldap libedit lpc10 odbc mrcp php portaudio python radius resample +sip sndfile speex static-blob wanpipe xmlrpc zeroconf"
-IUSE_LINGUAS="de en es fr it nl"
+IUSE="alsa cepstral debug +g7xx +gsm iax ilbc jabber javascript jingle ldap libedit lpc10 lua odbc mrcp perl php portaudio python radius resample +sip sndfile snom speex static-blob wanpipe xmlrpc yaml zeroconf"
+IUSE_LINGUAS="de en es fr it nl zh"
 # TODO: USE flags for other modules
 
 for i in ${IUSE_LINGUAS}; do
@@ -28,18 +28,17 @@ RDEPEND="
 	)
 	xmlrpc? (
 		net-misc/curl
-		=dev-libs/xmlrpc-c-1.03.14-r1
+		>=dev-libs/xmlrpc-c-1.12
 	)
 	jingle? (
 		net-libs/libdingaling
 		dev-libs/iksemel
 	)
-	iax? ( net-libs/libiax-freeswitch )
 	jabber? ( dev-libs/iksemel )
 	portaudio? ( media-libs/portaudio )
 	dev-libs/libpcre
 	sndfile? ( media-libs/libsndfile )
-	sip? ( net-libs/sofia-sip )
+	sip? ( >=net-libs/sofia-sip-1.13 )
 	speex? ( media-libs/speex )
 	g7xx? ( media-libs/voipcodecs )
 	ilbc? ( dev-libs/ilbc-rfc3951 )
@@ -52,6 +51,7 @@ RDEPEND="
 	radius? ( net-dialup/freeradius )
 	ldap? ( net-nds/openldap )
 	gsm? ( media-sound/gsm )
+	yaml? ( dev-libs/libyaml )
 "
 DEPEND="${RDEPEND}
 !static-blob? (
@@ -77,16 +77,17 @@ pkg_setup() {
 src_unpack() {
 	unpack ${A}
 	
-if ! use static-blob; then
 	cd "${S}"
 	
+if ! use static-blob; then
 	einfo "Patching source to use system libraries..."
 	mv -v libs/apr/build/apr_common.m4 build/config/
-	mv -v libs/xmlrpc-c/lib/abyss/src/token.h src/mod/xml_int/mod_xml_rpc/
+	mv -v libs/xmlrpc-c/lib/abyss/src/{token,conn,data,date,http,session,thread}.h src/mod/xml_int/mod_xml_rpc/
+	mv -v libs/xmlrpc-c/lib/util/include/{int,bool}.h src/mod/xml_int/mod_xml_rpc/
 	mv -v libs/srtp/include/srtp.h src/
 	mv -v libs/sqlite/src/hash.h src/
 	rm -rf libs
-	epatch "${FILESDIR}/${PN}-system-libs.patch"
+	epatch "${FILESDIR}/${FS_P}_system-libs.patch"
 	
 	# this is basically bootstrap.sh
 	cp -v build/modules.conf.in modules.conf
@@ -109,6 +110,7 @@ src_compile() {
 		$(use_enable resample) \
 	|| die "econf failed"
 	
+	use_mod snom       applications/mod_snom
 	use_mod cepstral   asr_tts/mod_cepstral
 	use_mod mrcp       asr_tts/mod_openmrcp
 	use_mod g7xx       codecs/mod_g7'.*'
@@ -124,9 +126,12 @@ src_compile() {
 	use_mod alsa       endpoints/mod_alsa
 	use_mod radius     event_handlers/mod_radius_cdr
 	use_mod sndfile    formats/mod_sndfile
+	use_mod lua        languages/mod_lua
+	use_mod perl       languages/mod_perl
 	use_mod python     languages/mod_python
 	use_mod javascript languages/mod_spidermonkey'.*'
 	use odbc || use_mod odbc languages/mod_spidermonkey_odbc
+	use_mod yaml       languages/mod_yaml
 	use_mod xmlrpc     xml_int/mod_xml_rpc
 	for i in ${IUSE_LINGUAS}; do
 	use_mod linguas_$i say/mod_say_$i

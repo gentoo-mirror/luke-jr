@@ -2,7 +2,7 @@ DESCRIPTION="A set of commonly used, unencumbered, codecs for VoIP"
 HOMEPAGE="http://freeswitch.org/"
 LICENSE="GPL-2"
 
-FS_P='freeswitch-1.0.0'
+FS_P='freeswitch-1.0.1'
 SRC_URI="http://files.freeswitch.org/${FS_P}.tar.gz"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"

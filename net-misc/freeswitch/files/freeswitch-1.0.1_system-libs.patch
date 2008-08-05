@@ -1,8 +1,16 @@
 Index: configure.in
 ===================================================================
---- configure.in	(.../tags/1.0.rc5)	(revision 8394)
-+++ configure.in	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8394)
-@@ -74,8 +74,8 @@
+--- configure.in	(.../tags/1.0.0)	(revision 8692)
++++ configure.in	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
+@@ -16,7 +16,6 @@
+ AM_INIT_AUTOMAKE(libfreeswitch,0.1)
+ AC_CONFIG_SRCDIR([src/switch.c])
+ AC_CONFIG_HEADER([src/include/switch_private.h])
+-AC_CONFIG_HEADER([libs/xmlrpc-c/xmlrpc_amconfig.h])
+ 
+ AC_PREFIX_DEFAULT(/usr/local/freeswitch)
+ # AC_PREFIX_DEFAULT does not get expanded until too late so we need to do this to use prefix in this script
+@@ -76,8 +75,8 @@
  RESAMPLE_LIB=
  RESAMPLE_CFLAGS=
  if test "${enable_resample}" = "yes"; then
@@ -13,7 +21,7 @@ Index: configure.in
  else
          AC_DEFINE([DISABLE_RESAMPLE],[],[Disable the embedded resampler])
  fi
-@@ -86,8 +86,8 @@
+@@ -88,8 +87,8 @@
  AM_CONDITIONAL([USE_INTREE_RESAMPLE],[test "${enable_resample}" = "yes"])
  
  # set defaults for use on all platforms
@@ -24,7 +32,7 @@ Index: configure.in
  SWITCH_AM_LDFLAGS="-lm -L/usr/local/lib"
  
  #set SOLINK variable based on compiler and host
-@@ -176,6 +176,148 @@
+@@ -178,6 +177,155 @@
  
  APR_REMOVEFROM(SWITCH_AM_CXXFLAGS, -std=c99)
  
@@ -158,9 +166,16 @@ Index: configure.in
 +SWITCH_AM_CFLAGS="$SWITCH_AM_CFLAGS -I/usr/include/srtp"
 +SWITCH_AM_LDFLAGS="$SWITCH_AM_LDFLAGS -lsrtp"
 +
-+# TODO: make this automatic or something
-+XMLRPC_CFLAGS="-I/usr/include/xmlrpc-c"
-+XMLRPC_LDFLAGS="-lxmlrpc_server -lxmlrpc_server_abyss -lxmlrpc_xmlparse -lxmlrpc_xmltok"
++AC_MSG_CHECKING(for xmlrpc-c)
++xmlrpc_c_config="`which xmlrpc-c-config xmlrpc-c-conf 2>/dev/null | head -n 1`"
++if test -z "$xmlrpc_c_config"; then
++	AC_MSG_RESULT(no)
++	AC_MSG_WARN([xmlrpc-c not found: mod_xml_rpc will not work.])
++else
++	AC_MSG_RESULT(yes)
++	XMLRPC_CFLAGS="$xmlrpc_c_config server-util --cflags"
++	XMLRPC_LDFLAGS="`$xmlrpc_c_config server-util --libs`"
++fi
 +
 +PKG_CHECK_MODULES([voipcodecs],[voipcodecs],[
 +AC_SUBST(voipcodecs_CFLAGS)
@@ -173,7 +188,69 @@ Index: configure.in
  AC_SUBST(SWITCH_AM_CFLAGS)
  AC_SUBST(SWITCH_AM_CXXFLAGS)
  AC_SUBST(SWITCH_AM_LDFLAGS)
-@@ -405,9 +547,6 @@
+@@ -189,14 +337,6 @@
+ AC_HEADER_STDC
+ AC_CHECK_HEADERS([sys/types.h sys/resource.h sched.h wchar.h sys/filio.h sys/ioctl.h])
+ 
+-# for xmlrpc-c config.h
+-if test x"$ac_cv_header_wchar_h" = xyes; then
+-  HAVE_WCHAR_H_DEFINE=1
+-else
+-  HAVE_WCHAR_H_DEFINE=0
+-fi
+-AC_SUBST(HAVE_WCHAR_H_DEFINE)
+-
+ # Checks for typedefs, structures, and compiler characteristics.
+ AC_C_CONST
+ AC_C_INLINE
+@@ -268,46 +408,7 @@
+ 	AC_DEFINE([USE_SCHED_SETSCHEDULER],[1],[Enable round-robin scheduler using sched_setscheduler])
+ fi
+ 
+-#
+-# xmlrpc-c checks
+-#
+ 
+-
+-HAVE_LIBWWW_SSL_DEFINE=0
+-AC_SUBST(HAVE_LIBWWW_SSL_DEFINE)
+-
+-DIRECTORY_SEPARATOR="/"
+-AC_SUBST(DIRECTORY_SEPARATOR)
+-
+-va_list_is_array=no
+-AC_MSG_CHECKING(whether va_list is an array)
+-AC_TRY_COMPILE([
+-#include <stdarg.h>
+-], [va_list list1, list2; list1 = list2;], , 
+-va_list_is_array=yes)
+-AC_MSG_RESULT($va_list_is_array)
+-if test x"$va_list_is_array" = xyes; then
+-  VA_LIST_IS_ARRAY_DEFINE=1
+-else
+-  VA_LIST_IS_ARRAY_DEFINE=0
+-fi
+-AC_SUBST(VA_LIST_IS_ARRAY_DEFINE)
+-
+-AC_MSG_CHECKING(whether compiler has __attribute__)
+-AC_TRY_COMPILE(, [int x __attribute__((__unused__));],
+-compiler_has_attribute=yes,
+-compiler_has_attribute=no)
+-AC_MSG_RESULT($compiler_has_attribute)
+-if test x"$compiler_has_attribute" = xyes; then
+-    ATTR_UNUSED="__attribute__((__unused__))"
+-else
+-    ATTR_UNUSED=
+-fi
+-AC_SUBST(ATTR_UNUSED)
+-
+-
+-
+-
+ AC_C_BIGENDIAN(AC_DEFINE([SWITCH_BYTE_ORDER],__BIG_ENDIAN,[Big Endian]),AC_DEFINE([SWITCH_BYTE_ORDER],__LITTLE_ENDIAN,[Little Endian]))
+ 
+ # Checks for integer size
+@@ -456,9 +557,6 @@
  AC_SUBST(GETSOUNDS)
  
  
@@ -183,7 +260,16 @@ Index: configure.in
  AC_ARG_ENABLE(core-odbc-support,     
  	[AS_HELP_STRING([--enable-core-odbc-support], [Compile with ODBC Support])],,[enable_core_odbc_support="no"])
  
-@@ -582,29 +721,4 @@
+@@ -609,8 +707,6 @@
+                 build/getsounds.sh
+                 build/getlib.sh
+                 build/modmake.rules
+-                libs/xmlrpc-c/include/xmlrpc-c/config.h
+-                libs/xmlrpc-c/xmlrpc_config.h
+                 scripts/gentls_cert])
+ 
+ AM_CONDITIONAL(ISLINUX, [test `uname -s` = Linux])
+@@ -649,28 +745,4 @@
  AC_SUBST(OUR_DISABLED_UNINSTALL_MODS)
  AC_SUBST(AM_MAKEFLAGS)
  
@@ -207,7 +293,6 @@ Index: configure.in
 -AC_CONFIG_SUBDIRS(libs/libsndfile)
 -AC_CONFIG_SUBDIRS(libs/sofia-sip)
 -AC_CONFIG_SUBDIRS(libs/speex)
--AC_CONFIG_SUBDIRS(libs/xmlrpc-c)
 -AC_CONFIG_SUBDIRS(libs/portaudio)
 -AC_CONFIG_SUBDIRS(libs/openmrcp)
 -AC_CONFIG_SUBDIRS(libs/openzap)
@@ -215,8 +300,8 @@ Index: configure.in
  AC_OUTPUT
 Index: src/switch_core_hash.c
 ===================================================================
---- src/switch_core_hash.c	(.../tags/1.0.rc5)	(revision 8394)
-+++ src/switch_core_hash.c	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8394)
+--- src/switch_core_hash.c	(.../tags/1.0.0)	(revision 8692)
++++ src/switch_core_hash.c	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
 @@ -35,7 +35,7 @@
  #include <switch.h>
  #include "private/switch_core_pvt.h"
@@ -228,8 +313,8 @@ Index: src/switch_core_hash.c
  	Hash table;
 Index: src/switch_rtp.c
 ===================================================================
---- src/switch_rtp.c	(.../tags/1.0.rc5)	(revision 8394)
-+++ src/switch_rtp.c	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8394)
+--- src/switch_rtp.c	(.../tags/1.0.0)	(revision 8692)
++++ src/switch_rtp.c	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
 @@ -42,7 +42,7 @@
  #undef PACKAGE
  #undef inline
@@ -241,8 +326,8 @@ Index: src/switch_rtp.c
  #define READ_DEC(rtp_session)  switch_mutex_unlock(rtp_session->read_mutex); rtp_session->reading--
 Index: src/mod/asr_tts/mod_openmrcp/Makefile
 ===================================================================
---- src/mod/asr_tts/mod_openmrcp/Makefile	(.../tags/1.0.rc5)	(revision 8394)
-+++ src/mod/asr_tts/mod_openmrcp/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8394)
+--- src/mod/asr_tts/mod_openmrcp/Makefile	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/asr_tts/mod_openmrcp/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
 @@ -1,43 +1,12 @@
  # define these targets in your makefile if you wish
  # local_all local_depend local_clean depend_install local_install local_distclean local_extraclean:
@@ -291,8 +376,8 @@ Index: src/mod/asr_tts/mod_openmrcp/Makefile
 -
 Index: src/mod/codecs/mod_speex/Makefile
 ===================================================================
---- src/mod/codecs/mod_speex/Makefile	(.../tags/1.0.rc5)	(revision 8394)
-+++ src/mod/codecs/mod_speex/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8394)
+--- src/mod/codecs/mod_speex/Makefile	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/codecs/mod_speex/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
 @@ -1,12 +1,3 @@
 -BASE=../../../..
 -
@@ -310,8 +395,8 @@ Index: src/mod/codecs/mod_speex/Makefile
 -	$(TOUCH_TARGET)
 Index: src/mod/codecs/mod_ilbc/Makefile
 ===================================================================
---- src/mod/codecs/mod_ilbc/Makefile	(.../tags/1.0.rc5)	(revision 8394)
-+++ src/mod/codecs/mod_ilbc/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8394)
+--- src/mod/codecs/mod_ilbc/Makefile	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/codecs/mod_ilbc/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
 @@ -1,10 +1,3 @@
 -BASE=../../../..
 -ILBC_DIR=$(BASE)/libs/codec/ilbc
@@ -319,7 +404,7 @@ Index: src/mod/codecs/mod_ilbc/Makefile
 -LOCAL_CFLAGS=-I$(ILBC_DIR)/src
 -LOCAL_LIBADD=$(ILBCLA)
 +LOCAL_CFLAGS=-I/usr/include/ilbc
-+LOCAL_LIBADD=-lilbc
++LOCAL_LDFLAGS=-lilbc
  include $(BASE)/build/modmake.rules
 -
 -$(ILBCLA): $(ILBC_DIR) $(ILBC_DIR)/.update
@@ -327,8 +412,8 @@ Index: src/mod/codecs/mod_ilbc/Makefile
 -	$(TOUCH_TARGET)
 Index: src/mod/codecs/mod_voipcodecs/Makefile
 ===================================================================
---- src/mod/codecs/mod_voipcodecs/Makefile	(.../tags/1.0.rc5)	(revision 8394)
-+++ src/mod/codecs/mod_voipcodecs/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8394)
+--- src/mod/codecs/mod_voipcodecs/Makefile	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/codecs/mod_voipcodecs/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
 @@ -1,13 +1,4 @@
 -BASE=../../../..
 +LOCAL_CFLAGS=$(voipcodecs_CFLAGS)
@@ -345,19 +430,10 @@ Index: src/mod/codecs/mod_voipcodecs/Makefile
 -$(VOIPCODECS_LA): $(VOIPCODECS_DIR) $(VOIPCODECS_DIR)/.update
 -	cd $(VOIPCODECS_DIR) && $(MAKE)
 -	$(TOUCH_TARGET)
-Index: src/mod/endpoints/mod_iax/Makefile
-===================================================================
---- src/mod/endpoints/mod_iax/Makefile	(.../tags/1.0.rc5)	(revision 8394)
-+++ src/mod/endpoints/mod_iax/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8394)
-@@ -3,4 +3,3 @@
- LOCAL_OBJS=iax2-parser.o iax.o md5.o jitterbuf.o iax-mutex.o
- 
- include $(BASE)/build/modmake.rules
--
 Index: src/mod/endpoints/mod_sofia/sofia.c
 ===================================================================
---- src/mod/endpoints/mod_sofia/sofia.c	(.../tags/1.0.rc5)	(revision 8394)
-+++ src/mod/endpoints/mod_sofia/sofia.c	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8394)
+--- src/mod/endpoints/mod_sofia/sofia.c	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/endpoints/mod_sofia/sofia.c	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
 @@ -39,6 +39,11 @@
  #include "sofia-sip/sip_extra.h"
  #include "sofia-sip/tport_tag.h"
@@ -372,8 +448,8 @@ Index: src/mod/endpoints/mod_sofia/sofia.c
  extern su_log_t nea_log[];
 Index: src/mod/endpoints/mod_sofia/Makefile.am
 ===================================================================
---- src/mod/endpoints/mod_sofia/Makefile.am	(.../tags/1.0.rc5)	(revision 8394)
-+++ src/mod/endpoints/mod_sofia/Makefile.am	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8394)
+--- src/mod/endpoints/mod_sofia/Makefile.am	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/endpoints/mod_sofia/Makefile.am	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
 @@ -12,23 +12,12 @@
  
  MODNAME=mod_sofia
@@ -418,8 +494,8 @@ Index: src/mod/endpoints/mod_sofia/Makefile.am
 -#	fi
 Index: src/mod/endpoints/mod_portaudio/Makefile
 ===================================================================
---- src/mod/endpoints/mod_portaudio/Makefile	(.../tags/1.0.rc5)	(revision 8394)
-+++ src/mod/endpoints/mod_portaudio/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8394)
+--- src/mod/endpoints/mod_portaudio/Makefile	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/endpoints/mod_portaudio/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
 @@ -1,20 +1,10 @@
 -BASE=../../../..
 +LOCAL_CFLAGS=-I. -D__EXTENSION__=1
@@ -446,8 +522,8 @@ Index: src/mod/endpoints/mod_portaudio/Makefile
 -$(LOCAL_OBJS): $(LOCAL_SOURCES)
 Index: src/mod/endpoints/mod_dingaling/Makefile
 ===================================================================
---- src/mod/endpoints/mod_dingaling/Makefile	(.../tags/1.0.rc5)	(revision 8394)
-+++ src/mod/endpoints/mod_dingaling/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8394)
+--- src/mod/endpoints/mod_dingaling/Makefile	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/endpoints/mod_dingaling/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
 @@ -1,22 +1,6 @@
 -BASE=../../../..
 -
@@ -475,8 +551,8 @@ Index: src/mod/endpoints/mod_dingaling/Makefile
 -
 Index: src/mod/applications/mod_enum/mod_enum.c
 ===================================================================
---- src/mod/applications/mod_enum/mod_enum.c	(.../tags/1.0.rc5)	(revision 8394)
-+++ src/mod/applications/mod_enum/mod_enum.c	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8394)
+--- src/mod/applications/mod_enum/mod_enum.c	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/applications/mod_enum/mod_enum.c	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
 @@ -32,6 +32,9 @@
  #include <switch.h>
  #include <udns.h>
@@ -511,8 +587,8 @@ Index: src/mod/applications/mod_enum/mod_enum.c
  
 Index: src/mod/applications/mod_enum/Makefile
 ===================================================================
---- src/mod/applications/mod_enum/Makefile	(.../tags/1.0.rc5)	(revision 8394)
-+++ src/mod/applications/mod_enum/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8394)
+--- src/mod/applications/mod_enum/Makefile	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/applications/mod_enum/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
 @@ -1,9 +1,7 @@
 -BASE=../../../..
 -UDNS_DIR=$(BASE)/libs/udns
@@ -529,8 +605,8 @@ Index: src/mod/applications/mod_enum/Makefile
  include $(BASE)/build/modmake.rules
 Index: src/mod/languages/mod_spidermonkey/sm.mak
 ===================================================================
---- src/mod/languages/mod_spidermonkey/sm.mak	(.../tags/1.0.rc5)	(revision 8394)
-+++ src/mod/languages/mod_spidermonkey/sm.mak	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8394)
+--- src/mod/languages/mod_spidermonkey/sm.mak	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/languages/mod_spidermonkey/sm.mak	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
 @@ -1,14 +1,6 @@
 -switch_srcdir=../../../..
 -JS_DIR=$(switch_srcdir)/libs/js
@@ -552,8 +628,8 @@ Index: src/mod/languages/mod_spidermonkey/sm.mak
 +include $(BASE)/build/modmake.rules
 Index: src/mod/languages/mod_spidermonkey/Makefile
 ===================================================================
---- src/mod/languages/mod_spidermonkey/Makefile	(.../tags/1.0.rc5)	(revision 8394)
-+++ src/mod/languages/mod_spidermonkey/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8394)
+--- src/mod/languages/mod_spidermonkey/Makefile	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/languages/mod_spidermonkey/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
 @@ -5,10 +5,3 @@
  LOCAL_LIBADD=
  
@@ -567,46 +643,113 @@ Index: src/mod/languages/mod_spidermonkey/Makefile
 -
 Index: src/mod/xml_int/mod_xml_rpc/mod_xml_rpc.c
 ===================================================================
---- src/mod/xml_int/mod_xml_rpc/mod_xml_rpc.c	(.../tags/1.0.rc5)	(revision 8394)
-+++ src/mod/xml_int/mod_xml_rpc/mod_xml_rpc.c	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8394)
-@@ -42,7 +42,7 @@
+--- src/mod/xml_int/mod_xml_rpc/mod_xml_rpc.c	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/xml_int/mod_xml_rpc/mod_xml_rpc.c	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
+@@ -39,7 +39,9 @@
  #include <xmlrpc-c/abyss.h>
  #include <xmlrpc-c/server.h>
  #include <xmlrpc-c/server_abyss.h>
 -#include "../../libs/xmlrpc-c/lib/abyss/src/token.h"
-+#include "token.h" /* NOTE: From xmlrpc-c's internals */
++
++/* NOTE: Taken from xmlrpc-c's internals: */
++#include "token.h"
+ #include "http.h"
+ #include "session.h"
  
- SWITCH_MODULE_LOAD_FUNCTION(mod_xml_rpc_load);
- SWITCH_MODULE_SHUTDOWN_FUNCTION(mod_xml_rpc_shutdown);
 Index: src/mod/xml_int/mod_xml_rpc/Makefile
 ===================================================================
---- src/mod/xml_int/mod_xml_rpc/Makefile	(.../tags/1.0.rc5)	(revision 8394)
-+++ src/mod/xml_int/mod_xml_rpc/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8394)
-@@ -1,18 +1,4 @@
+--- src/mod/xml_int/mod_xml_rpc/Makefile	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/xml_int/mod_xml_rpc/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
+@@ -1,83 +1,4 @@
 -BASE=../../../..
 -XMLRPC_DIR=$(BASE)/libs/xmlrpc-c
 +LOCAL_CFLAGS=$(XMLRPC_CFLAGS)
 +LOCAL_LDFLAGS=$(XMLRPC_LIBS)
  
--#XMLRPCLAS  = $(XMLRPC_DIR)/src/libxmlrpc.la 
--#dont ask...
--XMLRPCLAS  = $(XMLRPC_DIR)/src/*.o
--XMLRPCLAS += $(XMLRPC_DIR)/src/libxmlrpc_server.la 
--XMLRPCLAS += $(XMLRPC_DIR)/src/libxmlrpc_server_abyss.la $(XMLRPC_DIR)/lib/abyss/src/libxmlrpc_abyss.la
--XMLRPCLAS += $(XMLRPC_DIR)/lib/expat/xmlparse/libxmlrpc_xmlparse.la $(XMLRPC_DIR)/lib/expat/xmltok/libxmlrpc_xmltok.la
+-LOCAL_OBJS = $(XMLRPC_DIR)/lib/libutil/asprintf.o\
+-$(XMLRPC_DIR)/lib/util/casprintf.o\
+-$(XMLRPC_DIR)/lib/abyss/src/channel.o\
+-$(XMLRPC_DIR)/lib/abyss/src/chanswitch.o\
+-$(XMLRPC_DIR)/lib/util/cmdline_parser.o\
+-$(XMLRPC_DIR)/lib/abyss/src/conf.o\
+-$(XMLRPC_DIR)/lib/abyss/src/conn.o\
+-$(XMLRPC_DIR)/lib/abyss/src/data.o\
+-$(XMLRPC_DIR)/lib/abyss/src/date.o\
+-$(XMLRPC_DIR)/src/double.o\
+-$(XMLRPC_DIR)/lib/libutil/error.o\
+-$(XMLRPC_DIR)/lib/abyss/src/file.o\
+-$(XMLRPC_DIR)/lib/expat/gennmtab/gennmtab.o\
+-$(XMLRPC_DIR)/lib/util/getoptx.o\
+-$(XMLRPC_DIR)/lib/abyss/src/handler.o\
+-$(XMLRPC_DIR)/lib/abyss/src/http.o\
+-$(XMLRPC_DIR)/lib/abyss/src/init.o\
+-$(XMLRPC_DIR)/lib/libutil/make_printable.o\
+-$(XMLRPC_DIR)/lib/libutil/memblock.o\
+-$(XMLRPC_DIR)/src/method.o\
+-$(XMLRPC_DIR)/src/parse_value.o\
+-$(XMLRPC_DIR)/src/registry.o\
+-$(XMLRPC_DIR)/src/resource.o\
+-$(XMLRPC_DIR)/lib/abyss/src/response.o\
+-$(XMLRPC_DIR)/lib/libutil/select.o\
+-$(XMLRPC_DIR)/lib/abyss/src/server.o\
+-$(XMLRPC_DIR)/lib/abyss/src/session.o\
+-$(XMLRPC_DIR)/lib/libutil/sleep.o\
+-$(XMLRPC_DIR)/lib/abyss/src/socket.o\
+-$(XMLRPC_DIR)/lib/abyss/src/socket_unix.o\
+-$(XMLRPC_DIR)/lib/util/string_parser.o\
+-$(XMLRPC_DIR)/lib/util/stripcaseeq.o\
+-$(XMLRPC_DIR)/src/system_method.o\
+-$(XMLRPC_DIR)/lib/abyss/src/thread_pthread.o\
+-$(XMLRPC_DIR)/lib/libutil/time.o\
+-$(XMLRPC_DIR)/lib/abyss/src/token.o\
+-$(XMLRPC_DIR)/src/trace.o\
+-$(XMLRPC_DIR)/lib/abyss/src/trace.o\
+-$(XMLRPC_DIR)/lib/libutil/utf8.o\
+-$(XMLRPC_DIR)/src/version.o\
+-$(XMLRPC_DIR)/lib/expat/xmlparse/xmlparse.o\
+-$(XMLRPC_DIR)/lib/expat/xmltok/xmlrole.o\
+-$(XMLRPC_DIR)/src/xmlrpc_array.o\
+-$(XMLRPC_DIR)/src/xmlrpc_authcookie.o\
+-$(XMLRPC_DIR)/src/xmlrpc_base64.o\
+-$(XMLRPC_DIR)/src/xmlrpc_build.o\
+-$(XMLRPC_DIR)/src/xmlrpc_data.o\
+-$(XMLRPC_DIR)/src/xmlrpc_datetime.o\
+-$(XMLRPC_DIR)/src/xmlrpc_decompose.o\
+-$(XMLRPC_DIR)/src/xmlrpc_expat.o\
+-$(XMLRPC_DIR)/src/xmlrpc_parse.o\
+-$(XMLRPC_DIR)/src/xmlrpc_serialize.o\
+-$(XMLRPC_DIR)/src/xmlrpc_server_abyss.o\
+-$(XMLRPC_DIR)/src/xmlrpc_server_cgi.o\
+-$(XMLRPC_DIR)/src/xmlrpc_string.o\
+-$(XMLRPC_DIR)/src/xmlrpc_struct.o\
+-$(XMLRPC_DIR)/lib/expat/xmltok/xmltok.o
 -
--LOCAL_LIBADD =$(XMLRPCLAS)
--LOCAL_CFLAGS=-I$(XMLRPC_DIR)/include
+-#XMLRPCLAS  = $(XMLRPC_DIR)/src/libxmlrpc.a 
+-#dont ask...
+-#XMLRPCLAS  = $(XMLRPC_DIR)/src/*.o
+-#XMLRPCLAS += $(XMLRPC_DIR)/src/libxmlrpc_server.so $(XMLRPC_DIR)/src/libxmlrpc.so
+-#XMLRPCLAS += $(XMLRPC_DIR)/src/libxmlrpc_server_abyss.so $(XMLRPC_DIR)/lib/abyss/src/libxmlrpc_abyss.so
+-#XMLRPCLAS += $(XMLRPC_DIR)/lib/expat/xmlparse/libxmlrpc_xmlparse.so $(XMLRPC_DIR)/lib/expat/xmltok/libxmlrpc_xmltok.so
+-#LOCAL_LIBADD =$(XMLRPCLAS)
+-
+-LOCAL_CFLAGS = -w -I$(XMLRPC_DIR)/lib/expat/xmlparse -I$(XMLRPC_DIR)/lib/expat/xmltok -I$(XMLRPC_DIR) -I$(XMLRPC_DIR)/include
+-LOCAL_CFLAGS+= -I$(XMLRPC_DIR)/lib/abyss/src -I$(XMLRPC_DIR)/lib/util/include -D_THREAD -D__EXTENSIONS__
 -
  include $(BASE)/build/modmake.rules
 -
 -$(XMLRPCLAS): $(XMLRPC_DIR) $(XMLRPC_DIR)/.update
 -	cd $(XMLRPC_DIR) && $(MAKE)
 -	$(TOUCH_TARGET)
+-
+-$(XMLRPC_DIR)/lib/expat/xmltok/xmltok.o: $(XMLRPC_DIR)/lib/expat/xmltok/nametab.h
+-
+-$(XMLRPC_DIR)/lib/expat/xmltok/nametab.h:
+-	cd $(XMLRPC_DIR)/lib/expat/gennmtab && $(MAKE)
+-	cd $(XMLRPC_DIR)/lib/expat/xmltok   && ../gennmtab/gennmtab > nametab.h
 Index: src/mod/formats/mod_sndfile/Makefile
 ===================================================================
---- src/mod/formats/mod_sndfile/Makefile	(.../tags/1.0.rc5)	(revision 8394)
-+++ src/mod/formats/mod_sndfile/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8394)
+--- src/mod/formats/mod_sndfile/Makefile	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/formats/mod_sndfile/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
 @@ -1,14 +1,3 @@
 -BASE=../../../..
 +LOCAL_LIBADD=-lsndfile
@@ -625,24 +768,23 @@ Index: src/mod/formats/mod_sndfile/Makefile
 -	$(TOUCH_TARGET)
 Index: src/include/switch_platform.h
 ===================================================================
---- src/include/switch_platform.h	(.../tags/1.0.rc5)	(revision 8394)
-+++ src/include/switch_platform.h	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8394)
-@@ -66,10 +66,6 @@
+--- src/include/switch_platform.h	(.../tags/1.0.0)	(revision 8692)
++++ src/include/switch_platform.h	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
+@@ -63,9 +63,6 @@
+ #ifdef _MSC_VER
  #  pragma comment(lib, "odbc32.lib")
  #endif
- 
 -#pragma include_alias(<libteletone.h>,				<../../libs/libteletone/src/libteletone.h>)
 -#pragma include_alias(<libteletone_generate.h>,		<../../libs/libteletone/src/libteletone_generate.h>)
 -#pragma include_alias(<libteletone_detect.h>,		<../../libs/libteletone/src/libteletone_detect.h>)
--
  #if (_MSC_VER >= 1400)			// VC8+
  #define switch_assert(expr) assert(expr);__analysis_assume( expr )
  #endif
 Index: src/switch_core_state_machine.c
 ===================================================================
---- src/switch_core_state_machine.c	(.../tags/1.0.rc5)	(revision 8394)
-+++ src/switch_core_state_machine.c	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8394)
-@@ -192,7 +192,7 @@
+--- src/switch_core_state_machine.c	(.../tags/1.0.0)	(revision 8692)
++++ src/switch_core_state_machine.c	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
+@@ -193,7 +193,7 @@
  }
  
  #include <sqlite3.h>
@@ -653,8 +795,8 @@ Index: src/switch_core_state_machine.c
  static Hash stack_table;
 Index: build/modmake.rules.in
 ===================================================================
---- build/modmake.rules.in	(.../tags/1.0.rc5)	(revision 8394)
-+++ build/modmake.rules.in	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8394)
+--- build/modmake.rules.in	(.../tags/1.0.0)	(revision 8692)
++++ build/modmake.rules.in	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
 @@ -15,12 +15,6 @@
  CCLD = $(CC)
  CXXLD = $(CXX)
@@ -693,8 +835,8 @@ Index: build/modmake.rules.in
  			  cat .libs/$(MODNAME).log ; \
 Index: acinclude.m4
 ===================================================================
---- acinclude.m4	(.../tags/1.0.rc5)	(revision 8394)
-+++ acinclude.m4	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8394)
+--- acinclude.m4	(.../tags/1.0.0)	(revision 8692)
++++ acinclude.m4	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
 @@ -6,5 +6,5 @@
  m4_include([build/config/ac_gcc_x86_cpuid.m4])
  m4_include([build/config/ax_lib_mysql.m4])
@@ -704,8 +846,8 @@ Index: acinclude.m4
  m4_include([build/config/libcurl.m4])
 Index: Makefile.am
 ===================================================================
---- Makefile.am	(.../tags/1.0.rc5)	(revision 8394)
-+++ Makefile.am	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8394)
+--- Makefile.am	(.../tags/1.0.0)	(revision 8692)
++++ Makefile.am	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
 @@ -26,6 +26,8 @@
  	   cd src/mod && $(MAKE) $(AM_MAKEFLAGS) $@ ;\
  	 fi
@@ -793,7 +935,7 @@ Index: Makefile.am
  $(libfreeswitch_la_SOURCES): $(CORE_LIBS) $(switch_builddir)/quiet_libtool modules.conf
  
  $(switch_builddir)/quiet_libtool: $(switch_builddir)/libtool
-@@ -260,32 +227,6 @@
+@@ -267,32 +234,6 @@
  yesdepends:
  	rm .nodepends
  
@@ -826,31 +968,32 @@ Index: Makefile.am
  core:
  	$(MAKE) $(AM_MAKEFLAGS) libfreeswitch.la
  
-@@ -315,14 +256,8 @@
+@@ -327,15 +268,8 @@
  	svn update
  	$(MAKE) -j install
  
 -libs/openzap/Makefile:
 -	cd libs/openzap && autoconf
 -	cd libs/openzap && ./configure
-+update-clean: clean modwipe uninstall
++update-clean: clean modwipe uninstall python-reconf
  
--update-clean: clean modwipe uninstall libs/openzap/Makefile
+-update-clean: clean modwipe uninstall libs/openzap/Makefile python-reconf
 -	cd libs/sofia-sip && $(MAKE) clean
 -	cd libs/openzap && $(MAKE) clean
+-	cd libs/portaudio && $(MAKE) clean
 -
  swigall:
  	@echo reswigging all
  	sh ./build/swigall.sh
-@@ -331,7 +266,6 @@
+@@ -338,7 +273,6 @@
  
  speedy-sure: update-clean
  	$(MAKE) -j core
 -	cd libs/sofia-sip && $(MAKE) -j
  	$(MAKE) -j modules
  
- current: update-clean
-@@ -384,11 +318,11 @@
+ sofia-reconf:
+@@ -396,11 +330,11 @@
  	    -e "s,@INSTALL\@,$(INSTALL)," \
  	    -e "s,@MKINSTALLDIRS\@,$(mkdir_p)," \
  	    \
@@ -864,7 +1007,7 @@ Index: Makefile.am
  	    scripts/fsxs.in > scripts/fsxs
  
  eclean: clean
-@@ -400,11 +334,7 @@
+@@ -412,11 +346,7 @@
  	rm -f *.tar *.tgz *.gz 
  
  megaclean: eclean modclean
