@@ -46,7 +46,7 @@ RDEPEND="
 	net-libs/libsrtp
 	net-libs/libteletone
 	mrcp? ( app-accessibility/openmrcp )
-	net-dns/udns
+	net-libs/udns
 )
 	radius? ( net-dialup/freeradius )
 	ldap? ( net-nds/openldap )
