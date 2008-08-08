@@ -18,12 +18,15 @@ HOMEPAGE="http://www.mozilla.com/firefox"
 KEYWORDS="~alpha ~amd64 ~hppa ~ia64 ~ppc ~ppc64 ~sparc ~x86"
 SLOT="0"
 LICENSE="|| ( MPL-1.1 GPL-2 LGPL-2.1 )"
-IUSE="java mozdevelop bindist restrict-javascript iceweasel +xulrunner"
+IUSE="java mozdevelop bindist restrict-javascript iceweasel +xulrunner qt4"
 
 SRC_URI="mirror://gentoo/${P}.tar.bz2
 	http://dev.gentoo.org/~armin76/${P}.tar.bz2
 	mirror://gentoo/${PATCH}.tar.bz2
 	iceweasel? ( mirror://gentoo/iceweasel-icons-3.0.tar.bz2 )
+	!qt4? (
+		https://bugzilla.mozilla.org/attachment.cgi?id=332157
+	)
 	!xulrunner? ( mirror://gentoo/xulrunner-1.9${MY_PV}.tar.bz2 )"
 
 # These are in
@@ -53,6 +56,9 @@ RDEPEND="java? ( virtual/jre )
 	>=dev-libs/nspr-4.7.1
 	>=media-libs/lcms-1.17
 	>=app-text/hunspell-1.1.9
+	qt4? (
+		x11-libs/qt-gui:4
+	)
 	xulrunner? ( >=net-libs/xulrunner-1.9${MY_PV} )"
 
 DEPEND="${RDEPEND}
@@ -132,6 +138,12 @@ src_unpack() {
 		einfo "Selected language packs (first will be default): ${linguas}"
 	fi
 
+	# Apply qt4 patch, if wanted
+	if use qt4; then
+		einfo "Applying qt4 patch"
+		epatch "${DISTDIR}/attachment.cgi?id=332157"
+	fi
+
 	# Remove the patches we don't need
 	use xulrunner && rm "${WORKDIR}"/patch/*noxul* || rm "${WORKDIR}"/patch/*xulonly*
 
@@ -178,6 +190,8 @@ src_compile() {
 	mozconfig_annotate '' --enable-system-lcms
 	mozconfig_annotate '' --enable-oji --enable-mathml
 	mozconfig_annotate 'places' --enable-storage --enable-places --enable-places_bookmarks
+	use qt4 &&
+	mozconfig_annotate '' --enable-default-toolkit=cairo-qt
 
 	# Other ff-specific settings
 	#mozconfig_use_enable mozdevelop jsd
