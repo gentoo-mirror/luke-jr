@@ -11,12 +11,15 @@ DESCRIPTION="Mozilla runtime package that can be used to bootstrap XUL+XPCOM app
 HOMEPAGE="http://developer.mozilla.org/en/docs/XULRunner"
 SRC_URI="mirror://gentoo/${P}.tar.bz2
 	http://dev.gentoo.org/~armin76/${P}.tar.bz2
+	qt4? (
+		http://bugzilla.mozilla.org/attachment.cgi?id=333025
+	)
 	mirror://gentoo/${PATCH}.tar.bz2"
 
 KEYWORDS="~alpha ~amd64 ~hppa ~ia64 ~ppc ~ppc64 ~sparc ~x86"
 SLOT="1.9"
 LICENSE="|| ( MPL-1.1 GPL-2 LGPL-2.1 )"
-IUSE=""
+IUSE="qt4"
 
 RDEPEND="java? ( >=virtual/jre-1.4 )
 	>=sys-devel/binutils-2.16.1
@@ -62,6 +65,13 @@ src_unpack() {
 	EPATCH_FORCE="yes" \
 	epatch "${WORKDIR}"/patch
 
+	# Apply qt4 patch, if wanted
+	if use qt4; then
+		einfo "Applying qt4 patch"
+		epatch "${DISTDIR}/attachment.cgi?id=333025"
+		sed -i 's:\(-o "\$_DEFAULT_TOOLKIT" = "cairo-\)gtk2:\1qt:' configure.in
+	fi
+
 	eautoreconf || die "failed  running eautoreconf"
 
 	# We need to re-patch this because autoreconf overwrites it
@@ -99,6 +109,9 @@ src_compile() {
 	mozconfig_annotate '' --enable-oji --enable-mathml
 	mozconfig_annotate 'places' --enable-storage --enable-places --enable-places_bookmarks
 	mozconfig_annotate '' --enable-safe-browsing
+	if use qt4; then
+		mozconfig_annotate '' --enable-default-toolkit=cairo-qt
+	fi
 
 	# Other ff-specific settings
 	mozconfig_annotate '' --enable-jsd

@@ -24,8 +24,11 @@ SRC_URI="mirror://gentoo/${P}.tar.bz2
 	http://dev.gentoo.org/~armin76/${P}.tar.bz2
 	mirror://gentoo/${PATCH}.tar.bz2
 	iceweasel? ( mirror://gentoo/iceweasel-icons-3.0.tar.bz2 )
-	!qt4? (
-		https://bugzilla.mozilla.org/attachment.cgi?id=332157
+	qt4? (
+		http://bugzilla.mozilla.org/attachment.cgi?id=333024
+		!xulrunner? (
+			http://bugzilla.mozilla.org/attachment.cgi?id=333025
+		)
 	)
 	!xulrunner? ( mirror://gentoo/xulrunner-1.9${MY_PV}.tar.bz2 )"
 
@@ -138,12 +141,6 @@ src_unpack() {
 		einfo "Selected language packs (first will be default): ${linguas}"
 	fi
 
-	# Apply qt4 patch, if wanted
-	if use qt4; then
-		einfo "Applying qt4 patch"
-		epatch "${DISTDIR}/attachment.cgi?id=332157"
-	fi
-
 	# Remove the patches we don't need
 	use xulrunner && rm "${WORKDIR}"/patch/*noxul* || rm "${WORKDIR}"/patch/*xulonly*
 
@@ -156,6 +153,15 @@ src_unpack() {
 	if use iceweasel; then
 		sed -i -e "s|Minefield|Iceweasel|" browser/locales/en-US/chrome/branding/brand.* \
 			browser/branding/nightly/configure.sh
+	fi
+
+	# Apply qt4 patch, if wanted
+	if use qt4; then
+		einfo "Applying qt4 patch"
+		epatch "${DISTDIR}/attachment.cgi?id=333024"
+		if ! use xulrunner; then
+			epatch "${DISTDIR}/attachment.cgi?id=333025"
+		fi
 	fi
 
 	eautoreconf
@@ -190,8 +196,9 @@ src_compile() {
 	mozconfig_annotate '' --enable-system-lcms
 	mozconfig_annotate '' --enable-oji --enable-mathml
 	mozconfig_annotate 'places' --enable-storage --enable-places --enable-places_bookmarks
-	use qt4 &&
-	mozconfig_annotate '' --enable-default-toolkit=cairo-qt
+	if use qt4; then
+		mozconfig_annotate '' --enable-default-toolkit=cairo-qt
+	fi
 
 	# Other ff-specific settings
 	#mozconfig_use_enable mozdevelop jsd
