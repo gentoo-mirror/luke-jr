@@ -1,3 +1,5 @@
+inherit autotools
+
 DESCRIPTION='A programmable binaural-beat generator, implementing the principle of binaural beats as described in the October 1973 Scientific American article "Auditory Beats in the Brain" (Gerald Oster).'
 HOMEPAGE="http://gnaural.sourceforge.net/"
 SRC_URI="mirror://sourceforge/${PN}/${P}.tar.gz"
