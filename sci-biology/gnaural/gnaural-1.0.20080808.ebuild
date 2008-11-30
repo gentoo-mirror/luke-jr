@@ -21,10 +21,4 @@ RDEPEND="${DEPEND}"
 
 #S="${WORKDIR}/${P}"
 
-src_unpack() {
-	unpack ${A}
-	cd "${S}"
-	sed -i 's: portaudio-2.0 >= 19::' configure.in
-	WANT_AUTOCONF=2.5 \
-	eautoconf || die 'autoconf failed'
-}
+export PKG_CONFIG_PATH="${PKG_CONFIG_PATH}:${FILESDIR}"

@@ -1,0 +1,6 @@
+Name: PortAudio
+Description:
+Version: 19
+
+Libs: -lportaudio
+Cflags: -I/usr/include/portaudio
