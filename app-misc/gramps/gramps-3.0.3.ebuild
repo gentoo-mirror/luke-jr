@@ -1,6 +1,7 @@
 # Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/app-misc/gramps/gramps-3.0.3.ebuild,v 1.7 2008/12/22 12:41:35 fauli Exp $
+
+EAPI="1"
 
 NEED_PYTHON="2.5"
 WANT_AUTOCONF="latest"
@@ -15,12 +16,17 @@ SRC_URI="mirror://sourceforge/gramps/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64 ~ppc sparc x86"
-IUSE="reports"
+IUSE="cdr gnome reports"
 
-RDEPEND=">=dev-python/pygtk-2.10.0
+GNOME_RDEP="
 	|| ( dev-python/libgnome-python
 		>=dev-python/gnome-python-2.22.0
 		>=dev-python/gnome-python-desktop-2.6 )
+"
+RDEPEND=">=dev-python/pygtk-2.10.0
+	dev-lang/python[berkdb,sqlite]
+	cdr? ( $GNOME_RDEP )
+	gnome? ( $GNOME_RDEP )
 	reports? ( media-gfx/graphviz )"
 DEPEND="${RDEPEND}
 	sys-devel/gettext
@@ -31,19 +37,13 @@ DEPEND="${RDEPEND}
 DOCS="NEWS README TODO"
 
 pkg_setup() {
-	if ! built_with_use -a 'dev-lang/python' sqlite berkdb ; then
-		eerror "You need to install python with Berkeley Database support."
-		eerror "Add 'dev-lang/python berkdb sqlite' to /etc/portage/package.use "
-		eerror "and then re-emerge python."
-		die "berkdb or sqlite support missing from Python"
-	fi
-
 	G2CONF="${G2CONF} --disable-mime-install"
 }
 
 src_unpack() {
 	gnome2_src_unpack
 	epatch "${FILESDIR}"/${P}_fix-installation-race-condition.patch
+	epatch "${FILESDIR}"/${P}_make-gnome-optional.patch
 	eautoreconf
 	# This is for bug 215944, so .pyo/.pyc files don't get into the
 	# file system
