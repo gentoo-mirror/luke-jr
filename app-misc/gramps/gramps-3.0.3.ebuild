@@ -32,7 +32,7 @@ DEPEND="${RDEPEND}
 	sys-devel/gettext
 	virtual/libiconv
 	dev-util/pkgconfig
-	app-text/gnome-doc-utils"
+"
 
 DOCS="NEWS README TODO"
 
