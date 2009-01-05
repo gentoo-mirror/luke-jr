@@ -3,8 +3,7 @@ EAPI='2'
 DESCRIPTION=""
 HOMEPAGE="http://labjack.com/"
 MyCPN="Linux_C_NativeUSB_U3UE9"
-MyPV="${PV/0.0.}"
-MyPV="${MyPV//./-}"
+MyPV="2008-08-11"  # Not actually important, but the lib is bundled with the drivers...
 SRC_URI="http://labjack.com/files/${MyCPN}.zip -> ${MyCPN}_${MyPV}.zip"
 SLOT="0"
 
