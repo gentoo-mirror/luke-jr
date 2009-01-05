@@ -1,13 +1,18 @@
+EAPI='2'
+
 DESCRIPTION=""
 HOMEPAGE="http://labjack.com/"
-SRC_URI="http://labjack.com/files/Linux_C_NativeUSB_U3UE9.zip"
+MyCPN="Linux_C_NativeUSB_U3UE9"
+MyPV="${PV/0.0.}"
+MyPV="${MyPV//./-}"
+SRC_URI="http://labjack.com/files/${MyCPN}.zip -> ${MyCPN}_${MyPV}.zip"
 SLOT="0"
 
 LICENSE="X11"
 IUSE=""
 KEYWORDS="x86 ~amd64"
 
-S="${WORKDIR}/Linux_C_NativeUSB_U3UE9/liblabjackusb"
+S="${WORKDIR}/${MyCPN}/liblabjackusb"
 
 DEPEND="
 	app-arch/unzip
@@ -15,7 +20,7 @@ DEPEND="
 RDEPEND=""
 
 src_unpack() {
-	unzip "${DISTDIR}/${A}" Linux_C_NativeUSB_U3UE9/{liblabjackusb/\*,README}
+	unzip "${DISTDIR}/${A}" "${MyCPN}"/{liblabjackusb/\*,README}
 }
 
 src_compile() {
