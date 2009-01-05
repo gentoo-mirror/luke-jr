@@ -21,7 +21,7 @@ DEPEND="
 RDEPEND="
 	dev-lang/python
 	usb? (
-		sys-libs/liblabjackusb
+		>=sys-libs/liblabjackusb-1.10
 		|| (
 			sys-libs/labjackusb-ue9-driver
 			sys-libs/labjackusb-u3-driver
