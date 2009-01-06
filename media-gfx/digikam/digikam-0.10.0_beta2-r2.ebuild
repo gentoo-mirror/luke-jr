@@ -5,6 +5,10 @@ SRC_URI="mirror://sourceforge/${PN}/${P/_/-}.tar.bz2"
 LICENSE="GPL-2"
 RDEPEND="${DEPEND}"
 IUSE="addressbook debug geolocation"
+IUSE="$IUSE kdeprefix"
+for L in ar be bg ca da de el es et eu fa fi fr ga gl he hi is ja km ko lb lt lv nds ne nl nn pa pl pt pt_BR ro ru se sk sv th tr uk vi zh_CN; do
+	IUSE="$IUSE linguas_$L"
+done
 SLOT="4.1"
 
 KEYWORDS="~amd64 ~x86"
