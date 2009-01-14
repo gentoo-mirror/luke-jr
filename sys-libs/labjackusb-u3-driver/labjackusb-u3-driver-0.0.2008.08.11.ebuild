@@ -29,6 +29,11 @@ BUILD_TARGETS="default"
 CONFIG_CHECK="USB"
 PARPORT_ERROR="Please make sure USB support is enabled in your kernel"
 
+pkg_setup() {
+	linux-mod_pkg_setup
+	BUILD_PARAMS="$BUILD_PARAMS KDIR=${KV_DIR}"
+}
+
 src_unpack() {
 	unzip "${DISTDIR}/${A}" "${MyCPN}"/{Driver/U3/\*,README}
 }
