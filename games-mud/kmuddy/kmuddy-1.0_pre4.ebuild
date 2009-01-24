@@ -17,6 +17,7 @@ KEYWORDS="amd64 ~ppc x86"
 IUSE="${IUSE} mxp"
 
 DEPEND="
+	mxp? ( net-libs/libmxp )
 	!kdeprefix? ( !${CATEGORY}/${PN}:0 )"
 
 RDEPEND="${DEPEND}
@@ -28,6 +29,8 @@ src_configure() {
 	mycmakeargs="${mycmakeargs}
 		$(cmake-utils_use_enable mxp WITH_MXP)
 	"
-
+	
+	set -x
+	
 	kde4-base_src_configure
 }
