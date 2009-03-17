@@ -12,7 +12,7 @@ SRC_URI="http://www.labjack.com/files/${MyPN}.zip -> ${P}.zip"
 SLOT="0"
 KEYWORDS="~x86"
 
-IUSE="usb"
+IUSE="doc examples usb"
 
 DEPEND="
 	app-arch/unzip
@@ -45,8 +45,15 @@ src_compile() {
 }
 
 src_install() {
+	local docdirs=
+	if use doc; then
+		docdirs="$docdirs Documentation"
 	dodoc README.txt
-	for d in Documentation EI1050_Sample_App Examples; do
+	fi
+	if use examples; then
+		docdirs="$docdirs EI1050_Sample_App Examples"
+	fi
+	for d in $docdirs; do
 		docinto $d
 		dodoc $d/*
 	done
