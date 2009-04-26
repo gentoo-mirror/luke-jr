@@ -1,63 +1,63 @@
---- etckeeper.conf	2009-01-31 23:32:44.000000000 +0100
-+++ etckeeper.conf	2009-01-31 23:13:45.000000000 +0100
-@@ -17,8 +17,14 @@
- # so you can commit the changes by hand.
- #AVOID_COMMIT_BEFORE_INSTALL=1
- 
--# The high-level package manager that's being used.
--HIGHLEVEL_PACKAGE_MANAGER=apt
-+# The high-level package manager that's being used. 
-+# For gentoo this is emerge
-+#HIGHLEVEL_PACKAGE_MANAGER=apt
-+
-+HIGHLEVEL_PACKAGE_MANAGER=emerge
- 
- # The low-level package manager that's being used.
--LOWLEVEL_PACKAGE_MANAGER=dpkg
-+# For gentoo this is equery
-+#LOWLEVEL_PACKAGE_MANAGER=dpkg
-+
-+LOWLEVEL_PACKAGE_MANAGER=equery
---- init.d/50vcs-ignore	2009-01-31 23:32:44.000000000 +0100
-+++ init.d/50vcs-ignore	2009-01-31 14:38:48.000000000 +0100
-@@ -57,6 +57,10 @@
- 	ignore "*.pacorig"
- 	ignore "*.pacsave"
- 	nl
-+elif [ "$LOWLEVEL_PACKAGE_MANAGER" = "equery" ]; then
-+	comment "new and old versions of conffiles, stored by emerge"
-+	ignore "*.ebuild*"
-+	nl
- fi
- 
- ignore "*~"
---- list-installed.d/50list-installed	2009-01-31 23:32:44.000000000 +0100
-+++ list-installed.d/50list-installed	2009-01-31 13:54:01.000000000 +0100
-@@ -6,3 +6,8 @@
- 	dpkg-query -W -f '${Status}\t${Package} ${Version}\n' | \
- 		egrep '(ok installed|ok config-files)' | cut -f2,3
- fi
-+
-+if [ "$LOWLEVEL_PACKAGE_MANAGER" = equery ]; then
-+	equery list | cut -f1
-+fi
-+
---- Makefile	2009-01-31 23:32:44.000000000 +0100
-+++ Makefile	2009-02-01 00:54:55.000000000 +0100
-@@ -23,14 +23,14 @@
- 	$(INSTALL_DATA) $(CONFFILE) $(DESTDIR)$(etcdir)/etckeeper/etckeeper.conf
- 	$(INSTALL_EXE) etckeeper $(DESTDIR)$(sbindir)/etckeeper
- 	$(INSTALL_DATA) etckeeper.8 $(DESTDIR)$(mandir)/man8/etckeeper.8
--	$(INSTALL_DATA) bash_completion $(DESTDIR)$(etcdir)/bash_completion.d/etckeeper
- ifeq ($(HIGHLEVEL_PACKAGE_MANAGER),apt)
- 	$(INSTALL_DATA) apt.conf $(DESTDIR)$(etcdir)/apt/apt.conf.d/05etckeeper
- endif
-+
+diff --git a/Makefile b/Makefile
+index bedaac6..e08eb5c 100644
+--- a/Makefile
++++ b/Makefile
+@@ -30,6 +30,9 @@ endif
  ifeq ($(LOWLEVEL_PACKAGE_MANAGER),pacman-g2)
  	$(INSTALL_DATA) pacman-g2.hook $(DESTDIR)$(etcdir)/pacman-g2/hooks/etckeeper
  endif
--	-./etckeeper-bzr/__init__.py install --root=$(DESTDIR) || echo "** bzr support not installed"
-+
- 	echo "** installation successful"
++ifeq ($(LOWLEVEL_PACKAGE_MANAGER),ebuild)
++	$(INSTALL_DATA) portage.bashrc $(DESTDIR)$(etcdir)/portage/etckeeper.bashrc
++endif
+ ifeq ($(HIGHLEVEL_PACKAGE_MANAGER),yum)
+ 	$(INSTALL_DATA) yum-etckeeper.py $(DESTDIR)$(prefix)/lib/yum-plugins/etckeeper.py
+ 	$(INSTALL_DATA) yum-etckeeper.conf $(DESTDIR)$(etcdir)/yum/pluginconf.d/etckeeper.conf
+diff --git a/etckeeper.conf b/etckeeper.conf
+index f810870..6512800 100644
+--- a/etckeeper.conf
++++ b/etckeeper.conf
+@@ -1,6 +1,6 @@
+ # The VCS to use.
+ # VCS="hg"
+-VCS="git"
++# VCS="git"
+ # VCS="bzr"
+ # VCS="darcs"
  
- clean:
+@@ -27,8 +27,8 @@ VCS="git"
+ 
+ # The high-level package manager that's being used.
+ # (apt, pacman-g2, yum etc)
+-HIGHLEVEL_PACKAGE_MANAGER=apt
++HIGHLEVEL_PACKAGE_MANAGER=emerge
+ 
+ # The low-level package manager that's being used.
+ # (dpkg, rpm, pacman-g2, etc)
+-LOWLEVEL_PACKAGE_MANAGER=dpkg
++LOWLEVEL_PACKAGE_MANAGER=ebuild
+diff --git a/list-installed.d/50list-installed b/list-installed.d/50list-installed
+index 177a6c2..cbccf2b 100755
+--- a/list-installed.d/50list-installed
++++ b/list-installed.d/50list-installed
+@@ -7,4 +7,6 @@ if [ "$LOWLEVEL_PACKAGE_MANAGER" = dpkg ]; then
+ 		egrep '(ok installed|ok config-files)' | cut -f2,3
+ elif [ "$LOWLEVEL_PACKAGE_MANAGER" = rpm ]; then
+ 	rpm -qa --queryformat "%{name} %{version} %{arch}\n" | sort
++elif [ "$LOWLEVEL_PACKAGE_MANAGER" = ebuild ]; then
++	equery list| sed 's/-\([^-]\+\)\(-r[0-9]\+\)\?$/ \1\2/' | sort
+ fi
+diff --git a/update-ignore.d/01update-ignore b/update-ignore.d/01update-ignore
+index 510e13f..a191eab 100755
+--- a/update-ignore.d/01update-ignore
++++ b/update-ignore.d/01update-ignore
+@@ -92,6 +92,10 @@ writefile () {
+ 		ignore "*.pacorig"
+ 		ignore "*.pacsave"
+ 		nl
++	elif [ "$LOWLEVEL_PACKAGE_MANAGER" = "ebuild" ]; then
++		comment "new versions of conffiles, stored by ebuild"
++		ignore "._cfg*"
++		nl
+ 	fi
+ 	
+ 	comment "mount(8) records system state here, no need to store these"
