@@ -28,7 +28,9 @@ RDEPEND="${DEPEND} "'
 
 src_unpack() {
 	git_src_unpack
+	cd "${S}"
 	epatch "${FILESDIR}"/etckeeper-gentoo.patch
+	cp "${FILESDIR}/portage.bashrc" .
 }
 
 src_compile() {
@@ -45,7 +47,7 @@ src_compile() {
 	elif use mercurial; then
 		pm=hg
 	fi
-	sed -i "s/^# \\(VCS=\"${pm})/\\1/" etckeeper.conf
+	sed -i "s/^# \\(VCS=\"${pm}\\)/\\1/" etckeeper.conf
 }
 
 src_install() {
