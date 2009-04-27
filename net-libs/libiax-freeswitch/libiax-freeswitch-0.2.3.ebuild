@@ -4,7 +4,7 @@ LICENSE="LGPL-2"
 
 FS_P='freeswitch-1.0.rc4'
 MyPN='iax'
-SRC_URI="http://files.freeswitch.org/${FS_P}.tar.gz"
+SRC_URI="http://files.freeswitch.org/old/${FS_P}.tar.gz"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="debug newjb"
