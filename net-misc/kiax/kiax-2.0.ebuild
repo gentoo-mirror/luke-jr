@@ -34,5 +34,13 @@ src_unpack() {
 
 src_compile() {
 	eqmake4 kiax2.pro
-	qt4_src_compile
+	emake || die 'emake failed'
+}
+
+src_install() {
+	newbin gui/gui kiax2
+	use static ||
+	dolib.so kiax2core/libkiax2core.so*
+	dodoc LICENSE.txt
+	newdoc kiax2core/LICENSE.txt core_LICENSE.txt
 }
