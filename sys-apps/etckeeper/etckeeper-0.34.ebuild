@@ -62,5 +62,5 @@ src_install() {
 pkg_postinst() {
 	einfo "If you want etckeeper to automatically make commits, add the following"
 	einfo "line to /etc/portage/bashrc :"
-	einfo "        source /etc/portage/etckeeper"
+	einfo "        source /etc/portage/etckeeper.bashrc"
 }
