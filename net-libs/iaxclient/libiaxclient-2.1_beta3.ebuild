@@ -13,7 +13,7 @@ LICENSE="GPL-2 LGPL-2"
 SRC_URI="mirror://sourceforge/${MyPN}/${MyP}.tar.gz"
 SLOT="0"
 KEYWORDS="~arm ~x86"
-IUSE="ogg static theora"
+IUSE="ogg theora"
 
 RESTRICT="mirror"  # libgsm is included in tarball
 
@@ -44,7 +44,6 @@ src_unpack() {
 src_compile() {
 	append-flags -I/usr/include/iax
 	econf \
-		$(use_enable static) \
 		--disable-video \
 		$(use_with ogg) \
 		$(use_with theora) \
