@@ -18,7 +18,10 @@ DEPEND='
 RDEPEND="${DEPEND} "'
 '
 
+S="${WORKDIR}/${PN}"
+
 src_compile() {
 	./configure --desktop
-	qt4_src_compile
+	eqmake4 || die 'eqmake4 failed'
+	emake || die 'emake failed'
 }
