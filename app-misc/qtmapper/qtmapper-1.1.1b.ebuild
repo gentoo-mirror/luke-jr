@@ -20,6 +20,14 @@ RDEPEND="${DEPEND} "'
 
 S="${WORKDIR}/${PN}"
 
+src_unpack() {
+	unpack ${A}
+	
+	cd "${S}"
+	rm Makefile src/Makefile{,.{Debug,Release}}
+	rm src/qtmapper
+}
+
 src_compile() {
 	./configure --desktop
 	eqmake4 || die 'eqmake4 failed'
