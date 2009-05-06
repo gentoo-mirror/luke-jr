@@ -41,3 +41,7 @@ src_configure() {
 src_compile() {
 	emake || die 'emake failed'
 }
+
+src_install() {
+	emake INSTALL_ROOT="${D}" install || die 'emake install failed'
+}
