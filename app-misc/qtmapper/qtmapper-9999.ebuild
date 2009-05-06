@@ -34,6 +34,13 @@ src_configure() {
 		confopts="$confopts --doxygen"
 	use mapitnotes &&
 		confopts="$confopts --enablemapitnotes"
+	
+	cat >>src/src.pro <<\EOF
+main.path = $$BINDIR
+main.files = qtmapper
+INSTALLS += main
+EOF
+	
 	./configure $confopts
 	eqmake4 || die 'eqmake4 failed'
 }
