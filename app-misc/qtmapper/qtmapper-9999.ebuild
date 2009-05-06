@@ -9,13 +9,16 @@ LICENSE="GPL-2"
 ESVN_REPO_URI="https://garage.maemo.org/svn/${PN}/trunk/${PN}"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~x86"
-IUSE="doc +mapitnotes"
+IUSE="doc mapitnotes"
 
 DEPEND="${DEPEND}"'
 	>=x11-libs/qt-core-4.4
 	x11-libs/qt-sql:4
 	x11-libs/qt-gui:4
 	sci-geosciences/gpsd
+	mapitnotes? (
+		dev-libs/qutexr
+	)
 '
 RDEPEND="${RDEPEND} ${DEPEND}"'
 '
