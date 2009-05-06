@@ -7,8 +7,7 @@ EAPI=1
 inherit eutils subversion
 
 DESCRIPTION="A lightweight RPC library based on XML and HTTP"
-ESVN_REPO_URI="https://${PN}.svn.sourceforge.net/svnroot/${PN}/advanced/"
-ESVN_REVISION='1469'
+ESVN_REPO_URI="https://${PN}.svn.sourceforge.net/svnroot/${PN}/advanced/@1469"
 ESVN_UP_FREQ='10000' # Fixed revision will never change :)
 ESVN_PROJECT="${P}"
 HOMEPAGE="http://${PN}.sourceforge.net/"
