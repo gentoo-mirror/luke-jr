@@ -12,7 +12,7 @@ SRC_URI=""
 LICENSE="LGPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="dbus garmin gps gtk nls python sdl speechd clutter qt samplemap"
+IUSE="dbus garmin gps gtk nls python sdl speechd clutter qt4 samplemap"
 
 # cvs is required for compilation by autopoint
 COMMON_DEPEND="dev-libs/glib:2
@@ -29,7 +29,7 @@ COMMON_DEPEND="dev-libs/glib:2
         clutter? ( media-libs/clutter )
         gps? ( sci-geosciences/gpsd )
         speechd? ( app-accessibility/speechd )
-        qt? ( x11-libs/qt-core )"
+        qt4? ( x11-libs/qt-core )"
 DEPEND="${COMMON_DEPEND}
         dev-util/pkgconfig"
 RDEPEND="${COMMON_DEPEND}"
@@ -46,7 +46,7 @@ src_compile() {
                 $(use_enable dbus binding-dbus) \
                 $(use_enable python binding-python) \
                 $(use_enable speechd speech-speechd) \
-                $(use_enable qt graphics-qt-qpainter) \
+                $(use_enable qt4 graphics-qt-qpainter) \
                 $(use_enable samplemap) \
                 $(use_enable clutter gui-clutter)
 
