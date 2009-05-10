@@ -12,10 +12,11 @@ SRC_URI=""
 LICENSE="LGPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="dbus garmin gps gtk nls python sdl speechd clutter qt4 samplemap"
+IUSE="dbus garmin glib gps gtk nls python sdl speechd clutter qt4 samplemap"
 
 # cvs is required for compilation by autopoint
-COMMON_DEPEND="dev-libs/glib:2
+COMMON_DEPEND="
+	glib? ( dev-libs/glib:2 )
         dev-util/cvs
         garmin? ( dev-libs/libgarmin )
         gtk? ( x11-libs/gtk+:2
@@ -36,6 +37,14 @@ RDEPEND="${COMMON_DEPEND}"
 
 ESVN_REPO_URI="https://navit.svn.sourceforge.net/svnroot/navit/trunk/navit"
 ESVN_BOOTSTRAP="./autogen.sh"
+
+src_unpack() {
+	subversion_src_unpack
+	
+	cd "${S}"
+	use glib ||
+		sed 's:#if QT_VERSION < 0x040000:#if 1:' -i './navit/graphics/qt_qpainter/graphics_qt_qpainter.cpp'
+}
 
 src_compile() {
         econf $(use_enable garmin) \
