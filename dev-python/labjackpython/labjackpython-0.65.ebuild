@@ -7,7 +7,10 @@ HOMEPAGE="http://www.labjack.com"
 MyPN="LabJackPython"
 LICENSE="X11"
 
-SRC_URI="http://www.labjack.com/files/${MyPN}.zip -> ${P}.zip"
+SRC_URI="
+	http://www.labjack.com/files/${MyPN}.zip -> ${P}.zip
+	http://luke.dashjr.org/mirror/labjack/${P}.zip
+"
 
 SLOT="0"
 KEYWORDS="~x86"
