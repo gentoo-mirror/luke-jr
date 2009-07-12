@@ -36,7 +36,7 @@ RDEPEND="
 	)
 	"
 
-S="${WORKDIR}/${MyPN}"
+S="${WORKDIR}/${MyPN}-${PV}"
 
 pkg_setup() {
 	python_version
