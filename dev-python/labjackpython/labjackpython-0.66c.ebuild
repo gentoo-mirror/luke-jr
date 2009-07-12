@@ -62,7 +62,7 @@ src_install() {
 	done
 	
 	insinto "${TGT}"
-	doins src/${MyPN}.py
+	doins src/${MyPN}.py || die
 }
 
 pkg_postinst() {
