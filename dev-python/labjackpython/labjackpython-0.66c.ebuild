@@ -8,6 +8,7 @@ MyPN="LabJackPython"
 LICENSE="X11"
 
 SRC_URI="
+	http://www.labjack.com/files/${MyPN}.zip -> ${P}.zip
 	http://luke.dashjr.org/mirror/labjack/${P}.zip
 "
 
