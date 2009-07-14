@@ -8,8 +8,9 @@ SRC_URI="http://labjack.com/files/${MyCPN}.zip -> ${MyCPN}_${MyPV}.zip"
 SLOT="0"
 
 LICENSE="X11"
-IUSE=""
+IUSE="examples"
 KEYWORDS="x86 ~amd64"
+SLOT="0"
 
 S="${WORKDIR}/${MyCPN}/liblabjackusb"
 
