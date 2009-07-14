@@ -14,6 +14,7 @@ SRC_URI="
 LICENSE="GPL-2"
 IUSE=""
 KEYWORDS="x86 ~amd64"
+SLOT="0"
 
 S="${WORKDIR}/${MyCPN}"
 

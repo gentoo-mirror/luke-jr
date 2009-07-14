@@ -7,11 +7,14 @@ HOMEPAGE="http://labjack.com/"
 MyCPN="Linux_C_NativeUSB_U3UE9"
 MyPV="${PV/0.0.}"
 MyPV="${MyPV//./-}"
-SRC_URI="http://labjack.com/files/${MyCPN}.zip -> ${MyCPN}_${MyPV}.zip"
+SRC_URI="
+	http://luke.dashjr.org/mirror/labjack/${MyCPN}_${MyPV}.zip
+"
 
 LICENSE="GPL-2"
 IUSE=""
 KEYWORDS="x86 ~amd64"
+SLOT="0"
 
 S="${WORKDIR}/${MyCPN}"
 
