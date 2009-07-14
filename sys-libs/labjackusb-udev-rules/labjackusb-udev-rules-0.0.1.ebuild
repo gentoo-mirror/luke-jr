@@ -6,6 +6,7 @@ SLOT="0"
 LICENSE="GPL-2"
 IUSE=""
 KEYWORDS="x86 ~amd64"
+SLOT="0"
 
 DEPEND=""
 RDEPEND=""
