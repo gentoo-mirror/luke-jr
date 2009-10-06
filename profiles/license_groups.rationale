@@ -242,6 +242,9 @@
 		encodings
 		font-alias
 		font-cursor-misc
+
+	Wrong-license-see-bug-239749:
+		CRACKLIB
 	
 	Ask-me:
 		Luke-Jr
