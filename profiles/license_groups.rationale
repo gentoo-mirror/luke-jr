@@ -152,6 +152,7 @@
 		freetts
 		gsm
 		xkeyboard-config
+		popt
 	PHP-3
 	PAM
 	font-misc-cyrillic
