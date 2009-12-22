@@ -16,6 +16,8 @@ KEYWORDS="~amd64 ~ppc ~ppc64 ~x86 ~x86-fbsd"
 IUSE="compressed-lumas dv debug ffmpeg frei0r gtk jack kde libsamplerate melt
 mmx qt4 quicktime sdl sse vorbis xine xml lua python ruby" # java perl php tcl
 
+S="${WORKDIR}/${P/_pre*/}"
+
 RDEPEND="ffmpeg? ( >=media-video/ffmpeg-0.4.9_p20080326 )
 	dv?	( >=media-libs/libdv-0.104 )
 	xml?	( >=dev-libs/libxml2-2.5 )
