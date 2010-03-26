@@ -16,13 +16,13 @@ KEYWORDS="~arm ~amd64 ~hppa ~ppc ~sparc ~x86"
 SLOT="0"
 
 DEPEND='
-	bzr? ( dev-util/bzr )
+	bzr? ( dev-vcs/bzr )
 '
 RDEPEND="${DEPEND} "'
 	bash-completion? ( app-shells/bash-completion )
-	darcs? ( dev-util/darcs )
-	git? ( dev-util/git )
-	mercurial? ( dev-util/mercurial )
+	darcs? ( dev-vcs/darcs )
+	git? ( dev-vcs/git )
+	mercurial? ( dev-vcs/mercurial )
 	sys-apps/portage
 '
 
