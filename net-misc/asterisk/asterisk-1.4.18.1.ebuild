@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-inherit eutils qt3
+inherit eutils
 
 MY_P="${PN}-${PV/_/-}"
 
@@ -14,13 +14,12 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-IUSE="alsa curl debug freetds h323 imap jabber kde keepsrc ljr misdn mmx mysql newt nosamples odbc oss pic postgres qt3 radius snmp speex ssl sqlite static vorbis zaptel"
+IUSE="alsa curl debug freetds h323 imap jabber kde keepsrc ljr misdn mmx mysql newt nosamples odbc oss pic postgres radius snmp speex ssl sqlite static vorbis zaptel"
 
 RDEPEND="virtual/libc
 	sys-libs/ncurses
 	dev-libs/popt
 	sys-libs/zlib
-	qt3? ( $(qt_min_version 3.0) )
 	ssl? ( dev-libs/openssl )
 	alsa? ( media-libs/alsa-lib )
 	curl? ( net-misc/curl )
@@ -247,7 +246,7 @@ src_compile() {
 		--with-gsm=internal \
 		--with-popt \
 		--with-z \
-		$(use_with qt3 qt "${QTDIR}") \
+		--without-qt \
 		$(use_with oss) \
 		$(use_with ssl) \
 		$(use_with alsa asound) \
