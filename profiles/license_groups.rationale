@@ -73,6 +73,7 @@
 	OpenSoftware
 	CreativeCommons:
 		CCPL-Attribution-ShareAlike-3.0
+	myspell-en_CA-KevinAtkinson
 	
 	BSD-1-based:
 		MaxMind
@@ -81,6 +82,7 @@
 	AMBIGUOUS-no-fee:
 		CNRI
 		pysqlite
+		Princeton
 	
 	Ask-me:
 		Luke-Jr
