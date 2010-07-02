@@ -3,8 +3,7 @@ inherit eutils
 DESCRIPTION="AniDB Renamer"
 MyPN="${PN/-anidb/}"
 HOMEPAGE="http://dev.anidb.info/websvn/listing.php?repname=AniDB+CSS&path=%2Ftrunk%2Fudp_clients%2F${MyPN}"
-SvnRev="${PV/*_pre/}"
-SRC_URI="http://dev.anidb.info/websvn/dl.php?repname=AniDB+CSS&path=%2Ftrunk%2Fudp_clients%2F${MyPN}%2F&rev=${SvnRev}&.tgz"
+SRC_URI="http://luke.dashjr.org/pub/${P/0.3_pre/r}.tgz"
 
 LICENSE="as-is"
 SLOT="0"
