@@ -3,6 +3,7 @@ inherit eutils
 DESCRIPTION="AniDB Renamer"
 MyPN="${PN/-anidb/}"
 HOMEPAGE="http://dev.anidb.info/websvn/listing.php?repname=AniDB+CSS&path=%2Ftrunk%2Fudp_clients%2F${MyPN}"
+SvnRev="${PV/*_pre/}"
 SRC_URI="http://luke.dashjr.org/pub/${P/0.3_pre/r}.tgz"
 
 LICENSE="as-is"
@@ -17,11 +18,11 @@ DEPEND="
 	dev-perl/AniDB
 	dev-lang/perl"
 
-S="${WORKDIR}/${MyPN}"
+S="${WORKDIR}/${MyPN}.r${SvnRev}"
 
 MyPL='adbren.pl'
 
 src_install() {
 	exeinto "/usr/bin"
-	doexe "${MyPL}"
+	doexe "${MyPL}" || die
 }
