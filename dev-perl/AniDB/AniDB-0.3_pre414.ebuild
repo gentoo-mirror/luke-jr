@@ -3,6 +3,7 @@ inherit perl-module
 DESCRIPTION="Perl clients for AniDB"
 MyPN="${PN}-perl"
 HOMEPAGE="http://dev.anidb.info/websvn/listing.php?repname=AniDB+CSS&path=%2Ftrunk%2Fudp_clients%2F${MyPN}"
+SvnRev="${PV/*_pre/}"
 SRC_URI="http://luke.dashjr.org/pub/${P/0.3_pre/r}.tgz"
 
 LICENSE="as-is"
@@ -18,4 +19,4 @@ DEPEND="
 	dev-perl/File-HomeDir
 	dev-lang/perl"
 
-S="${WORKDIR}/${MyPN}"
+S="${WORKDIR}/${MyPN}.r${SvnRev}"
