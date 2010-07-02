@@ -2,11 +2,11 @@ inherit qt4
 
 DESCRIPTION="labels, business cards and media covers easy creation and printing."
 HOMEPAGE="http://qlabels.p34.net"
-SRC_URI="http://qlabels.p34.net/files/${P/-/_}.tar.bz2"
+SRC_URI="http://www.sourcefiles.org/Utilities/Printer/${P/-/_}.tar.bz2"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-DEPEND="$(qt4_min_version 4)"
+DEPEND="x11-libs/qt-gui:4"
 RDEPEND="${DEPEND}"
 
 src_compile() {
