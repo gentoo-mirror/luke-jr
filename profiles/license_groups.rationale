@@ -84,9 +84,5 @@
 		pysqlite
 		Princeton
 	
-	UnmodifiedWork-distribution-required:
-		LPPL-1.3
-		LPPL-1.3c
-	
 	Ask-me:
 		Luke-Jr
