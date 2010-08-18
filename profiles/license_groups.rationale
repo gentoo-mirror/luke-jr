@@ -74,6 +74,7 @@
 	CreativeCommons:
 		CCPL-Attribution-ShareAlike-3.0
 	myspell-en_CA-KevinAtkinson
+	man-pages-posix
 	
 	BSD-1-based:
 		MaxMind
