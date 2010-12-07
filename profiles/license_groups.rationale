@@ -84,6 +84,7 @@
 		CNRI
 		pysqlite
 		Princeton
+		ElementTree
 	
 	Ask-me:
 		Luke-Jr
