@@ -19,6 +19,7 @@
 	publicDomain:
 		ANTLR
 	BSD-based:
+		GeorgeDouros
 		FLEX
 		MIT
 		tcp_wrappers_license
