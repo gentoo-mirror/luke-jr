@@ -87,6 +87,7 @@
 		pysqlite
 		Princeton
 		ElementTree
+		POSTGRESQL
 	
 	Ask-me:
 		Luke-Jr
