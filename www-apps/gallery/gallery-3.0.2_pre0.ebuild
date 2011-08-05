@@ -8,7 +8,7 @@ inherit webapp eutils depend.php
 
 DESCRIPTION="Web based (PHP Script) photo album viewer/creator"
 HOMEPAGE="http://gallery.menalto.com/"
-SRC_URI="mirror://sourceforge/gallery/${P}.zip"
+SRC_URI="mirror://sourceforge/gallery/${P/_pre0/}.zip"
 
 LICENSE="GPL-2"
 KEYWORDS="~x86 ~amd64"
