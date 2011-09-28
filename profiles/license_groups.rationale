@@ -80,6 +80,7 @@
 	
 	BSD-1-based:
 		MaxMind
+		MaxMind2
 	SMAIL
 
 	AMBIGUOUS-no-fee:
