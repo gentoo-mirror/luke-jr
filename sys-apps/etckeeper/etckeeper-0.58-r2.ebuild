@@ -13,16 +13,24 @@ HOMEPAGE="http://kitenet.net/~joey/code/etckeeper/"
 EGIT_COMMIT="${PV}"
 
 LICENSE="GPL-2"
-IUSE="bash-completion bzr mercurial"
+IUSE="bash-completion bzr mercurial portage"
 KEYWORDS="~x86 ~amd64 ~arm ~hppa ~ppc ~sparc"
 SLOT="0"
 
-DEPEND="app-portage/gentoolkit
+DEPEND="
+	portage? ( sys-apps/sed )
+"
+RDEPEND="
+	!portage? ( app-portage/gentoolkit )
+	portage? ( sys-apps/portage )
 		mercurial? ( dev-vcs/mercurial )
 		bzr? ( dev-util/bzr )"
 
 src_prepare() {
 	epatch "${FILESDIR}"/${PN}-gentoo-0.58.patch
+	if use portage; then
+		sed -i 's/equery/portage/' etckeeper.conf
+	fi
 }
 
 
