@@ -47,7 +47,7 @@ index f3f4eed..2157c4d 100755
  fi
 +
 +if [ "$LOWLEVEL_PACKAGE_MANAGER" = equery ]; then
-+	equery list | cut -f1
++	equery list '*' | cut -f1
 +fi
 +
 diff --git a/update-ignore.d/01update-ignore b/update-ignore.d/01update-ignore
