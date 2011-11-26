@@ -14,7 +14,7 @@ EGIT_COMMIT="${PV}"
 
 LICENSE="GPL-2"
 IUSE="bash-completion bzr mercurial"
-KEYWORDS="~x86 ~amd64 ~hppa ~ppc ~sparc"
+KEYWORDS="~x86 ~amd64 ~arm ~hppa ~ppc ~sparc"
 SLOT="0"
 
 DEPEND="app-portage/gentoolkit
