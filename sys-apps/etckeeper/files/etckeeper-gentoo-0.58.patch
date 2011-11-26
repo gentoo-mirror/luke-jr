@@ -50,7 +50,7 @@ index f3f4eed..6c463ec 100755
 +	equery list '*' | cut -f1
 +fi
 +if [ "$LOWLEVEL_PACKAGE_MANAGER" = portage ]; then
-+	cd /var/db/pkg && ls -d */*
++	cd /var/db/pkg && ls -d */* | grep -v '/-MERGING-'
 +fi
 diff --git a/update-ignore.d/01update-ignore b/update-ignore.d/01update-ignore
 index 6d583eb..e110611 100755
