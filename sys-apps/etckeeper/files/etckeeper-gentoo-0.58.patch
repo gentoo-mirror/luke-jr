@@ -38,10 +38,10 @@ index c95f377..d346d21 100644
 +#LOWLEVEL_PACKAGE_MANAGER=dpkg
 +LOWLEVEL_PACKAGE_MANAGER=equery
 diff --git a/list-installed.d/50list-installed b/list-installed.d/50list-installed
-index f3f4eed..2157c4d 100755
+index f3f4eed..6c463ec 100755
 --- a/list-installed.d/50list-installed
 +++ b/list-installed.d/50list-installed
-@@ -8,3 +8,8 @@ if [ "$LOWLEVEL_PACKAGE_MANAGER" = dpkg ]; then
+@@ -8,3 +8,10 @@ if [ "$LOWLEVEL_PACKAGE_MANAGER" = dpkg ]; then
  elif [ "$LOWLEVEL_PACKAGE_MANAGER" = rpm ]; then
  	rpm -qa --qf "%|epoch?{%{epoch}}:{0}|:%{name}-%{version}-%{release}.%{arch}\n" | sort
  fi
@@ -49,7 +49,9 @@ index f3f4eed..2157c4d 100755
 +if [ "$LOWLEVEL_PACKAGE_MANAGER" = equery ]; then
 +	equery list '*' | cut -f1
 +fi
-+
++if [ "$LOWLEVEL_PACKAGE_MANAGER" = portage ]; then
++	cd /var/db/pkg && ls -d */*
++fi
 diff --git a/update-ignore.d/01update-ignore b/update-ignore.d/01update-ignore
 index 6d583eb..e110611 100755
 --- a/update-ignore.d/01update-ignore
