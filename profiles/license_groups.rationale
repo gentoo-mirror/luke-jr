@@ -78,6 +78,7 @@
 	man-pages-posix
 	kilgard
 	ISC
+	md2k7-asyouwish
 	
 	BSD-1-based:
 		MaxMind
