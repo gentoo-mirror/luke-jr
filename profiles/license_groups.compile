@@ -3,7 +3,7 @@ perl -e '
 	print "LUKEDASHJR";
 	while (<>) {
 		while (m/\G\s*(\S+)/g) {
-			next if m/:\(/;
+			next if $1 =~ m/:/;
 			print " $1";
 		}
 	}
