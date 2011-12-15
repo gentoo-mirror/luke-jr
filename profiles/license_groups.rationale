@@ -79,6 +79,7 @@
 	kilgard
 	ISC
 	md2k7-asyouwish
+	LIBGLOSS
 	
 	BSD-1-based:
 		MaxMind
