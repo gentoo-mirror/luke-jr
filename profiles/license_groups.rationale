@@ -80,6 +80,7 @@
 	ISC
 	md2k7-asyouwish
 	LIBGLOSS
+	CC-PD
 	
 	BSD-1-based:
 		MaxMind
