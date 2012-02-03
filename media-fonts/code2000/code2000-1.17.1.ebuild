@@ -12,7 +12,7 @@ SRC_URI="mirror://sourceforge/code2000/code2000.zip"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~ppc ~ppc64 ~x86"
+KEYWORDS="amd64 ~arm ~ppc ~ppc64 x86"
 
 DEPEND="$DEPEND
 	app-arch/unzip
