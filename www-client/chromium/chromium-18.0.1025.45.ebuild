@@ -15,7 +15,7 @@ SRC_URI="http://commondatastorage.googleapis.com/chromium-browser-official/${P}.
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="bindist cups custom-cflags gnome gnome-keyring kerberos pulseaudio"
+IUSE="bindist cups custom-cflags gnome gnome-keyring kerberos +nacl pulseaudio"
 
 # en_US is ommitted on purpose from the list below. It must always be available.
 LANGS="am ar bg bn ca cs da de el en_GB es es_LA et fa fi fil fr gu he hi hr
@@ -55,7 +55,9 @@ RDEPEND="app-arch/bzip2
 	x11-libs/libXtst
 	kerberos? ( virtual/krb5 )"
 DEPEND="${RDEPEND}
+	nacl? (
 	>=dev-lang/nacl-toolchain-newlib-0_p7311
+	)
 	dev-lang/perl
 	dev-lang/yasm
 	dev-python/simplejson
@@ -69,6 +71,10 @@ RDEPEND+="
 	!=www-client/chromium-9999
 	x11-misc/xdg-utils
 	virtual/ttf-fonts"
+
+REQUIRED_USE="
+	arm? ( !nacl )
+"
 
 gyp_use() {
 	if [[ $# -lt 2 ]]; then
@@ -178,8 +184,10 @@ pkg_setup() {
 }
 
 src_prepare() {
+	if use nacl; then
 	ln -s /usr/$(get_libdir)/nacl-toolchain-newlib \
 		native_client/toolchain/linux_x86_newlib || die
+	fi
 
 	# zlib-1.2.5.1-r1 renames the OF macro in zconf.h, bug 383371.
 	sed -i '1i#define OF(x) x' \
@@ -306,6 +314,7 @@ src_configure() {
 		$(gyp_use gnome-keyring use_gnome_keyring)
 		$(gyp_use gnome-keyring linux_link_gnome_keyring)
 		$(gyp_use kerberos use_kerberos)
+		$(if use nacl; then echo "-Ddisable_nacl=0"; else echo "-Ddisable_nacl=1"; fi)
 		$(gyp_use pulseaudio use_pulseaudio)"
 
 	# Enable sandbox.
@@ -338,7 +347,7 @@ src_configure() {
 		# http://gcc.gnu.org/bugzilla/show_bug.cgi?id=39509 is fixed.
 		append-flags -fno-tree-sink
 
-		myconf+=" -Dtarget_arch=arm -Ddisable_nacl=1 -Dlinux_use_tcmalloc=0"
+		myconf+=" -Dtarget_arch=arm -Dlinux_use_tcmalloc=0"
 	else
 		die "Failed to determine target arch, got '$myarch'."
 	fi
@@ -412,6 +421,7 @@ src_install() {
 
 	# Install Native Client files on platforms that support it.
 	insinto "${CHROMIUM_HOME}"
+	if use nacl; then
 	case "$(tc-arch)" in
 		amd64)
 			doexe out/Release/nacl_helper{,_bootstrap} || die
@@ -424,6 +434,7 @@ src_install() {
 			doins out/Release/libppGoogleNaClPluginChrome.so || die
 		;;
 	esac
+	fi
 
 	newexe "${FILESDIR}"/chromium-launcher-r2.sh chromium-launcher.sh || die
 	if [[ "${CHROMIUM_SUFFIX}" != "" ]]; then
