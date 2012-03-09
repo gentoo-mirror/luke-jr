@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-17.0.963.56.ebuild,v 1.3 2012/02/17 11:14:45 phajdan.jr Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-17.0.963.66.ebuild,v 1.3 2012/03/07 16:26:34 tomka Exp $
 
 EAPI="4"
 PYTHON_DEPEND="2:2.6"
@@ -398,7 +398,7 @@ src_test() {
 	# CertDatabaseNSSTest.ImportCACertHierarchyTree: works in 18.x, broken here.
 	# CertDatabaseNSSTest.ImportServerCert_SelfSigned: bug #399269.
 	LC_ALL="${mylocale}" VIRTUALX_COMMAND=out/Release/net_unittests virtualmake \
-		'--gtest_filter=-NetUtilTest.IDNToUnicode*:NetUtilTest.FormatUrl*:NetUtilTest.GenerateFileName:*UDP*:CertDatabaseNSSTest.ImportCACertHierarchyTree:CertDatabaseNSSTest.ImportServerCert_SelfSigned'
+		'--gtest_filter=-NetUtilTest.IDNToUnicode*:NetUtilTest.FormatUrl*:NetUtilTest.GenerateFileName:*UDP*:CertDatabaseNSSTest.ImportCACertHierarchyTree:CertDatabaseNSSTest.ImportServerCert_SelfSigned:KeygenHandlerTest.*'
 
 	LC_ALL="${mylocale}" VIRTUALX_COMMAND=out/Release/printing_unittests virtualmake
 }
