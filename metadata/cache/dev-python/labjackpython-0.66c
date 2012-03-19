@@ -1,0 +1,22 @@
+app-arch/unzip dev-lang/python >=app-admin/eselect-python-20091230
+dev-lang/python usb? ( >=sys-libs/liblabjackusb-1.10 || ( sys-libs/labjackusb-ue9-driver sys-libs/labjackusb-u3-driver ) ) || ( dev-python/ctypes >=dev-lang/python-2.5 ) >=app-admin/eselect-python-20091230
+0
+http://www.labjack.com/files/LabJackPython.zip -> labjackpython-0.66c.zip http://luke.dashjr.org/mirror/labjack/labjackpython-0.66c.zip
+
+http://www.labjack.com
+X11
+Python bindings for LabJack devices
+~x86
+multilib python toolchain-funcs
+doc examples usb
+
+
+
+2
+
+compile install postinst postrm setup
+
+
+
+
+

@@ -1,0 +1,22 @@
+dev-perl/URI dev-lang/perl
+dev-perl/URI dev-lang/perl
+0
+mirror://cpan/authors/id/C/CW/CWEST/URI-imap-1.01.tar.gz
+
+http://search.cpan.org/~cwest/URI-imap-1.01/
+|| ( Artistic GPL-2 )
+Support IMAP schemas with URI
+~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~x86-fbsd
+base eutils multilib perl-module toolchain-funcs user
+
+
+
+
+
+
+compile install postinst postrm preinst prerm setup test unpack
+
+
+
+
+
