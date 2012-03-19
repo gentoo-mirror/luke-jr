@@ -1,0 +1,22 @@
+virtual/libc dev-libs/libxml2 libwww? ( net-libs/libwww ) curl? ( net-misc/curl )
+virtual/libc dev-libs/libxml2 libwww? ( net-libs/libwww ) curl? ( net-misc/curl )
+0
+mirror://sourceforge/xmlrpc-c/xmlrpc-c-1.03.14.tgz
+
+http://xmlrpc-c.sourceforge.net/
+GPL-2
+A lightweight RPC library based on XML and HTTP
+~alpha ~amd64 ~ppc ~x86
+eutils multilib toolchain-funcs user
+curl libwww
+
+
+
+
+
+compile install setup unpack
+
+
+
+
+

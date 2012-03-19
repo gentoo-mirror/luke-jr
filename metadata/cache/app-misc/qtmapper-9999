@@ -1,0 +1,22 @@
+>=x11-libs/qt-core-4.4 x11-libs/qt-sql:4 x11-libs/qt-gui:4 sci-geosciences/gpsd mapitnotes? ( dev-libs/qutexr ) doc? ( app-doc/doxygen ) dev-vcs/subversion net-misc/rsync
+>=x11-libs/qt-core-4.4 x11-libs/qt-sql:4 x11-libs/qt-gui:4 sci-geosciences/gpsd mapitnotes? ( dev-libs/qutexr )
+0
+
+
+http://qtmapper.garage.maemo.org/
+GPL-2
+a GPS navigation application for the Nokia N800/N810 Internet Tablets developed using the Qt application framework
+~amd64 ~arm ~x86
+base eutils multilib qt4 subversion toolchain-funcs user versionator
+doc mapitnotes
+
+
+
+2
+
+compile configure install preinst prepare setup unpack
+
+
+
+
+

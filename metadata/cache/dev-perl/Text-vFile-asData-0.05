@@ -1,0 +1,22 @@
+virtual/perl-Test-Simple >=dev-perl/module-build-0.26.01 dev-perl/Class-Accessor-Chained dev-lang/perl
+dev-perl/Class-Accessor-Chained dev-lang/perl
+0
+mirror://cpan/authors/id/R/RC/RCLAMP/Text-vFile-asData-0.05.tar.gz
+
+http://search.cpan.org/~rclamp/Text-vFile-asData-0.05/
+|| ( Artistic GPL-2 )
+parse vFile formatted files into data structures
+~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~x86-fbsd
+base eutils multilib perl-module toolchain-funcs user
+
+
+
+
+
+
+compile install postinst postrm preinst prerm setup test unpack
+
+
+
+
+

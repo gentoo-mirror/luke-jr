@@ -1,0 +1,22 @@
+dev-perl/Getopt-ArgvFile virtual/perl-Getopt-Long virtual/perl-IO dev-perl/Digest-MD4 virtual/perl-File-Spec dev-lang/perl
+dev-perl/Getopt-ArgvFile virtual/perl-Getopt-Long virtual/perl-IO dev-perl/Digest-MD4 virtual/perl-File-Spec dev-lang/perl
+0
+adbren-3.pl
+fetch
+adbren-3.pl
+as-is
+AniDB Renamer
+~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~x86-fbsd
+eutils multilib toolchain-funcs user
+
+
+
+
+
+
+install unpack
+
+
+
+
+

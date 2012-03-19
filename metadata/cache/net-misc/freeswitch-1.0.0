@@ -1,0 +1,22 @@
+!static-blob? ( =dev-libs/apr-1* =dev-libs/apr-util-1* javascript? ( net-misc/curl dev-lang/spidermonkey ) xmlrpc? ( net-misc/curl >=dev-libs/xmlrpc-c-1.12 ) jingle? ( net-libs/libdingaling dev-libs/iksemel ) jabber? ( dev-libs/iksemel ) portaudio? ( media-libs/portaudio ) dev-libs/libpcre sndfile? ( media-libs/libsndfile ) sip? ( >=net-libs/sofia-sip-1.12.9 ) speex? ( media-libs/speex ) g7xx? ( media-libs/voipcodecs ) ilbc? ( dev-libs/ilbc-rfc3951 ) =dev-db/sqlite-3.3* net-libs/libsrtp net-libs/libteletone mrcp? ( app-accessibility/openmrcp ) net-libs/udns ) radius? ( net-dialup/freeradius ) ldap? ( net-nds/openldap ) gsm? ( media-sound/gsm ) !static-blob? ( net-libs/stfu ) || ( =sys-devel/automake-1.11* ) >=sys-devel/autoconf-2.68 sys-devel/libtool
+!static-blob? ( =dev-libs/apr-1* =dev-libs/apr-util-1* javascript? ( net-misc/curl dev-lang/spidermonkey ) xmlrpc? ( net-misc/curl >=dev-libs/xmlrpc-c-1.12 ) jingle? ( net-libs/libdingaling dev-libs/iksemel ) jabber? ( dev-libs/iksemel ) portaudio? ( media-libs/portaudio ) dev-libs/libpcre sndfile? ( media-libs/libsndfile ) sip? ( >=net-libs/sofia-sip-1.12.9 ) speex? ( media-libs/speex ) g7xx? ( media-libs/voipcodecs ) ilbc? ( dev-libs/ilbc-rfc3951 ) =dev-db/sqlite-3.3* net-libs/libsrtp net-libs/libteletone mrcp? ( app-accessibility/openmrcp ) net-libs/udns ) radius? ( net-dialup/freeradius ) ldap? ( net-nds/openldap ) gsm? ( media-sound/gsm )
+0
+http://files.freeswitch.org/freeswitch-1.0.0.tar.gz
+
+http://freeswitch.org/
+MPL-1.1
+Based on the libtool eclass
+~amd64 ~x86
+autotools eutils libtool multilib toolchain-funcs user
+alsa cepstral debug +g7xx +gsm iax ilbc jabber javascript jingle ldap libedit lpc10 lua odbc mrcp perl php portaudio python radius resample +sip sndfile speex static-blob wanpipe xmlrpc zeroconf linguas_de linguas_en linguas_es linguas_fr linguas_it linguas_nl linguas_zh
+
+
+
+1
+
+compile install setup unpack
+
+
+
+
+
