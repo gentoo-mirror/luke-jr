@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-9999-r1.ebuild,v 1.100 2012/03/23 19:59:52 floppym Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-9999-r1.ebuild,v 1.102 2012/04/01 20:35:43 floppym Exp $
 
 EAPI="4"
 PYTHON_DEPEND="2:2.6"
@@ -127,11 +127,7 @@ src_unpack() {
 	elog "Installing/updating to version ${MAJOR}.${MINOR}.${BUILD}.${PATCH} (Developer Build ${ESVN_WC_REVISION})"
 }
 
-REQUIRED_USE="
-	arm? ( !nacl )
-"
-
-if ! has chromium-pkg_die ${EBUILD_DEATH_HOOKS}; then
+if ! has chromium_pkg_die ${EBUILD_DEATH_HOOKS}; then
 	EBUILD_DEATH_HOOKS+=" chromium_pkg_die";
 fi
 
@@ -289,16 +285,6 @@ src_configure() {
 		-Dlinux_use_gold_binary=0
 		-Dlinux_use_gold_flags=0"
 
-	# if host-is-pax; then
-	#	# Prevent the build from failing (bug #301880). The performance
-	#	# difference is very small.
-	#	myconf+=" -Dv8_use_snapshot=0"
-	# fi
-
-	# Our system ffmpeg should support more codecs than the bundled one
-	# for Chromium.
-	# myconf+=" -Dproprietary_codecs=1"
-
 	if ! use bindist; then
 		# Enable H.624 support in bundled ffmpeg.
 		myconf+=" -Dproprietary_codecs=1 -Dffmpeg_branding=Chrome"
@@ -309,12 +295,6 @@ src_configure() {
 		myconf+=" -Dtarget_arch=x64"
 	elif [[ $myarch = x86 ]] ; then
 		myconf+=" -Dtarget_arch=ia32"
-	elif [[ $myarch = arm ]] ; then
-		# TODO: check this again after
-		# http://gcc.gnu.org/bugzilla/show_bug.cgi?id=39509 is fixed.
-		append-flags -fno-tree-sink
-
-		myconf+=" -Dtarget_arch=arm -Dlinux_use_tcmalloc=0"
 	else
 		die "Failed to determine target arch, got '$myarch'."
 	fi
