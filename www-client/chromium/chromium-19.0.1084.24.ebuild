@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-19.0.1081.2.ebuild,v 1.2 2012/04/01 20:35:44 floppym Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-19.0.1084.24.ebuild,v 1.1 2012/04/14 03:34:07 floppym Exp $
 
 EAPI="4"
 PYTHON_DEPEND="2:2.6"
@@ -19,7 +19,7 @@ SRC_URI="http://commondatastorage.googleapis.com/chromium-browser-official/${P}.
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="bindist cups gnome gnome-keyring kerberos +nacl pulseaudio"
+IUSE="bindist cups gnome gnome-keyring kerberos pulseaudio"
 
 RDEPEND="app-arch/bzip2
 	cups? (
@@ -51,9 +51,7 @@ RDEPEND="app-arch/bzip2
 	x11-libs/libXtst
 	kerberos? ( virtual/krb5 )"
 DEPEND="${RDEPEND}
-	nacl? (
 	>=dev-lang/nacl-toolchain-newlib-0_p7311
-	)
 	dev-lang/perl
 	dev-lang/yasm
 	dev-python/ply
@@ -100,10 +98,8 @@ pkg_setup() {
 }
 
 src_prepare() {
-	if use nacl; then
 	ln -s /usr/$(get_libdir)/nacl-toolchain-newlib \
 		native_client/toolchain/linux_x86_newlib || die
-	fi
 
 	# zlib-1.2.5.1-r1 renames the OF macro in zconf.h, bug 383371.
 	sed -i '1i#define OF(x) x' \
@@ -216,7 +212,6 @@ src_configure() {
 		$(gyp_use gnome-keyring use_gnome_keyring)
 		$(gyp_use gnome-keyring linux_link_gnome_keyring)
 		$(gyp_use kerberos use_kerberos)
-		$(if use nacl; then echo "-Ddisable_nacl=0"; else echo "-Ddisable_nacl=1"; fi)
 		$(gyp_use pulseaudio use_pulseaudio)"
 
 	# Enable sandbox.
@@ -258,11 +253,29 @@ src_configure() {
 }
 
 src_compile() {
-	emake chrome chrome_sandbox chromedriver BUILDTYPE=Release V=1 || die
+	local test_targets
+	for x in base cacheinvalidation crypto \
+		googleurl gpu media net printing; do
+		test_targets+=" ${x}_unittests"
+	done
+
+	local make_targets="chrome chrome_sandbox chromedriver"
+	if use test; then
+		make_targets+=$test_targets
+	fi
+
+	# See bug #410883 for more info about the .host mess.
+	emake ${make_targets} BUILDTYPE=Release V=1 \
+		CC.host="$(tc-getCC)" CFLAGS.host="${CFLAGS}" \
+		CXX.host="$(tc-getCXX)" CXXFLAGS.host="${CXXFLAGS}" \
+		LINK.host="$(tc-getCXX)" LDFLAGS.host="${LDFLAGS}" \
+		AR.host="$(tc-getAR)" || die
+
 	pax-mark m out/Release/chrome
 	if use test; then
-		emake {base,cacheinvalidation,crypto,googleurl,gpu,media,net,printing}_unittests BUILDTYPE=Release V=1 || die
-		pax-mark m out/Release/{base,cacheinvalidation,crypto,googleurl,gpu,media,net,printing}_unittests
+		for x in $test_targets; do
+			pax-mark m out/Release/${x}
+		done
 	fi
 }
 
@@ -312,7 +325,6 @@ src_install() {
 
 	# Install Native Client files on platforms that support it.
 	insinto "${CHROMIUM_HOME}"
-	if use nacl; then
 	case "$(tc-arch)" in
 		amd64)
 			doexe out/Release/nacl_helper{,_bootstrap} || die
@@ -325,7 +337,6 @@ src_install() {
 			doins out/Release/libppGoogleNaClPluginChrome.so || die
 		;;
 	esac
-	fi
 
 	newexe "${FILESDIR}"/chromium-launcher-r2.sh chromium-launcher.sh || die
 	if [[ "${CHROMIUM_SUFFIX}" != "" ]]; then
