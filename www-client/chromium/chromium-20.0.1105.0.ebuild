@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-19.0.1084.24.ebuild,v 1.1 2012/04/14 03:34:07 floppym Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-20.0.1105.0.ebuild,v 1.1 2012/04/18 17:57:06 phajdan.jr Exp $
 
 EAPI="4"
 PYTHON_DEPEND="2:2.6"
@@ -19,7 +19,7 @@ SRC_URI="http://commondatastorage.googleapis.com/chromium-browser-official/${P}.
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="bindist cups gnome gnome-keyring kerberos +nacl pulseaudio"
+IUSE="bindist cups gnome gnome-keyring kerberos +nacl pulseaudio selinux"
 
 RDEPEND="app-arch/bzip2
 	cups? (
@@ -49,7 +49,8 @@ RDEPEND="app-arch/bzip2
 	x11-libs/libXinerama
 	x11-libs/libXScrnSaver
 	x11-libs/libXtst
-	kerberos? ( virtual/krb5 )"
+	kerberos? ( virtual/krb5 )
+	selinux? ( sys-libs/libselinux )"
 DEPEND="${RDEPEND}
 	nacl? (
 	>=dev-lang/nacl-toolchain-newlib-0_p7311
@@ -217,12 +218,15 @@ src_configure() {
 		$(gyp_use gnome-keyring linux_link_gnome_keyring)
 		$(gyp_use kerberos use_kerberos)
 		$(if use nacl; then echo "-Ddisable_nacl=0"; else echo "-Ddisable_nacl=1"; fi)
-		$(gyp_use pulseaudio use_pulseaudio)"
+		$(gyp_use pulseaudio use_pulseaudio)
+		$(gyp_use selinux selinux)"
 
-	# Enable sandbox.
-	myconf+="
-		-Dlinux_sandbox_path=${CHROMIUM_HOME}/chrome_sandbox
-		-Dlinux_sandbox_chrome_path=${CHROMIUM_HOME}/chrome"
+	if ! use selinux; then
+		# Enable SUID sandbox.
+		myconf+="
+			-Dlinux_sandbox_path=${CHROMIUM_HOME}/chrome_sandbox
+			-Dlinux_sandbox_chrome_path=${CHROMIUM_HOME}/chrome"
+	fi
 
 	# Never use bundled gold binary. Disable gold linker flags for now.
 	myconf+="
@@ -264,7 +268,10 @@ src_compile() {
 		test_targets+=" ${x}_unittests"
 	done
 
-	local make_targets="chrome chrome_sandbox chromedriver"
+	local make_targets="chrome chromedriver"
+	if ! use selinux; then
+		make_targets+=" chrome_sandbox"
+	fi
 	if use test; then
 		make_targets+=$test_targets
 	fi
@@ -323,8 +330,11 @@ src_test() {
 src_install() {
 	exeinto "${CHROMIUM_HOME}"
 	doexe out/Release/chrome || die
-	doexe out/Release/chrome_sandbox || die
-	fperms 4755 "${CHROMIUM_HOME}/chrome_sandbox"
+
+	if ! use selinux; then
+		doexe out/Release/chrome_sandbox || die
+		fperms 4755 "${CHROMIUM_HOME}/chrome_sandbox"
+	fi
 
 	doexe out/Release/chromedriver || die
 
