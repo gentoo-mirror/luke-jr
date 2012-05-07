@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-20.0.1115.1.ebuild,v 1.1 2012/04/26 06:35:27 phajdan.jr Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-20.0.1123.2.ebuild,v 1.1 2012/05/03 14:22:32 phajdan.jr Exp $
 
 EAPI="4"
 PYTHON_DEPEND="2:2.6"
@@ -61,10 +61,10 @@ DEPEND="${RDEPEND}
 	dev-python/ply
 	dev-python/simplejson
 	>=dev-util/gperf-3.0.3
-	>=dev-util/pkgconfig-0.23
 	>=sys-devel/bison-2.4.3
 	sys-devel/flex
 	>=sys-devel/make-3.81-r2
+	virtual/pkgconfig
 	test? (
 		dev-python/pyftpdlib
 	)"
@@ -72,6 +72,10 @@ RDEPEND+="
 	!=www-client/chromium-9999
 	x11-misc/xdg-utils
 	virtual/ttf-fonts"
+
+REQUIRED_USE="
+	arm? ( !nacl )
+"
 
 if ! has chromium_pkg_die ${EBUILD_DEATH_HOOKS}; then
 	EBUILD_DEATH_HOOKS+=" chromium_pkg_die";
