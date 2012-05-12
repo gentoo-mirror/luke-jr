@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-19.0.1084.36.ebuild,v 1.3 2012/05/07 15:06:51 phajdan.jr Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-20.0.1130.1.ebuild,v 1.1 2012/05/09 13:58:33 phajdan.jr Exp $
 
 EAPI="4"
 PYTHON_DEPEND="2:2.6"
@@ -19,14 +19,14 @@ SRC_URI="http://commondatastorage.googleapis.com/chromium-browser-official/${P}.
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="bindist cups gnome gnome-keyring kerberos +nacl pulseaudio"
+IUSE="bindist cups gnome gnome-keyring kerberos +nacl pulseaudio selinux"
 
 RDEPEND="app-arch/bzip2
 	cups? (
 		dev-libs/libgcrypt
 		>=net-print/cups-1.3.11
 	)
-	>=dev-lang/v8-3.9.13
+	>=dev-lang/v8-3.10.2.1
 	dev-libs/dbus-glib
 	dev-libs/elfutils
 	>=dev-libs/icu-49.1.1-r1
@@ -49,7 +49,8 @@ RDEPEND="app-arch/bzip2
 	x11-libs/libXinerama
 	x11-libs/libXScrnSaver
 	x11-libs/libXtst
-	kerberos? ( virtual/krb5 )"
+	kerberos? ( virtual/krb5 )
+	selinux? ( sys-libs/libselinux )"
 DEPEND="${RDEPEND}
 	nacl? (
 	>=dev-lang/nacl-toolchain-newlib-0_p7311
@@ -114,6 +115,8 @@ src_prepare() {
 		third_party/zlib/contrib/minizip/{ioapi,{,un}zip}.c \
 		chrome/common/zip*.cc || die
 
+	epatch "${FILESDIR}/${PN}-svnversion-r0.patch"
+
 	epatch_user
 
 	# Remove most bundled libraries. Some are still needed.
@@ -139,6 +142,7 @@ src_prepare() {
 		\! -path 'third_party/libjingle/*' \
 		\! -path 'third_party/libphonenumber/*' \
 		\! -path 'third_party/libsrtp/*' \
+		\! -path 'third_party/libusb/*' \
 		\! -path 'third_party/libvpx/*' \
 		\! -path 'third_party/libyuv/*' \
 		\! -path 'third_party/lss/*' \
@@ -221,12 +225,15 @@ src_configure() {
 		$(gyp_use gnome-keyring linux_link_gnome_keyring)
 		$(gyp_use kerberos use_kerberos)
 		$(if use nacl; then echo "-Ddisable_nacl=0"; else echo "-Ddisable_nacl=1"; fi)
-		$(gyp_use pulseaudio use_pulseaudio)"
+		$(gyp_use pulseaudio use_pulseaudio)
+		$(gyp_use selinux selinux)"
 
-	# Enable sandbox.
-	myconf+="
-		-Dlinux_sandbox_path=${CHROMIUM_HOME}/chrome_sandbox
-		-Dlinux_sandbox_chrome_path=${CHROMIUM_HOME}/chrome"
+	if ! use selinux; then
+		# Enable SUID sandbox.
+		myconf+="
+			-Dlinux_sandbox_path=${CHROMIUM_HOME}/chrome_sandbox
+			-Dlinux_sandbox_chrome_path=${CHROMIUM_HOME}/chrome"
+	fi
 
 	# Never use bundled gold binary. Disable gold linker flags for now.
 	myconf+="
@@ -268,7 +275,10 @@ src_compile() {
 		test_targets+=" ${x}_unittests"
 	done
 
-	local make_targets="chrome chrome_sandbox chromedriver"
+	local make_targets="chrome chromedriver"
+	if ! use selinux; then
+		make_targets+=" chrome_sandbox"
+	fi
 	if use test; then
 		make_targets+=$test_targets
 	fi
@@ -327,26 +337,19 @@ src_test() {
 src_install() {
 	exeinto "${CHROMIUM_HOME}"
 	doexe out/Release/chrome || die
-	doexe out/Release/chrome_sandbox || die
-	fperms 4755 "${CHROMIUM_HOME}/chrome_sandbox"
+
+	if ! use selinux; then
+		doexe out/Release/chrome_sandbox || die
+		fperms 4755 "${CHROMIUM_HOME}/chrome_sandbox"
+	fi
 
 	doexe out/Release/chromedriver || die
 
-	# Install Native Client files on platforms that support it.
+	doexe out/Release/nacl_helper{,_bootstrap} || die
 	insinto "${CHROMIUM_HOME}"
 	if use nacl; then
-	case "$(tc-arch)" in
-		amd64)
-			doexe out/Release/nacl_helper{,_bootstrap} || die
-			doins out/Release/nacl_irt_x86_64.nexe || die
-			doins out/Release/libppGoogleNaClPluginChrome.so || die
-		;;
-		x86)
-			doexe out/Release/nacl_helper{,_bootstrap} || die
-			doins out/Release/nacl_irt_x86_32.nexe || die
-			doins out/Release/libppGoogleNaClPluginChrome.so || die
-		;;
-	esac
+	doins out/Release/nacl_irt_*.nexe || die
+	doins out/Release/libppGoogleNaClPluginChrome.so || die
 	fi
 
 	newexe "${FILESDIR}"/chromium-launcher-r2.sh chromium-launcher.sh || die
@@ -375,8 +378,7 @@ src_install() {
 	popd
 
 	insinto "${CHROMIUM_HOME}"
-	doins out/Release/chrome.pak || die
-	doins out/Release/resources.pak || die
+	doins out/Release/*.pak || die
 
 	doins -r out/Release/locales || die
 	doins -r out/Release/resources || die
@@ -384,11 +386,6 @@ src_install() {
 	newman out/Release/chrome.1 chromium${CHROMIUM_SUFFIX}.1 || die
 	newman out/Release/chrome.1 chromium-browser${CHROMIUM_SUFFIX}.1 || die
 
-	# Chromium looks for these in its folder
-	# See media_posix.cc and base_paths_linux.cc
-	# dosym /usr/$(get_libdir)/libavcodec.so.52 "${CHROMIUM_HOME}" || die
-	# dosym /usr/$(get_libdir)/libavformat.so.52 "${CHROMIUM_HOME}" || die
-	# dosym /usr/$(get_libdir)/libavutil.so.50 "${CHROMIUM_HOME}" || die
 	doexe out/Release/libffmpegsumo.so || die
 
 	# Install icons and desktop entry.
@@ -399,6 +396,7 @@ src_install() {
 	done
 	local mime_types="text/html;text/xml;application/xhtml+xml;"
 	mime_types+="x-scheme-handler/http;x-scheme-handler/https;" # bug #360797
+	mime_types+="x-scheme-handler/ftp;" # bug #412185
 	make_desktop_entry \
 		chromium-browser${CHROMIUM_SUFFIX} \
 		"Chromium${CHROMIUM_SUFFIX}" \
