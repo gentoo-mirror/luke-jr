@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-20.0.1123.2.ebuild,v 1.2 2012/05/07 15:06:51 phajdan.jr Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-19.0.1084.46.ebuild,v 1.1 2012/05/10 03:00:34 floppym Exp $
 
 EAPI="4"
 PYTHON_DEPEND="2:2.6"
@@ -19,14 +19,14 @@ SRC_URI="http://commondatastorage.googleapis.com/chromium-browser-official/${P}.
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="bindist cups gnome gnome-keyring kerberos +nacl pulseaudio selinux"
+IUSE="bindist cups gnome gnome-keyring kerberos +nacl pulseaudio"
 
 RDEPEND="app-arch/bzip2
 	cups? (
 		dev-libs/libgcrypt
 		>=net-print/cups-1.3.11
 	)
-	>=dev-lang/v8-3.10.2.1
+	>=dev-lang/v8-3.9.13
 	dev-libs/dbus-glib
 	dev-libs/elfutils
 	>=dev-libs/icu-49.1.1-r1
@@ -49,8 +49,7 @@ RDEPEND="app-arch/bzip2
 	x11-libs/libXinerama
 	x11-libs/libXScrnSaver
 	x11-libs/libXtst
-	kerberos? ( virtual/krb5 )
-	selinux? ( sys-libs/libselinux )"
+	kerberos? ( virtual/krb5 )"
 DEPEND="${RDEPEND}
 	nacl? (
 	>=dev-lang/nacl-toolchain-newlib-0_p7311
@@ -140,7 +139,6 @@ src_prepare() {
 		\! -path 'third_party/libjingle/*' \
 		\! -path 'third_party/libphonenumber/*' \
 		\! -path 'third_party/libsrtp/*' \
-		\! -path 'third_party/libusb/*' \
 		\! -path 'third_party/libvpx/*' \
 		\! -path 'third_party/libyuv/*' \
 		\! -path 'third_party/lss/*' \
@@ -223,15 +221,12 @@ src_configure() {
 		$(gyp_use gnome-keyring linux_link_gnome_keyring)
 		$(gyp_use kerberos use_kerberos)
 		$(if use nacl; then echo "-Ddisable_nacl=0"; else echo "-Ddisable_nacl=1"; fi)
-		$(gyp_use pulseaudio use_pulseaudio)
-		$(gyp_use selinux selinux)"
+		$(gyp_use pulseaudio use_pulseaudio)"
 
-	if ! use selinux; then
-		# Enable SUID sandbox.
-		myconf+="
-			-Dlinux_sandbox_path=${CHROMIUM_HOME}/chrome_sandbox
-			-Dlinux_sandbox_chrome_path=${CHROMIUM_HOME}/chrome"
-	fi
+	# Enable sandbox.
+	myconf+="
+		-Dlinux_sandbox_path=${CHROMIUM_HOME}/chrome_sandbox
+		-Dlinux_sandbox_chrome_path=${CHROMIUM_HOME}/chrome"
 
 	# Never use bundled gold binary. Disable gold linker flags for now.
 	myconf+="
@@ -273,10 +268,7 @@ src_compile() {
 		test_targets+=" ${x}_unittests"
 	done
 
-	local make_targets="chrome chromedriver"
-	if ! use selinux; then
-		make_targets+=" chrome_sandbox"
-	fi
+	local make_targets="chrome chrome_sandbox chromedriver"
 	if use test; then
 		make_targets+=$test_targets
 	fi
@@ -335,11 +327,8 @@ src_test() {
 src_install() {
 	exeinto "${CHROMIUM_HOME}"
 	doexe out/Release/chrome || die
-
-	if ! use selinux; then
-		doexe out/Release/chrome_sandbox || die
-		fperms 4755 "${CHROMIUM_HOME}/chrome_sandbox"
-	fi
+	doexe out/Release/chrome_sandbox || die
+	fperms 4755 "${CHROMIUM_HOME}/chrome_sandbox"
 
 	doexe out/Release/chromedriver || die
 
@@ -386,9 +375,8 @@ src_install() {
 	popd
 
 	insinto "${CHROMIUM_HOME}"
-	for x in out/Release/*.pak; do
-		doins "${x}" || die
-	done
+	doins out/Release/chrome.pak || die
+	doins out/Release/resources.pak || die
 
 	doins -r out/Release/locales || die
 	doins -r out/Release/resources || die
@@ -411,7 +399,6 @@ src_install() {
 	done
 	local mime_types="text/html;text/xml;application/xhtml+xml;"
 	mime_types+="x-scheme-handler/http;x-scheme-handler/https;" # bug #360797
-	mime_types+="x-scheme-handler/ftp;" # bug #412185
 	make_desktop_entry \
 		chromium-browser${CHROMIUM_SUFFIX} \
 		"Chromium${CHROMIUM_SUFFIX}" \
