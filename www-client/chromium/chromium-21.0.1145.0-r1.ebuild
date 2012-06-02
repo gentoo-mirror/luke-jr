@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-18.0.1025.168.ebuild,v 1.6 2012/05/07 17:59:18 phajdan.jr Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-21.0.1145.0-r1.ebuild,v 1.1 2012/05/27 14:57:43 phajdan.jr Exp $
 
 EAPI="4"
 PYTHON_DEPEND="2:2.6"
@@ -18,18 +18,18 @@ SRC_URI="http://commondatastorage.googleapis.com/chromium-browser-official/${P}.
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="amd64 x86"
-IUSE="bindist cups gnome gnome-keyring kerberos +nacl pulseaudio"
+KEYWORDS="~amd64 ~x86"
+IUSE="bindist cups gnome gnome-keyring kerberos +nacl pulseaudio selinux"
 
 RDEPEND="app-arch/bzip2
 	cups? (
 		dev-libs/libgcrypt
 		>=net-print/cups-1.3.11
 	)
-	>=dev-lang/v8-3.8.9.4
+	>=dev-lang/v8-3.10.2.1
 	dev-libs/dbus-glib
 	dev-libs/elfutils
-	>=dev-libs/icu-4.4.1
+	>=dev-libs/icu-49.1.1-r1
 	>=dev-libs/libevent-1.4.13
 	dev-libs/libxml2[icu]
 	dev-libs/libxslt
@@ -38,39 +38,40 @@ RDEPEND="app-arch/bzip2
 	gnome-keyring? ( >=gnome-base/gnome-keyring-2.28.2 )
 	>=media-libs/alsa-lib-1.0.19
 	media-libs/flac
-	virtual/jpeg
+	>=media-libs/libjpeg-turbo-1.2.0-r1
 	media-libs/libpng
 	>=media-libs/libwebp-0.1.3
 	media-libs/speex
 	pulseaudio? ( media-sound/pulseaudio )
 	sys-fs/udev
 	sys-libs/zlib
+	virtual/libusb:1
 	x11-libs/gtk+:2
 	x11-libs/libXinerama
 	x11-libs/libXScrnSaver
 	x11-libs/libXtst
-	kerberos? ( virtual/krb5 )"
+	kerberos? ( virtual/krb5 )
+	selinux? ( sys-libs/libselinux )"
 DEPEND="${RDEPEND}
 	nacl? (
 	>=dev-lang/nacl-toolchain-newlib-0_p7311
 	)
 	dev-lang/perl
 	dev-lang/yasm
+	dev-python/ply
 	dev-python/simplejson
 	>=dev-util/gperf-3.0.3
 	>=sys-devel/bison-2.4.3
 	sys-devel/flex
 	>=sys-devel/make-3.81-r2
 	virtual/pkgconfig
-	test? ( dev-python/pyftpdlib )"
+	test? (
+		dev-python/pyftpdlib
+	)"
 RDEPEND+="
 	!=www-client/chromium-9999
 	x11-misc/xdg-utils
 	virtual/ttf-fonts"
-
-REQUIRED_USE="
-	arm? ( !nacl )
-"
 
 if ! has chromium_pkg_die ${EBUILD_DEATH_HOOKS}; then
 	EBUILD_DEATH_HOOKS+=" chromium_pkg_die";
@@ -108,24 +109,11 @@ src_prepare() {
 
 	# zlib-1.2.5.1-r1 renames the OF macro in zconf.h, bug 383371.
 	sed -i '1i#define OF(x) x' \
-		third_party/zlib/contrib/minizip/{ioapi,{,un}zip}.c \
-		chrome/common/zip*.cc || die
+		third_party/zlib/contrib/minizip/{ioapi,{,un}zip}.h || die
 
-	# Revert WebKit changeset responsible for Gentoo bug #393471.
-	epatch "${FILESDIR}/${PN}-revert-jpeg-swizzle-r2.patch"
+	epatch "${FILESDIR}/${PN}-svnversion-r0.patch"
 
-	# Prevent gyp failures caused by target type 'settings' instead of 'none'.
-	epatch "${FILESDIR}/${PN}-gyp-settings-r0.patch"
-
-	# Prevent compilation failures caused by missing zlib #include
-	# and dependency.
-	epatch "${FILESDIR}/${PN}-webkit-zlib-r0.patch"
-
-	# Fix crashes on illegal instructions, bug #401537.
-	epatch "${FILESDIR}/${PN}-media-no-sse-r0.patch"
-
-	# Backport fix for bug #395773.
-	epatch "${FILESDIR}/${PN}-glib-r0.patch"
+	epatch "${FILESDIR}/${PN}-zlib-r0.patch"
 
 	epatch_user
 
@@ -145,12 +133,13 @@ src_prepare() {
 		\! -path 'third_party/jsoncpp/*' \
 		\! -path 'third_party/khronos/*' \
 		\! -path 'third_party/launchpad_translations/*' \
-		\! -path 'third_party/leveldb/*' \
 		\! -path 'third_party/leveldatabase/*' \
 		\! -path 'third_party/libjingle/*' \
 		\! -path 'third_party/libphonenumber/*' \
 		\! -path 'third_party/libsrtp/*' \
+		\! -path 'third_party/libusb/libusb.h' \
 		\! -path 'third_party/libvpx/*' \
+		\! -path 'third_party/libxml/chromium/*' \
 		\! -path 'third_party/libyuv/*' \
 		\! -path 'third_party/lss/*' \
 		\! -path 'third_party/mesa/*' \
@@ -166,7 +155,6 @@ src_prepare() {
 		\! -path 'third_party/smhasher/*' \
 		\! -path 'third_party/speex/speex.h' \
 		\! -path 'third_party/sqlite/*' \
-		\! -path 'third_party/tcmalloc/*' \
 		\! -path 'third_party/tlslite/*' \
 		\! -path 'third_party/undoview/*' \
 		\! -path 'third_party/v8-i18n/*' \
@@ -202,6 +190,17 @@ src_configure() {
 	# additions, bug #336871.
 	myconf+=" -Ddisable_sse2=1"
 
+	# Disable tcmalloc, it causes problems with e.g. NVIDIA
+	# drivers, bug #413637.
+	myconf+=" -Dlinux_use_tcmalloc=0"
+
+	# Disable glibc Native Client toolchain, we don't need it (bug #417019).
+	myconf+=" -Ddisable_glibc=1"
+
+	# Make it possible to remove third_party/adobe.
+	echo > "${T}/flapper_version.h" || die
+	myconf+=" -Dflapper_version_h_file=${T}/flapper_version.h"
+
 	# Use system-provided libraries.
 	# TODO: use_system_ffmpeg
 	# TODO: use_system_hunspell (upstream changes needed).
@@ -215,6 +214,7 @@ src_configure() {
 		-Duse_system_libevent=1
 		-Duse_system_libjpeg=1
 		-Duse_system_libpng=1
+		-Duse_system_libusb=1
 		-Duse_system_libwebp=1
 		-Duse_system_libxml=1
 		-Duse_system_speex=1
@@ -226,28 +226,26 @@ src_configure() {
 	# Optional dependencies.
 	# TODO: linux_link_kerberos, bug #381289.
 	myconf+="
-		$(gyp_use cups use_cups)
+		$(gyp_use cups)
 		$(gyp_use gnome use_gconf)
 		$(gyp_use gnome-keyring use_gnome_keyring)
 		$(gyp_use gnome-keyring linux_link_gnome_keyring)
-		$(gyp_use kerberos use_kerberos)
+		$(gyp_use kerberos)
 		$(if use nacl; then echo "-Ddisable_nacl=0"; else echo "-Ddisable_nacl=1"; fi)
-		$(gyp_use pulseaudio use_pulseaudio)"
+		$(gyp_use pulseaudio)
+		$(gyp_use selinux selinux)"
 
-	# Enable sandbox.
+	if ! use selinux; then
+		# Enable SUID sandbox.
+		myconf+="
+			-Dlinux_sandbox_path=${CHROMIUM_HOME}/chrome_sandbox
+			-Dlinux_sandbox_chrome_path=${CHROMIUM_HOME}/chrome"
+	fi
+
+	# Never use bundled gold binary. Disable gold linker flags for now.
 	myconf+="
-		-Dlinux_sandbox_path=${CHROMIUM_HOME}/chrome_sandbox
-		-Dlinux_sandbox_chrome_path=${CHROMIUM_HOME}/chrome"
-
-	# if host-is-pax; then
-	#	# Prevent the build from failing (bug #301880). The performance
-	#	# difference is very small.
-	#	myconf+=" -Dv8_use_snapshot=0"
-	# fi
-
-	# Our system ffmpeg should support more codecs than the bundled one
-	# for Chromium.
-	# myconf+=" -Dproprietary_codecs=1"
+		-Dlinux_use_gold_binary=0
+		-Dlinux_use_gold_flags=0"
 
 	if ! use bindist; then
 		# Enable H.624 support in bundled ffmpeg.
@@ -259,12 +257,6 @@ src_configure() {
 		myconf+=" -Dtarget_arch=x64"
 	elif [[ $myarch = x86 ]] ; then
 		myconf+=" -Dtarget_arch=ia32"
-	elif [[ $myarch = arm ]] ; then
-		# TODO: check this again after
-		# http://gcc.gnu.org/bugzilla/show_bug.cgi?id=39509 is fixed.
-		append-flags -fno-tree-sink
-
-		myconf+=" -Dtarget_arch=arm -Dlinux_use_tcmalloc=0"
 	else
 		die "Failed to determine target arch, got '$myarch'."
 	fi
@@ -284,11 +276,32 @@ src_configure() {
 }
 
 src_compile() {
-	emake chrome chrome_sandbox chromedriver BUILDTYPE=Release V=1 || die
+	local test_targets
+	for x in base cacheinvalidation crypto \
+		googleurl gpu media net printing sql; do
+		test_targets+=" ${x}_unittests"
+	done
+
+	local make_targets="chrome chromedriver"
+	if ! use selinux; then
+		make_targets+=" chrome_sandbox"
+	fi
+	if use test; then
+		make_targets+=$test_targets
+	fi
+
+	# See bug #410883 for more info about the .host mess.
+	emake ${make_targets} BUILDTYPE=Release V=1 \
+		CC.host="$(tc-getCC)" CFLAGS.host="${CFLAGS}" \
+		CXX.host="$(tc-getCXX)" CXXFLAGS.host="${CXXFLAGS}" \
+		LINK.host="$(tc-getCXX)" LDFLAGS.host="${LDFLAGS}" \
+		AR.host="$(tc-getAR)" || die
+
 	pax-mark m out/Release/chrome
 	if use test; then
-		emake {base,cacheinvalidation,crypto,googleurl,gpu,media,net,printing}_unittests BUILDTYPE=Release V=1 || die
-		pax-mark m out/Release/{base,cacheinvalidation,crypto,googleurl,gpu,media,net,printing}_unittests
+		for x in $test_targets; do
+			pax-mark m out/Release/${x}
+		done
 	fi
 }
 
@@ -326,32 +339,27 @@ src_test() {
 		'--gtest_filter=-NetUtilTest.IDNToUnicode*:NetUtilTest.FormatUrl*:DnsConfigServiceTest.GetSystemConfig:CertDatabaseNSSTest.ImportServerCert_SelfSigned'
 
 	LC_ALL="${mylocale}" VIRTUALX_COMMAND=out/Release/printing_unittests virtualmake
+	LC_ALL="${mylocale}" VIRTUALX_COMMAND=out/Release/sql_unittests virtualmake
 }
 
 src_install() {
 	exeinto "${CHROMIUM_HOME}"
 	doexe out/Release/chrome || die
-	doexe out/Release/chrome_sandbox || die
-	fperms 4755 "${CHROMIUM_HOME}/chrome_sandbox"
+
+	if ! use selinux; then
+		doexe out/Release/chrome_sandbox || die
+		fperms 4755 "${CHROMIUM_HOME}/chrome_sandbox"
+	fi
 
 	doexe out/Release/chromedriver || die
 
-	# Install Native Client files on platforms that support it.
-	insinto "${CHROMIUM_HOME}"
 	if use nacl; then
-	case "$(tc-arch)" in
-		amd64)
-			doexe out/Release/nacl_helper{,_bootstrap} || die
-			doins out/Release/nacl_irt_x86_64.nexe || die
-			doins out/Release/libppGoogleNaClPluginChrome.so || die
-		;;
-		x86)
-			doexe out/Release/nacl_helper{,_bootstrap} || die
-			doins out/Release/nacl_irt_x86_32.nexe || die
-			doins out/Release/libppGoogleNaClPluginChrome.so || die
-		;;
-	esac
+	doexe out/Release/nacl_helper{,_bootstrap} || die
+	insinto "${CHROMIUM_HOME}"
+	doins out/Release/nacl_irt_*.nexe || die
+	doins out/Release/libppGoogleNaClPluginChrome.so || die
 	fi
+	insinto "${CHROMIUM_HOME}"
 
 	newexe "${FILESDIR}"/chromium-launcher-r2.sh chromium-launcher.sh || die
 	if [[ "${CHROMIUM_SUFFIX}" != "" ]]; then
@@ -379,8 +387,7 @@ src_install() {
 	popd
 
 	insinto "${CHROMIUM_HOME}"
-	doins out/Release/chrome.pak || die
-	doins out/Release/resources.pak || die
+	doins out/Release/*.pak || die
 
 	doins -r out/Release/locales || die
 	doins -r out/Release/resources || die
@@ -388,11 +395,6 @@ src_install() {
 	newman out/Release/chrome.1 chromium${CHROMIUM_SUFFIX}.1 || die
 	newman out/Release/chrome.1 chromium-browser${CHROMIUM_SUFFIX}.1 || die
 
-	# Chromium looks for these in its folder
-	# See media_posix.cc and base_paths_linux.cc
-	# dosym /usr/$(get_libdir)/libavcodec.so.52 "${CHROMIUM_HOME}" || die
-	# dosym /usr/$(get_libdir)/libavformat.so.52 "${CHROMIUM_HOME}" || die
-	# dosym /usr/$(get_libdir)/libavutil.so.50 "${CHROMIUM_HOME}" || die
 	doexe out/Release/libffmpegsumo.so || die
 
 	# Install icons and desktop entry.
@@ -403,6 +405,8 @@ src_install() {
 	done
 	local mime_types="text/html;text/xml;application/xhtml+xml;"
 	mime_types+="x-scheme-handler/http;x-scheme-handler/https;" # bug #360797
+	mime_types+="x-scheme-handler/ftp;" # bug #412185
+	mime_types+="x-scheme-handler/mailto;x-scheme-handler/webcal;" # bug #416393
 	make_desktop_entry \
 		chromium-browser${CHROMIUM_SUFFIX} \
 		"Chromium${CHROMIUM_SUFFIX}" \
