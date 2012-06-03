@@ -1,0 +1,2 @@
+move games-arcade/teeworlds games-action/teeworlds
+move net-libs/json-c dev-libs/json-c
