@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-21.0.1145.0-r1.ebuild,v 1.1 2012/05/27 14:57:43 phajdan.jr Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-20.0.1132.39.ebuild,v 1.1 2012/06/21 02:22:49 floppym Exp $
 
 EAPI="4"
 PYTHON_DEPEND="2:2.6"
@@ -45,7 +45,6 @@ RDEPEND="app-arch/bzip2
 	pulseaudio? ( media-sound/pulseaudio )
 	sys-fs/udev
 	sys-libs/zlib
-	virtual/libusb:1
 	x11-libs/gtk+:2
 	x11-libs/libXinerama
 	x11-libs/libXScrnSaver
@@ -73,6 +72,10 @@ RDEPEND+="
 	x11-misc/xdg-utils
 	virtual/ttf-fonts"
 
+REQUIRED_USE="
+	arm? ( !nacl )
+"
+
 if ! has chromium_pkg_die ${EBUILD_DEATH_HOOKS}; then
 	EBUILD_DEATH_HOOKS+=" chromium_pkg_die";
 fi
@@ -92,7 +95,7 @@ pkg_setup() {
 	python_set_active_version 2
 	python_pkg_setup
 
-	chromium_check_kernel_config
+	chromium_suid_sandbox_check_kernel_config
 
 	if use bindist; then
 		elog "bindist enabled: H.264 video support will be disabled."
@@ -109,11 +112,19 @@ src_prepare() {
 
 	# zlib-1.2.5.1-r1 renames the OF macro in zconf.h, bug 383371.
 	sed -i '1i#define OF(x) x' \
-		third_party/zlib/contrib/minizip/{ioapi,{,un}zip}.h || die
+		third_party/zlib/contrib/minizip/{ioapi,{,un}zip}.c \
+		chrome/common/zip*.cc || die
 
 	epatch "${FILESDIR}/${PN}-svnversion-r0.patch"
 
-	epatch "${FILESDIR}/${PN}-zlib-r0.patch"
+	# Backport upstream fix for Gentoo bug #415601.
+	epatch "${FILESDIR}/${PN}-unistd-r0.patch"
+
+	# Fix build without tcmalloc. To be upstreamed.
+	epatch "${FILESDIR}/${PN}-tcmalloc-r0.patch"
+
+	# Backport a crash fix, bug #420357.
+	epatch "${FILESDIR}/${PN}-alignment-r0.patch"
 
 	epatch_user
 
@@ -137,7 +148,7 @@ src_prepare() {
 		\! -path 'third_party/libjingle/*' \
 		\! -path 'third_party/libphonenumber/*' \
 		\! -path 'third_party/libsrtp/*' \
-		\! -path 'third_party/libusb/libusb.h' \
+		\! -path 'third_party/libusb/*' \
 		\! -path 'third_party/libvpx/*' \
 		\! -path 'third_party/libxml/chromium/*' \
 		\! -path 'third_party/libyuv/*' \
@@ -166,7 +177,7 @@ src_prepare() {
 
 	local v8_bundled="$(chromium_bundled_v8_version)"
 	local v8_installed="$(chromium_installed_v8_version)"
-	elog "V8 version: bundled - ${v8_bundled}; installed - ${v8_installed}"
+	einfo "V8 version: bundled - ${v8_bundled}; installed - ${v8_installed}"
 
 	# Remove bundled v8.
 	find v8 -type f \! -iname '*.gyp*' -delete || die
@@ -194,9 +205,6 @@ src_configure() {
 	# drivers, bug #413637.
 	myconf+=" -Dlinux_use_tcmalloc=0"
 
-	# Disable glibc Native Client toolchain, we don't need it (bug #417019).
-	myconf+=" -Ddisable_glibc=1"
-
 	# Make it possible to remove third_party/adobe.
 	echo > "${T}/flapper_version.h" || die
 	myconf+=" -Dflapper_version_h_file=${T}/flapper_version.h"
@@ -214,7 +222,6 @@ src_configure() {
 		-Duse_system_libevent=1
 		-Duse_system_libjpeg=1
 		-Duse_system_libpng=1
-		-Duse_system_libusb=1
 		-Duse_system_libwebp=1
 		-Duse_system_libxml=1
 		-Duse_system_speex=1
@@ -226,13 +233,13 @@ src_configure() {
 	# Optional dependencies.
 	# TODO: linux_link_kerberos, bug #381289.
 	myconf+="
-		$(gyp_use cups)
+		$(gyp_use cups use_cups)
 		$(gyp_use gnome use_gconf)
 		$(gyp_use gnome-keyring use_gnome_keyring)
 		$(gyp_use gnome-keyring linux_link_gnome_keyring)
-		$(gyp_use kerberos)
+		$(gyp_use kerberos use_kerberos)
 		$(if use nacl; then echo "-Ddisable_nacl=0"; else echo "-Ddisable_nacl=1"; fi)
-		$(gyp_use pulseaudio)
+		$(gyp_use pulseaudio use_pulseaudio)
 		$(gyp_use selinux selinux)"
 
 	if ! use selinux; then
@@ -278,7 +285,7 @@ src_configure() {
 src_compile() {
 	local test_targets
 	for x in base cacheinvalidation crypto \
-		googleurl gpu media net printing sql; do
+		googleurl gpu media net printing; do
 		test_targets+=" ${x}_unittests"
 	done
 
@@ -339,7 +346,6 @@ src_test() {
 		'--gtest_filter=-NetUtilTest.IDNToUnicode*:NetUtilTest.FormatUrl*:DnsConfigServiceTest.GetSystemConfig:CertDatabaseNSSTest.ImportServerCert_SelfSigned'
 
 	LC_ALL="${mylocale}" VIRTUALX_COMMAND=out/Release/printing_unittests virtualmake
-	LC_ALL="${mylocale}" VIRTUALX_COMMAND=out/Release/sql_unittests virtualmake
 }
 
 src_install() {
@@ -353,13 +359,12 @@ src_install() {
 
 	doexe out/Release/chromedriver || die
 
-	if use nacl; then
 	doexe out/Release/nacl_helper{,_bootstrap} || die
 	insinto "${CHROMIUM_HOME}"
+	if use nacl; then
 	doins out/Release/nacl_irt_*.nexe || die
 	doins out/Release/libppGoogleNaClPluginChrome.so || die
 	fi
-	insinto "${CHROMIUM_HOME}"
 
 	newexe "${FILESDIR}"/chromium-launcher-r2.sh chromium-launcher.sh || die
 	if [[ "${CHROMIUM_SUFFIX}" != "" ]]; then
