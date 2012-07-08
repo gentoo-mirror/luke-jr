@@ -359,12 +359,13 @@ src_install() {
 
 	doexe out/Release/chromedriver || die
 
+	if use nacl; then
 	doexe out/Release/nacl_helper{,_bootstrap} || die
 	insinto "${CHROMIUM_HOME}"
-	if use nacl; then
 	doins out/Release/nacl_irt_*.nexe || die
 	doins out/Release/libppGoogleNaClPluginChrome.so || die
 	fi
+	insinto "${CHROMIUM_HOME}"
 
 	newexe "${FILESDIR}"/chromium-launcher-r2.sh chromium-launcher.sh || die
 	if [[ "${CHROMIUM_SUFFIX}" != "" ]]; then
