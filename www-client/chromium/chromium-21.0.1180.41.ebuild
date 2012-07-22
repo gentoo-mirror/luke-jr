@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-21.0.1180.11.ebuild,v 1.1 2012/06/26 05:13:13 floppym Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-21.0.1180.41.ebuild,v 1.2 2012/07/22 16:52:26 floppym Exp $
 
 EAPI="4"
 PYTHON_DEPEND="2:2.6"
@@ -62,6 +62,7 @@ DEPEND="${RDEPEND}
 	dev-python/simplejson
 	>=dev-util/gperf-3.0.3
 	>=sys-devel/bison-2.4.3
+	<sys-devel/bison-2.6
 	sys-devel/flex
 	>=sys-devel/make-3.81-r2
 	virtual/pkgconfig
@@ -72,10 +73,6 @@ RDEPEND+="
 	!=www-client/chromium-9999
 	x11-misc/xdg-utils
 	virtual/ttf-fonts"
-
-REQUIRED_USE="
-	arm? ( !nacl )
-"
 
 if ! has chromium_pkg_die ${EBUILD_DEATH_HOOKS}; then
 	EBUILD_DEATH_HOOKS+=" chromium_pkg_die";
@@ -343,7 +340,7 @@ src_test() {
 	# DnsConfigServiceTest.GetSystemConfig: bug #394883.
 	# CertDatabaseNSSTest.ImportServerCert_SelfSigned: bug #399269.
 	LC_ALL="${mylocale}" VIRTUALX_COMMAND=out/Release/net_unittests virtualmake \
-		'--gtest_filter=-NetUtilTest.IDNToUnicode*:NetUtilTest.FormatUrl*:DnsConfigServiceTest.GetSystemConfig:CertDatabaseNSSTest.ImportServerCert_SelfSigned'
+		'--gtest_filter=-NetUtilTest.IDNToUnicode*:NetUtilTest.FormatUrl*:DnsConfigServiceTest.GetSystemConfig:CertDatabaseNSSTest.ImportServerCert_SelfSigned:URLFetcher*'
 
 	LC_ALL="${mylocale}" VIRTUALX_COMMAND=out/Release/printing_unittests virtualmake
 	LC_ALL="${mylocale}" VIRTUALX_COMMAND=out/Release/sql_unittests virtualmake
