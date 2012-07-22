@@ -82,10 +82,12 @@
 	LIBGLOSS
 	CC-PD
 	
+	BSD-1
 	BSD-1-based:
 		MaxMind
 		MaxMind2
 	SMAIL
+	CCPL-ShareAlike-1.0
 
 	AMBIGUOUS-no-fee:
 		CNRI
