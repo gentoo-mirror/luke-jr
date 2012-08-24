@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-9999-r1.ebuild,v 1.124 2012/07/17 03:49:57 floppym Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-9999-r1.ebuild,v 1.130 2012/08/16 18:44:52 floppym Exp $
 
 EAPI="4"
 PYTHON_DEPEND="2:2.6"
@@ -28,7 +28,7 @@ RDEPEND="app-arch/bzip2
 	)
 	>=dev-lang/v8-3.11.10.6
 	dev-libs/dbus-glib
-	dev-libs/elfutils
+	>=dev-libs/elfutils-0.149
 	dev-libs/expat
 	>=dev-libs/icu-49.1.1-r1
 	>=dev-libs/libevent-1.4.13
@@ -41,6 +41,7 @@ RDEPEND="app-arch/bzip2
 	media-libs/flac
 	>=media-libs/libjpeg-turbo-1.2.0-r1
 	media-libs/libpng
+	>=media-libs/libwebp-0.2.0_rc1
 	media-libs/speex
 	pulseaudio? ( media-sound/pulseaudio )
 	sys-fs/udev
@@ -184,6 +185,7 @@ src_prepare() {
 		\! -path 'third_party/gpsd/*' \
 		\! -path 'third_party/harfbuzz/*' \
 		\! -path 'third_party/hunspell/*' \
+		\! -path 'third_party/hyphen/*' \
 		\! -path 'third_party/iccjpeg/*' \
 		\! -path 'third_party/jsoncpp/*' \
 		\! -path 'third_party/khronos/*' \
@@ -195,7 +197,6 @@ src_prepare() {
 		\! -path 'third_party/libusb/libusb.h' \
 		\! -path 'third_party/libva/*' \
 		\! -path 'third_party/libvpx/*' \
-		\! -path 'third_party/libwebp/*' \
 		\! -path 'third_party/libxml/chromium/*' \
 		\! -path 'third_party/libXNVCtrl/*' \
 		\! -path 'third_party/libyuv/*' \
@@ -208,6 +209,7 @@ src_prepare() {
 		\! -path 'third_party/ots/*' \
 		\! -path 'third_party/protobuf/*' \
 		\! -path 'third_party/qcms/*' \
+		\! -path 'third_party/re2/*' \
 		\! -path 'third_party/scons-2.0.1/*' \
 		\! -path 'third_party/sfntly/*' \
 		\! -path 'third_party/skia/*' \
@@ -267,8 +269,6 @@ src_configure() {
 	# TODO: use_system_ssl (http://crbug.com/58087).
 	# TODO: use_system_sqlite (http://crbug.com/22208).
 	# TODO: use_system_vpx
-	# TODO: use_system_webp (https://chromiumcodereview.appspot.com/10496016
-	#       needs to become part of webp release)
 	myconf+="
 		-Duse_system_bzip2=1
 		-Duse_system_flac=1
@@ -277,6 +277,7 @@ src_configure() {
 		-Duse_system_libjpeg=1
 		-Duse_system_libpng=1
 		-Duse_system_libusb=1
+		-Duse_system_libwebp=1
 		-Duse_system_libxml=1
 		-Duse_system_speex=1
 		-Duse_system_v8=1
@@ -295,6 +296,11 @@ src_configure() {
 		$(if use nacl; then echo "-Ddisable_nacl=0"; else echo "-Ddisable_nacl=1"; fi)
 		$(gyp_use pulseaudio)
 		$(gyp_use selinux selinux)"
+
+	# Use explicit library dependencies instead of dlopen.
+	# This makes breakages easier to detect by revdep-rebuild.
+	myconf+="
+		-Dlinux_link_gsettings=1"
 
 	if ! use selinux; then
 		# Enable SUID sandbox.
@@ -385,14 +391,16 @@ src_test() {
 	runtest() {
 		local cmd=$1
 		shift
-		einfo "${cmd}" "$@"
-		LC_ALL="${mylocale}" VIRTUALX_COMMAND="${cmd}" virtualmake "$@"
+		local filter="--gtest_filter=$(IFS=:; echo "-${*}")"
+		einfo "${cmd}" "${filter}"
+		LC_ALL="${mylocale}" VIRTUALX_COMMAND="${cmd}" virtualmake "${filter}"
 	}
 
-	# ICUStringConversionsTest: bug #350347.
-	# MessagePumpLibeventTest: bug #398501.
-	runtest out/Release/base_unittests \
-		'--gtest_filter=-ICUStringConversionsTest.*:MessagePumpLibeventTest.*'
+	local excluded_base_unittests=(
+		"ICUStringConversionsTest.*" # bug #350347
+		"MessagePumpLibeventTest.*" # bug #398591
+	)
+	runtest out/Release/base_unittests "${excluded_base_unittests[@]}"
 
 	runtest out/Release/cacheinvalidation_unittests
 	runtest out/Release/crypto_unittests
@@ -400,11 +408,14 @@ src_test() {
 	runtest out/Release/gpu_unittests
 	runtest out/Release/media_unittests
 
-	# NetUtilTest: bug #361885.
-	# DnsConfigServiceTest.GetSystemConfig: bug #394883.
-	# CertDatabaseNSSTest.ImportServerCert_SelfSigned: bug #399269.
-	runtest out/Release/net_unittests \
-		'--gtest_filter=-NetUtilTest.IDNToUnicode*:NetUtilTest.FormatUrl*:DnsConfigServiceTest.GetSystemConfig:CertDatabaseNSSTest.ImportServerCert_SelfSigned:URLFetcher*'
+	local excluded_net_unittests=(
+		"NetUtilTest.IDNToUnicode*" # bug 361885
+		"NetUtilTest.FormatUrl*" # see above
+		"DnsConfigServiceTest.GetSystemConfig" # bug #394883
+		"CertDatabaseNSSTest.ImportServerCert_SelfSigned" # bug #399269
+		"URLFetcher*" # bug #425764
+	)
+	runtest out/Release/net_unittests "${excluded_net_unittests[@]}"
 
 	runtest out/Release/printing_unittests
 	runtest out/Release/sql_unittests
