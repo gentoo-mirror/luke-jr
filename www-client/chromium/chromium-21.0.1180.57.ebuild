@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-21.0.1180.49.ebuild,v 1.2 2012/07/22 16:52:26 floppym Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-21.0.1180.57.ebuild,v 1.7 2012/08/13 10:22:21 phajdan.jr Exp $
 
 EAPI="4"
 PYTHON_DEPEND="2:2.6"
@@ -18,7 +18,7 @@ SRC_URI="http://commondatastorage.googleapis.com/chromium-browser-official/${P}.
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="amd64 x86"
 IUSE="bindist cups gnome gnome-keyring kerberos +nacl pulseaudio selinux"
 
 RDEPEND="app-arch/bzip2
@@ -28,7 +28,7 @@ RDEPEND="app-arch/bzip2
 	)
 	>=dev-lang/v8-3.11.10.6
 	dev-libs/dbus-glib
-	dev-libs/elfutils
+	>=dev-libs/elfutils-0.149
 	dev-libs/expat
 	>=dev-libs/icu-49.1.1-r1
 	>=dev-libs/libevent-1.4.13
@@ -62,7 +62,6 @@ DEPEND="${RDEPEND}
 	dev-python/simplejson
 	>=dev-util/gperf-3.0.3
 	>=sys-devel/bison-2.4.3
-	<sys-devel/bison-2.6
 	sys-devel/flex
 	>=sys-devel/make-3.81-r2
 	virtual/pkgconfig
@@ -116,6 +115,9 @@ src_prepare() {
 
 	# Fix build without NaCl glibc toolchain.
 	epatch "${FILESDIR}/${PN}-ppapi-r0.patch"
+
+	# Bug 427438.
+	epatch "${FILESDIR}/${PN}-bison-2.6-r0.patch"
 
 	epatch_user
 
@@ -211,7 +213,7 @@ src_configure() {
 	# TODO: use_system_sqlite (http://crbug.com/22208).
 	# TODO: use_system_vpx
 	# TODO: use_system_webp (https://chromiumcodereview.appspot.com/10496016
-	#       needs to become part of webp release)
+	#	   needs to become part of webp release)
 	myconf+="
 		-Duse_system_bzip2=1
 		-Duse_system_flac=1
@@ -402,11 +404,16 @@ src_install() {
 	doexe out/Release/libffmpegsumo.so || die
 
 	# Install icons and desktop entry.
-	for SIZE in 16 22 24 32 48 64 128 256 ; do
-		insinto /usr/share/icons/hicolor/${SIZE}x${SIZE}/apps
-		newins chrome/app/theme/chromium/product_logo_${SIZE}.png \
-			chromium-browser${CHROMIUM_SUFFIX}.png || die
+	local branding size
+	for size in 16 22 24 32 48 64 128 256 ; do
+		case ${size} in
+			16|32) branding="chrome/app/theme/default_100_percent/chromium" ;;
+				*) branding="chrome/app/theme/chromium" ;;
+		esac
+		newicon -s ${size} "${branding}/product_logo_${size}.png" \
+			chromium-browser${CHROMIUM_SUFFIX}.png
 	done
+
 	local mime_types="text/html;text/xml;application/xhtml+xml;"
 	mime_types+="x-scheme-handler/http;x-scheme-handler/https;" # bug #360797
 	mime_types+="x-scheme-handler/ftp;" # bug #412185
