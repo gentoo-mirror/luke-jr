@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-22.0.1229.12.ebuild,v 1.1 2012/08/21 23:58:50 floppym Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-23.0.1251.2.ebuild,v 1.1 2012/09/01 08:40:23 phajdan.jr Exp $
 
 EAPI="4"
 PYTHON_DEPEND="2:2.6"
@@ -55,7 +55,7 @@ RDEPEND="app-arch/bzip2
 	selinux? ( sys-libs/libselinux )"
 DEPEND="${RDEPEND}
 	nacl? (
-	>=dev-lang/nacl-toolchain-newlib-0_p9093
+		>=dev-lang/nacl-toolchain-newlib-0_p9093
 	)
 	dev-lang/perl
 	dev-lang/yasm
@@ -73,6 +73,10 @@ RDEPEND+="
 	!=www-client/chromium-9999
 	x11-misc/xdg-utils
 	virtual/ttf-fonts"
+
+REQUIRED_USE="
+	arm? ( !nacl )
+"
 
 if ! has chromium_pkg_die ${EBUILD_DEATH_HOOKS}; then
 	EBUILD_DEATH_HOOKS+=" chromium_pkg_die";
@@ -106,8 +110,8 @@ pkg_setup() {
 
 src_prepare() {
 	if use nacl; then
-	ln -s /usr/$(get_libdir)/nacl-toolchain-newlib \
-		native_client/toolchain/linux_x86_newlib || die
+		ln -s /usr/$(get_libdir)/nacl-toolchain-newlib \
+			native_client/toolchain/linux_x86_newlib || die
 	fi
 
 	# zlib-1.2.5.1-r1 renames the OF macro in zconf.h, bug 383371.
@@ -116,6 +120,24 @@ src_prepare() {
 
 	# Fix build without NaCl glibc toolchain.
 	epatch "${FILESDIR}/${PN}-ppapi-r0.patch"
+
+	# Missing gyp files in tarball.
+	# https://code.google.com/p/chromium/issues/detail?id=144823
+	if [[ -e chrome/test/data/nacl/nacl_test_data.gyp ]]; then
+		die "tarball fixed, please remove workaround"
+	fi
+
+	mkdir -p chrome/test/data/nacl
+	cat > chrome/test/data/nacl/nacl_test_data.gyp <<-EOF
+	{
+	  'targets': [
+	    {
+	      'target_name': 'nacl_tests',
+	      'type': 'none',
+	    },
+	  ],
+	}
+	EOF
 
 	epatch_user
 
@@ -127,6 +149,7 @@ src_prepare() {
 		\! -path 'third_party/cld/*' \
 		\! -path 'third_party/ffmpeg/*' \
 		\! -path 'third_party/flac/flac.h' \
+		\! -path 'third_party/flot/*' \
 		\! -path 'third_party/gpsd/*' \
 		\! -path 'third_party/harfbuzz/*' \
 		\! -path 'third_party/hunspell/*' \
@@ -149,6 +172,7 @@ src_prepare() {
 		\! -path 'third_party/mesa/*' \
 		\! -path 'third_party/modp_b64/*' \
 		\! -path 'third_party/mongoose/*' \
+		\! -path 'third_party/mt19937ar/*' \
 		\! -path 'third_party/npapi/*' \
 		\! -path 'third_party/openmax/*' \
 		\! -path 'third_party/ots/*' \
@@ -159,7 +183,7 @@ src_prepare() {
 		\! -path 'third_party/sfntly/*' \
 		\! -path 'third_party/skia/*' \
 		\! -path 'third_party/smhasher/*' \
-		\! -path 'third_party/speex/speex.h' \
+		\! -path 'third_party/speex/*' \
 		\! -path 'third_party/sqlite/*' \
 		\! -path 'third_party/tlslite/*' \
 		\! -path 'third_party/trace-viewer/*' \
@@ -168,7 +192,7 @@ src_prepare() {
 		\! -path 'third_party/webdriver/*' \
 		\! -path 'third_party/webgl_conformance/*' \
 		\! -path 'third_party/webrtc/*' \
-		\! -path 'third_party/zlib/contrib/minizip/*' \
+		\! -path 'third_party/zlib/*' \
 		-delete || die
 
 	local v8_bundled="$(chromium_bundled_v8_version)"
@@ -211,9 +235,11 @@ src_configure() {
 	# Use system-provided libraries.
 	# TODO: use_system_ffmpeg
 	# TODO: use_system_hunspell (upstream changes needed).
+	# TODO: use_system_speex (needs additional shims, bug #432748).
 	# TODO: use_system_ssl (http://crbug.com/58087).
 	# TODO: use_system_sqlite (http://crbug.com/22208).
 	# TODO: use_system_vpx
+	# TODO: use_system_zlib (forked, bug #432746).
 	myconf+="
 		-Duse_system_bzip2=1
 		-Duse_system_flac=1
@@ -224,11 +250,11 @@ src_configure() {
 		-Duse_system_libusb=1
 		-Duse_system_libwebp=1
 		-Duse_system_libxml=1
-		-Duse_system_speex=1
+		-Duse_system_speex=0
 		-Duse_system_v8=1
 		-Duse_system_xdg_utils=1
 		-Duse_system_yasm=1
-		-Duse_system_zlib=1"
+		-Duse_system_zlib=0"
 
 	# Optional dependencies.
 	# TODO: linux_link_kerberos, bug #381289.
@@ -269,6 +295,11 @@ src_configure() {
 		myconf+=" -Dtarget_arch=x64"
 	elif [[ $myarch = x86 ]] ; then
 		myconf+=" -Dtarget_arch=ia32"
+	elif [[ $myarch = arm ]] ; then
+		# TODO: re-enable NaCl (NativeClient).
+		myconf+=" -Dtarget_arch=arm
+			-Darm_neon=0
+			-Ddisable_nacl=1"
 	else
 		die "Failed to determine target arch, got '$myarch'."
 	fi
@@ -378,10 +409,10 @@ src_install() {
 	doexe out/Release/chromedriver || die
 
 	if use nacl; then
-	doexe out/Release/nacl_helper{,_bootstrap} || die
-	insinto "${CHROMIUM_HOME}"
-	doins out/Release/nacl_irt_*.nexe || die
-	doins out/Release/libppGoogleNaClPluginChrome.so || die
+		doexe out/Release/nacl_helper{,_bootstrap} || die
+		insinto "${CHROMIUM_HOME}"
+		doins out/Release/nacl_irt_*.nexe || die
+		doins out/Release/libppGoogleNaClPluginChrome.so || die
 	fi
 	insinto "${CHROMIUM_HOME}"
 
