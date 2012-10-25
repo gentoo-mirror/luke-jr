@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-9999-r1.ebuild,v 1.133 2012/09/01 08:40:23 phajdan.jr Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-9999-r1.ebuild,v 1.142 2012/10/17 23:15:23 phajdan.jr Exp $
 
 EAPI="4"
 PYTHON_DEPEND="2:2.6"
@@ -19,7 +19,7 @@ ESVN_REPO_URI="http://src.chromium.org/svn/trunk/src"
 LICENSE="BSD"
 SLOT="live"
 KEYWORDS=""
-IUSE="bindist cups gnome gnome-keyring kerberos +nacl pulseaudio selinux"
+IUSE="bindist cups gnome gnome-keyring kerberos pulseaudio selinux tcmalloc"
 
 RDEPEND="app-arch/bzip2
 	cups? (
@@ -27,7 +27,6 @@ RDEPEND="app-arch/bzip2
 		>=net-print/cups-1.3.11
 	)
 	>=dev-lang/v8-3.11.10.6
-	dev-libs/dbus-glib
 	>=dev-libs/elfutils-0.149
 	dev-libs/expat
 	>=dev-libs/icu-49.1.1-r1
@@ -44,19 +43,19 @@ RDEPEND="app-arch/bzip2
 	>=media-libs/libwebp-0.2.0_rc1
 	media-libs/speex
 	pulseaudio? ( media-sound/pulseaudio )
+	sys-apps/dbus
 	sys-fs/udev
-	sys-libs/zlib
 	virtual/libusb:1
 	x11-libs/gtk+:2
 	x11-libs/libXinerama
 	x11-libs/libXScrnSaver
 	x11-libs/libXtst
 	kerberos? ( virtual/krb5 )
-	selinux? ( sys-libs/libselinux )"
+	selinux? (
+		sec-policy/selinux-chromium
+		sys-libs/libselinux
+	)"
 DEPEND="${RDEPEND}
-	nacl? (
-	>=dev-lang/nacl-toolchain-newlib-0_p9093
-	)
 	dev-lang/perl
 	dev-lang/yasm
 	dev-python/ply
@@ -66,17 +65,11 @@ DEPEND="${RDEPEND}
 	sys-devel/flex
 	>=sys-devel/make-3.81-r2
 	virtual/pkgconfig
-	test? (
-		dev-python/pyftpdlib
-	)"
+	test? ( dev-python/pyftpdlib )"
 RDEPEND+="
 	!=www-client/chromium-9999
 	x11-misc/xdg-utils
 	virtual/ttf-fonts"
-
-REQUIRED_USE="
-	arm? ( !nacl )
-"
 
 gclient_config() {
 	einfo "gclient config -->"
@@ -167,14 +160,20 @@ pkg_setup() {
 }
 
 src_prepare() {
-	if use nacl; then
-		ln -s /usr/$(get_libdir)/nacl-toolchain-newlib \
-			native_client/toolchain/linux_x86_newlib || die
-	fi
+	# if use nacl; then
+	#	ebegin "Preparing NaCl newlib toolchain"
+	#	pushd "${T}" >/dev/null || die
+	#	mkdir sdk || die
+	#	cp -a /usr/$(get_libdir)/nacl-toolchain-newlib sdk/nacl-sdk || die
+	#	mkdir -p "${S}"/native_client/toolchain/.tars || die
+	#	tar czf "${S}"/native_client/toolchain/.tars/naclsdk_linux_x86.tgz sdk || die
+	#	popd >/dev/null || die
+	#	eend $?
+	# fi
 
 	# zlib-1.2.5.1-r1 renames the OF macro in zconf.h, bug 383371.
-	sed -i '1i#define OF(x) x' \
-		third_party/zlib/contrib/minizip/{ioapi,{,un}zip}.h || die
+	# sed -i '1i#define OF(x) x' \
+	#	third_party/zlib/contrib/minizip/{ioapi,{,un}zip}.h || die
 
 	epatch_user
 
@@ -184,11 +183,13 @@ src_prepare() {
 		\! -path 'third_party/angle/*' \
 		\! -path 'third_party/cacheinvalidation/*' \
 		\! -path 'third_party/cld/*' \
+		\! -path 'third_party/cros_system_api/*' \
 		\! -path 'third_party/ffmpeg/*' \
 		\! -path 'third_party/flac/flac.h' \
 		\! -path 'third_party/flot/*' \
 		\! -path 'third_party/gpsd/*' \
 		\! -path 'third_party/harfbuzz/*' \
+		\! -path 'third_party/harfbuzz-ng/*' \
 		\! -path 'third_party/hunspell/*' \
 		\! -path 'third_party/hyphen/*' \
 		\! -path 'third_party/iccjpeg/*' \
@@ -214,14 +215,16 @@ src_prepare() {
 		\! -path 'third_party/openmax/*' \
 		\! -path 'third_party/ots/*' \
 		\! -path 'third_party/protobuf/*' \
+		\! -path 'third_party/pywebsocket/*' \
 		\! -path 'third_party/qcms/*' \
 		\! -path 'third_party/re2/*' \
 		\! -path 'third_party/scons-2.0.1/*' \
 		\! -path 'third_party/sfntly/*' \
 		\! -path 'third_party/skia/*' \
 		\! -path 'third_party/smhasher/*' \
-		\! -path 'third_party/speex/*' \
+		\! -path 'third_party/speex/speex.h' \
 		\! -path 'third_party/sqlite/*' \
+		\! -path 'third_party/tcmalloc/*' \
 		\! -path 'third_party/tlslite/*' \
 		\! -path 'third_party/trace-viewer/*' \
 		\! -path 'third_party/undoview/*' \
@@ -229,6 +232,7 @@ src_prepare() {
 		\! -path 'third_party/webdriver/*' \
 		\! -path 'third_party/webgl_conformance/*' \
 		\! -path 'third_party/webrtc/*' \
+		\! -path 'third_party/widevine/*' \
 		\! -path 'third_party/zlib/*' \
 		-delete || die
 
@@ -258,12 +262,19 @@ src_configure() {
 	# additions, bug #336871.
 	myconf+=" -Ddisable_sse2=1"
 
-	# Disable tcmalloc, it causes problems with e.g. NVIDIA
+	# Optional tcmalloc. Note it causes problems with e.g. NVIDIA
 	# drivers, bug #413637.
-	myconf+=" -Dlinux_use_tcmalloc=0"
+	myconf+=" $(gyp_use tcmalloc linux_use_tcmalloc)"
+
+	# TODO: build with NaCl (pnacl is sort of required).
+	myconf+=" -Ddisable_nacl=1"
 
 	# Disable glibc Native Client toolchain, we don't need it (bug #417019).
-	myconf+=" -Ddisable_glibc=1"
+	# myconf+=" -Ddisable_glibc=1"
+
+	# TODO: also build with pnacl
+	# myconf+=" -Ddisable_pnacl=1
+	#	-Dbuild_pnacl_newlib=0"
 
 	# Make it possible to remove third_party/adobe.
 	echo > "${T}/flapper_version.h" || die
@@ -287,7 +298,7 @@ src_configure() {
 		-Duse_system_libusb=1
 		-Duse_system_libwebp=1
 		-Duse_system_libxml=1
-		-Duse_system_speex=0
+		-Duse_system_speex=1
 		-Duse_system_v8=1
 		-Duse_system_xdg_utils=1
 		-Duse_system_yasm=1
@@ -301,7 +312,6 @@ src_configure() {
 		$(gyp_use gnome-keyring use_gnome_keyring)
 		$(gyp_use gnome-keyring linux_link_gnome_keyring)
 		$(gyp_use kerberos)
-		$(if use nacl; then echo "-Ddisable_nacl=0"; else echo "-Ddisable_nacl=1"; fi)
 		$(gyp_use pulseaudio)
 		$(gyp_use selinux selinux)"
 
@@ -427,6 +437,9 @@ src_test() {
 		"DnsConfigServiceTest.GetSystemConfig" # bug #394883
 		"CertDatabaseNSSTest.ImportServerCert_SelfSigned" # bug #399269
 		"URLFetcher*" # bug #425764
+		"HTTPSOCSPTest.*" # bug #426630
+		"HTTPSEVCRLSetTest.*" # see above
+		"HTTPSCRLSetTest.*" # see above
 	)
 	runtest out/Release/net_unittests "${excluded_net_unittests[@]}"
 
@@ -445,13 +458,13 @@ src_install() {
 
 	doexe out/Release/chromedriver || die
 
-	if use nacl; then
-		doexe out/Release/nacl_helper{,_bootstrap} || die
-		insinto "${CHROMIUM_HOME}"
-		doins out/Release/nacl_irt_*.nexe || die
-		doins out/Release/libppGoogleNaClPluginChrome.so || die
-	fi
-	insinto "${CHROMIUM_HOME}"
+	# if use nacl; then
+	# 	doexe out/Release/nacl_helper{,_bootstrap} || die
+	# 	insinto "${CHROMIUM_HOME}"
+	# 	doins out/Release/nacl_irt_*.nexe || die
+	# 	doins out/Release/libppGoogleNaClPluginChrome.so || die
+	# fi
+	# insinto "${CHROMIUM_HOME}"
 
 	newexe "${FILESDIR}"/chromium-launcher-r2.sh chromium-launcher.sh || die
 	if [[ "${CHROMIUM_SUFFIX}" != "" ]]; then
