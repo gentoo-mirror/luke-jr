@@ -84,6 +84,7 @@
 	UbuntuFontLicense-1.0
 	BAEKMUK
 	czyborra
+	man-pages
 	
 	BSD-1
 	BSD-1-based:
@@ -98,6 +99,8 @@
 		Princeton
 		ElementTree
 		POSTGRESQL
+		HPND
+		libpng
 	
 	Ask-me:
 		Luke-Jr
