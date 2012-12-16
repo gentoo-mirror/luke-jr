@@ -5,6 +5,7 @@
 	<longdescription>Chromium is the open-source web browser project behind Google Chrome</longdescription>
 	<use>
 		<flag name="nacl">Enable Google Native Client support</flag>
+		<flag name="system-ffmpeg">Use system ffmpeg instead of bundled ffmpeg.</flag>
 		<flag name="tcmalloc">Use bundled tcmalloc instead of system malloc.</flag>
 	</use>
 </pkgmetadata>
