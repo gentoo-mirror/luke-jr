@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-23.0.1271.40.ebuild,v 1.1 2012/10/17 22:24:18 floppym Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-23.0.1271.97.ebuild,v 1.3 2012/12/12 10:47:48 ago Exp $
 
 EAPI="4"
 PYTHON_DEPEND="2:2.6"
@@ -18,7 +18,7 @@ SRC_URI="http://commondatastorage.googleapis.com/chromium-browser-official/${P}.
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="amd64 x86"
 IUSE="bindist cups gnome gnome-keyring kerberos +nacl pulseaudio selinux tcmalloc"
 
 RDEPEND="app-arch/bzip2
@@ -44,7 +44,7 @@ RDEPEND="app-arch/bzip2
 	media-libs/speex
 	pulseaudio? ( media-sound/pulseaudio )
 	sys-apps/dbus
-	sys-fs/udev
+	virtual/udev
 	virtual/libusb:1
 	x11-libs/gtk+:2
 	x11-libs/libXinerama
@@ -57,7 +57,7 @@ RDEPEND="app-arch/bzip2
 	)"
 DEPEND="${RDEPEND}
 	nacl? (
-	>=dev-lang/nacl-toolchain-newlib-0_p9093
+		>=dev-lang/nacl-toolchain-newlib-0_p9093
 	)
 	dev-lang/perl
 	dev-lang/yasm
@@ -73,6 +73,10 @@ RDEPEND+="
 	!=www-client/chromium-9999
 	x11-misc/xdg-utils
 	virtual/ttf-fonts"
+
+REQUIRED_USE="
+	arm? ( !nacl )
+"
 
 if ! has chromium_pkg_die ${EBUILD_DEATH_HOOKS}; then
 	EBUILD_DEATH_HOOKS+=" chromium_pkg_die";
