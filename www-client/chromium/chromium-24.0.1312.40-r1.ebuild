@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-25.0.1359.3.ebuild,v 1.1 2012/12/15 23:37:48 phajdan.jr Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-24.0.1312.40-r1.ebuild,v 1.1 2012/12/17 16:48:36 phajdan.jr Exp $
 
 EAPI="5"
 PYTHON_DEPEND="2:2.6"
@@ -19,14 +19,14 @@ SRC_URI="http://commondatastorage.googleapis.com/chromium-browser-official/${P}.
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="bindist cups gnome gnome-keyring kerberos +nacl pulseaudio selinux system-ffmpeg tcmalloc"
+IUSE="bindist cups gnome gnome-keyring kerberos +nacl pulseaudio selinux tcmalloc"
 
 RDEPEND="app-arch/bzip2
 	cups? (
 		dev-libs/libgcrypt
 		>=net-print/cups-1.3.11
 	)
-	>=dev-lang/v8-3.15.11.1:=
+	>=dev-lang/v8-3.14.5:=
 	>=dev-libs/elfutils-0.149
 	dev-libs/expat
 	>=dev-libs/icu-49.1.1-r1
@@ -34,22 +34,18 @@ RDEPEND="app-arch/bzip2
 	dev-libs/libxml2[icu]
 	dev-libs/libxslt
 	>=dev-libs/nss-3.12.3
-	dev-libs/protobuf
 	gnome? ( >=gnome-base/gconf-2.24.0 )
 	gnome-keyring? ( >=gnome-base/gnome-keyring-2.28.2 )
 	>=media-libs/alsa-lib-1.0.19
 	media-libs/flac
-	media-libs/harfbuzz
 	>=media-libs/libjpeg-turbo-1.2.0-r1
 	media-libs/libpng
 	media-libs/libvpx
 	>=media-libs/libwebp-0.2.0_rc1
+	media-libs/opus
 	media-libs/speex
 	pulseaudio? ( media-sound/pulseaudio )
-	system-ffmpeg? ( >=media-video/ffmpeg-1.0 )
-	>=net-libs/libsrtp-1.4.4_p20121108
 	sys-apps/dbus
-	sys-apps/pciutils
 	sys-libs/zlib[minizip]
 	virtual/udev
 	virtual/libusb:1
@@ -71,7 +67,6 @@ DEPEND="${RDEPEND}
 	dev-python/ply
 	dev-python/simplejson
 	>=dev-util/gperf-3.0.3
-	sys-apps/hwids
 	>=sys-devel/bison-2.4.3
 	sys-devel/flex
 	>=sys-devel/make-3.81-r2
@@ -109,10 +104,9 @@ pkg_setup() {
 		chromium_suid_sandbox_check_kernel_config
 	fi
 
-	if use bindist && ! use system-ffmpeg; then
+	if use bindist; then
 		elog "bindist enabled: H.264 video support will be disabled."
-	fi
-	if ! use bindist; then
+	else
 		elog "bindist disabled: Resulting binaries may not be legal to re-distribute."
 	fi
 }
@@ -133,6 +127,8 @@ src_prepare() {
 	# sed -i '1i#define OF(x) x' \
 	#	third_party/zlib/contrib/minizip/{ioapi,{,un}zip}.h || die
 
+	epatch "${FILESDIR}/${PN}-arm-r0.patch"
+
 	# Fix build without NaCl glibc toolchain.
 	epatch "${FILESDIR}/${PN}-ppapi-r0.patch"
 
@@ -145,6 +141,7 @@ src_prepare() {
 		die "tarball fixed, please remove workaround"
 	fi
 
+	if use nacl; then
 	mkdir -p chrome/test/data/nacl
 	cat > chrome/test/data/nacl/nacl_test_data.gyp <<-EOF
 	{
@@ -156,8 +153,7 @@ src_prepare() {
 	  ],
 	}
 	EOF
-
-	epatch "${FILESDIR}/${PN}-system-ffmpeg-r0.patch"
+	fi
 
 	epatch_user
 
@@ -172,6 +168,8 @@ src_prepare() {
 		\! -path 'third_party/flac/flac.h' \
 		\! -path 'third_party/flot/*' \
 		\! -path 'third_party/gpsd/*' \
+		\! -path 'third_party/harfbuzz/*' \
+		\! -path 'third_party/harfbuzz-ng/*' \
 		\! -path 'third_party/hunspell/*' \
 		\! -path 'third_party/hyphen/*' \
 		\! -path 'third_party/iccjpeg/*' \
@@ -180,7 +178,9 @@ src_prepare() {
 		\! -path 'third_party/leveldatabase/*' \
 		\! -path 'third_party/libjingle/*' \
 		\! -path 'third_party/libphonenumber/*' \
+		\! -path 'third_party/libsrtp/*' \
 		\! -path 'third_party/libusb/libusb.h' \
+		\! -path 'third_party/libva/*' \
 		\! -path 'third_party/libvpx/libvpx.h' \
 		\! -path 'third_party/libxml/chromium/*' \
 		\! -path 'third_party/libXNVCtrl/*' \
@@ -192,8 +192,9 @@ src_prepare() {
 		\! -path 'third_party/mt19937ar/*' \
 		\! -path 'third_party/npapi/*' \
 		\! -path 'third_party/openmax/*' \
-		\! -path 'third_party/opus/*' \
+		\! -path 'third_party/opus/opus.h*' \
 		\! -path 'third_party/ots/*' \
+		\! -path 'third_party/protobuf/*' \
 		\! -path 'third_party/pywebsocket/*' \
 		\! -path 'third_party/qcms/*' \
 		\! -path 'third_party/re2/*' \
@@ -253,30 +254,27 @@ src_configure() {
 	# Use system-provided libraries.
 	# TODO: use_system_ffmpeg
 	# TODO: use_system_hunspell (upstream changes needed).
-	# TODO: use_system_opus (bug #439884).
+	# TODO: use_system_libsrtp (bug #348600).
 	# TODO: use_system_ssl (http://crbug.com/58087).
 	# TODO: use_system_sqlite (http://crbug.com/22208).
 	myconf+="
 		-Duse_system_bzip2=1
 		-Duse_system_flac=1
-		-Duse_system_harfbuzz=1
 		-Duse_system_icu=1
 		-Duse_system_libevent=1
 		-Duse_system_libjpeg=1
 		-Duse_system_libpng=1
-		-Duse_system_libsrtp=1
 		-Duse_system_libusb=1
 		-Duse_system_libvpx=1
 		-Duse_system_libwebp=1
 		-Duse_system_libxml=1
 		-Duse_system_minizip=1
-		-Duse_system_protobuf=1
+		-Duse_system_opus=1
 		-Duse_system_speex=1
 		-Duse_system_v8=1
 		-Duse_system_xdg_utils=1
 		-Duse_system_yasm=1
-		-Duse_system_zlib=1
-		$(gyp_use system-ffmpeg use_system_ffmpeg)"
+		-Duse_system_zlib=1"
 
 	# Optional dependencies.
 	# TODO: linux_link_kerberos, bug #381289.
@@ -293,12 +291,7 @@ src_configure() {
 	# Use explicit library dependencies instead of dlopen.
 	# This makes breakages easier to detect by revdep-rebuild.
 	myconf+="
-		-Dlinux_link_gsettings=1
-		-Dlinux_link_libpci=1"
-
-	# TODO: use the file at run time instead of effectively compiling it in.
-	myconf+="
-		-Dusb_ids_path=/usr/share/misc/usb.ids"
+		-Dlinux_link_gsettings=1"
 
 	if ! use selinux; then
 		# Enable SUID sandbox.
@@ -312,7 +305,7 @@ src_configure() {
 		-Dlinux_use_gold_binary=0
 		-Dlinux_use_gold_flags=0"
 
-	if ! use bindist && ! use system-ffmpeg; then
+	if ! use bindist; then
 		# Enable H.624 support in bundled ffmpeg.
 		myconf+=" -Dproprietary_codecs=1 -Dffmpeg_branding=Chrome"
 	fi
@@ -335,7 +328,7 @@ src_configure() {
 		myconf+=" -Dtarget_arch=arm
 			-Darmv7=0
 			-Darm_neon=0
-			-Ddisable_nacl=1"
+			"
 	else
 		die "Failed to determine target arch, got '$myarch'."
 	fi
@@ -455,7 +448,6 @@ src_install() {
 		doins out/Release/nacl_irt_*.nexe || die
 		doins out/Release/libppGoogleNaClPluginChrome.so || die
 	fi
-	insinto "${CHROMIUM_HOME}"
 
 	newexe "${FILESDIR}"/chromium-launcher-r2.sh chromium-launcher.sh || die
 	if [[ "${CHROMIUM_SUFFIX}" != "" ]]; then
@@ -491,9 +483,7 @@ src_install() {
 	newman out/Release/chrome.1 chromium${CHROMIUM_SUFFIX}.1 || die
 	newman out/Release/chrome.1 chromium-browser${CHROMIUM_SUFFIX}.1 || die
 
-	if ! use system-ffmpeg; then
-		doexe out/Release/libffmpegsumo.so || die
-	fi
+	doexe out/Release/libffmpegsumo.so || die
 
 	# Install icons and desktop entry.
 	local branding size
