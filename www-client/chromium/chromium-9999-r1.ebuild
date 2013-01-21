@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-9999-r1.ebuild,v 1.158 2013/01/09 04:17:29 phajdan.jr Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-9999-r1.ebuild,v 1.161 2013/01/20 06:00:45 phajdan.jr Exp $
 
 EAPI="5"
 PYTHON_DEPEND="2:2.6"
@@ -31,9 +31,11 @@ RDEPEND="app-accessibility/speech-dispatcher
 	>=dev-libs/elfutils-0.149
 	dev-libs/expat
 	>=dev-libs/icu-49.1.1-r1
+	dev-libs/jsoncpp
 	>=dev-libs/libevent-1.4.13
 	dev-libs/libxml2[icu]
 	dev-libs/libxslt
+	dev-libs/nspr
 	>=dev-libs/nss-3.12.3
 	dev-libs/protobuf
 	gnome? ( >=gnome-base/gconf-2.24.0 )
@@ -48,7 +50,11 @@ RDEPEND="app-accessibility/speech-dispatcher
 	media-libs/opus
 	media-libs/speex
 	pulseaudio? ( media-sound/pulseaudio )
-	system-ffmpeg? ( >=media-video/ffmpeg-1.0 )
+	system-ffmpeg? ( || (
+		>=media-video/ffmpeg-1.0[opus]
+		<media-video/ffmpeg-1.0
+		media-video/libav
+	) )
 	>=net-libs/libsrtp-1.4.4_p20121108
 	sys-apps/dbus
 	sys-apps/pciutils
@@ -179,20 +185,16 @@ pkg_setup() {
 
 src_prepare() {
 	if use nacl; then
-		ebegin "Preparing NaCl newlib toolchain"
-		pushd "${T}" >/dev/null || die
-		mkdir sdk || die
-		cp -a /usr/$(get_libdir)/nacl-toolchain-newlib sdk/nacl-sdk || die
-		mkdir -p "${S}"/native_client/toolchain/.tars || die
-		tar czf "${S}"/native_client/toolchain/.tars/naclsdk_linux_x86.tgz sdk || die
-		popd >/dev/null || die
-		eend $?
+		mkdir -p out/Release/obj/gen/sdk/toolchain || die
+		cp -a /usr/$(get_libdir)/nacl-toolchain-newlib \
+			out/Release/obj/gen/sdk/toolchain/linux_x86_newlib || die
+		touch out/Release/obj/gen/sdk/toolchain/linux_x86_newlib/stamp.untar || die
 	fi
 
 	# Fix build without NaCl glibc toolchain.
 	epatch "${FILESDIR}/${PN}-ppapi-r0.patch"
 
-	epatch "${FILESDIR}/${PN}-system-ffmpeg-r0.patch"
+	epatch "${FILESDIR}/${PN}-system-ffmpeg-r1.patch"
 
 	epatch_user
 
@@ -204,19 +206,14 @@ src_prepare() {
 		\! -path 'third_party/cld/*' \
 		\! -path 'third_party/cros_system_api/*' \
 		\! -path 'third_party/ffmpeg/*' \
-		\! -path 'third_party/flac/flac.h' \
 		\! -path 'third_party/flot/*' \
-		\! -path 'third_party/gpsd/*' \
 		\! -path 'third_party/hunspell/*' \
 		\! -path 'third_party/hyphen/*' \
 		\! -path 'third_party/iccjpeg/*' \
-		\! -path 'third_party/jsoncpp/*' \
 		\! -path 'third_party/khronos/*' \
 		\! -path 'third_party/leveldatabase/*' \
 		\! -path 'third_party/libjingle/*' \
 		\! -path 'third_party/libphonenumber/*' \
-		\! -path 'third_party/libusb/libusb.h' \
-		\! -path 'third_party/libvpx/libvpx.h' \
 		\! -path 'third_party/libxml/chromium/*' \
 		\! -path 'third_party/libXNVCtrl/*' \
 		\! -path 'third_party/libyuv/*' \
@@ -231,11 +228,9 @@ src_prepare() {
 		\! -path 'third_party/pywebsocket/*' \
 		\! -path 'third_party/qcms/*' \
 		\! -path 'third_party/re2/*' \
-		\! -path 'third_party/scons-2.0.1/*' \
 		\! -path 'third_party/sfntly/*' \
 		\! -path 'third_party/skia/*' \
 		\! -path 'third_party/smhasher/*' \
-		\! -path 'third_party/speex/speex.h' \
 		\! -path 'third_party/sqlite/*' \
 		\! -path 'third_party/tcmalloc/*' \
 		\! -path 'third_party/tlslite/*' \
@@ -243,7 +238,6 @@ src_prepare() {
 		\! -path 'third_party/undoview/*' \
 		\! -path 'third_party/v8-i18n/*' \
 		\! -path 'third_party/webdriver/*' \
-		\! -path 'third_party/webgl_conformance/*' \
 		\! -path 'third_party/webrtc/*' \
 		\! -path 'third_party/widevine/*' \
 		-delete || die
@@ -280,6 +274,10 @@ src_configure() {
 	# TODO: also build with pnacl
 	myconf+=" -Ddisable_pnacl=1"
 
+	# It would be awkward for us to tar the toolchain and get it untarred again
+	# during the build.
+	myconf+=" -Ddisable_newlib_untar=1"
+
 	# Make it possible to remove third_party/adobe.
 	echo > "${T}/flapper_version.h" || die
 	myconf+=" -Dflapper_version_h_file=${T}/flapper_version.h"
@@ -294,6 +292,7 @@ src_configure() {
 		-Duse_system_flac=1
 		-Duse_system_harfbuzz=1
 		-Duse_system_icu=1
+		-Duse_system_jsoncpp=1
 		-Duse_system_libevent=1
 		-Duse_system_libjpeg=1
 		-Duse_system_libpng=1
@@ -303,6 +302,7 @@ src_configure() {
 		-Duse_system_libwebp=1
 		-Duse_system_libxml=1
 		-Duse_system_minizip=1
+		-Duse_system_nspr=1
 		-Duse_system_opus=1
 		-Duse_system_protobuf=1
 		-Duse_system_speex=1
@@ -314,6 +314,7 @@ src_configure() {
 
 	# Optional dependencies.
 	# TODO: linux_link_kerberos, bug #381289.
+	# TODO: linux_use_libgps, linux_link_libgps.
 	myconf+="
 		$(gyp_use cups)
 		$(gyp_use gnome use_gconf)
