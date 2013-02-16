@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-24.0.1312.52.ebuild,v 1.3 2013/01/11 10:05:59 ago Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-26.0.1403.0.ebuild,v 1.1 2013/02/05 10:31:43 phajdan.jr Exp $
 
 EAPI="5"
 PYTHON_DEPEND="2:2.6"
@@ -14,38 +14,52 @@ inherit chromium eutils flag-o-matic multilib \
 
 DESCRIPTION="Open-source version of Google Chrome web browser"
 HOMEPAGE="http://chromium.org/"
-SRC_URI="http://commondatastorage.googleapis.com/chromium-browser-official/${P}.tar.bz2"
+SRC_URI="https://commondatastorage.googleapis.com/chromium-browser-official/${P}.tar.xz"
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="amd64 x86"
-IUSE="bindist cups gnome gnome-keyring kerberos +nacl pulseaudio selinux tcmalloc"
+KEYWORDS="~amd64 ~x86"
+IUSE="bindist cups gnome gnome-keyring gps kerberos +nacl pulseaudio selinux system-ffmpeg tcmalloc"
 
-RDEPEND="app-arch/bzip2
+RDEPEND="app-accessibility/speech-dispatcher
+	app-arch/bzip2
 	cups? (
 		dev-libs/libgcrypt
 		>=net-print/cups-1.3.11
 	)
-	>=dev-lang/v8-3.14.5:=
+	>=dev-lang/v8-3.16.11.1:=
 	>=dev-libs/elfutils-0.149
 	dev-libs/expat
-	>=dev-libs/icu-49.1.1-r1
+	>=dev-libs/icu-49.1.1-r1:=
+	dev-libs/jsoncpp
 	>=dev-libs/libevent-1.4.13
 	dev-libs/libxml2[icu]
 	dev-libs/libxslt
+	dev-libs/nspr
 	>=dev-libs/nss-3.12.3
+	dev-libs/protobuf
+	dev-libs/re2
 	gnome? ( >=gnome-base/gconf-2.24.0 )
 	gnome-keyring? ( >=gnome-base/gnome-keyring-2.28.2 )
+	gps? ( >=sci-geosciences/gpsd-3.7[shm] )
 	>=media-libs/alsa-lib-1.0.19
 	media-libs/flac
+	media-libs/harfbuzz
 	>=media-libs/libjpeg-turbo-1.2.0-r1
 	media-libs/libpng
-	media-libs/libvpx
 	>=media-libs/libwebp-0.2.0_rc1
+	media-libs/mesa[gles2]
 	media-libs/opus
 	media-libs/speex
 	pulseaudio? ( media-sound/pulseaudio )
+	system-ffmpeg? ( || (
+		>=media-video/ffmpeg-1.0[opus]
+		<media-video/ffmpeg-1.0
+		media-video/libav
+	) )
+	>=net-libs/libsrtp-1.4.4_p20121108
 	sys-apps/dbus
+	sys-apps/pciutils
 	sys-libs/zlib[minizip]
 	virtual/udev
 	virtual/libusb:1
@@ -67,6 +81,7 @@ DEPEND="${RDEPEND}
 	dev-python/ply
 	dev-python/simplejson
 	>=dev-util/gperf-3.0.3
+	sys-apps/hwids
 	>=sys-devel/bison-2.4.3
 	sys-devel/flex
 	>=sys-devel/make-3.81-r2
@@ -104,56 +119,30 @@ pkg_setup() {
 		chromium_suid_sandbox_check_kernel_config
 	fi
 
-	if use bindist; then
+	if use bindist && ! use system-ffmpeg; then
 		elog "bindist enabled: H.264 video support will be disabled."
-	else
+	fi
+	if ! use bindist; then
 		elog "bindist disabled: Resulting binaries may not be legal to re-distribute."
 	fi
 }
 
 src_prepare() {
 	if use nacl; then
-		ebegin "Preparing NaCl newlib toolchain"
-		pushd "${T}" >/dev/null || die
-		mkdir sdk || die
-		cp -a /usr/$(get_libdir)/nacl-toolchain-newlib sdk/nacl-sdk || die
-		mkdir -p "${S}"/native_client/toolchain/.tars || die
-		tar czf "${S}"/native_client/toolchain/.tars/naclsdk_linux_x86.tgz sdk || die
-		popd >/dev/null || die
-		eend $?
+		mkdir -p out/Release/obj/gen/sdk/toolchain || die
+		cp -a /usr/$(get_libdir)/nacl-toolchain-newlib \
+			out/Release/obj/gen/sdk/toolchain/linux_x86_newlib || die
+		touch out/Release/obj/gen/sdk/toolchain/linux_x86_newlib/stamp.untar || die
 	fi
-
-	# zlib-1.2.5.1-r1 renames the OF macro in zconf.h, bug 383371.
-	# sed -i '1i#define OF(x) x' \
-	#	third_party/zlib/contrib/minizip/{ioapi,{,un}zip}.h || die
-
-	epatch "${FILESDIR}/${PN}-arm-r0.patch"
 
 	# Fix build without NaCl glibc toolchain.
 	epatch "${FILESDIR}/${PN}-ppapi-r0.patch"
 
-	# Fix build without NaCl pnacl toolchain.
-	epatch "${FILESDIR}/${PN}-no-pnacl-r0.patch"
+	epatch "${FILESDIR}/${PN}-gpsd-r0.patch"
 
-	# Missing gyp files in tarball.
-	# https://code.google.com/p/chromium/issues/detail?id=144823
-	if [[ -e chrome/test/data/nacl/nacl_test_data.gyp ]]; then
-		die "tarball fixed, please remove workaround"
-	fi
+	epatch "${FILESDIR}/${PN}-system-v8-r0.patch"
 
-	if use nacl; then
-	mkdir -p chrome/test/data/nacl
-	cat > chrome/test/data/nacl/nacl_test_data.gyp <<-EOF
-	{
-	  'targets': [
-	    {
-	      'target_name': 'nacl_tests',
-	      'type': 'none',
-	    },
-	  ],
-	}
-	EOF
-	fi
+	epatch "${FILESDIR}/${PN}-system-ffmpeg-r1.patch"
 
 	epatch_user
 
@@ -165,44 +154,30 @@ src_prepare() {
 		\! -path 'third_party/cld/*' \
 		\! -path 'third_party/cros_system_api/*' \
 		\! -path 'third_party/ffmpeg/*' \
-		\! -path 'third_party/flac/flac.h' \
 		\! -path 'third_party/flot/*' \
-		\! -path 'third_party/gpsd/*' \
-		\! -path 'third_party/harfbuzz/*' \
-		\! -path 'third_party/harfbuzz-ng/*' \
 		\! -path 'third_party/hunspell/*' \
 		\! -path 'third_party/hyphen/*' \
 		\! -path 'third_party/iccjpeg/*' \
-		\! -path 'third_party/jsoncpp/*' \
-		\! -path 'third_party/khronos/*' \
+		\! -path 'third_party/jstemplate/*' \
 		\! -path 'third_party/leveldatabase/*' \
 		\! -path 'third_party/libjingle/*' \
 		\! -path 'third_party/libphonenumber/*' \
-		\! -path 'third_party/libsrtp/*' \
-		\! -path 'third_party/libusb/libusb.h' \
-		\! -path 'third_party/libva/*' \
-		\! -path 'third_party/libvpx/libvpx.h' \
+		\! -path 'third_party/libvpx/*' \
 		\! -path 'third_party/libxml/chromium/*' \
 		\! -path 'third_party/libXNVCtrl/*' \
 		\! -path 'third_party/libyuv/*' \
 		\! -path 'third_party/lss/*' \
-		\! -path 'third_party/mesa/*' \
 		\! -path 'third_party/modp_b64/*' \
 		\! -path 'third_party/mongoose/*' \
 		\! -path 'third_party/mt19937ar/*' \
 		\! -path 'third_party/npapi/*' \
 		\! -path 'third_party/openmax/*' \
-		\! -path 'third_party/opus/opus.h*' \
 		\! -path 'third_party/ots/*' \
-		\! -path 'third_party/protobuf/*' \
 		\! -path 'third_party/pywebsocket/*' \
 		\! -path 'third_party/qcms/*' \
-		\! -path 'third_party/re2/*' \
-		\! -path 'third_party/scons-2.0.1/*' \
 		\! -path 'third_party/sfntly/*' \
 		\! -path 'third_party/skia/*' \
 		\! -path 'third_party/smhasher/*' \
-		\! -path 'third_party/speex/speex.h' \
 		\! -path 'third_party/sqlite/*' \
 		\! -path 'third_party/tcmalloc/*' \
 		\! -path 'third_party/tlslite/*' \
@@ -210,24 +185,12 @@ src_prepare() {
 		\! -path 'third_party/undoview/*' \
 		\! -path 'third_party/v8-i18n/*' \
 		\! -path 'third_party/webdriver/*' \
-		\! -path 'third_party/webgl_conformance/*' \
 		\! -path 'third_party/webrtc/*' \
 		\! -path 'third_party/widevine/*' \
 		-delete || die
 
-	local v8_bundled="$(chromium_bundled_v8_version)"
-	local v8_installed="$(chromium_installed_v8_version)"
-	einfo "V8 version: bundled - ${v8_bundled}; installed - ${v8_installed}"
-
 	# Remove bundled v8.
 	find v8 -type f \! -iname '*.gyp*' -delete || die
-
-	# The implementation files include v8 headers with full path,
-	# like #include "v8/include/v8.h". Make sure the system headers
-	# will be used.
-	# TODO: find a solution that can be upstreamed.
-	rmdir v8/include || die
-	ln -s /usr/include v8/include || die
 }
 
 src_configure() {
@@ -247,34 +210,44 @@ src_configure() {
 	# TODO: also build with pnacl
 	myconf+=" -Ddisable_pnacl=1"
 
+	# It would be awkward for us to tar the toolchain and get it untarred again
+	# during the build.
+	myconf+=" -Ddisable_newlib_untar=1"
+
 	# Make it possible to remove third_party/adobe.
 	echo > "${T}/flapper_version.h" || die
 	myconf+=" -Dflapper_version_h_file=${T}/flapper_version.h"
 
 	# Use system-provided libraries.
-	# TODO: use_system_ffmpeg
 	# TODO: use_system_hunspell (upstream changes needed).
-	# TODO: use_system_libsrtp (bug #348600).
 	# TODO: use_system_ssl (http://crbug.com/58087).
 	# TODO: use_system_sqlite (http://crbug.com/22208).
+	# TODO: use_system_libvpx (http://crbug.com/174287).
 	myconf+="
 		-Duse_system_bzip2=1
 		-Duse_system_flac=1
+		-Duse_system_harfbuzz=1
 		-Duse_system_icu=1
+		-Duse_system_jsoncpp=1
 		-Duse_system_libevent=1
 		-Duse_system_libjpeg=1
 		-Duse_system_libpng=1
+		-Duse_system_libsrtp=1
 		-Duse_system_libusb=1
-		-Duse_system_libvpx=1
 		-Duse_system_libwebp=1
 		-Duse_system_libxml=1
+		-Duse_system_mesa=1
 		-Duse_system_minizip=1
+		-Duse_system_nspr=1
 		-Duse_system_opus=1
+		-Duse_system_protobuf=1
+		-Duse_system_re2=1
 		-Duse_system_speex=1
 		-Duse_system_v8=1
 		-Duse_system_xdg_utils=1
 		-Duse_system_yasm=1
-		-Duse_system_zlib=1"
+		-Duse_system_zlib=1
+		$(gyp_use system-ffmpeg use_system_ffmpeg)"
 
 	# Optional dependencies.
 	# TODO: linux_link_kerberos, bug #381289.
@@ -283,6 +256,8 @@ src_configure() {
 		$(gyp_use gnome use_gconf)
 		$(gyp_use gnome-keyring use_gnome_keyring)
 		$(gyp_use gnome-keyring linux_link_gnome_keyring)
+		$(gyp_use gps linux_use_libgps)
+		$(gyp_use gps linux_link_libgps)
 		$(gyp_use kerberos)
 		$(if use nacl; then echo "-Ddisable_nacl=0"; else echo "-Ddisable_nacl=1"; fi)
 		$(gyp_use pulseaudio)
@@ -291,7 +266,13 @@ src_configure() {
 	# Use explicit library dependencies instead of dlopen.
 	# This makes breakages easier to detect by revdep-rebuild.
 	myconf+="
-		-Dlinux_link_gsettings=1"
+		-Dlinux_link_gsettings=1
+		-Dlinux_link_libpci=1
+		-Dlinux_link_libspeechd=1"
+
+	# TODO: use the file at run time instead of effectively compiling it in.
+	myconf+="
+		-Dusb_ids_path=/usr/share/misc/usb.ids"
 
 	if ! use selinux; then
 		# Enable SUID sandbox.
@@ -305,9 +286,12 @@ src_configure() {
 		-Dlinux_use_gold_binary=0
 		-Dlinux_use_gold_flags=0"
 
-	if ! use bindist; then
+	# Always support proprietary codecs.
+	myconf+=" -Dproprietary_codecs=1"
+
+	if ! use bindist && ! use system-ffmpeg; then
 		# Enable H.624 support in bundled ffmpeg.
-		myconf+=" -Dproprietary_codecs=1 -Dffmpeg_branding=Chrome"
+		myconf+=" -Dffmpeg_branding=Chrome"
 	fi
 
 	# Set up Google API keys, see http://www.chromium.org/developers/how-tos/api-keys .
@@ -483,7 +467,9 @@ src_install() {
 	newman out/Release/chrome.1 chromium${CHROMIUM_SUFFIX}.1 || die
 	newman out/Release/chrome.1 chromium-browser${CHROMIUM_SUFFIX}.1 || die
 
-	doexe out/Release/libffmpegsumo.so || die
+	if ! use system-ffmpeg; then
+		doexe out/Release/libffmpegsumo.so || die
+	fi
 
 	# Install icons and desktop entry.
 	local branding size
