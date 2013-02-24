@@ -1,16 +1,16 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-9999-r1.ebuild,v 1.164 2013/02/05 10:31:43 phajdan.jr Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-9999-r1.ebuild,v 1.168 2013/02/18 21:43:06 phajdan.jr Exp $
 
 EAPI="5"
-PYTHON_DEPEND="2:2.6"
+PYTHON_COMPAT=( python{2_6,2_7} )
 
 CHROMIUM_LANGS="am ar bg bn ca cs da de el en_GB es es_LA et fa fi fil fr gu he
 	hi hr hu id it ja kn ko lt lv ml mr ms nb nl pl pt_BR pt_PT ro ru sk sl sr
 	sv sw ta te th tr uk vi zh_CN zh_TW"
 
 inherit chromium eutils flag-o-matic multilib \
-	pax-utils portability python subversion toolchain-funcs versionator virtualx
+	pax-utils portability python-any-r1 subversion toolchain-funcs versionator virtualx
 
 DESCRIPTION="Open-source version of Google Chrome web browser"
 HOMEPAGE="http://chromium.org/"
@@ -48,7 +48,7 @@ RDEPEND="app-accessibility/speech-dispatcher
 	>=media-libs/libjpeg-turbo-1.2.0-r1
 	media-libs/libpng
 	>=media-libs/libwebp-0.2.0_rc1
-	media-libs/mesa[gles2]
+	!x86? ( media-libs/mesa[gles2] )
 	media-libs/opus
 	media-libs/speex
 	pulseaudio? ( media-sound/pulseaudio )
@@ -73,6 +73,7 @@ RDEPEND="app-accessibility/speech-dispatcher
 		sys-libs/libselinux
 	)"
 DEPEND="${RDEPEND}
+	${PYTHON_DEPS}
 	nacl? (
 		>=dev-lang/nacl-toolchain-newlib-0_p9093
 		dev-lang/yasm
@@ -166,12 +167,8 @@ pkg_setup() {
 	fi
 	CHROMIUM_HOME="/usr/$(get_libdir)/chromium-browser${CHROMIUM_SUFFIX}"
 
-	# Make sure the build system will use the right tools, bug #340795.
-	tc-export AR CC CXX RANLIB
-
 	# Make sure the build system will use the right python, bug #344367.
-	python_set_active_version 2
-	python_pkg_setup
+	python-any-r1_pkg_setup
 
 	if ! use selinux; then
 		chromium_suid_sandbox_check_kernel_config
@@ -213,6 +210,7 @@ src_prepare() {
 		\! -path 'third_party/hyphen/*' \
 		\! -path 'third_party/iccjpeg/*' \
 		\! -path 'third_party/jstemplate/*' \
+		\! -path 'third_party/khronos/*' \
 		\! -path 'third_party/leveldatabase/*' \
 		\! -path 'third_party/libjingle/*' \
 		\! -path 'third_party/libphonenumber/*' \
@@ -221,6 +219,7 @@ src_prepare() {
 		\! -path 'third_party/libXNVCtrl/*' \
 		\! -path 'third_party/libyuv/*' \
 		\! -path 'third_party/lss/*' \
+		\! -path 'third_party/mesa/*' \
 		\! -path 'third_party/modp_b64/*' \
 		\! -path 'third_party/mongoose/*' \
 		\! -path 'third_party/mt19937ar/*' \
@@ -241,6 +240,7 @@ src_prepare() {
 		\! -path 'third_party/webdriver/*' \
 		\! -path 'third_party/webrtc/*' \
 		\! -path 'third_party/widevine/*' \
+		\! -path 'third_party/x86inc/*' \
 		-delete || die
 
 	local v8_bundled="$(chromium_bundled_v8_version)"
@@ -294,7 +294,6 @@ src_configure() {
 		-Duse_system_libusb=1
 		-Duse_system_libwebp=1
 		-Duse_system_libxml=1
-		-Duse_system_mesa=1
 		-Duse_system_minizip=1
 		-Duse_system_nspr=1
 		-Duse_system_opus=1
@@ -306,6 +305,12 @@ src_configure() {
 		-Duse_system_yasm=1
 		-Duse_system_zlib=1
 		$(gyp_use system-ffmpeg use_system_ffmpeg)"
+
+	# TODO: Use system mesa on x86, bug #457130 .
+	if ! use x86; then
+		myconf+="
+			-Duse_system_mesa=1"
+	fi
 
 	# Optional dependencies.
 	# TODO: linux_link_kerberos, bug #381289.
@@ -386,6 +391,12 @@ src_configure() {
 		strip-flags
 	fi
 
+	# Make sure the build system will use the right tools, bug #340795.
+	tc-export AR CC CXX RANLIB
+
+	# Tools for building programs to be executed on the build system, bug #410883.
+	tc-export_build_env BUILD_AR BUILD_CC BUILD_CXX
+
 	egyp_chromium ${myconf} || die
 }
 
@@ -406,10 +417,10 @@ src_compile() {
 
 	# See bug #410883 for more info about the .host mess.
 	emake ${make_targets} BUILDTYPE=Release V=1 \
-		CC.host="$(tc-getCC)" CFLAGS.host="${CFLAGS}" \
-		CXX.host="$(tc-getCXX)" CXXFLAGS.host="${CXXFLAGS}" \
-		LINK.host="$(tc-getCXX)" LDFLAGS.host="${LDFLAGS}" \
-		AR.host="$(tc-getAR)" || die
+		CC.host="${BUILD_CC}" CFLAGS.host="${BUILD_CFLAGS}" \
+		CXX.host="${BUILD_CXX}" CXXFLAGS.host="${BUILD_CXXFLAGS}" \
+		LINK.host="${BUILD_CXX}" LDFLAGS.host="${BUILD_LDFLAGS}" \
+		AR.host="${BUILD_AR}" || die
 
 	pax-mark m out/Release/chrome
 	if use test; then
