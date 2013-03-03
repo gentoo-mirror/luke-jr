@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-26.0.1403.0.ebuild,v 1.4 2013/02/18 17:00:42 floppym Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-27.0.1425.0.ebuild,v 1.1 2013/03/01 18:01:14 phajdan.jr Exp $
 
 EAPI="5"
 PYTHON_COMPAT=( python{2_6,2_7} )
@@ -14,12 +14,15 @@ inherit chromium eutils flag-o-matic multilib \
 
 DESCRIPTION="Open-source version of Google Chrome web browser"
 HOMEPAGE="http://chromium.org/"
-SRC_URI="https://commondatastorage.googleapis.com/chromium-browser-official/${P}.tar.xz"
+SRC_URI="https://commondatastorage.googleapis.com/chromium-browser-official/${P}-lite.tar.xz"
 
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="bindist cups gnome gnome-keyring gps kerberos +nacl pulseaudio selinux system-ffmpeg tcmalloc"
+
+# Native Client binaries are compiled with different set of flags, bug #452066.
+QA_FLAGS_IGNORED=".*\.nexe"
 
 RDEPEND="app-accessibility/speech-dispatcher
 	app-arch/bzip2
@@ -31,7 +34,7 @@ RDEPEND="app-accessibility/speech-dispatcher
 	>=dev-libs/elfutils-0.149
 	dev-libs/expat
 	>=dev-libs/icu-49.1.1-r1:=
-	dev-libs/jsoncpp
+	>=dev-libs/jsoncpp-0.5.0-r1
 	>=dev-libs/libevent-1.4.13
 	dev-libs/libxml2[icu]
 	dev-libs/libxslt
@@ -47,16 +50,13 @@ RDEPEND="app-accessibility/speech-dispatcher
 	media-libs/harfbuzz
 	>=media-libs/libjpeg-turbo-1.2.0-r1
 	media-libs/libpng
+	media-libs/libvpx
 	>=media-libs/libwebp-0.2.0_rc1
-	media-libs/mesa[gles2]
+	!arm? ( !x86? ( media-libs/mesa[gles2] ) )
 	media-libs/opus
 	media-libs/speex
 	pulseaudio? ( media-sound/pulseaudio )
-	system-ffmpeg? ( || (
-		>=media-video/ffmpeg-1.0[opus]
-		<media-video/ffmpeg-1.0
-		media-video/libav
-	) )
+	system-ffmpeg? ( >=media-video/ffmpeg-1.0[opus] )
 	>=net-libs/libsrtp-1.4.4_p20121108
 	sys-apps/dbus
 	sys-apps/pciutils
@@ -136,10 +136,8 @@ src_prepare() {
 	epatch "${FILESDIR}/${PN}-ppapi-r0.patch"
 
 	epatch "${FILESDIR}/${PN}-gpsd-r0.patch"
-
 	epatch "${FILESDIR}/${PN}-system-v8-r0.patch"
-
-	epatch "${FILESDIR}/${PN}-system-ffmpeg-r1.patch"
+	epatch "${FILESDIR}/${PN}-system-ffmpeg-r4.patch"
 
 	epatch_user
 
@@ -156,14 +154,15 @@ src_prepare() {
 		\! -path 'third_party/hyphen/*' \
 		\! -path 'third_party/iccjpeg/*' \
 		\! -path 'third_party/jstemplate/*' \
+		\! -path 'third_party/khronos/*' \
 		\! -path 'third_party/leveldatabase/*' \
 		\! -path 'third_party/libjingle/*' \
 		\! -path 'third_party/libphonenumber/*' \
-		\! -path 'third_party/libvpx/*' \
 		\! -path 'third_party/libxml/chromium/*' \
 		\! -path 'third_party/libXNVCtrl/*' \
 		\! -path 'third_party/libyuv/*' \
 		\! -path 'third_party/lss/*' \
+		\! -path 'third_party/mesa/*' \
 		\! -path 'third_party/modp_b64/*' \
 		\! -path 'third_party/mongoose/*' \
 		\! -path 'third_party/mt19937ar/*' \
@@ -184,6 +183,7 @@ src_prepare() {
 		\! -path 'third_party/webdriver/*' \
 		\! -path 'third_party/webrtc/*' \
 		\! -path 'third_party/widevine/*' \
+		\! -path 'third_party/x86inc/*' \
 		-delete || die
 
 	# Remove bundled v8.
@@ -219,7 +219,6 @@ src_configure() {
 	# TODO: use_system_hunspell (upstream changes needed).
 	# TODO: use_system_ssl (http://crbug.com/58087).
 	# TODO: use_system_sqlite (http://crbug.com/22208).
-	# TODO: use_system_libvpx (http://crbug.com/174287).
 	myconf+="
 		-Duse_system_bzip2=1
 		-Duse_system_flac=1
@@ -231,9 +230,9 @@ src_configure() {
 		-Duse_system_libpng=1
 		-Duse_system_libsrtp=1
 		-Duse_system_libusb=1
+		-Duse_system_libvpx=1
 		-Duse_system_libwebp=1
 		-Duse_system_libxml=1
-		-Duse_system_mesa=1
 		-Duse_system_minizip=1
 		-Duse_system_nspr=1
 		-Duse_system_opus=1
@@ -242,9 +241,24 @@ src_configure() {
 		-Duse_system_speex=1
 		-Duse_system_v8=1
 		-Duse_system_xdg_utils=1
-		-Duse_system_yasm=1
 		-Duse_system_zlib=1
 		$(gyp_use system-ffmpeg use_system_ffmpeg)"
+
+	# TODO: Use system mesa on x86, bug #457130 .
+	if ! use x86 && ! use arm; then
+		myconf+="
+			-Duse_system_mesa=1"
+	fi
+
+	# TODO: patch gyp so that this arm conditional is not needed.
+	if ! use arm; then
+		myconf+="
+			-Duse_system_yasm=1"
+	fi
+
+	# TODO: re-enable on vp9 libvpx release (http://crbug.com/174287).
+	myconf+="
+		-Dmedia_use_libvpx=0"
 
 	# Optional dependencies.
 	# TODO: linux_link_kerberos, bug #381289.
@@ -307,6 +321,7 @@ src_configure() {
 	elif [[ $myarch = arm ]] ; then
 		# TODO: re-enable NaCl (NativeClient).
 		myconf+=" -Dtarget_arch=arm
+			-Dsysroot=
 			-Darmv7=0
 			-Darm_neon=0
 			"
@@ -337,7 +352,7 @@ src_configure() {
 src_compile() {
 	local test_targets
 	for x in base cacheinvalidation crypto \
-		googleurl gpu media net printing sql; do
+		googleurl gpu printing sql; do
 		test_targets+=" ${x}_unittests"
 	done
 
@@ -436,7 +451,7 @@ src_install() {
 		doins out/Release/libppGoogleNaClPluginChrome.so || die
 	fi
 
-	newexe "${FILESDIR}"/chromium-launcher-r2.sh chromium-launcher.sh || die
+	newexe "${FILESDIR}"/chromium-launcher-r3.sh chromium-launcher.sh || die
 	if [[ "${CHROMIUM_SUFFIX}" != "" ]]; then
 		sed "s:chromium-browser:chromium-browser${CHROMIUM_SUFFIX}:g" \
 			-i "${ED}"/"${CHROMIUM_HOME}"/chromium-launcher.sh || die
