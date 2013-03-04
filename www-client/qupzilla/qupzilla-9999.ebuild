@@ -16,12 +16,12 @@ KEYWORDS=""
 IUSE="dbus debug kde"
 
 DEPEND="
-	>=x11-libs/qt-core-4.7:4
-	>=x11-libs/qt-gui-4.7:4
-	>=x11-libs/qt-script-4.7:4
-	>=x11-libs/qt-sql-4.7:4
-	>=x11-libs/qt-webkit-4.7:4
-	dbus? ( >=x11-libs/qt-dbus-4.7:4 )
+	>=dev-qt/qtcore-4.7:4
+	>=dev-qt/qtgui-4.7:4
+	>=dev-qt/qtscript-4.7:4
+	>=dev-qt/qtsql-4.7:4
+	>=dev-qt/qtwebkit-4.7:4
+	dbus? ( >=dev-qt/qtdbus-4.7:4 )
 "
 RDEPEND="${DEPEND}"
 
