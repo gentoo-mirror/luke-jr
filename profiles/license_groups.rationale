@@ -73,14 +73,15 @@
 	APSL-2
 	OpenSoftware
 	CreativeCommons:
-		CCPL-Attribution-ShareAlike-3.0
+		CC-BY-SA-3.0
+		CC-SA-1.0
+		CC-PD
 	myspell-en_CA-KevinAtkinson
 	man-pages-posix
 	kilgard
 	ISC
 	md2k7-asyouwish
 	LIBGLOSS
-	CC-PD
 	UbuntuFontLicense-1.0
 	BAEKMUK
 	czyborra
@@ -91,7 +92,6 @@
 		MaxMind
 		MaxMind2
 	SMAIL
-	CCPL-ShareAlike-1.0
 	Old-MIT
 
 	AMBIGUOUS-no-fee:
