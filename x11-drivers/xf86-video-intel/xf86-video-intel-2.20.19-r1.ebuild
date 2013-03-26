@@ -14,7 +14,8 @@ IUSE="glamor +sna +udev uxa xvmc"
 
 REQUIRED_USE="|| ( glamor sna uxa )"
 
-RDEPEND="x11-libs/libXext
+RDEPEND="<x11-base/xorg-server-1.13.49
+	x11-libs/libXext
 	x11-libs/libXfixes
 	>=x11-libs/pixman-0.27.1
 	>=x11-libs/libdrm-2.4.29[video_cards_intel]
