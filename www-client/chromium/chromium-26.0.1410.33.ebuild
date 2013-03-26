@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-27.0.1423.0.ebuild,v 1.4 2013/03/01 02:15:33 floppym Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-26.0.1410.33.ebuild,v 1.1 2013/03/14 02:53:10 floppym Exp $
 
 EAPI="5"
 PYTHON_COMPAT=( python{2_6,2_7} )
@@ -34,13 +34,13 @@ RDEPEND="app-accessibility/speech-dispatcher
 	>=dev-libs/elfutils-0.149
 	dev-libs/expat
 	>=dev-libs/icu-49.1.1-r1:=
-	=dev-libs/jsoncpp-0.5.0
+	dev-libs/jsoncpp
 	>=dev-libs/libevent-1.4.13
 	dev-libs/libxml2[icu]
 	dev-libs/libxslt
 	dev-libs/nspr
 	>=dev-libs/nss-3.12.3
-	dev-libs/protobuf
+	dev-libs/protobuf:=
 	dev-libs/re2
 	gnome? ( >=gnome-base/gconf-2.24.0 )
 	gnome-keyring? ( >=gnome-base/gnome-keyring-2.28.2 )
@@ -51,7 +51,7 @@ RDEPEND="app-accessibility/speech-dispatcher
 	>=media-libs/libjpeg-turbo-1.2.0-r1
 	media-libs/libpng
 	>=media-libs/libwebp-0.2.0_rc1
-	!arm? ( !x86? ( media-libs/mesa[gles2] ) )
+	!arm? ( !x86? ( >=media-libs/mesa-9.1[gles2] ) )
 	media-libs/opus
 	media-libs/speex
 	pulseaudio? ( media-sound/pulseaudio )
@@ -126,7 +126,8 @@ pkg_setup() {
 src_prepare() {
 	if use nacl; then
 		mkdir -p out/Release/obj/gen/sdk/toolchain || die
-		cp -a /usr/$(get_libdir)/nacl-toolchain-newlib \
+		# Do not preserve SELinux context, bug #460892 .
+		cp -a --no-preserve=context /usr/$(get_libdir)/nacl-toolchain-newlib \
 			out/Release/obj/gen/sdk/toolchain/linux_x86_newlib || die
 		touch out/Release/obj/gen/sdk/toolchain/linux_x86_newlib/stamp.untar || die
 	fi
@@ -135,8 +136,14 @@ src_prepare() {
 	epatch "${FILESDIR}/${PN}-ppapi-r0.patch"
 
 	epatch "${FILESDIR}/${PN}-gpsd-r0.patch"
+	epatch "${FILESDIR}/${PN}-mesa-r0.patch"
 	epatch "${FILESDIR}/${PN}-system-v8-r0.patch"
-	epatch "${FILESDIR}/${PN}-system-ffmpeg-r3.patch"
+	epatch "${FILESDIR}/${PN}-system-ffmpeg-r2a.patch"
+
+	epatch "${FILESDIR}/${PN}-jsoncpp-path-r0.patch"
+
+	# Fix build issue with smhasher, bug #459126 .
+	epatch "${FILESDIR}/${PN}-smhasher-r0.patch"
 
 	epatch_user
 
@@ -402,6 +409,7 @@ src_test() {
 	local excluded_base_unittests=(
 		"ICUStringConversionsTest.*" # bug #350347
 		"MessagePumpLibeventTest.*" # bug #398591
+		"SecurityTest.CallocOverflow" # bug #458396
 	)
 	runtest out/Release/base_unittests "${excluded_base_unittests[@]}"
 
