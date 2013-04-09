@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-27.0.1448.0.ebuild,v 1.1 2013/03/23 03:39:48 phajdan.jr Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-27.0.1453.12.ebuild,v 1.2 2013/04/05 21:44:11 floppym Exp $
 
 EAPI="5"
 PYTHON_COMPAT=( python{2_6,2_7} )
@@ -25,7 +25,7 @@ IUSE="cups gnome gnome-keyring gps kerberos +nacl pulseaudio selinux system-sqli
 # Native Client binaries are compiled with different set of flags, bug #452066.
 QA_FLAGS_IGNORED=".*\.nexe"
 
-RDEPEND="app-accessibility/speech-dispatcher:=
+RDEPEND=">=app-accessibility/speech-dispatcher-0.8:=
 	app-arch/bzip2:=
 	system-sqlite? ( dev-db/sqlite:3 )
 	cups? (
@@ -51,7 +51,7 @@ RDEPEND="app-accessibility/speech-dispatcher:=
 	media-libs/flac:=
 	media-libs/harfbuzz:=
 	>=media-libs/libjpeg-turbo-1.2.0-r1:=
-	media-libs/libpng:=
+	media-libs/libpng:0=
 	media-libs/libvpx:=
 	>=media-libs/libwebp-0.2.0_rc1:=
 	!arm? ( !x86? ( >=media-libs/mesa-9.1:=[gles2] ) )
@@ -139,6 +139,15 @@ src_prepare() {
 
 	# Fix build issue with smhasher, bug #459126 .
 	epatch "${FILESDIR}/${PN}-smhasher-r0.patch"
+
+	# Fix build without pnacl, to be upstreamed.
+	epatch "${FILESDIR}/${PN}-pnacl-r0.patch"
+
+	# Fix build with speech-dispatcher-0.8, bug #463550 .
+	epatch "${FILESDIR}/${PN}-speech-dispatcher-0.8-r0.patch"
+
+	# Fix build with system v8.
+	epatch "${FILESDIR}/${PN}-system-v8-r0.patch"
 
 	epatch_user
 
