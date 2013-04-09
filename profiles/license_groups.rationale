@@ -86,6 +86,8 @@
 	BAEKMUK
 	czyborra
 	man-pages
+	boehm-gc
+	tcltk
 	
 	BSD-1
 	BSD-1-based:
@@ -93,6 +95,10 @@
 		MaxMind2
 	SMAIL
 	Old-MIT
+	rc
+	PCRE
+	BSD-with-attribution
+	SSLeay
 
 	AMBIGUOUS-no-fee:
 		CNRI
