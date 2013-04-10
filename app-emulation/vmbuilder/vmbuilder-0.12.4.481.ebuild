@@ -18,7 +18,11 @@ LICENSE="GPL-3"
 
 RDEPEND="
 	>=dev-util/debootstrap-1.0.9
-	>=dev-lang/python-2.5:2
+	|| (
+		dev-lang/python:2.5
+		dev-lang/python:2.6
+		dev-lang/python:2.7
+	)
 	app-emulation/qemu
 	net-misc/rsync
 	dev-python/cheetah
