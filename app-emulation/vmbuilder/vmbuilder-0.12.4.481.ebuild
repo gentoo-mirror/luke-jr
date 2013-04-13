@@ -3,6 +3,7 @@
 # $Header: $
 
 EAPI=5
+SUPPORT_PYTHON_ABIS="1"
 RESTRICT_PYTHON_ABIS="3.*"
 
 inherit bzr distutils
