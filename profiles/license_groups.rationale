@@ -110,6 +110,11 @@
 		libpng
 		docbook
 		IJG
+
+	Barely-free-strict:
+		FDL-1.2
+		FDL-1.2+
+		FDL-1.1+
 	
 	Ask-me:
 		Luke-Jr
