@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-26.0.1410.43.ebuild,v 1.9 2013/04/10 22:44:20 phajdan.jr Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-27.0.1453.65.ebuild,v 1.2 2013/05/01 21:30:19 phajdan.jr Exp $
 
 EAPI="5"
 PYTHON_COMPAT=( python{2_6,2_7} )
@@ -14,63 +14,63 @@ inherit chromium eutils flag-o-matic multilib \
 
 DESCRIPTION="Open-source version of Google Chrome web browser"
 HOMEPAGE="http://chromium.org/"
-SRC_URI="https://commondatastorage.googleapis.com/chromium-browser-official/${P}.tar.xz"
+SRC_URI="https://commondatastorage.googleapis.com/chromium-browser-official/${P}-lite.tar.xz
+	test? ( https://commondatastorage.googleapis.com/chromium-browser-official/${P}-testdata.tar.xz )"
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="amd64 x86"
-IUSE="bindist cups gnome gnome-keyring gps kerberos +nacl pulseaudio selinux system-ffmpeg tcmalloc"
+KEYWORDS="~amd64 ~x86"
+IUSE="bindist cups gnome gnome-keyring gps kerberos +nacl pulseaudio selinux +system-ffmpeg system-sqlite tcmalloc"
 
 # Native Client binaries are compiled with different set of flags, bug #452066.
 QA_FLAGS_IGNORED=".*\.nexe"
 
-RDEPEND="<app-accessibility/speech-dispatcher-0.8
-	app-arch/bzip2
+RDEPEND=">=app-accessibility/speech-dispatcher-0.8:=
+	app-arch/bzip2:=
+	system-sqlite? ( dev-db/sqlite:3 )
 	cups? (
-		dev-libs/libgcrypt
-		>=net-print/cups-1.3.11
+		dev-libs/libgcrypt:=
+		>=net-print/cups-1.3.11:=
 	)
-	>=dev-lang/v8-3.16.11.1:=
-	=dev-lang/v8-3.16*
+	>=dev-lang/v8-3.17.6:=
+	=dev-lang/v8-3.17*
 	>=dev-libs/elfutils-0.149
-	dev-libs/expat
+	dev-libs/expat:=
 	>=dev-libs/icu-49.1.1-r1:=
-	dev-libs/jsoncpp
-	>=dev-libs/libevent-1.4.13
-	dev-libs/libxml2[icu]
-	dev-libs/libxslt
-	dev-libs/nspr
-	>=dev-libs/nss-3.12.3
+	>=dev-libs/jsoncpp-0.5.0-r1:=
+	>=dev-libs/libevent-1.4.13:=
+	dev-libs/libxml2:=[icu]
+	dev-libs/libxslt:=
+	dev-libs/nspr:=
+	>=dev-libs/nss-3.12.3:=
 	dev-libs/protobuf:=
-	dev-libs/re2
-	gnome? ( >=gnome-base/gconf-2.24.0 )
-	gnome-keyring? ( >=gnome-base/gnome-keyring-2.28.2 )
-	gps? ( >=sci-geosciences/gpsd-3.7[shm] )
-	>=media-libs/alsa-lib-1.0.19
-	media-libs/flac
-	media-libs/harfbuzz
-	>=media-libs/libjpeg-turbo-1.2.0-r1
+	dev-libs/re2:=
+	gnome? ( >=gnome-base/gconf-2.24.0:= )
+	gnome-keyring? ( >=gnome-base/gnome-keyring-2.28.2:= )
+	gps? ( >=sci-geosciences/gpsd-3.7:=[shm] )
+	>=media-libs/alsa-lib-1.0.19:=
+	media-libs/flac:=
+	media-libs/harfbuzz:=
+	>=media-libs/libjpeg-turbo-1.2.0-r1:=
 	media-libs/libpng:0=
-	media-libs/libvpx
-	>=media-libs/libwebp-0.2.0_rc1
-	media-libs/opus
-	media-libs/speex
-	pulseaudio? ( media-sound/pulseaudio )
-	system-ffmpeg? ( >=media-video/ffmpeg-1.0[opus] )
-	sys-apps/dbus
-	sys-apps/pciutils
-	sys-libs/zlib[minizip]
+	media-libs/libvpx:=
+	>=media-libs/libwebp-0.2.0_rc1:=
+	!arm? ( !x86? ( >=media-libs/mesa-9.1:=[gles2] ) )
+	media-libs/opus:=
+	media-libs/speex:=
+	pulseaudio? ( media-sound/pulseaudio:= )
+	system-ffmpeg? ( >=media-video/ffmpeg-1.0:=[opus] )
+	sys-apps/dbus:=
+	sys-apps/pciutils:=
+	sys-libs/zlib:=[minizip]
 	virtual/udev
-	virtual/libusb:1
-	x11-libs/gtk+:2
-	x11-libs/libXinerama
-	x11-libs/libXScrnSaver
-	x11-libs/libXtst
+	virtual/libusb:1=
+	x11-libs/gtk+:2=
+	x11-libs/libXinerama:=
+	x11-libs/libXScrnSaver:=
+	x11-libs/libXtst:=
 	kerberos? ( virtual/krb5 )
-	selinux? (
-		sec-policy/selinux-chromium
-		sys-libs/libselinux
-	)"
+	selinux? ( sec-policy/selinux-chromium )"
 DEPEND="${RDEPEND}
 	${PYTHON_DEPS}
 	nacl? (
@@ -111,9 +111,7 @@ pkg_setup() {
 	# Make sure the build system will use the right python, bug #344367.
 	python-any-r1_pkg_setup
 
-	if ! use selinux; then
-		chromium_suid_sandbox_check_kernel_config
-	fi
+	chromium_suid_sandbox_check_kernel_config
 
 	if use bindist && ! use system-ffmpeg; then
 		elog "bindist enabled: H.264 video support will be disabled."
@@ -132,17 +130,20 @@ src_prepare() {
 		touch out/Release/obj/gen/sdk/toolchain/linux_x86_newlib/stamp.untar || die
 	fi
 
-	# Fix build without NaCl glibc toolchain.
-	epatch "${FILESDIR}/${PN}-ppapi-r0.patch"
-
 	epatch "${FILESDIR}/${PN}-gpsd-r0.patch"
-	epatch "${FILESDIR}/${PN}-system-v8-r0.patch"
-	epatch "${FILESDIR}/${PN}-system-ffmpeg-r2a.patch"
-
-	epatch "${FILESDIR}/${PN}-jsoncpp-path-r0.patch"
+	epatch "${FILESDIR}/${PN}-system-ffmpeg-r4.patch"
 
 	# Fix build issue with smhasher, bug #459126 .
 	epatch "${FILESDIR}/${PN}-smhasher-r0.patch"
+
+	# Fix build without pnacl, to be upstreamed.
+	epatch "${FILESDIR}/${PN}-pnacl-r0.patch"
+
+	# Fix build with speech-dispatcher-0.8, bug #463550 .
+	epatch "${FILESDIR}/${PN}-speech-dispatcher-0.8-r0.patch"
+
+	# Fix build with system v8.
+	epatch "${FILESDIR}/${PN}-system-v8-r0.patch"
 
 	epatch_user
 
@@ -250,6 +251,12 @@ src_configure() {
 		-Duse_system_zlib=1
 		$(gyp_use system-ffmpeg use_system_ffmpeg)"
 
+	# TODO: Use system mesa on x86, bug #457130 .
+	if ! use x86 && ! use arm; then
+		myconf+="
+			-Duse_system_mesa=1"
+	fi
+
 	# TODO: patch gyp so that this arm conditional is not needed.
 	if ! use arm; then
 		myconf+="
@@ -271,8 +278,16 @@ src_configure() {
 		$(gyp_use gps linux_link_libgps)
 		$(gyp_use kerberos)
 		$(if use nacl; then echo "-Ddisable_nacl=0"; else echo "-Ddisable_nacl=1"; fi)
-		$(gyp_use pulseaudio)
-		$(gyp_use selinux selinux)"
+		$(gyp_use pulseaudio)"
+
+	if use system-sqlite; then
+		elog "Enabling system sqlite. WebSQL - http://www.w3.org/TR/webdatabase/"
+		elog "will not work. Please report sites broken by this"
+		elog "to https://bugs.gentoo.org"
+		myconf+="
+			-Duse_system_sqlite=1
+			-Denable_sql_database=0"
+	fi
 
 	# Use explicit library dependencies instead of dlopen.
 	# This makes breakages easier to detect by revdep-rebuild.
@@ -285,12 +300,10 @@ src_configure() {
 	myconf+="
 		-Dusb_ids_path=/usr/share/misc/usb.ids"
 
-	if ! use selinux; then
-		# Enable SUID sandbox.
-		myconf+="
-			-Dlinux_sandbox_path=${CHROMIUM_HOME}/chrome_sandbox
-			-Dlinux_sandbox_chrome_path=${CHROMIUM_HOME}/chrome"
-	fi
+	# Enable SUID sandbox.
+	myconf+="
+		-Dlinux_sandbox_path=${CHROMIUM_HOME}/chrome_sandbox
+		-Dlinux_sandbox_chrome_path=${CHROMIUM_HOME}/chrome"
 
 	# Never use bundled gold binary. Disable gold linker flags for now.
 	myconf+="
@@ -350,18 +363,16 @@ src_configure() {
 }
 
 src_compile() {
-	local test_targets
-	for x in base cacheinvalidation crypto \
+	# TODO: add media_unittests after fixing compile (bug #462546).
+	local test_targets=""
+	for x in base cacheinvalidation content crypto \
 		googleurl gpu net printing sql; do
 		test_targets+=" ${x}_unittests"
 	done
 
-	local make_targets="chrome chromedriver"
-	if ! use selinux; then
-		make_targets+=" chrome_sandbox"
-	fi
+	local make_targets="chrome chrome_sandbox chromedriver"
 	if use test; then
-		make_targets+=$test_targets
+		make_targets+=" $test_targets"
 	fi
 
 	# See bug #410883 for more info about the .host mess.
@@ -406,42 +417,53 @@ src_test() {
 	local excluded_base_unittests=(
 		"ICUStringConversionsTest.*" # bug #350347
 		"MessagePumpLibeventTest.*" # bug #398591
-		"SecurityTest.CallocOverflow" # bug #458396
+		"TimeTest.JsTime" # bug #459614
+		"SecurityTest.NewOverflow" # bug #465724
 	)
 	runtest out/Release/base_unittests "${excluded_base_unittests[@]}"
 
 	runtest out/Release/cacheinvalidation_unittests
+
+	local excluded_content_unittests=(
+		"RendererDateTimePickerTest.*" # bug #465452
+	)
+	runtest out/Release/content_unittests "${excluded_content_unittests[@]}"
+
 	runtest out/Release/crypto_unittests
 	runtest out/Release/googleurl_unittests
 	runtest out/Release/gpu_unittests
 
-	# TODO: re-enable when we get the test data in a separate tarball.
+	# TODO: add media_unittests after fixing compile (bug #462546).
 	# runtest out/Release/media_unittests
 
-	# local excluded_net_unittests=(
-	#	"NetUtilTest.IDNToUnicode*" # bug 361885
-	#	"NetUtilTest.FormatUrl*" # see above
-	#	"DnsConfigServiceTest.GetSystemConfig" # bug #394883
-	#	"CertDatabaseNSSTest.ImportServerCert_SelfSigned" # bug #399269
-	#	"URLFetcher*" # bug #425764
-	#	"HTTPSOCSPTest.*" # bug #426630
-	#	"HTTPSEVCRLSetTest.*" # see above
-	#	"HTTPSCRLSetTest.*" # see above
-	#)
-	# runtest out/Release/net_unittests "${excluded_net_unittests[@]}"
+	local excluded_net_unittests=(
+		"NetUtilTest.IDNToUnicode*" # bug 361885
+		"NetUtilTest.FormatUrl*" # see above
+		"DnsConfigServiceTest.GetSystemConfig" # bug #394883
+		"CertDatabaseNSSTest.ImportServerCert_SelfSigned" # bug #399269
+		"CertDatabaseNSSTest.TrustIntermediateCa*" # http://crbug.com/224612
+		"URLFetcher*" # bug #425764
+		"HTTPSOCSPTest.*" # bug #426630
+		"HTTPSEVCRLSetTest.*" # see above
+		"HTTPSCRLSetTest.*" # see above
+		"*SpdyFramerTest.BasicCompression*" # bug #465444
+	)
+	runtest out/Release/net_unittests "${excluded_net_unittests[@]}"
 
 	runtest out/Release/printing_unittests
-	runtest out/Release/sql_unittests
+
+	local excluded_sql_unittests=(
+		"SQLiteFeaturesTest.FTS2" # bug #461286
+	)
+	runtest out/Release/sql_unittests "${excluded_sql_unittests[@]}"
 }
 
 src_install() {
 	exeinto "${CHROMIUM_HOME}"
 	doexe out/Release/chrome || die
 
-	if ! use selinux; then
-		doexe out/Release/chrome_sandbox || die
-		fperms 4755 "${CHROMIUM_HOME}/chrome_sandbox"
-	fi
+	doexe out/Release/chrome_sandbox || die
+	fperms 4755 "${CHROMIUM_HOME}/chrome_sandbox"
 
 	doexe out/Release/chromedriver || die
 
