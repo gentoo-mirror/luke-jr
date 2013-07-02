@@ -12,6 +12,8 @@ LICENSE="BSD-2"
 EGIT_REPO_URI="git://github.com/luke-jr/win_backtrace.git"
 SLOT="0"
 KEYWORDS=""
+DEPEND="sys-devel/binutils"
+RDEPEND=""
 
 src_compile() {
 	emake backtrace.dll || die
