@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-9999-r1.ebuild,v 1.202 2013/07/14 00:34:28 floppym Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-28.0.1500.89.ebuild,v 1.2 2013/07/14 00:34:28 floppym Exp $
 
 EAPI="5"
 PYTHON_COMPAT=( python{2_6,2_7} )
@@ -9,26 +9,23 @@ CHROMIUM_LANGS="am ar bg bn ca cs da de el en_GB es es_LA et fa fi fil fr gu he
 	hi hr hu id it ja kn ko lt lv ml mr ms nb nl pl pt_BR pt_PT ro ru sk sl sr
 	sv sw ta te th tr uk vi zh_CN zh_TW"
 
-inherit chromium eutils flag-o-matic multilib multiprocessing \
-	pax-utils portability python-any-r1 subversion toolchain-funcs versionator virtualx
+inherit chromium eutils flag-o-matic multilib \
+	pax-utils portability python-any-r1 toolchain-funcs versionator virtualx
 
 DESCRIPTION="Open-source version of Google Chrome web browser"
 HOMEPAGE="http://chromium.org/"
-ESVN_REPO_URI="http://src.chromium.org/svn/trunk/src"
+SRC_URI="https://commondatastorage.googleapis.com/chromium-browser-official/${P}-lite.tar.xz
+	test? ( https://commondatastorage.googleapis.com/chromium-browser-official/${P}-testdata.tar.xz )"
 
 LICENSE="BSD"
-SLOT="live"
-KEYWORDS=""
+SLOT="0"
+KEYWORDS="~amd64 ~arm ~x86"
 IUSE="bindist cups gnome gnome-keyring gps kerberos +nacl pulseaudio selinux +system-ffmpeg system-sqlite tcmalloc"
 
 # Native Client binaries are compiled with different set of flags, bug #452066.
 QA_FLAGS_IGNORED=".*\.nexe"
 
-# Native Client binaries may be stripped by the build system, which uses the
-# right tools for it, bug #469144 .
-QA_PRESTRIPPED=".*\.nexe"
-
-RDEPEND=">=app-accessibility/speech-dispatcher-0.8:=
+RDEPEND="app-accessibility/speech-dispatcher:=
 	app-arch/bzip2:=
 	app-arch/snappy:=
 	system-sqlite? ( dev-db/sqlite:3 )
@@ -36,8 +33,8 @@ RDEPEND=">=app-accessibility/speech-dispatcher-0.8:=
 		dev-libs/libgcrypt:=
 		>=net-print/cups-1.3.11:=
 	)
-	>=dev-lang/v8-3.19.17:=
-	=dev-lang/v8-3.19*
+	>=dev-lang/v8-3.17.6:=
+	=dev-lang/v8-3.18*
 	>=dev-libs/elfutils-0.149
 	dev-libs/expat:=
 	>=dev-libs/icu-49.1.1-r1:=
@@ -52,7 +49,7 @@ RDEPEND=">=app-accessibility/speech-dispatcher-0.8:=
 	gnome? ( >=gnome-base/gconf-2.24.0:= )
 	gnome-keyring? ( >=gnome-base/gnome-keyring-2.28.2:= )
 	gps? ( >=sci-geosciences/gpsd-3.7:=[shm] )
-	>=media-libs/alsa-lib-1.0.19
+	>=media-libs/alsa-lib-1.0.19:=
 	media-libs/flac:=
 	media-libs/harfbuzz:=[icu(+)]
 	>=media-libs/libjpeg-turbo-1.2.0-r1:=
@@ -85,15 +82,13 @@ DEPEND="${RDEPEND}
 		dev-lang/yasm
 	)
 	dev-lang/perl
-	dev-perl/JSON
-	dev-python/jinja
 	dev-python/ply
 	dev-python/simplejson
 	>=dev-util/gperf-3.0.3
-	dev-util/ninja
 	sys-apps/hwids
 	>=sys-devel/bison-2.4.3
 	sys-devel/flex
+	>=sys-devel/make-3.81-r2
 	virtual/pkgconfig
 	test? ( dev-python/pyftpdlib )"
 RDEPEND+="
@@ -104,74 +99,6 @@ RDEPEND+="
 REQUIRED_USE="
 	arm? ( !nacl )
 "
-
-gclient_config() {
-	einfo "gclient config -->"
-	# Allow the user to keep their config if they know what they are doing.
-	if ! grep -q KEEP .gclient; then
-		cp -f "${FILESDIR}/dot-gclient" .gclient || die
-	fi
-	cat .gclient || die
-}
-
-gclient_sync() {
-	einfo "gclient sync -->"
-	[[ -n "${ESVN_UMASK}" ]] && eumask_push "${ESVN_UMASK}"
-	# Only use a single job to prevent hangs.
-	"${WORKDIR}/depot_tools/gclient" sync --nohooks --jobs=1 \
-		--delete_unversioned_trees || die
-	[[ -n "${ESVN_UMASK}" ]] && eumask_pop
-}
-
-gclient_runhooks() {
-	# Run all hooks except gyp_chromium.
-	einfo "gclient runhooks -->"
-	cp src/DEPS src/DEPS.orig || die
-	sed -e 's:"python", "src/build/gyp_chromium":"true":' -i src/DEPS || die
-	"${WORKDIR}/depot_tools/gclient" runhooks
-	local ret=$?
-	mv src/DEPS.orig src/DEPS || die
-	[[ ${ret} -eq 0 ]] || die "gclient runhooks failed"
-}
-
-src_unpack() {
-	# First grab depot_tools.
-	DEPOT_TOOLS_REPO="https://src.chromium.org/svn/trunk/tools/depot_tools"
-	addwrite "${ESVN_STORE_DIR}"
-	if subversion_wc_info "${DEPOT_TOOLS_REPO}"; then
-		if [ "${ESVN_WC_URL}" != "${DEPOT_TOOLS_REPO}" ]; then
-			einfo "Removing old (http) depot_tools ${ESVN_WC_PATH}"
-			rm -rf "${ESVN_WC_PATH}" || die
-		fi
-	fi
-	ESVN_REVISION= subversion_fetch "${DEPOT_TOOLS_REPO}"
-	mv "${S}" "${WORKDIR}"/depot_tools || die
-
-	cd "${ESVN_STORE_DIR}/${PN}" || die
-
-	gclient_config
-	gclient_sync
-
-	# Disabled so that we do not download nacl toolchain.
-	#gclient_runhooks
-
-	# Remove any lingering nacl toolchain files.
-	rm -rf src/native_client/toolchain/linux_x86_newlib
-
-	subversion_wc_info
-
-	cd src || die
-	${PYTHON} build/util/lastchange.py -o build/util/LASTCHANGE || die
-	${PYTHON} build/util/lastchange.py -s third_party/WebKit \
-		-o build/util/LASTCHANGE.blink || die
-
-	mkdir -p "${S}" || die
-	einfo "Copying source to ${S}"
-	rsync -rlpgo --exclude=".svn/" . "${S}" || die
-
-	. chrome/VERSION
-	elog "Installing/updating to version ${MAJOR}.${MINOR}.${BUILD}.${PATCH} (Developer Build ${ESVN_WC_REVISION})"
-}
 
 if ! has chromium_pkg_die ${EBUILD_DEATH_HOOKS}; then
 	EBUILD_DEATH_HOOKS+=" chromium_pkg_die";
@@ -200,21 +127,27 @@ pkg_setup() {
 
 src_prepare() {
 	if use nacl; then
-		mkdir -p out/Release/gen/sdk/toolchain || die
+		mkdir -p out/Release/obj/gen/sdk/toolchain || die
 		# Do not preserve SELinux context, bug #460892 .
 		cp -a --no-preserve=context /usr/$(get_libdir)/nacl-toolchain-newlib \
-			out/Release/gen/sdk/toolchain/linux_x86_newlib || die
-		touch out/Release/gen/sdk/toolchain/linux_x86_newlib/stamp.untar || die
+			out/Release/obj/gen/sdk/toolchain/linux_x86_newlib || die
+		touch out/Release/obj/gen/sdk/toolchain/linux_x86_newlib/stamp.untar || die
 	fi
 
-	epatch "${FILESDIR}/${PN}-system-ffmpeg-r7.patch"
+	epatch "${FILESDIR}/${PN}-gpsd-r0.patch"
+	epatch "${FILESDIR}/${PN}-system-ffmpeg-r5.patch"
+
+	# Fix build with harfbuzz-0.9.18, bug #472416 .
+	epatch "${FILESDIR}/${PN}-system-harfbuzz-r0.patch"
+
+	epatch "${FILESDIR}/${PN}-nss-3.15.patch"
 
 	epatch_user
 
 	# Remove most bundled libraries. Some are still needed.
 	find third_party -type f \! -iname '*.gyp*' \
 		\! -path 'third_party/WebKit/*' \
-		\! -path 'third_party/angle_dx11/*' \
+		\! -path 'third_party/angle/*' \
 		\! -path 'third_party/cacheinvalidation/*' \
 		\! -path 'third_party/cld/*' \
 		\! -path 'third_party/cros_system_api/*' \
@@ -233,7 +166,6 @@ src_prepare() {
 		\! -path 'third_party/libXNVCtrl/*' \
 		\! -path 'third_party/libyuv/*' \
 		\! -path 'third_party/lss/*' \
-		\! -path 'third_party/lzma_sdk/*' \
 		\! -path 'third_party/mesa/*' \
 		\! -path 'third_party/modp_b64/*' \
 		\! -path 'third_party/mongoose/*' \
@@ -251,7 +183,6 @@ src_prepare() {
 		\! -path 'third_party/tlslite/*' \
 		\! -path 'third_party/trace-viewer/*' \
 		\! -path 'third_party/undoview/*' \
-		\! -path 'third_party/usrsctp/*' \
 		\! -path 'third_party/v8-i18n/*' \
 		\! -path 'third_party/webdriver/*' \
 		\! -path 'third_party/webrtc/*' \
@@ -259,10 +190,6 @@ src_prepare() {
 		\! -path 'third_party/x86inc/*' \
 		\! -path 'third_party/zlib/google/*' \
 		-delete || die
-
-	local v8_bundled="$(chromium_bundled_v8_version)"
-	local v8_installed="$(chromium_installed_v8_version)"
-	einfo "V8 version: bundled - ${v8_bundled}; installed - ${v8_installed}"
 
 	# Remove bundled v8.
 	find v8 -type f \! -iname '*.gyp*' -delete || die
@@ -367,8 +294,13 @@ src_configure() {
 	myconf+="
 		-Dlinux_link_gsettings=1
 		-Dlinux_link_libpci=1
-		-Dlinux_link_libspeechd=1
-		-Dlibspeechd_h_prefix=speech-dispatcher/"
+		-Dlinux_link_libspeechd=1"
+
+	if has_version '>=app-accessibility/speech-dispatcher-0.8'; then
+		myconf+=" -Dlibspeechd_h_prefix=speech-dispatcher/"
+	else
+		myconf+=" -Dlibspeechd_h_prefix="
+	fi
 
 	# TODO: use the file at run time instead of effectively compiling it in.
 	myconf+="
@@ -436,9 +368,6 @@ src_configure() {
 	tc-export AR CC CXX RANLIB
 
 	# Tools for building programs to be executed on the build system, bug #410883.
-	tc-export_build_env BUILD_AR BUILD_CC BUILD_CXX
-
-	# Tools for building programs to be executed on the build system, bug #410883.
 	export AR_host=$(tc-getBUILD_AR)
 	export CC_host=$(tc-getBUILD_CC)
 	export CXX_host=$(tc-getBUILD_CXX)
@@ -456,14 +385,13 @@ src_compile() {
 		test_targets+=" ${x}_unittests"
 	done
 
-	local ninja_targets="chrome chrome_sandbox chromedriver"
+	local make_targets="chrome chrome_sandbox chromedriver"
 	if use test; then
-		ninja_targets+=" $test_targets"
+		make_targets+=" $test_targets"
 	fi
 
-	# Even though ninja autodetects number of CPUs, we respect
-	# user's options, for debugging with -j 1 or any other reason.
-	ninja -C out/Release -v -j $(makeopts_jobs) ${ninja_targets} || die
+	# See bug #410883 for more info about the .host mess.
+	emake ${make_targets} BUILDTYPE=Release V=1 || die
 
 	pax-mark m out/Release/chrome
 	if use test; then
@@ -501,6 +429,7 @@ src_test() {
 		"ICUStringConversionsTest.*" # bug #350347
 		"MessagePumpLibeventTest.*" # bug #398591
 		"TimeTest.JsTime" # bug #459614
+		"SecurityTest.NewOverflow" # bug #465724
 	)
 	runtest out/Release/base_unittests "${excluded_base_unittests[@]}"
 
