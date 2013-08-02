@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-29.0.1547.0.ebuild,v 1.2 2013/06/27 14:59:33 phajdan.jr Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-29.0.1547.32.ebuild,v 1.2 2013/07/31 22:29:32 floppym Exp $
 
 EAPI="5"
 PYTHON_COMPAT=( python{2_6,2_7} )
@@ -318,7 +318,7 @@ src_configure() {
 	myconf+=" -Dproprietary_codecs=1"
 
 	if ! use bindist && ! use system-ffmpeg; then
-		# Enable H.624 support in bundled ffmpeg.
+		# Enable H.264 support in bundled ffmpeg.
 		myconf+=" -Dffmpeg_branding=Chrome"
 	fi
 
@@ -402,26 +402,40 @@ src_compile() {
 
 src_test() {
 	# For more info see bug #350349.
-	local mylocale='en_US.utf8'
-	if ! locale -a | grep -q "$mylocale"; then
-		eerror "${PN} requires ${mylocale} locale for tests"
+	local LC_ALL="en_US.utf8"
+
+	if ! locale -a | grep -q "${LC_ALL}"; then
+		eerror "${PN} requires ${LC_ALL} locale for tests"
 		eerror "Please read the following guides for more information:"
 		eerror "  http://www.gentoo.org/doc/en/guide-localization.xml"
 		eerror "  http://www.gentoo.org/doc/en/utf-8.xml"
-		die "locale ${mylocale} is not supported"
+		die "locale ${LC_ALL} is not supported"
 	fi
+
+	# If we have the right locale, export it to the environment
+	export LC_ALL
 
 	# For more info see bug #370957.
 	if [[ $UID -eq 0 ]]; then
 		die "Tests must be run as non-root. Please use FEATURES=userpriv."
 	fi
 
+	# virtualmake dies on failure, so we run our tests in a function
+	VIRTUALX_COMMAND="chromium_test" virtualmake
+}
+
+chromium_test() {
+	# Keep track of the cumulative exit status for all tests
+	local exitstatus=0
+
 	runtest() {
 		local cmd=$1
 		shift
-		local filter="--gtest_filter=$(IFS=:; echo "-${*}")"
-		einfo "${cmd}" "${filter}"
-		LC_ALL="${mylocale}" VIRTUALX_COMMAND="${cmd}" virtualmake "${filter}"
+		local IFS=:
+		set -- "${cmd}" "--gtest_filter=-$*"
+		einfo "$@"
+		"$@"
+		(( exitstatus |= $? ))
 	}
 
 	local excluded_base_unittests=(
@@ -466,6 +480,8 @@ src_test() {
 		"SQLiteFeaturesTest.FTS2" # bug #461286
 	)
 	runtest out/Release/sql_unittests "${excluded_sql_unittests[@]}"
+
+	return ${exitstatus}
 }
 
 src_install() {
@@ -484,15 +500,16 @@ src_install() {
 		doins out/Release/libppGoogleNaClPluginChrome.so || die
 	fi
 
-	newexe "${FILESDIR}"/chromium-launcher-r3.sh chromium-launcher.sh || die
-	if [[ "${CHROMIUM_SUFFIX}" != "" ]]; then
-		sed "s:chromium-browser:chromium-browser${CHROMIUM_SUFFIX}:g" \
-			-i "${ED}"/"${CHROMIUM_HOME}"/chromium-launcher.sh || die
-		sed "s:chromium.desktop:chromium${CHROMIUM_SUFFIX}.desktop:g" \
-			-i "${ED}"/"${CHROMIUM_HOME}"/chromium-launcher.sh || die
-		sed "s:plugins:plugins --user-data-dir=\${HOME}/.config/chromium${CHROMIUM_SUFFIX}:" \
-			-i "${ED}"/"${CHROMIUM_HOME}"/chromium-launcher.sh || die
+	local sedargs=( -e "s:/usr/lib/:/usr/$(get_libdir)/:g" )
+	if [[ -n ${CHROMIUM_SUFFIX} ]]; then
+		sedargs+=(
+			-e "s:chromium-browser:chromium-browser${CHROMIUM_SUFFIX}:g"
+			-e "s:chromium.desktop:chromium${CHROMIUM_SUFFIX}.desktop:g"
+			-e "s:plugins:plugins --user-data-dir=\${HOME}/.config/chromium${CHROMIUM_SUFFIX}:"
+		)
 	fi
+	sed "${sedargs[@]}" "${FILESDIR}/chromium-launcher-r3.sh" > chromium-launcher.sh || die
+	doexe chromium-launcher.sh
 
 	# It is important that we name the target "chromium-browser",
 	# xdg-utils expect it; bug #355517.
