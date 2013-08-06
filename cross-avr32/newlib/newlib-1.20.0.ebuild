@@ -14,9 +14,18 @@ if [[ ${CTARGET} == ${CHOST} ]] ; then
 	fi
 fi
 
+myPATCHES="
+	30-newlib-1.16.0-avr32.patch
+	31-newlib-1.16.0-flashvault.patch
+"
+
 DESCRIPTION="Newlib is a C library intended for use on embedded systems"
 HOMEPAGE="http://sourceware.org/newlib/"
 SRC_URI="ftp://sourceware.org/pub/newlib/${P}.tar.gz"
+
+for p in $myPATCHES; do
+	SRC_URI+=" http://distribute.atmel.no/tools/opensource/avr32-gcc/newlib-1.16.0/$p"
+done
 
 LICENSE="NEWLIB LIBGLOSS GPL-2"
 [[ ${CTARGET} != ${CHOST} ]] \
@@ -41,6 +50,12 @@ pkg_setup() {
 src_prepare() {
 	epatch "${FILESDIR}"/${P}-cris-install.patch
 	epatch "${FILESDIR}"/${P}-arm-targets.patch #413547
+	for p in $myPATCHES; do
+		epatch "${DISTDIR}"/$p
+	done
+	cd newlib
+	sed -i 's/\(m4_define(\[NEWLIB_VERSION\],\[[^]]\+\)/\1.atmel.1.1.0/' acinclude.m4
+	autoreconf
 }
 
 src_configure() {
@@ -68,6 +83,7 @@ src_compile() {
 }
 
 src_install() {
+	mkdir -p "${D}"/usr/avr32/lib
 	cd "${NEWLIBBUILD}"
 	emake -j1 DESTDIR="${D}" install
 #	env -uRESTRICT CHOST=${CTARGET} prepallstrip
