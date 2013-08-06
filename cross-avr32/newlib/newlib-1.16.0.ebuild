@@ -48,8 +48,6 @@ pkg_setup() {
 }
 
 src_prepare() {
-	epatch "${FILESDIR}"/${P}-cris-install.patch
-	epatch "${FILESDIR}"/${P}-arm-targets.patch #413547
 	for p in $myPATCHES; do
 		epatch "${DISTDIR}"/$p
 	done
@@ -70,6 +68,16 @@ src_configure() {
 
 	mkdir -p "${NEWLIBBUILD}"
 	cd "${NEWLIBBUILD}"
+
+# 		--disable-newlib-supplied-syscalls
+# 		--disable-libgloss
+	myconf="${myconf}
+		--enable-newlib-io-long-long
+		--enable-newlib-io-long-double
+		--enable-newlib-io-pos-args
+		--enable-newlib-reent-small
+		--enable-target-optspace
+	"
 
 	ECONF_SOURCE=${S} \
 	econf \
