@@ -39,10 +39,9 @@ pkg_setup() {
 
 src_unpack() {
 	toolchain-binutils_src_unpack
-	
-	cd "${P}"
+
 	sed -i 's/\(avr-dis.c\)/\1 avr32-asm.c avr32-dis.c avr32-opc.c/' opcodes/Makefile.am
-	
+
 	autoreconf -f -I config
 	for d in gold intl libiberty gprof ld binutils etc gas opcodes bfd
 	do
@@ -51,9 +50,16 @@ src_unpack() {
 			autoreconf -f
 		)
 	done
-	
+
 	mkdir fixheaders
 	cd fixheaders
 	../bfd/configure
 	make headers
+}
+
+src_install() {
+	toolchain-binutils_src_install
+
+	# FIXME: Not multislot-friendly
+	dosym "/usr/lib/${PN}/avr32/${PV}/ldscripts/" "/usr/avr32/lib/ldscripts"
 }
