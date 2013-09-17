@@ -99,6 +99,7 @@
 	PCRE
 	BSD-with-attribution
 	SSLeay
+	TermReadKey
 
 	AMBIGUOUS-no-fee:
 		CNRI
