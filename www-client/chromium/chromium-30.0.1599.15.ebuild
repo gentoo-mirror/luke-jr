@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-30.0.1568.0.ebuild,v 1.1 2013/07/25 15:36:55 phajdan.jr Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/chromium/chromium-30.0.1599.15.ebuild,v 1.1 2013/08/23 02:48:35 floppym Exp $
 
 EAPI="5"
 PYTHON_COMPAT=( python{2_6,2_7} )
@@ -14,13 +14,13 @@ inherit chromium eutils flag-o-matic multilib multiprocessing \
 
 DESCRIPTION="Open-source version of Google Chrome web browser"
 HOMEPAGE="http://chromium.org/"
-SRC_URI="https://commondatastorage.googleapis.com/chromium-browser-official/${P}-lite.tar.xz
+SRC_URI="https://commondatastorage.googleapis.com/chromium-browser-official/${P}.tar.xz
 	test? ( https://commondatastorage.googleapis.com/chromium-browser-official/${P}-testdata.tar.xz )"
 
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~x86"
-IUSE="bindist cups gnome gnome-keyring gps kerberos +nacl pulseaudio selinux +system-ffmpeg system-sqlite tcmalloc"
+IUSE="bindist cups gnome gnome-keyring gps kerberos neon pulseaudio selinux +system-ffmpeg system-sqlite tcmalloc"
 
 # Native Client binaries are compiled with different set of flags, bug #452066.
 QA_FLAGS_IGNORED=".*\.nexe"
@@ -59,19 +59,15 @@ RDEPEND=">=app-accessibility/speech-dispatcher-0.8:=
 	>=media-libs/libjpeg-turbo-1.2.0-r1:=
 	media-libs/libpng:0=
 	media-libs/libvpx:=
-	!arm? ( !x86? ( >=media-libs/mesa-9.1:=[gles2] ) )
+	>=media-libs/libwebp-0.3.1:=
 	media-libs/opus:=
 	media-libs/speex:=
 	pulseaudio? ( media-sound/pulseaudio:= )
-	system-ffmpeg? ( || (
-		>=media-video/ffmpeg-1.0:=[opus]
-		>=media-video/libav-9.5:=[opus]
-	) )
+	system-ffmpeg? ( >=media-video/ffmpeg-2.0.1:0=[opus] )
 	sys-apps/dbus:=
 	sys-apps/pciutils:=
 	sys-libs/zlib:=[minizip]
 	virtual/udev
-	virtual/libusb:1=
 	x11-libs/gtk+:2=
 	x11-libs/libXinerama:=
 	x11-libs/libXScrnSaver:=
@@ -80,8 +76,7 @@ RDEPEND=">=app-accessibility/speech-dispatcher-0.8:=
 	selinux? ( sec-policy/selinux-chromium )"
 DEPEND="${RDEPEND}
 	${PYTHON_DEPS}
-	nacl? (
-		>=dev-lang/nacl-toolchain-newlib-0_p11846
+	!arm? (
 		dev-lang/yasm
 	)
 	dev-lang/perl
@@ -100,10 +95,6 @@ RDEPEND+="
 	!=www-client/chromium-9999
 	x11-misc/xdg-utils
 	virtual/ttf-fonts"
-
-REQUIRED_USE="
-	arm? ( !nacl )
-"
 
 if ! has chromium_pkg_die ${EBUILD_DEATH_HOOKS}; then
 	EBUILD_DEATH_HOOKS+=" chromium_pkg_die";
@@ -131,20 +122,17 @@ pkg_setup() {
 }
 
 src_prepare() {
-	if use nacl; then
-		mkdir -p out/Release/gen/sdk/toolchain || die
-		# Do not preserve SELinux context, bug #460892 .
-		cp -a --no-preserve=context /usr/$(get_libdir)/nacl-toolchain-newlib \
-			out/Release/gen/sdk/toolchain/linux_x86_newlib || die
-		touch out/Release/gen/sdk/toolchain/linux_x86_newlib/stamp.untar || die
-	fi
+	# if ! use arm; then
+	#	mkdir -p out/Release/gen/sdk/toolchain || die
+	#	# Do not preserve SELinux context, bug #460892 .
+	#	cp -a --no-preserve=context /usr/$(get_libdir)/nacl-toolchain-newlib \
+	#		out/Release/gen/sdk/toolchain/linux_x86_newlib || die
+	#	touch out/Release/gen/sdk/toolchain/linux_x86_newlib/stamp.untar || die
+	# fi
 
 	epatch "${FILESDIR}/${PN}-gpsd-r0.patch"
 	epatch "${FILESDIR}/${PN}-system-ffmpeg-r7.patch"
-	epatch "${FILESDIR}/${PN}-system-v8-r1.patch"
-	epatch "${FILESDIR}/${PN}-system-libusb-r0.patch"
-	epatch "${FILESDIR}/${PN}-system-libvpx-r0.patch"
-	epatch "${FILESDIR}/${PN}-system-zlib-r0.patch"
+	epatch "${FILESDIR}/${PN}-system-ply-r0.patch"
 
 	epatch_user
 
@@ -158,7 +146,6 @@ src_prepare() {
 		\! -path 'third_party/ffmpeg/*' \
 		\! -path 'third_party/flot/*' \
 		\! -path 'third_party/hunspell/*' \
-		\! -path 'third_party/hyphen/*' \
 		\! -path 'third_party/iccjpeg/*' \
 		\! -path 'third_party/jstemplate/*' \
 		\! -path 'third_party/khronos/*' \
@@ -166,7 +153,7 @@ src_prepare() {
 		\! -path 'third_party/libjingle/*' \
 		\! -path 'third_party/libphonenumber/*' \
 		\! -path 'third_party/libsrtp/*' \
-		\! -path 'third_party/libwebp/*' \
+		\! -path 'third_party/libusb/*' \
 		\! -path 'third_party/libxml/chromium/*' \
 		\! -path 'third_party/libXNVCtrl/*' \
 		\! -path 'third_party/libyuv/*' \
@@ -177,7 +164,7 @@ src_prepare() {
 		\! -path 'third_party/mongoose/*' \
 		\! -path 'third_party/mt19937ar/*' \
 		\! -path 'third_party/npapi/*' \
-		\! -path 'third_party/openmax/*' \
+		\! -path 'third_party/openssl/*' \
 		\! -path 'third_party/ots/*' \
 		\! -path 'third_party/pywebsocket/*' \
 		\! -path 'third_party/qcms/*' \
@@ -190,7 +177,6 @@ src_prepare() {
 		\! -path 'third_party/trace-viewer/*' \
 		\! -path 'third_party/undoview/*' \
 		\! -path 'third_party/usrsctp/*' \
-		\! -path 'third_party/v8-i18n/*' \
 		\! -path 'third_party/webdriver/*' \
 		\! -path 'third_party/webrtc/*' \
 		\! -path 'third_party/widevine/*' \
@@ -213,15 +199,18 @@ src_configure() {
 	# drivers, bug #413637.
 	myconf+=" $(gyp_use tcmalloc linux_use_tcmalloc)"
 
+	# Disable nacl, we can't build without pnacl (http://crbug.com/269560).
+	myconf+=" -Ddisable_nacl=1"
+
 	# Disable glibc Native Client toolchain, we don't need it (bug #417019).
-	myconf+=" -Ddisable_glibc=1"
+	# myconf+=" -Ddisable_glibc=1"
 
 	# TODO: also build with pnacl
-	myconf+=" -Ddisable_pnacl=1"
+	# myconf+=" -Ddisable_pnacl=1"
 
 	# It would be awkward for us to tar the toolchain and get it untarred again
 	# during the build.
-	myconf+=" -Ddisable_newlib_untar=1"
+	# myconf+=" -Ddisable_newlib_untar=1"
 
 	# Make it possible to remove third_party/adobe.
 	echo > "${T}/flapper_version.h" || die
@@ -230,7 +219,7 @@ src_configure() {
 	# Use system-provided libraries.
 	# TODO: use_system_hunspell (upstream changes needed).
 	# TODO: use_system_libsrtp (bug #459932).
-	# TODO: use_system_libwebp (requires internal header format_constants.h).
+	# TODO: use_system_libusb (http://crbug.com/266149).
 	# TODO: use_system_ssl (http://crbug.com/58087).
 	# TODO: use_system_sqlite (http://crbug.com/22208).
 	myconf+="
@@ -242,8 +231,8 @@ src_configure() {
 		-Duse_system_libevent=1
 		-Duse_system_libjpeg=1
 		-Duse_system_libpng=1
-		-Duse_system_libusb=1
 		-Duse_system_libvpx=1
+		-Duse_system_libwebp=1
 		-Duse_system_libxml=1
 		-Duse_system_libxslt=1
 		-Duse_system_minizip=1
@@ -257,12 +246,6 @@ src_configure() {
 		-Duse_system_xdg_utils=1
 		-Duse_system_zlib=1
 		$(gyp_use system-ffmpeg use_system_ffmpeg)"
-
-	# TODO: Use system mesa on x86, bug #457130 .
-	if ! use x86 && ! use arm; then
-		myconf+="
-			-Duse_system_mesa=1"
-	fi
 
 	# TODO: patch gyp so that this arm conditional is not needed.
 	if ! use arm; then
@@ -284,7 +267,6 @@ src_configure() {
 		$(gyp_use gps linux_use_libgps)
 		$(gyp_use gps linux_link_libgps)
 		$(gyp_use kerberos)
-		$(if use nacl; then echo "-Ddisable_nacl=0"; else echo "-Ddisable_nacl=1"; fi)
 		$(gyp_use pulseaudio)"
 
 	if use system-sqlite; then
@@ -308,10 +290,9 @@ src_configure() {
 	myconf+="
 		-Dusb_ids_path=/usr/share/misc/usb.ids"
 
-	# Enable SUID sandbox.
+	# Save space by removing DLOG and DCHECK messages (about 6% reduction).
 	myconf+="
-		-Dlinux_sandbox_path=${CHROMIUM_HOME}/chrome_sandbox
-		-Dlinux_sandbox_chrome_path=${CHROMIUM_HOME}/chrome"
+		-Dlogging_like_official_build=1"
 
 	# Never use bundled gold binary. Disable gold linker flags for now.
 	myconf+="
@@ -341,11 +322,23 @@ src_configure() {
 		myconf+=" -Dtarget_arch=ia32"
 	elif [[ $myarch = arm ]] ; then
 		# TODO: re-enable NaCl (NativeClient).
+		local CTARGET=${CTARGET:-${CHOST}}
+		if [[ $(tc-is-softfloat) == "no" ]]; then
+
+			myconf+=" -Darm_float_abi=hard"
+		fi
+		filter-flags "-mfpu=*"
+		use neon || myconf+=" -Darm_fpu=${ARM_FPU:-vfpv3-d16}"
+
+		if [[ ${CTARGET} == armv[78]* ]]; then
+			myconf+=" -Darmv7=1"
+		else
+			myconf+=" -Darmv7=0"
+		fi
 		myconf+=" -Dtarget_arch=arm
 			-Dsysroot=
-			-Darmv7=0
-			-Darm_neon=0
-			"
+			$(gyp_use neon arm_neon)
+			-Ddisable_nacl=1"
 	else
 		die "Failed to determine target arch, got '$myarch'."
 	fi
@@ -383,7 +376,7 @@ src_compile() {
 	# TODO: add media_unittests after fixing compile (bug #462546).
 	local test_targets=""
 	for x in base cacheinvalidation content crypto \
-		googleurl gpu net printing sql; do
+		gpu net printing sql; do
 		test_targets+=" ${x}_unittests"
 	done
 
@@ -406,26 +399,42 @@ src_compile() {
 
 src_test() {
 	# For more info see bug #350349.
-	local mylocale='en_US.utf8'
-	if ! locale -a | grep -q "$mylocale"; then
-		eerror "${PN} requires ${mylocale} locale for tests"
+	local LC_ALL="en_US.utf8"
+
+	if ! locale -a | grep -q "${LC_ALL}"; then
+		eerror "${PN} requires ${LC_ALL} locale for tests"
 		eerror "Please read the following guides for more information:"
 		eerror "  http://www.gentoo.org/doc/en/guide-localization.xml"
 		eerror "  http://www.gentoo.org/doc/en/utf-8.xml"
-		die "locale ${mylocale} is not supported"
+		die "locale ${LC_ALL} is not supported"
 	fi
+
+	# If we have the right locale, export it to the environment
+	export LC_ALL
 
 	# For more info see bug #370957.
 	if [[ $UID -eq 0 ]]; then
 		die "Tests must be run as non-root. Please use FEATURES=userpriv."
 	fi
 
+	# virtualmake dies on failure, so we run our tests in a function
+	VIRTUALX_COMMAND="chromium_test" virtualmake
+}
+
+chromium_test() {
+	# Keep track of the cumulative exit status for all tests
+	local exitstatus=0
+
 	runtest() {
 		local cmd=$1
 		shift
-		local filter="--gtest_filter=$(IFS=:; echo "-${*}")"
-		einfo "${cmd}" "${filter}"
-		LC_ALL="${mylocale}" VIRTUALX_COMMAND="${cmd}" virtualmake "${filter}"
+		local IFS=:
+		set -- "${cmd}" "--gtest_filter=-$*"
+		einfo "$@"
+		"$@"
+		local st=$?
+		(( st )) && eerror "${cmd} failed"
+		(( exitstatus |= st ))
 	}
 
 	local excluded_base_unittests=(
@@ -444,7 +453,6 @@ src_test() {
 	runtest out/Release/content_unittests "${excluded_content_unittests[@]}"
 
 	runtest out/Release/crypto_unittests
-	runtest out/Release/googleurl_unittests
 	runtest out/Release/gpu_unittests
 
 	# TODO: add media_unittests after fixing compile (bug #462546).
@@ -460,6 +468,7 @@ src_test() {
 		"HTTPSOCSPTest.*" # bug #426630
 		"HTTPSEVCRLSetTest.*" # see above
 		"HTTPSCRLSetTest.*" # see above
+		"SpdyFramerTests/SpdyFramerTest.CreatePushPromiseCompressed/2" # bug #478168
 		"*SpdyFramerTest.BasicCompression*" # bug #465444
 	)
 	runtest out/Release/net_unittests "${excluded_net_unittests[@]}"
@@ -470,23 +479,25 @@ src_test() {
 		"SQLiteFeaturesTest.FTS2" # bug #461286
 	)
 	runtest out/Release/sql_unittests "${excluded_sql_unittests[@]}"
+
+	return ${exitstatus}
 }
 
 src_install() {
 	exeinto "${CHROMIUM_HOME}"
 	doexe out/Release/chrome || die
 
-	doexe out/Release/chrome_sandbox || die
-	fperms 4755 "${CHROMIUM_HOME}/chrome_sandbox"
+	newexe out/Release/chrome_sandbox chrome-sandbox || die
+	fperms 4755 "${CHROMIUM_HOME}/chrome-sandbox"
 
 	doexe out/Release/chromedriver || die
 
-	if use nacl; then
-		doexe out/Release/nacl_helper{,_bootstrap} || die
-		insinto "${CHROMIUM_HOME}"
-		doins out/Release/nacl_irt_*.nexe || die
-		doins out/Release/libppGoogleNaClPluginChrome.so || die
-	fi
+	# if ! use arm; then
+	#	doexe out/Release/nacl_helper{,_bootstrap} || die
+	#	insinto "${CHROMIUM_HOME}"
+	#	doins out/Release/nacl_irt_*.nexe || die
+	#	doins out/Release/libppGoogleNaClPluginChrome.so || die
+	# fi
 
 	local sedargs=( -e "s:/usr/lib/:/usr/$(get_libdir)/:g" )
 	if [[ -n ${CHROMIUM_SUFFIX} ]]; then
