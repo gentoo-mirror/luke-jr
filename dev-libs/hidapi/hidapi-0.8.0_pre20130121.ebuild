@@ -17,7 +17,7 @@ SRC_URI="http://public.callutheran.edu/~abarker/${P}.tar.xz"
 # When 0.8.0 is officially available the following link should be used.
 #SRC_URI="mirror://github/signal11/${PN}/${P}.zip"
 
-LICENSE="BSD GPL-3"
+LICENSE="|| ( BSD GPL-3 HIDAPI )"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="doc static-libs X"
