@@ -101,6 +101,7 @@
 	SSLeay
 	TermReadKey
 	libtiff
+	gd
 
 	AMBIGUOUS-no-fee:
 		CNRI
