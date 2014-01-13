@@ -102,6 +102,7 @@
 	TermReadKey
 	libtiff
 	gd
+	Ispell
 
 	AMBIGUOUS-no-fee:
 		CNRI
