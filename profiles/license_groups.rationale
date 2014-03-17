@@ -114,6 +114,7 @@
 		libpng
 		docbook
 		IJG
+		libmng
 
 	Barely-free-strict:
 		FDL-1.2
