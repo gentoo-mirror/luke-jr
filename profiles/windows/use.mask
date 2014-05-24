@@ -1,0 +1,7 @@
+-gps
+-ipv6
+-ncurses
+-unicode
+-usb
+-wifi
+-qt4
