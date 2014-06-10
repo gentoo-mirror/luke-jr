@@ -32,6 +32,7 @@ S=${WORKDIR}/${MY_P}
 DOCS="AUTHORS NEWS README ChangeLog"
 
 ESVN_BOOTSTRAP="./bootstrap"
+ESVN_PATCHES="33603.patch"
 
 src_configure() {
 	econf \
