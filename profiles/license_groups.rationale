@@ -20,6 +20,7 @@
 		ANTLR
 	BSD-based:
 		GeorgeDouros
+		Unicode_Fonts_for_Ancient_Scripts
 		FLEX
 		MIT
 		tcp_wrappers_license
