@@ -89,6 +89,7 @@
 	man-pages
 	boehm-gc
 	tcltk
+	Sendmail
 	
 	BSD-1
 	BSD-1-based:
