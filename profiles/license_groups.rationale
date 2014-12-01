@@ -90,6 +90,7 @@
 	boehm-gc
 	tcltk
 	Sendmail
+	Sendmail-Open-Source
 	
 	BSD-1
 	BSD-1-based:
