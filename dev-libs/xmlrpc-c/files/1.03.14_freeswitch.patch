@@ -1,0 +1,207 @@
+diff -urBb --exclude=.svn xmlrpc-c-1.03.14/include/xmlrpc-c/abyss.h libsX/xmlrpc-c/include/xmlrpc-c/abyss.h
+--- xmlrpc-c-1.03.14/include/xmlrpc-c/abyss.h	2005-09-09 11:20:48.000000000 -0500
++++ libsX/xmlrpc-c/include/xmlrpc-c/abyss.h	2008-04-20 20:09:42.000000000 -0500
+@@ -48,7 +48,7 @@
+ ** Maximum numer of simultaneous connections
+ *********************************************************************/
+ 
+-#define MAX_CONN    16
++#define MAX_CONN    4000
+ 
+ /*********************************************************************
+ ** Server Info Definitions
+@@ -448,6 +448,7 @@
+     gid_t gid;
+     TFile pidfile;
+ #endif  
++	int running;
+ } TServer;
+ 
+ 
+@@ -634,7 +635,7 @@
+ 
+ void ServerFree(TServer *srv);
+ 
+-void ServerInit(TServer *srv);
++int ServerInit(TServer *srv);
+ void ServerRun(TServer *srv);
+ void ServerRunOnce(TServer *srv);
+ void ServerRunOnce2(TServer *           const srv,
+diff -urBb --exclude=.svn xmlrpc-c-1.03.14/lib/abyss/src/conn.c libsX/xmlrpc-c/lib/abyss/src/conn.c
+--- xmlrpc-c-1.03.14/lib/abyss/src/conn.c	2005-09-09 11:20:48.000000000 -0500
++++ libsX/xmlrpc-c/lib/abyss/src/conn.c	2008-04-13 17:37:53.000000000 -0500
+@@ -277,7 +277,7 @@
+ {
+     char *p,*t;
+     abyss_bool first=TRUE;
+-    uint32_t to,start;
++    clock_t to,start;
+ 
+     p=*z=c->buffer+c->bufferpos;
+     start=clock();
+diff -urBb --exclude=.svn xmlrpc-c-1.03.14/lib/abyss/src/data.c libsX/xmlrpc-c/lib/abyss/src/data.c
+--- xmlrpc-c-1.03.14/lib/abyss/src/data.c	2005-09-24 17:14:33.000000000 -0500
++++ libsX/xmlrpc-c/lib/abyss/src/data.c	2008-04-13 17:37:53.000000000 -0500
+@@ -42,6 +42,7 @@
+ 
+ #include "token.h"
+ 
++#define safe_free(it) if (it) {free(it);it=NULL;}
+ /*********************************************************************
+ ** List
+ *********************************************************************/
+@@ -69,10 +70,10 @@
+         if (sl->autofree) {
+             unsigned int i;
+             for (i = sl->size; i > 0; --i)
+-                free(sl->item[i-1]);
++                safe_free(sl->item[i-1]);
+             
+         }
+-        free(sl->item);
++        safe_free(sl->item);
+     }
+     sl->item = NULL;
+     sl->size = 0;
+@@ -87,7 +88,7 @@
+     if (sl->item) {
+         unsigned int i;
+         for (i = sl->size; i > 0; --i)
+-            free(sl->item[i-1]);
++            safe_free(sl->item[i-1]);
+     }
+ }
+ 
+@@ -215,7 +216,7 @@
+         /* ************** Implement the static buffers ***/
+     }
+     else
+-        free(buf->data);
++        safe_free(buf->data);
+ 
+     buf->size=0;
+     buf->staticid=0;
+@@ -348,11 +349,11 @@
+         if (t->size)
+             for (i=t->size;i>0;i--)
+             {
+-                free(t->item[i-1].name);
+-                free(t->item[i-1].value);
++                safe_free(t->item[i-1].name);
++                safe_free(t->item[i-1].value);
+             };
+             
+-        free(t->item);
++        safe_free(t->item);
+     }
+ 
+     TableInit(t);
+@@ -382,12 +383,12 @@
+ 
+     if (TableFindIndex(t,name,&i))
+     {
+-        free(t->item[i].value);
++        safe_free(t->item[i].value);
+         if (value)
+             t->item[i].value=strdup(value);
+         else
+         {
+-            free(t->item[i].name);
++            safe_free(t->item[i].name);
+             if (--t->size>0)
+                 t->item[i]=t->item[t->size];
+         };
+@@ -521,7 +522,7 @@
+     while (pz)
+     {
+         npz=pz->next;
+-        free(pz);
++        safe_free(pz);
+         pz=npz;
+     };
+ }
+diff -urBb --exclude=.svn xmlrpc-c-1.03.14/lib/abyss/src/server.c libsX/xmlrpc-c/lib/abyss/src/server.c
+--- xmlrpc-c-1.03.14/lib/abyss/src/server.c	2005-11-22 21:13:11.000000000 -0600
++++ libsX/xmlrpc-c/lib/abyss/src/server.c	2008-04-13 17:37:53.000000000 -0500
+@@ -711,20 +711,30 @@
+     SocketClose(&(c->socket));
+ }
+ 
+-void ServerInit(TServer *srv)
++int ServerInit(TServer *srv)
+ {
+     /********* Must check errors from these functions *************/
+-    if (!SocketInit())
+-        TraceExit("Can't initialize TCP sockets\n");;
++	if (!SocketInit()) {
++        TraceMsg("Can't initialize TCP sockets\n");
++		return FALSE;
++	}
+ 
+-    if (!SocketCreate(&srv->listensock))
+-        TraceExit("Can't create a socket\n");;
++	if (!SocketCreate(&srv->listensock)) {
++        TraceMsg("Can't create a socket\n");
++		return FALSE;
++	}
+ 
+-    if (!SocketBind(&srv->listensock,NULL,srv->port))
+-        TraceExit("Can't bind\n");
++	if (!SocketBind(&srv->listensock,NULL,srv->port)) {
++        TraceMsg("Can't bind\n");
++		return FALSE;
++	}
+ 
+-    if (!SocketListen(&srv->listensock,MAX_CONN))
+-        TraceExit("Can't listen\n");
++	if (!SocketListen(&srv->listensock,MAX_CONN)) {
++        TraceMsg("Can't listen\n");
++		return FALSE;
++	}
++
++	return TRUE;
+ }
+ 
+ /* With pthread configuration, our connections run as threads of a
+@@ -760,8 +770,8 @@
+         c[i].inUse = FALSE;
+ 
+     s=srv->listensock;
+-
+-    while( 1 )
++	srv->running = 1;
++    while( srv->running )
+     {
+         /* collect all threads resources for closed connections */
+         for (i=0;i<MAX_CONN;i++)
+@@ -1053,7 +1063,7 @@
+ 
+     DateToLogString(&s->date,z+n);
+ 
+-    sprintf(z+n+26,"] \"%s\" %d %d",s->requestline,s->status,s->conn->outbytes);
++    sprintf(z+n+20,"] \"%s\" %d %d",s->requestline,s->status,s->conn->outbytes);
+ 
+     LogWrite(s->server,z);
+     return TRUE;
+diff -urBb --exclude=.svn xmlrpc-c-1.03.14/lib/abyss/src/thread.c libsX/xmlrpc-c/lib/abyss/src/thread.c
+--- xmlrpc-c-1.03.14/lib/abyss/src/thread.c	2005-06-10 16:33:20.000000000 -0500
++++ libsX/xmlrpc-c/lib/abyss/src/thread.c	2008-04-13 17:37:53.000000000 -0500
+@@ -41,7 +41,7 @@
+ #include "xmlrpc_config.h"
+ 
+ /* 16K is the minimum size of stack on Win32 */
+-#define  THREAD_STACK_SIZE    (16*1024)
++#define  THREAD_STACK_SIZE    (240*1024)
+ 
+ /*********************************************************************
+ ** Thread
+diff -urBb --exclude=.svn xmlrpc-c-1.03.14/lib/abyss/src/trace.c libsX/xmlrpc-c/lib/abyss/src/trace.c
+--- xmlrpc-c-1.03.14/lib/abyss/src/trace.c	2005-06-10 16:33:20.000000000 -0500
++++ libsX/xmlrpc-c/lib/abyss/src/trace.c	2008-04-13 17:37:53.000000000 -0500
+@@ -63,5 +63,5 @@
+     va_start(argptr,fmt);
+     TraceVMsg(fmt,argptr);
+     va_end(argptr);
+-    exit(1);
++    abort();
+ }

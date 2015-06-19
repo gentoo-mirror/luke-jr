@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE repositories SYSTEM "/dtd/repositories.dtd">
+<repositories xmlns="" version="1.0">
+	<repo quality="experimental" status="unofficial">
+		<name><![CDATA[luke-jr]]></name>
+		<description lang="en"><![CDATA[Misc ebuilds by Luke-Jr]]></description>
+		<homepage>http://luke.dashjr.org</homepage>
+		<owner type="person">
+			<email>luke-jr+gentoooverlay@utopios.org</email>
+			<name><![CDATA[Luke-Jr]]></name>
+		</owner>
+		<source type="svn">svn://svn.dashjr.org/luke-portage-overlay/trunk</source>
+	</repo>
+</repositories>

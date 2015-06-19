@@ -1,0 +1,1021 @@
+Index: configure.in
+===================================================================
+--- configure.in	(.../tags/1.0.0)	(revision 8692)
++++ configure.in	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
+@@ -16,7 +16,6 @@
+ AM_INIT_AUTOMAKE(libfreeswitch,0.1)
+ AC_CONFIG_SRCDIR([src/switch.c])
+ AC_CONFIG_HEADER([src/include/switch_private.h])
+-AC_CONFIG_HEADER([libs/xmlrpc-c/xmlrpc_amconfig.h])
+ 
+ AC_PREFIX_DEFAULT(/usr/local/freeswitch)
+ # AC_PREFIX_DEFAULT does not get expanded until too late so we need to do this to use prefix in this script
+@@ -76,8 +75,8 @@
+ RESAMPLE_LIB=
+ RESAMPLE_CFLAGS=
+ if test "${enable_resample}" = "yes"; then
+-       RESAMPLE_LIB="libs/libresample/libresample.la"
+-       RESAMPLE_CFLAGS="-I${switch_srcdir}/libs/libresample/include"
++	PKG_CHECK_MODULES([RESAMPLE],[resample])
++       RESAMPLE_LIB="${RESAMPLE_LIBS}"
+ else
+         AC_DEFINE([DISABLE_RESAMPLE],[],[Disable the embedded resampler])
+ fi
+@@ -88,8 +87,8 @@
+ AM_CONDITIONAL([USE_INTREE_RESAMPLE],[test "${enable_resample}" = "yes"])
+ 
+ # set defaults for use on all platforms
+-SWITCH_AM_CFLAGS="-I${switch_srcdir}/src/include -I${switch_srcdir}/libs/libteletone/src"
+-SWITCH_AM_CXXFLAGS="-I${switch_srcdir}/src/include -I${switch_srcdir}/libs/libteletone/src"
++SWITCH_AM_CFLAGS="-I${switch_srcdir}/src/include"
++SWITCH_AM_CXXFLAGS="-I${switch_srcdir}/src/include"
+ SWITCH_AM_LDFLAGS="-lm -L/usr/local/lib"
+ 
+ #set SOLINK variable based on compiler and host
+@@ -178,6 +177,155 @@
+ 
+ APR_REMOVEFROM(SWITCH_AM_CXXFLAGS, -std=c99)
+ 
++PKG_CHECK_MODULES([apr],[apr-1])
++SWITCH_AM_CFLAGS="$SWITCH_AM_CFLAGS $apr_CFLAGS"
++SWITCH_AM_LDFLAGS="$SWITCH_AM_LDFLAGS $apr_LIBS"
++
++PKG_CHECK_MODULES([apr_util],[apr-util-1])
++SWITCH_AM_CFLAGS="$SWITCH_AM_CFLAGS $apr_util_CFLAGS"
++SWITCH_AM_LDFLAGS="$SWITCH_AM_LDFLAGS $apr_util_LIBS"
++
++# TODO: gsm (mod_gsm)
++
++# TODO: replace howl dep (mod_zeroconf)
++
++AC_CHECK_LIB([iax], [iax_mutex_lock], [
++PKG_CHECK_MODULES([libiax],[iaxclient],[
++],[
++libiax_CFLAGS=-I/usr/include/iax
++libiax_LIBS='-liax -lpthread'
++])
++AC_SUBST(libiax_CFLAGS)
++AC_SUBST(libiax_LIBS)
++],[
++AC_MSG_WARN([a threadsafe libiax was not found: mod_iax will not work.])
++],[
++-lpthread
++])
++
++PKG_CHECK_MODULES([iksemel],[iksemel],[
++AC_SUBST(iksemel_CFLAGS)
++AC_SUBST(iksemel_LIBS)
++],[
++AC_MSG_WARN([iksemel not found: mod_dingaling and mod_xmpp_event will not work.])
++])
++
++# TODO: ilbc (mod_ilbc)
++
++PKG_CHECK_MODULES([LIBCURL],[libcurl >= 7.13.0],[
++AC_SUBST(LIBCURL_CFLAGS)
++AC_SUBST(LIBCURL_LIBS)
++],[
++AC_MSG_WARN([libcurl not found: mod_spidermonkey and mod_xml_rpc will not work.])
++])
++
++PKG_CHECK_MODULES([libdingaling],[libdingaling],[
++AC_SUBST(libdingaling_CFLAGS)
++AC_SUBST(libdingaling_LIBS)
++],[
++AC_MSG_WARN([libdingaling not found: mod_dingaling will not work.])
++])
++
++# TODO: libfreeradius-client (mod_radius_cdr)
++
++# TODO: lpc10 (mod_lpc10)
++
++# TODO: openldap (mod_ldap)
++
++PKG_CHECK_MODULES([openmrcpclient],[openmrcpclient],[
++AC_SUBST(openmrcpclient_CFLAGS)
++AC_SUBST(openmrcpclient_LIBS)
++],[
++AC_MSG_WARN([openmrcpclient not found: mod_openmrcp will not work.])
++])
++
++PKG_CHECK_MODULES([pcre],[libpcre])
++SWITCH_AM_CFLAGS="$SWITCH_AM_CFLAGS $pcre_CFLAGS"
++SWITCH_AM_LDFLAGS="$SWITCH_AM_LDFLAGS $pcre_LIBS"
++
++# TODO: portaudio (mod_portaudio)
++# TODO: make this automatic or something
++portaudio_CFLAGS=-I/usr/include/portaudio
++portaudio_LIBS=-lportaudio
++AC_SUBST(portaudio_CFLAGS)
++AC_SUBST(portaudio_LIBS)
++
++# TODO: resample (optional; see far above)
++
++# TODO: sangoma (mod_wanpipe)
++
++PKG_CHECK_MODULES([sndfile],[sndfile],[
++AC_SUBST(sndfile_CFLAGS)
++AC_SUBST(sndfile_LIBS)
++],[
++AC_MSG_WARN([sndfile not found: mod_sndfile will not work.])
++])
++
++PKG_CHECK_MODULES([sqlite3],[sqlite3 >= 3.3],[
++PKG_CHECK_MODULES([sqlite3],[sqlite3 < 3.4])
++])
++SWITCH_AM_CFLAGS="$SWITCH_AM_CFLAGS $sqlite3_CFLAGS"
++SWITCH_AM_LDFLAGS="$SWITCH_AM_LDFLAGS $sqlite3_LIBS"
++
++PKG_CHECK_MODULES([SOFIA],[sofia-sip-ua],[
++AC_SUBST(SOFIA_CFLAGS)
++AC_SUBST(SOFIA_LIBS)
++],[
++AC_MSG_WARN([sofia-sip-ua not found: mod_sofia will not work.])
++])
++
++PKG_CHECK_MODULES([SPEEX],[speex],[
++AC_SUBST(SPEEX_CFLAGS)
++AC_SUBST(SPEEX_LIBS)
++],[
++AC_MSG_WARN([speex not found: mod_speex will not work.])
++])
++
++PKG_CHECK_MODULES([SPIDERMONKEY],[libjs],[],[
++PKG_CHECK_MODULES([SPIDERMONKEY],[xulrunner-js],[],[
++
++AC_CHECK_LIB(smjs, JS_BeginRequest, libjs=smjs, [
++AC_CHECK_LIB(js, JS_BeginRequest, libjs=js)
++])
++PKG_CHECK_MODULES([NSPR],[nspr],
++[
++SPIDERMONKEY_CFLAGS="${NSPR_CFLAGS} -I/usr/include/js -DXP_UNIX -DJS_THREADSAFE -DJS_HAS_FILE_OBJECT=1 -DJS_HAS_XML_SUPPORT=1"
++SPIDERMONKEY_LIBS="${NSPR_LIBS} -l$libjs"
++],[
++AC_MSG_WARN([spidermonkey not found: mod_spidermonkey will not work.])
++])
++
++])
++])
++AC_SUBST(SPIDERMONKEY_CFLAGS)
++AC_SUBST(SPIDERMONKEY_LIBS)
++
++# TODO: make this automatic or something
++SWITCH_AM_LDFLAGS="$SWITCH_AM_LDFLAGS -lteletone"
++
++# TODO: make this automatic or something
++SWITCH_AM_CFLAGS="$SWITCH_AM_CFLAGS -I/usr/include/srtp"
++SWITCH_AM_LDFLAGS="$SWITCH_AM_LDFLAGS -lsrtp"
++
++AC_MSG_CHECKING(for xmlrpc-c)
++xmlrpc_c_config="`which xmlrpc-c-config xmlrpc-c-conf 2>/dev/null | head -n 1`"
++if test -z "$xmlrpc_c_config"; then
++	AC_MSG_RESULT(no)
++	AC_MSG_WARN([xmlrpc-c not found: mod_xml_rpc will not work.])
++else
++	AC_MSG_RESULT(yes)
++	XMLRPC_CFLAGS="$xmlrpc_c_config server-util --cflags"
++	XMLRPC_LDFLAGS="`$xmlrpc_c_config server-util --libs`"
++fi
++
++PKG_CHECK_MODULES([voipcodecs],[voipcodecs],[
++AC_SUBST(voipcodecs_CFLAGS)
++AC_SUBST(voipcodecs_LIBS)
++],[
++AC_MSG_WARN([voipcodecs not found: mod_voipcodecs will not work.])
++])
++
++
+ AC_SUBST(SWITCH_AM_CFLAGS)
+ AC_SUBST(SWITCH_AM_CXXFLAGS)
+ AC_SUBST(SWITCH_AM_LDFLAGS)
+@@ -189,14 +337,6 @@
+ AC_HEADER_STDC
+ AC_CHECK_HEADERS([sys/types.h sys/resource.h sched.h wchar.h sys/filio.h sys/ioctl.h])
+ 
+-# for xmlrpc-c config.h
+-if test x"$ac_cv_header_wchar_h" = xyes; then
+-  HAVE_WCHAR_H_DEFINE=1
+-else
+-  HAVE_WCHAR_H_DEFINE=0
+-fi
+-AC_SUBST(HAVE_WCHAR_H_DEFINE)
+-
+ # Checks for typedefs, structures, and compiler characteristics.
+ AC_C_CONST
+ AC_C_INLINE
+@@ -268,46 +408,7 @@
+ 	AC_DEFINE([USE_SCHED_SETSCHEDULER],[1],[Enable round-robin scheduler using sched_setscheduler])
+ fi
+ 
+-#
+-# xmlrpc-c checks
+-#
+ 
+-
+-HAVE_LIBWWW_SSL_DEFINE=0
+-AC_SUBST(HAVE_LIBWWW_SSL_DEFINE)
+-
+-DIRECTORY_SEPARATOR="/"
+-AC_SUBST(DIRECTORY_SEPARATOR)
+-
+-va_list_is_array=no
+-AC_MSG_CHECKING(whether va_list is an array)
+-AC_TRY_COMPILE([
+-#include <stdarg.h>
+-], [va_list list1, list2; list1 = list2;], , 
+-va_list_is_array=yes)
+-AC_MSG_RESULT($va_list_is_array)
+-if test x"$va_list_is_array" = xyes; then
+-  VA_LIST_IS_ARRAY_DEFINE=1
+-else
+-  VA_LIST_IS_ARRAY_DEFINE=0
+-fi
+-AC_SUBST(VA_LIST_IS_ARRAY_DEFINE)
+-
+-AC_MSG_CHECKING(whether compiler has __attribute__)
+-AC_TRY_COMPILE(, [int x __attribute__((__unused__));],
+-compiler_has_attribute=yes,
+-compiler_has_attribute=no)
+-AC_MSG_RESULT($compiler_has_attribute)
+-if test x"$compiler_has_attribute" = xyes; then
+-    ATTR_UNUSED="__attribute__((__unused__))"
+-else
+-    ATTR_UNUSED=
+-fi
+-AC_SUBST(ATTR_UNUSED)
+-
+-
+-
+-
+ AC_C_BIGENDIAN(AC_DEFINE([SWITCH_BYTE_ORDER],__BIG_ENDIAN,[Big Endian]),AC_DEFINE([SWITCH_BYTE_ORDER],__LITTLE_ENDIAN,[Little Endian]))
+ 
+ # Checks for integer size
+@@ -456,9 +557,6 @@
+ AC_SUBST(GETSOUNDS)
+ 
+ 
+-LIBCURL_CHECK_CONFIG([yes], [7.13.0], [LIBCURL_DEPS=''], [LIBCURL_DEPS='${switch_srcdir}/libs/curl/lib/libcurl.la';LIBCURL='${switch_srcdir}/libs/curl/lib/libcurl.la';LIBCURL_CPPFLAGS='-I${switch_srcdir}/libs/curl/include'])
+-AC_SUBST(LIBCURL_DEPS)
+-
+ AC_ARG_ENABLE(core-odbc-support,     
+ 	[AS_HELP_STRING([--enable-core-odbc-support], [Compile with ODBC Support])],,[enable_core_odbc_support="no"])
+ 
+@@ -609,8 +707,6 @@
+                 build/getsounds.sh
+                 build/getlib.sh
+                 build/modmake.rules
+-                libs/xmlrpc-c/include/xmlrpc-c/config.h
+-                libs/xmlrpc-c/xmlrpc_config.h
+                 scripts/gentls_cert])
+ 
+ AM_CONDITIONAL(ISLINUX, [test `uname -s` = Linux])
+@@ -649,28 +745,4 @@
+ AC_SUBST(OUR_DISABLED_UNINSTALL_MODS)
+ AC_SUBST(AM_MAKEFLAGS)
+ 
+-# Run configure in all the subdirs
+-AC_CONFIG_SUBDIRS(libs/srtp)
+-AC_CONFIG_SUBDIRS(libs/sqlite)
+-AC_CONFIG_SUBDIRS(libs/libresample)
+-if test "$enable_core_libedit_support" = "yes" ; then
+-    AC_CONFIG_SUBDIRS(libs/libedit)
+-fi
+-AC_CONFIG_SUBDIRS(libs/pcre)
+-AC_CONFIG_SUBDIRS(libs/apr)
+-AC_CONFIG_SUBDIRS(libs/apr-util)
+-AC_CONFIG_SUBDIRS(libs/voipcodecs)
+-AC_CONFIG_SUBDIRS(libs/codec/ilbc)
+-AC_CONFIG_SUBDIRS(libs/curl)
+-AC_CONFIG_SUBDIRS(libs/iksemel)
+-AC_CONFIG_SUBDIRS(libs/js/nsprpub)
+-AC_CONFIG_SUBDIRS(libs/js)
+-AC_CONFIG_SUBDIRS(libs/libdingaling)
+-AC_CONFIG_SUBDIRS(libs/libsndfile)
+-AC_CONFIG_SUBDIRS(libs/sofia-sip)
+-AC_CONFIG_SUBDIRS(libs/speex)
+-AC_CONFIG_SUBDIRS(libs/portaudio)
+-AC_CONFIG_SUBDIRS(libs/openmrcp)
+-AC_CONFIG_SUBDIRS(libs/openzap)
+-
+ AC_OUTPUT
+Index: src/switch_core_hash.c
+===================================================================
+--- src/switch_core_hash.c	(.../tags/1.0.0)	(revision 8692)
++++ src/switch_core_hash.c	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
+@@ -35,7 +35,7 @@
+ #include <switch.h>
+ #include "private/switch_core_pvt.h"
+ #include <sqlite3.h>
+-#include "../../../libs/sqlite/src/hash.h"
++#include "hash.h" /* NOTE: this comes from Sqlite internals */
+ 
+ struct switch_hash {
+ 	Hash table;
+Index: src/switch_rtp.c
+===================================================================
+--- src/switch_rtp.c	(.../tags/1.0.0)	(revision 8692)
++++ src/switch_rtp.c	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
+@@ -42,7 +42,7 @@
+ #undef PACKAGE
+ #undef inline
+ #include <datatypes.h>
+-#include <srtp.h>
++#include "srtp.h"
+ 
+ #define READ_INC(rtp_session) switch_mutex_lock(rtp_session->read_mutex); rtp_session->reading++
+ #define READ_DEC(rtp_session)  switch_mutex_unlock(rtp_session->read_mutex); rtp_session->reading--
+Index: src/mod/asr_tts/mod_openmrcp/Makefile
+===================================================================
+--- src/mod/asr_tts/mod_openmrcp/Makefile	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/asr_tts/mod_openmrcp/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
+@@ -1,43 +1,12 @@
+ # define these targets in your makefile if you wish
+ # local_all local_depend local_clean depend_install local_install local_distclean local_extraclean:
+ 
+-# TODO
+-# - needs to compile/link against the _freeswitch_ sofia libs (see FIXME)
+-
+-OPENMRCP_DIR=../../../../libs/openmrcp
+-
+-OPENMRCP_INCLUDE=-I$(OPENMRCP_DIR)/mrcpcore/client/include/ -I$(OPENMRCP_DIR)/platform/libopenmrcpclient/include/ -I$(OPENMRCP_DIR)/aprtoolkit/include/ -I$(OPENMRCP_DIR)/mediaframe/include/ -I$(OPENMRCP_DIR)/mrcpcore/engine/include/ -I$(OPENMRCP_DIR)/mrcpcore/include/ -I$(OPENMRCP_DIR)/mrcpcore/parser/include/ -I$(OPENMRCP_DIR)/mrcpcore/server/include/ -I$(OPENMRCP_DIR)/mrcpcore/media/include/ -I$(OPENMRCP_DIR)/mrcpcore/util/include -I$(OPENMRCP_DIR)/mrcpcore/resource/include/
+-
+-OPENMRCP_LIBS=$(OPENMRCP_DIR)/platform/libopenmrcpclient/.libs/libopenmrcpclient.a $(OPENMRCP_DIR)/mrcpcore/client/.libs/libmrcpclient.a $(OPENMRCP_DIR)/mediaframe/.libs/libmediaframe.a $(OPENMRCP_DIR)/mrcpcore/engine/.libs/libmrcpengine.a $(OPENMRCP_DIR)/mrcpcore/parser/.libs/libmrcpparser.a $(OPENMRCP_DIR)/mrcpcore/media/.libs/libmrcpmedia.a $(OPENMRCP_DIR)/mrcpcore/resource/.libs/libmrcpresource.a $(OPENMRCP_DIR)/module/mrcpv2agent/.libs/libmrcpv2agent.a $(OPENMRCP_DIR)/module/mrcpmediaframe/.libs/libmrcpmediaframe.a $(OPENMRCP_DIR)/module/mrcpsofiasip/.libs/libmrcpsofiasip.a $(OPENMRCP_DIR)/mrcpcore/.libs/libmrcpcore.a $(OPENMRCP_DIR)/aprtoolkit/.libs/libaprtoolkit.a
+-
+-MRCP_APR_INCLUDES =  -I../../../../libs/apr/include
+-MRCP_APU_INCLUDES =  -I../../../../libs/apr-util/include
+-
+ #do not specify gcc specific compiler flags
+ #LOCAL_CFLAGS= -Wno-unused -Wno-comment -Wno-sign-compare
+-LOCAL_CFLAGS= $(OPENMRCP_INCLUDE) $(MRCP_APR_INCLUDES) $(MRCP_APU_INCLUDES) 
++LOCAL_CFLAGS=$(openmrcpclient_CFLAGS) $(SOFIA_CFLAGS)
+ 
+-LOCAL_LIBADD=$(OPENMRCP_LIBS)
++LOCAL_LDFLAGS=$(openmrcpclient_LIBS) $(SOFIA_LIBS)
+ 
+ LOCAL_INSERT_LDFLAGS=if test $$osarch = "Darwin" ; then echo "-framework CoreFoundation -framework SystemConfiguration -lssl -lcrypto" ; fi ;
+ 
+-SOFIA_DIR=../../../../libs/sofia-sip
+-SOFIAUA_DIR=$(SOFIA_DIR)/libsofia-sip-ua
+-SOFIALA=$(SOFIAUA_DIR)/libsofia-sip-ua.la
+-
+ include ../../../../build/modmake.rules
+-
+-$(OPENMRCP_DIR)/Makefile: $(OPENMRCP_DIR)/.update
+-	cd $(OPENMRCP_DIR) && ./bootstrap && ./configure --with-apr=../apr --with-apr-util=../apr-util --with-sofia-sip=../sofia-sip
+-	$(TOUCH_TARGET)
+-
+-$(OPENMRCP_LIBS): $(SOFIALA) $(OPENMRCP_DIR)/Makefile
+-	cd $(OPENMRCP_DIR) && $(MAKE)
+-	$(TOUCH_TARGET)
+-
+-$(SOFIALA): $(SOFIA_DIR) $(SOFIA_DIR)/.update
+-	cd $(SOFIA_DIR) && $(MAKE)
+-	$(TOUCH_TARGET)
+-
+-../../../../libs/sofia-sip/libsofia-sip-ua/nua/sofia-sip/nua_tag.h: $(SOFIALA)
+-
+Index: src/mod/codecs/mod_speex/Makefile
+===================================================================
+--- src/mod/codecs/mod_speex/Makefile	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/codecs/mod_speex/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
+@@ -1,12 +1,3 @@
+-BASE=../../../..
+-
+-SPEEX_DIR=$(BASE)/libs/speex
+-SPEEXLA=$(SPEEX_DIR)/libspeex/libspeex.la
+-
+-LOCAL_CFLAGS=-I$(SPEEX_DIR)/include
+-LOCAL_LIBADD=$(SPEEXLA)
++LOCAL_CFLAGS=$(SPEEX_CFLAGS)
++LOCAL_LDFLAGS=$(SPEEX_LIBS)
+ include $(BASE)/build/modmake.rules
+-
+-$(SPEEXLA): $(SPEEX_DIR) $(SPEEX_DIR)/.update
+-	cd $(SPEEX_DIR)/libspeex && $(MAKE)
+-	$(TOUCH_TARGET)
+Index: src/mod/codecs/mod_ilbc/Makefile
+===================================================================
+--- src/mod/codecs/mod_ilbc/Makefile	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/codecs/mod_ilbc/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
+@@ -1,10 +1,3 @@
+-BASE=../../../..
+-ILBC_DIR=$(BASE)/libs/codec/ilbc
+-ILBCLA=$(ILBC_DIR)/libilbc.la
+-LOCAL_CFLAGS=-I$(ILBC_DIR)/src
+-LOCAL_LIBADD=$(ILBCLA)
++LOCAL_CFLAGS=-I/usr/include/ilbc
++LOCAL_LDFLAGS=-lilbc
+ include $(BASE)/build/modmake.rules
+-
+-$(ILBCLA): $(ILBC_DIR) $(ILBC_DIR)/.update
+-	cd $(ILBC_DIR) && $(MAKE)
+-	$(TOUCH_TARGET)
+Index: src/mod/codecs/mod_voipcodecs/Makefile
+===================================================================
+--- src/mod/codecs/mod_voipcodecs/Makefile	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/codecs/mod_voipcodecs/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
+@@ -1,13 +1,4 @@
+-BASE=../../../..
++LOCAL_CFLAGS=$(voipcodecs_CFLAGS)
++LOCAL_LDFLAGS=$(voipcodecs_LIBS)
+ 
+-VOIPCODECS_DIR=$(BASE)/libs/voipcodecs
+-VOIPCODECS_LA=$(VOIPCODECS_DIR)/src/libvoipcodecs.la
+-
+-LOCAL_CFLAGS=-I$(VOIPCODECS_DIR)/src
+-LOCAL_LIBADD=$(VOIPCODECS_LA)
+-
+ include $(BASE)/build/modmake.rules
+-
+-$(VOIPCODECS_LA): $(VOIPCODECS_DIR) $(VOIPCODECS_DIR)/.update
+-	cd $(VOIPCODECS_DIR) && $(MAKE)
+-	$(TOUCH_TARGET)
+Index: src/mod/endpoints/mod_sofia/sofia.c
+===================================================================
+--- src/mod/endpoints/mod_sofia/sofia.c	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/endpoints/mod_sofia/sofia.c	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
+@@ -39,6 +39,11 @@
+ #include "sofia-sip/sip_extra.h"
+ #include "sofia-sip/tport_tag.h"
+ 
++#ifndef ntatag_max_proceeding
++NTA_DLL extern tag_typedef_t ntatag_max_proceeding;
++#define NTATAG_MAX_PROCEEDING(x) ntatag_max_proceeding, tag_usize_v((x))
++#endif
++
+ extern su_log_t tport_log[];
+ extern su_log_t iptsec_log[];
+ extern su_log_t nea_log[];
+Index: src/mod/endpoints/mod_sofia/Makefile.am
+===================================================================
+--- src/mod/endpoints/mod_sofia/Makefile.am	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/endpoints/mod_sofia/Makefile.am	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
+@@ -12,23 +12,12 @@
+ 
+ MODNAME=mod_sofia
+ 
+-SOFIA_DIR=$(switch_builddir)/libs/sofia-sip
+-SOFIAUA_DIR=$(SOFIA_DIR)/libsofia-sip-ua
+-SOFIALA=$(SOFIAUA_DIR)/libsofia-sip-ua.la
+-
+ mod_LTLIBRARIES = mod_sofia.la
+ mod_sofia_la_SOURCES = mod_sofia.c sofia.c sofia_glue.c sofia_presence.c sofia_reg.c  mod_sofia.h
+ mod_sofia_la_CFLAGS  = $(AM_CFLAGS) 
+-mod_sofia_la_CFLAGS += -I. -I$(SOFIAUA_DIR)/bnf  -I$(SOFIAUA_DIR)/features
+-mod_sofia_la_CFLAGS += -I$(SOFIAUA_DIR)/http -I$(SOFIAUA_DIR)/ipt
+-mod_sofia_la_CFLAGS += -I$(SOFIAUA_DIR)/iptsec -I$(SOFIAUA_DIR)/msg
+-mod_sofia_la_CFLAGS += -I$(SOFIAUA_DIR)/nea -I$(SOFIAUA_DIR)/nta
+-mod_sofia_la_CFLAGS += -I$(SOFIAUA_DIR)/nth -I$(SOFIAUA_DIR)/nua
+-mod_sofia_la_CFLAGS += -I$(SOFIAUA_DIR)/sdp -I$(SOFIAUA_DIR)/sip
+-mod_sofia_la_CFLAGS += -I$(SOFIAUA_DIR)/soa -I$(SOFIAUA_DIR)/sresolv
+-mod_sofia_la_CFLAGS += -I$(SOFIAUA_DIR)/stun -I$(SOFIAUA_DIR)/su
+-mod_sofia_la_CFLAGS += -I$(SOFIAUA_DIR)/tport -I$(SOFIAUA_DIR)/url
+-mod_sofia_la_LIBADD = $(switch_builddir)/libfreeswitch.la $(SOFIALA)
++mod_sofia_la_CFLAGS += -I.
++mod_sofia_la_CFLAGS += $(SOFIA_CFLAGS)
++mod_sofia_la_LIBADD = $(switch_builddir)/libfreeswitch.la $(SOFIA_LIBS)
+ mod_sofia_la_LDFLAGS = -avoid-version -module -no-undefined
+ 
+ if ADD_ODBC
+@@ -47,14 +36,3 @@
+ 	cd $(SOFIA_DIR) && $(MAKE)
+ 	$(TOUCH_TARGET)
+ 
+-../../../../libs/sofia-sip/libsofia-sip-ua/nua/sofia-sip/nua_tag.h: $(SOFIALA)
+-
+-#install-data-am: $(DESTDIR)$(PREFIX)/$(moddir)/$(MODNAME).$(DYNAMIC_LIB_EXTEN)
+-
+-#$(DESTDIR)$(PREFIX)/$(moddir)/$(MODNAME).$(DYNAMIC_LIB_EXTEN): $(MODNAME).la
+-#	@echo installing $(MODNAME).$(DYNAMIC_LIB_EXTEN)
+-#	@if [ -f .libs/$(MODNAME).$(DYNAMIC_LIB_EXTEN) ] ; then \
+-#	  $(LIBTOOL) --mode=install $(INSTALL) .libs/$(MODNAME).$(DYNAMIC_LIB_EXTEN) $(DESTDIR)$(PREFIX)/$(moddir) >/dev/null  ; \
+-#	else \
+-#	  $(LIBTOOL) --mode=install $(INSTALL) $(MODNAME).$(DYNAMIC_LIB_EXTEN) $(DESTDIR)$(PREFIX)/$(moddir) >/dev/null  ; \
+-#	fi
+Index: src/mod/endpoints/mod_portaudio/Makefile
+===================================================================
+--- src/mod/endpoints/mod_portaudio/Makefile	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/endpoints/mod_portaudio/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
+@@ -1,20 +1,10 @@
+-BASE=../../../..
++LOCAL_CFLAGS=-I. -D__EXTENSION__=1
++LOCAL_CFLAGS+=$(portaudio_CFLAGS)
++LOCAL_LDFLAGS+=$(portaudio_LIBS)
+ 
+-PA_DIR=$(BASE)/libs/portaudio
+-
+-PALA=$(PA_DIR)/lib/libportaudio.la
+-LOCAL_CFLAGS=-I. -I$(PA_DIR)/include -D__EXTENSION__=1
+-
+ LOCAL_INSERT_LDFLAGS=if test $$osarch = "Darwin" ; then echo "-framework CoreAudio -framework AudioToolbox -framework AudioUnit -framework Carbon" ; fi ;
+ 
+-LOCAL_LIBADD=$(PALA)
+ LOCAL_OBJS=pablio.o pa_ringbuffer.o
+ LOCAL_SOURCES=pablio.c pa_ringbuffer.c
+ 
+ include $(BASE)/build/modmake.rules
+-
+-$(PALA): $(PA_DIR) $(PA_DIR)/.update
+-	cd $(PA_DIR) && $(MAKE)
+-	$(TOUCH_TARGET)
+-
+-$(LOCAL_OBJS): $(LOCAL_SOURCES)
+Index: src/mod/endpoints/mod_dingaling/Makefile
+===================================================================
+--- src/mod/endpoints/mod_dingaling/Makefile	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/endpoints/mod_dingaling/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
+@@ -1,22 +1,6 @@
+-BASE=../../../..
+-
+-LOCAL_CFLAGS     = `$(BASE)/libs/apr/apr-1-config --cflags --cppflags --includes`
+-LOCAL_CFLAGS    += `$(BASE)/libs/apr-util/apu-1-config --includes`
++LOCAL_CFLAGS  = $(iksemel_CFLAGS) $(libdingaling_CFLAGS)
++LOCAL_LDFLAGS = $(iksemel_LIBS  ) $(libdingaling_LIBS  )
+ LOCAL_CFLAGS += `if test -f $(BASE)/.libs/libfreeswitch_la-switch_odbc.o ; then echo -DSWITCH_HAVE_ODBC; fi ;`
+ #LOCAL_CFLAGS += -w
+ 
+-IKS_DIR=$(BASE)/libs/iksemel
+-IKS_LA=$(IKS_DIR)/src/libiksemel.la
+-DING_DIR=$(BASE)/libs/libdingaling
+-LOCAL_CFLAGS += -I$(DING_DIR)/src -I$(BASE)/libs/iksemel/include
+-LOCAL_OBJS=$(DING_DIR)/src/libdingaling.o $(DING_DIR)/src/sha1.o $(IKS_LA)
+-LOCAL_SOURCES=$(DING_DIR)/src/libdingaling.c $(DING_DIR)/src/sha1.c
+ include $(BASE)/build/modmake.rules
+-
+-$(IKS_LA): $(IKS_DIR) $(IKS_DIR)/.update
+-	@cd $(IKS_DIR) && $(MAKE)
+-	@$(TOUCH_TARGET)
+-
+-
+-
+-
+Index: src/mod/applications/mod_enum/mod_enum.c
+===================================================================
+--- src/mod/applications/mod_enum/mod_enum.c	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/applications/mod_enum/mod_enum.c	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
+@@ -32,6 +32,9 @@
+ #include <switch.h>
+ #include <udns.h>
+ 
++#ifndef dns_socket
++typedef int dns_socket;
++#endif
+ #ifndef WIN32
+ #define closesocket close
+ #endif
+@@ -491,6 +494,10 @@
+ 		goto done;
+ 	}
+ 
++	if (dns_init(nctx, 0) < 0) {
++		return SWITCH_STATUS_FALSE;
++	}
++
+ 	fd = dns_open(nctx);
+ 
+ 	if (fd < 0) {
+@@ -826,10 +833,6 @@
+ 
+ 	switch_mutex_init(&MUTEX, SWITCH_MUTEX_NESTED, pool);
+ 
+-	if (dns_init(0) < 0) {
+-		return SWITCH_STATUS_FALSE;
+-	}
+-
+ 	memset(&globals, 0, sizeof(globals));
+ 	do_load();
+ 
+Index: src/mod/applications/mod_enum/Makefile
+===================================================================
+--- src/mod/applications/mod_enum/Makefile	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/applications/mod_enum/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
+@@ -1,9 +1,7 @@
+-BASE=../../../..
+-UDNS_DIR=$(BASE)/libs/udns
+-LOCAL_CFLAGS=-I$(UDNS_DIR) -DHAVE_POLL
+-LOCAL_OBJS=$(UDNS_DIR)/udns_dn.o $(UDNS_DIR)/udns_dntosp.o $(UDNS_DIR)/udns_parse.o $(UDNS_DIR)/udns_misc.o \
+-$(UDNS_DIR)/udns_rr_a.o $(UDNS_DIR)/udns_rr_ptr.o $(UDNS_DIR)/udns_rr_mx.o $(UDNS_DIR)/udns_rr_txt.o $(UDNS_DIR)/udns_bl.o \
+-$(UDNS_DIR)/udns_rr_srv.o $(UDNS_DIR)/udns_rr_naptr.o $(UDNS_DIR)/udns_codes.o $(UDNS_DIR)/udns_resolver.o
++UDNS_DIR=/usr
++UDNS_INCL=$(UDNS_DIR)/include
++LOCAL_CFLAGS=-I$(UDNS_INCL) -DHAVE_POLL
++LOCAL_LDFLAGS=-ludns_s
+ 
+ 
+ include $(BASE)/build/modmake.rules
+Index: src/mod/languages/mod_spidermonkey/sm.mak
+===================================================================
+--- src/mod/languages/mod_spidermonkey/sm.mak	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/languages/mod_spidermonkey/sm.mak	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
+@@ -1,14 +1,6 @@
+-switch_srcdir=../../../..
+-JS_DIR=$(switch_srcdir)/libs/js
+-JSLA=$(JS_DIR)/libjs.la
++LOCAL_CFLAGS+=$(SPIDERMONKEY_CFLAGS)
++LOCAL_LDFLAGS+=$(SPIDERMONKEY_LIBS)
+ 
+-LOCAL_CFLAGS+=-I$(JS_DIR)/src -I$(JS_DIR)/nsprpub/dist/include/nspr  -DXP_UNIX -I../mod_spidermonkey  -DJS_THREADSAFE -DJS_HAS_FILE_OBJECT=1 -DJS_HAS_XML_SUPPORT=1
+-LOCAL_LDFLAGS+=$(JS_DIR)/nsprpub/pr/src/libnspr4.*
+-LOCAL_LIBADD+=$(JSLA)
++LOCAL_CFLAGS+=-I../mod_spidermonkey
+ 
+-include $(switch_srcdir)/build/modmake.rules
+-
+-$(JSLA): $(JS_DIR) $(JS_DIR)/.update
+-	cd $(JS_DIR)/nsprpub && $(MAKE)
+-	cd $(JS_DIR) && $(MAKE)
+-	$(TOUCH_TARGET)
++include $(BASE)/build/modmake.rules
+Index: src/mod/languages/mod_spidermonkey/Makefile
+===================================================================
+--- src/mod/languages/mod_spidermonkey/Makefile	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/languages/mod_spidermonkey/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
+@@ -5,10 +5,3 @@
+ LOCAL_LIBADD=
+ 
+ include sm.mak
+-
+-depend_install: $(DESTDIR)$(libdir)/libjs.la
+-
+-$(DESTDIR)$(libdir)/libjs.la: $(JSLA)
+-	cd $(JS_DIR)/nsprpub/ && $(MAKE) install
+-	cd $(JS_DIR) && $(MAKE) install
+-
+Index: src/mod/xml_int/mod_xml_rpc/mod_xml_rpc.c
+===================================================================
+--- src/mod/xml_int/mod_xml_rpc/mod_xml_rpc.c	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/xml_int/mod_xml_rpc/mod_xml_rpc.c	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
+@@ -39,7 +39,9 @@
+ #include <xmlrpc-c/abyss.h>
+ #include <xmlrpc-c/server.h>
+ #include <xmlrpc-c/server_abyss.h>
+-#include "../../libs/xmlrpc-c/lib/abyss/src/token.h"
++
++/* NOTE: Taken from xmlrpc-c's internals: */
++#include "token.h"
+ #include "http.h"
+ #include "session.h"
+ 
+Index: src/mod/xml_int/mod_xml_rpc/Makefile
+===================================================================
+--- src/mod/xml_int/mod_xml_rpc/Makefile	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/xml_int/mod_xml_rpc/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
+@@ -1,83 +1,4 @@
+-BASE=../../../..
+-XMLRPC_DIR=$(BASE)/libs/xmlrpc-c
++LOCAL_CFLAGS=$(XMLRPC_CFLAGS)
++LOCAL_LDFLAGS=$(XMLRPC_LIBS)
+ 
+-LOCAL_OBJS = $(XMLRPC_DIR)/lib/libutil/asprintf.o\
+-$(XMLRPC_DIR)/lib/util/casprintf.o\
+-$(XMLRPC_DIR)/lib/abyss/src/channel.o\
+-$(XMLRPC_DIR)/lib/abyss/src/chanswitch.o\
+-$(XMLRPC_DIR)/lib/util/cmdline_parser.o\
+-$(XMLRPC_DIR)/lib/abyss/src/conf.o\
+-$(XMLRPC_DIR)/lib/abyss/src/conn.o\
+-$(XMLRPC_DIR)/lib/abyss/src/data.o\
+-$(XMLRPC_DIR)/lib/abyss/src/date.o\
+-$(XMLRPC_DIR)/src/double.o\
+-$(XMLRPC_DIR)/lib/libutil/error.o\
+-$(XMLRPC_DIR)/lib/abyss/src/file.o\
+-$(XMLRPC_DIR)/lib/expat/gennmtab/gennmtab.o\
+-$(XMLRPC_DIR)/lib/util/getoptx.o\
+-$(XMLRPC_DIR)/lib/abyss/src/handler.o\
+-$(XMLRPC_DIR)/lib/abyss/src/http.o\
+-$(XMLRPC_DIR)/lib/abyss/src/init.o\
+-$(XMLRPC_DIR)/lib/libutil/make_printable.o\
+-$(XMLRPC_DIR)/lib/libutil/memblock.o\
+-$(XMLRPC_DIR)/src/method.o\
+-$(XMLRPC_DIR)/src/parse_value.o\
+-$(XMLRPC_DIR)/src/registry.o\
+-$(XMLRPC_DIR)/src/resource.o\
+-$(XMLRPC_DIR)/lib/abyss/src/response.o\
+-$(XMLRPC_DIR)/lib/libutil/select.o\
+-$(XMLRPC_DIR)/lib/abyss/src/server.o\
+-$(XMLRPC_DIR)/lib/abyss/src/session.o\
+-$(XMLRPC_DIR)/lib/libutil/sleep.o\
+-$(XMLRPC_DIR)/lib/abyss/src/socket.o\
+-$(XMLRPC_DIR)/lib/abyss/src/socket_unix.o\
+-$(XMLRPC_DIR)/lib/util/string_parser.o\
+-$(XMLRPC_DIR)/lib/util/stripcaseeq.o\
+-$(XMLRPC_DIR)/src/system_method.o\
+-$(XMLRPC_DIR)/lib/abyss/src/thread_pthread.o\
+-$(XMLRPC_DIR)/lib/libutil/time.o\
+-$(XMLRPC_DIR)/lib/abyss/src/token.o\
+-$(XMLRPC_DIR)/src/trace.o\
+-$(XMLRPC_DIR)/lib/abyss/src/trace.o\
+-$(XMLRPC_DIR)/lib/libutil/utf8.o\
+-$(XMLRPC_DIR)/src/version.o\
+-$(XMLRPC_DIR)/lib/expat/xmlparse/xmlparse.o\
+-$(XMLRPC_DIR)/lib/expat/xmltok/xmlrole.o\
+-$(XMLRPC_DIR)/src/xmlrpc_array.o\
+-$(XMLRPC_DIR)/src/xmlrpc_authcookie.o\
+-$(XMLRPC_DIR)/src/xmlrpc_base64.o\
+-$(XMLRPC_DIR)/src/xmlrpc_build.o\
+-$(XMLRPC_DIR)/src/xmlrpc_data.o\
+-$(XMLRPC_DIR)/src/xmlrpc_datetime.o\
+-$(XMLRPC_DIR)/src/xmlrpc_decompose.o\
+-$(XMLRPC_DIR)/src/xmlrpc_expat.o\
+-$(XMLRPC_DIR)/src/xmlrpc_parse.o\
+-$(XMLRPC_DIR)/src/xmlrpc_serialize.o\
+-$(XMLRPC_DIR)/src/xmlrpc_server_abyss.o\
+-$(XMLRPC_DIR)/src/xmlrpc_server_cgi.o\
+-$(XMLRPC_DIR)/src/xmlrpc_string.o\
+-$(XMLRPC_DIR)/src/xmlrpc_struct.o\
+-$(XMLRPC_DIR)/lib/expat/xmltok/xmltok.o
+-
+-#XMLRPCLAS  = $(XMLRPC_DIR)/src/libxmlrpc.a 
+-#dont ask...
+-#XMLRPCLAS  = $(XMLRPC_DIR)/src/*.o
+-#XMLRPCLAS += $(XMLRPC_DIR)/src/libxmlrpc_server.so $(XMLRPC_DIR)/src/libxmlrpc.so
+-#XMLRPCLAS += $(XMLRPC_DIR)/src/libxmlrpc_server_abyss.so $(XMLRPC_DIR)/lib/abyss/src/libxmlrpc_abyss.so
+-#XMLRPCLAS += $(XMLRPC_DIR)/lib/expat/xmlparse/libxmlrpc_xmlparse.so $(XMLRPC_DIR)/lib/expat/xmltok/libxmlrpc_xmltok.so
+-#LOCAL_LIBADD =$(XMLRPCLAS)
+-
+-LOCAL_CFLAGS = -w -I$(XMLRPC_DIR)/lib/expat/xmlparse -I$(XMLRPC_DIR)/lib/expat/xmltok -I$(XMLRPC_DIR) -I$(XMLRPC_DIR)/include
+-LOCAL_CFLAGS+= -I$(XMLRPC_DIR)/lib/abyss/src -I$(XMLRPC_DIR)/lib/util/include -D_THREAD -D__EXTENSIONS__
+-
+ include $(BASE)/build/modmake.rules
+-
+-$(XMLRPCLAS): $(XMLRPC_DIR) $(XMLRPC_DIR)/.update
+-	cd $(XMLRPC_DIR) && $(MAKE)
+-	$(TOUCH_TARGET)
+-
+-$(XMLRPC_DIR)/lib/expat/xmltok/xmltok.o: $(XMLRPC_DIR)/lib/expat/xmltok/nametab.h
+-
+-$(XMLRPC_DIR)/lib/expat/xmltok/nametab.h:
+-	cd $(XMLRPC_DIR)/lib/expat/gennmtab && $(MAKE)
+-	cd $(XMLRPC_DIR)/lib/expat/xmltok   && ../gennmtab/gennmtab > nametab.h
+Index: src/mod/formats/mod_sndfile/Makefile
+===================================================================
+--- src/mod/formats/mod_sndfile/Makefile	(.../tags/1.0.0)	(revision 8692)
++++ src/mod/formats/mod_sndfile/Makefile	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
+@@ -1,14 +1,3 @@
+-BASE=../../../..
++LOCAL_LIBADD=-lsndfile
+ 
+-SNDFILE_DIR=$(BASE)/libs/libsndfile
+-SNDFILELA=$(SNDFILE_DIR)/src/libsndfile.la
+-
+-LOCAL_CFLAGS=-I$(SNDFILE_DIR)/src
+-LOCAL_LIBADD=$(SNDFILELA)
+-LOCAL_OBJS=
+-
+ include $(BASE)/build/modmake.rules
+-
+-$(SNDFILELA): $(SNDFILE_DIR) $(SNDFILE_DIR)/.update
+-	cd $(SNDFILE_DIR) && $(MAKE)
+-	$(TOUCH_TARGET)
+Index: src/include/switch_platform.h
+===================================================================
+--- src/include/switch_platform.h	(.../tags/1.0.0)	(revision 8692)
++++ src/include/switch_platform.h	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
+@@ -63,9 +63,6 @@
+ #ifdef _MSC_VER
+ #  pragma comment(lib, "odbc32.lib")
+ #endif
+-#pragma include_alias(<libteletone.h>,				<../../libs/libteletone/src/libteletone.h>)
+-#pragma include_alias(<libteletone_generate.h>,		<../../libs/libteletone/src/libteletone_generate.h>)
+-#pragma include_alias(<libteletone_detect.h>,		<../../libs/libteletone/src/libteletone_detect.h>)
+ #if (_MSC_VER >= 1400)			// VC8+
+ #define switch_assert(expr) assert(expr);__analysis_assume( expr )
+ #endif
+Index: src/switch_core_state_machine.c
+===================================================================
+--- src/switch_core_state_machine.c	(.../tags/1.0.0)	(revision 8692)
++++ src/switch_core_state_machine.c	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
+@@ -193,7 +193,7 @@
+ }
+ 
+ #include <sqlite3.h>
+-#include "../../../libs/sqlite/src/hash.h"
++#include "hash.h" /* NOTE: From Sqlite interals */
+ 
+ //static switch_hash_t *stack_table = NULL;
+ static Hash stack_table;
+Index: build/modmake.rules.in
+===================================================================
+--- build/modmake.rules.in	(.../tags/1.0.0)	(revision 8692)
++++ build/modmake.rules.in	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
+@@ -15,12 +15,6 @@
+ CCLD = $(CC)
+ CXXLD = $(CXX)
+ 
+-LIBCURL_DEPS=@LIBCURL_DEPS@
+-LIBCURL=@LIBCURL@
+-LIBCURL_CPPFLAGS=@LIBCURL_CPPFLAGS@
+-CURL_DIR=$(switch_srcdir)/libs/curl
+-CURLLA=$(CURL_DIR)/lib/libcurl.la
+-
+ LIBS=$(switch_builddir)/libfreeswitch.la
+ DEFS=@DEFS@
+ PREFIX = @prefix@
+@@ -53,9 +47,9 @@
+ MAKE_OPTS = `test -n "$(VERBOSE)" || echo -s`
+ RECURSE_MODNAME=`pwd | sed -e 's|^.*/||'`
+ RECURSE_SOURCEFILE=`if test -f $$modname.cpp; then echo $$modname.cpp; else echo $$modname.c; fi`
+-RECURSE_OUR_DEPS=`test -z "$(WANT_CURL)" || if test ! -z "$(LIBCURL_DEPS)"; then echo $(CURLLA); fi `
+-RECURSE_OUR_CFLAGS=`test -z "$(WANT_CURL)" || echo $(LIBCURL_CPPFLAGS) ; $(LOCAL_INSERT_CFLAGS) `
+-RECURSE_OUR_LDFLAGS=`test -z "$(WANT_CURL)" || echo $(LIBCURL) ; $(LOCAL_INSERT_LDFLAGS) `
++RECURSE_OUR_DEPS=
++RECURSE_OUR_CFLAGS=`test -z "$(WANT_CURL)" || echo $(LIBCURL_CFLAGS) ; $(LOCAL_INSERT_CFLAGS) `
++RECURSE_OUR_LDFLAGS=`test -z "$(WANT_CURL)" || echo $(LIBCURL_LIBS) ; $(LOCAL_INSERT_LDFLAGS) `
+ RECURSE_MAKE=modname="$(RECURSE_MODNAME)" ; \
+ 		sourcefile="$(RECURSE_SOURCEFILE)" ; \
+ 		osarch=`uname -s` ; \
+@@ -96,9 +90,6 @@
+ 	  echo 'include $$(BASE)/build/modmake.rules' >> Makefile ; \
+ 	fi ;
+ 
+-$(CURLLA):
+-	@cd $(CURL_DIR) && $(MAKE)
+-
+ LINK_OUTPUT_REDIR=> .libs/$(MODNAME).log || error="yes" ; \
+ 			if test -n "$(VERBOSE)" -o "$$error" = "yes"; then \
+ 			  cat .libs/$(MODNAME).log ; \
+Index: acinclude.m4
+===================================================================
+--- acinclude.m4	(.../tags/1.0.0)	(revision 8692)
++++ acinclude.m4	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
+@@ -6,5 +6,5 @@
+ m4_include([build/config/ac_gcc_x86_cpuid.m4])
+ m4_include([build/config/ax_lib_mysql.m4])
+ m4_include([build/config/ax_check_java.m4])
+-m4_include([libs/apr/build/apr_common.m4])
++m4_include([build/config/apr_common.m4])
+ m4_include([build/config/libcurl.m4])
+Index: Makefile.am
+===================================================================
+--- Makefile.am	(.../tags/1.0.0)	(revision 8692)
++++ Makefile.am	(.../branches/lukedashjr/syslibs/freeswitch)	(revision 8692)
+@@ -26,6 +26,8 @@
+ 	   cd src/mod && $(MAKE) $(AM_MAKEFLAGS) $@ ;\
+ 	 fi
+ 
++.EXPORT_ALL_VARIABLES:
++
+ sounds: sounds-en-us-callie-8000
+ sounds-install: sounds-en-us-callie-8000-install
+ moh: sounds-music-8000
+@@ -86,15 +88,11 @@
+ src/switch_xml.cpp\
+ src/switch_config.c\
+ src/switch_time.c\
+-libs/stfu/stfu.c\
+ src/switch_cpp.cpp\
+ src/g711.c\
+-src/switch_pcm.c\
+-libs/libteletone/src/libteletone_detect.c\
+-libs/libteletone/src/libteletone_generate.c
++src/switch_pcm.c
+ 
+ 
+-
+ library_includedir      = $(PREFIX)/include
+ 
+ library_include_HEADERS = \
+@@ -125,24 +123,8 @@
+ src/include/switch_log.h\
+ src/include/switch_xml.h\
+ src/include/switch_cpp.h\
+-libs/libteletone/src/libteletone_detect.h\
+-libs/libteletone/src/libteletone_generate.h\
+-libs/libteletone/src/libteletone.h\
+ src/include/switch_odbc.h
+ 
+-CORE_CFLAGS     = `$(switch_srcdir)/libs/apr/apr-1-config --cflags --cppflags --includes`
+-CORE_CFLAGS    += `$(switch_srcdir)/libs/apr-util/apu-1-config --includes`
+-CORE_CFLAGS    += -I$(switch_srcdir)/libs/stfu
+-CORE_CFLAGS    += -I$(switch_srcdir)/libs/sqlite
+-CORE_CFLAGS    += -I$(switch_srcdir)/libs/pcre
+-CORE_CFLAGS    += -I$(switch_srcdir)/libs/srtp/include
+-CORE_CFLAGS    += -I$(switch_srcdir)/libs/srtp/crypto/include
+-CORE_CFLAGS    += $(RESAMPLE_CFLAGS)
+-
+-CORE_LIBS      = libs/apr-util/libaprutil-1.la libs/apr/libapr-1.la
+-CORE_LIBS     += libs/sqlite/libsqlite3.la libs/pcre/libpcre.la
+-CORE_LIBS     += libs/srtp/libsrtp.la $(RESAMPLE_LIB)
+-
+ lib_LTLIBRARIES	          = libfreeswitch.la
+ libfreeswitch_la_CFLAGS   = $(CORE_CFLAGS) $(AM_CFLAGS)
+ libfreeswitch_la_LDFLAGS  = -version-info 1:0:0 $(AM_LDFLAGS)
+@@ -159,23 +141,11 @@
+ freeswitch_SOURCES = src/switch.c
+ nodist_freeswitch_SOURCES = src/include/switch_version.h 
+ freeswitch_CFLAGS = $(AM_CFLAGS) $(CORE_CFLAGS)
+-freeswitch_LDFLAGS = $(AM_LDFLAGS) -rpath $(libdir)
+-freeswitch_LDADD = libfreeswitch.la libs/apr/libapr-1.la
+-if ADD_LIBEDIT
+-freeswitch_CFLAGS    += -Ilibs/libedit/src -DSWITCH_HAVE_LIBEDIT
+-freeswitch_LDADD      += libs/libedit/src/.libs/libedit.a
+-endif
++freeswitch_LDFLAGS = $(AM_LDFLAGS) -rpath $(libdir) /usr/lib/stfu.o
++freeswitch_LDADD = libfreeswitch.la
+ 
+-
+-if ADD_LIBEDIT
+-CORE_CFLAGS    += -Ilibs/libedit/src -DSWITCH_HAVE_LIBEDIT
+-CORE_LIBS      += libs/libedit/src/.libs/libedit.a
+-endif
+-
+ if ADD_ODBC
+-CORE_CFLAGS    += -DSWITCH_HAVE_ODBC
+ libfreeswitch_la_SOURCES += src/switch_odbc.c
+-libfreeswitch_la_LDFLAGS     += -Wl,-lodbc
+ endif
+ 
+ bin_SCRIPTS = scripts/gentls_cert scripts/fsxs
+@@ -183,9 +153,6 @@
+ src/include/switch_swigable_cpp.h: src/include/switch_cpp.h
+ 	$(CC) -E src/include/switch_cpp.h -DSWITCH_DECLARE\(x\)=x -DSWITCH_DECLARE_CONSTRUCTOR= -DSWITCH_DECLARE_NONSTD\(x\)=x 2>/dev/null | grep -v "^#" > src/include/switch_swigable_cpp.h 
+ 
+-libs/libedit/src/.libs/libedit.a:
+-	cd libs/libedit && $(MAKE)
+-
+ $(libfreeswitch_la_SOURCES): $(CORE_LIBS) $(switch_builddir)/quiet_libtool modules.conf
+ 
+ $(switch_builddir)/quiet_libtool: $(switch_builddir)/libtool
+@@ -267,32 +234,6 @@
+ yesdepends:
+ 	rm .nodepends
+ 
+-libs/apr/libapr-1.la: libs/apr libs/apr/.update
+-	@cd libs/apr && $(MAKE)
+-	@$(TOUCH_TARGET)
+-
+-libs/apr-util/libaprutil-1.la: libs/apr-util libs/apr-util/.update libs/apr/libapr-1.la
+-	@cd libs/apr-util && $(MAKE)
+-	@$(TOUCH_TARGET)
+-
+-libs/sqlite/libsqlite3.la: libs/sqlite libs/sqlite/.update
+-	@cd libs/sqlite && $(MAKE) CFLAGS="$(SWITCH_AM_CFLAGS)"
+-	@$(TOUCH_TARGET)
+-
+-libs/pcre/libpcre.la: libs/pcre libs/pcre/.update
+-	@cd libs/pcre && $(MAKE)
+-	@$(TOUCH_TARGET)
+-
+-libs/srtp/libsrtp.la: libs/srtp libs/srtp/.update
+-	@cd libs/srtp && $(MAKE)
+-	@$(TOUCH_TARGET)
+-
+-if USE_INTREE_RESAMPLE
+-libs/libresample/libresample.la: libs/libresample libs/libresample/.update
+-	@cd libs/libresample && $(MAKE)
+-	@$(TOUCH_TARGET)
+-endif
+-
+ core:
+ 	$(MAKE) $(AM_MAKEFLAGS) libfreeswitch.la
+ 
+@@ -322,14 +263,8 @@
+ 	svn update
+ 	$(MAKE) -j install
+ 
+-libs/openzap/Makefile:
+-	cd libs/openzap && autoconf
+-	cd libs/openzap && ./configure
++update-clean: clean modwipe uninstall
+ 
+-update-clean: clean modwipe uninstall libs/openzap/Makefile
+-	cd libs/sofia-sip && $(MAKE) clean
+-	cd libs/openzap && $(MAKE) clean
+-
+ swigall:
+ 	@echo reswigging all
+ 	sh ./build/swigall.sh
+@@ -338,7 +273,6 @@
+ 
+ speedy-sure: update-clean
+ 	$(MAKE) -j core
+-	cd libs/sofia-sip && $(MAKE) -j
+ 	$(MAKE) -j modules
+ 
+ sofia-reconf:
+@@ -396,11 +330,11 @@
+ 	    -e "s,@INSTALL\@,$(INSTALL)," \
+ 	    -e "s,@MKINSTALLDIRS\@,$(mkdir_p)," \
+ 	    \
+-	    -e "s|@CFLAGS\@|$(CFLAGS) `$(switch_srcdir)/libs/apr/apr-1-config --cflags --cppflags`|" \
++	    -e "s|@CFLAGS\@|$(CFLAGS)|" \
+ 	    -e "s|@INCLUDES\@|-I$(PREFIX)/include|" \
+ 	    -e "s|@SOLINK\@|$(SOLINK)|" \
+ 	    -e "s|@LDFLAGS\@|-L$(PREFIX)/lib|" \
+-	    -e "s|@LIBS\@|`$(switch_srcdir)/libs/apr/apr-1-config --libs` `$(switch_srcdir)/libs/apr-util/apu-1-config --libs`|" \
++	    -e "s|@LIBS\@|$(LIBS)|" \
+ 	    scripts/fsxs.in > scripts/fsxs
+ 
+ eclean: clean
+@@ -412,11 +346,7 @@
+ 	rm -f *.tar *.tgz *.gz 
+ 
+ megaclean: eclean modclean
+-	rm -f `find ./libs -name \*.la`
+ 
+-libclean:
+-	@for file in `ls ./libs`; do pushd "./libs/"$$file; make clean; rm -f .built; popd; done
+-
+ modules.conf:
+ 	if test -f $@; then touch $@; else cp build/modules.conf.in $@ ;fi
+ 
+

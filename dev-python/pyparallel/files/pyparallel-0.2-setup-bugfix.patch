@@ -1,0 +1,9 @@
+--- setup.py	2005/11/02 18:54:21	1.4
++++ setup.py	2006/07/29 22:27:22	1.5
+@@ -16,5 +16,5 @@
+     packages=['parallel'],
+     license="Python",
+     long_description="Python Parallel Port Extension for Win32, Linux, BSD",
+-    package_data = data_files
++    package_data = {}
+ )

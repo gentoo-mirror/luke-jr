@@ -1,0 +1,10 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: voipcodecs
+Description: voipcodecs
+Version: 0.0.1.rc4
+Libs: -L${libdir} -lvoipcodecs
+Cflags: -I${includedir}

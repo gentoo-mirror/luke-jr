@@ -1,0 +1,11 @@
+#!/bin/sh
+perl -e '
+	print "LUKEDASHJR";
+	while (<>) {
+		while (m/\G\s*(\S+)/g) {
+			next if $1 =~ m/:/;
+			print " $1";
+		}
+	}
+	print "\n";
+' < license_groups.rationale > license_groups
