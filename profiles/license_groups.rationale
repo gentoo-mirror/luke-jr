@@ -54,6 +54,7 @@
 	PSF-2.2
 	IBM
 	MPL-1.1
+	ErlPL-1.1
 	gnuplot (interesting)
 	vlgothic
 		mplus-fonts
@@ -74,7 +75,6 @@
 	APSL-2
 	OpenSoftware
 	CreativeCommons:
-		CC-BY-SA-3.0
 		CC-SA-1.0
 		CC-PD
 	myspell-en_CA-KevinAtkinson
