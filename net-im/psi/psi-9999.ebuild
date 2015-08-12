@@ -20,13 +20,12 @@ HOMEPAGE="http://psi-im.org/"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS=""
-IUSE="crypt dbus debug doc enchant extras jingle iconsets spell ssl xscreensaver powersave
+IUSE="crypt dbus debug doc enchant extras jingle iconsets spell ssl xscreensaver
 plugins whiteboarding webkit"
 
 REQUIRED_USE="
 	iconsets? ( extras )
 	plugins? ( extras )
-	powersave? ( extras )
 	webkit? ( extras )
 "
 
@@ -119,8 +118,6 @@ src_prepare() {
 			die	"failed to copy additional iconsets"; }
 		EPATCH_EXCLUDE="${MY_EPATCH_EXCLUDE} " \
 		EPATCH_SOURCE="${WORKDIR}/psi-plus/patches/" EPATCH_SUFFIX="diff" EPATCH_FORCE="yes" epatch
-
-		use powersave && epatch "${WORKDIR}/psi-plus/patches/dev/psi-reduce-power-consumption.patch"
 
 		sed -e "s/.xxx/.$(cd "${WORKDIR}/psi-plus"; echo $((`git describe --tags | \
 			cut -d - -f 2`+5000)))/" -i src/applicationinfo.cpp || die "sed failed"
