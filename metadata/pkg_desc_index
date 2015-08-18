@@ -1,0 +1,49 @@
+app-accessibility/openmrcp 0.0.589 0.0.594: 
+app-emulation/vmbuilder 0.12.4 0.12.4.481 0.12.4.481-r1 0.12.4.488: Install virtual machines in a snap without ever actually booting a virtual machine!
+app-misc/adbren 3-r1 4 6.0.0.2010.03.13: AniDB Renamer
+app-misc/adbren-anidb 0.3_pre400: AniDB Renamer
+app-text/prince 6.0_p3 6.0_p5 6.0_p6: Prince is a computer program that converts XML and HTML into PDF documents.
+dev-android/adb 9999: android debug bridge
+dev-android/fastboot 9999: fastboot is a util to control android bootloader
+dev-db/sqlite 3.3.17: an SQL Database Engine in a C Library
+dev-embedded/xc3sprog 9999: A suite of utilities for programming Xilinx FPGAs, CPLDs, and EEPROMs
+dev-libs/hidapi 0.8.0_pre20130121: A multi-platform library for USB and Bluetooth HID-Class devices
+dev-libs/win_backtrace 9999: DLL to dump a usable backtrace to stderr for MingW/GCC software on Windows (requires application support)
+dev-libs/xmlrpc-c 1.03.14-r1 1.14.5: A lightweight RPC library based on XML and HTTP
+dev-python/labjackpython 0.64 0.65 0.66c: Python bindings for LabJack devices
+dev-python/meliae 0.4.0 9999: Meliae is a library meant to help people understand how their memory is being used in Python
+dev-python/pyparallel 0.2: Python Serial Port Extension
+dev-qt/linguist 5.1.0: Graphical tool for translating Qt applications
+mail-filter/hashcash-milter 0.1.2: A milter-based application to mint and check HashCash stamps
+media-fonts/code2000 1.17.1: TrueType font covering all of the CJK ideographs in the Basic Multilingual Plane of Unicode
+media-gfx/kodakaio 0.2.1: Kodak AIO SANE backend
+media-libs/glew 1.5.8: The OpenGL Extension Wrangler Library
+media-libs/voipcodecs 0.0.1_rc3 0.0.1_rc4 0.0.1_rc5 0.0.1: A set of commonly used, unencumbered, codecs for VoIP
+media-video/dvd-baker 0.7.43: dvd-baker is an application designed to turn your image collection into a DVD.
+net-im/psi 9999_pre20150515 9999: Qt4 Jabber client, with Licq-like interface
+net-libs/libdingaling 0.1: Cross Platform Jingle (Google Talk) voip signaling library
+net-libs/libiax-freeswitch 0.2.3: 
+net-libs/libiaxclient 2.1_beta3: an open source, multiplatform library for creating telephony solutions that interoperate with Asterisk, the Open Source PBX
+net-libs/libmicrohttpd 0.9.38_pre33603 9999: A small C library that makes it easy to run an HTTP server as part of another application.
+net-libs/libteletone 0.0.1.0_rc3: 
+net-libs/sofia-sip 9999: RFC3261 compliant SIP User-Agent library
+net-libs/stfu 0.0.1.0_rc3: (S)ort (T)ransportable (F)ramed (U)tterances
+net-misc/asterisk 1.4.18.1: Asterisk: A Modular Open Source PBX System
+net-misc/asterisk-app_rxfax 20070624-r1: Asterisk applications for sending and receiving faxes
+net-misc/asterisk-e164-800notes 0.1.27: Asterisk AGI script to search 800notes for CallerID info
+net-misc/asterisk-e164-vcard 0.1.26: Asterisk AGI script to search and append a vCard addressbook with CallerID
+net-misc/asterisk-e164imap 0.1.11 0.1.21: Asterisk AGI script to search and append an IMAP vCard addressbook with CallerID
+net-misc/freeswitch 1.0.0 1.0.1: an open source telephony platform designed to facilitate the creation of voice and chat driven products scaling from a soft-phone up to a soft-switch
+net-misc/gammamoo 1.8.2.4: a modern MOO server, based on LambdaMOO
+sci-biology/gnaural 1.0.20080808: A programmable binaural-beat generator, implementing the principle of binaural beats as described in the October 1973 Scientific American article "Auditory Beats in the Brain" (Gerald Oster).
+sys-block/compcache-tools 0.6: Compressed in-memory swap device for Linux
+sys-libs/labjackusb-u3-driver 0.0.2008.08.11: 
+sys-libs/labjackusb-udev-rules 0.0.1: 
+sys-libs/labjackusb-ue9-driver 0.0.2008.08.11: 
+sys-libs/liblabjackusb 1.10 2.0.1: This package contains the USB library/examples (written in C) for calling low-level U3, U6 and UE9 functions over a USB connection.
+sys-libs/pdcurses 3.4 3.4-r1 3.4-r2 3.4-r3 3.4-r4: 
+sys-libs/plibc 0.1.7 0.1.8_pre147 9999: 
+sys-libs/pthreads-win32 2.9.1 9999: Provides the pthreads API on windows
+www-apps/gallery 3.0.2_pre0: Web based (PHP Script) photo album viewer/creator
+www-client/qupzilla 1.4.4: Qt WebKit web browser
+x11-drivers/xf86-video-intel 2.20.19-r1: X.Org driver for Intel cards
