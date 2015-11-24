@@ -1,0 +1,10 @@
+DEFINED_PHASES=compile install unpack
+DESCRIPTION=(S)ort (T)ransportable (F)ramed (U)tterances
+EAPI=0
+HOMEPAGE=http://freeswitch.org/
+KEYWORDS=~amd64 ~x86
+LICENSE=MIT
+SLOT=0
+SRC_URI=http://files.freeswitch.org/freeswitch-1.0.1.tar.gz
+_eclass_exported_funcs=src_unpack:- src_compile:- src_install:-
+_md5_=0d890389591fe433bf7e37bdeb8c9e7b

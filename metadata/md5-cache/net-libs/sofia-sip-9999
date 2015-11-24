@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile install unpack
+DEPEND=glib? ( dev-libs/glib ) ssl? ( dev-libs/openssl ) dev-vcs/darcs net-misc/rsync
+DESCRIPTION=RFC3261 compliant SIP User-Agent library
+EAPI=1
+HOMEPAGE=http://sofia-sip.sourceforge.net/
+IUSE=glib ipv6 ntlm sctp ssl +stun
+LICENSE=LGPL-2.1
+RDEPEND=glib? ( dev-libs/glib ) ssl? ( dev-libs/openssl )
+SLOT=0
+_eclass_exported_funcs=src_unpack:- src_compile:- src_install:-
+_eclasses_=darcs	25bcb4c9bede09580ffa4891aa70234d	eutils	f20548a2f7b0128068388cd2ec26708a	multilib	3972ca401cf7dbb430df9995f5d8d580	toolchain-funcs	7a212e5e01adfa4805c9978366e6ee85
+_md5_=e9be07f009b70e31ad1b658e760b8c98
