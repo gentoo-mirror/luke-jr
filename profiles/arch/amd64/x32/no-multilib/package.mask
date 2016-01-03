@@ -1,0 +1,2 @@
+<sys-devel/llvm-3.8
+<sys-devel/clang-3.8
