@@ -1,3 +1,5 @@
+EAPI=5
+
 inherit perl-module
 
 DESCRIPTION="Perl clients for AniDB"
