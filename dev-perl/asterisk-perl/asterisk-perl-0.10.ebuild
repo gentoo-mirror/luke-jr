@@ -1,3 +1,5 @@
+EAPI=5
+
 inherit perl-module
 
 DESCRIPTION="asterisk-perl is a collection of perl modules to be used with the Asterisk PBX"
