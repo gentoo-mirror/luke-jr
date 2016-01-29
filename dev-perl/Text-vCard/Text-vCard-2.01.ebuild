@@ -1,3 +1,5 @@
+EAPI=5
+
 inherit perl-module
 
 DESCRIPTION="a package to parse, edit and create vCards"
