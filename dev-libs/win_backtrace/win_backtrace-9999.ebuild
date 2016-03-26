@@ -16,7 +16,7 @@ DEPEND="sys-devel/binutils"
 RDEPEND=""
 
 src_compile() {
-	emake backtrace.dll || die
+	emake backtrace.dll CFLAGS="${CFLAGS} ${LDFLAGS}" || die
 }
 
 src_install() {
