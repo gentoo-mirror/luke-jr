@@ -119,6 +119,7 @@
 		docbook
 		IJG
 		libmng
+		openafs-krb5-a
 
 	Barely-free-strict:
 		FDL-1.2
