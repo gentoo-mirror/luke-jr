@@ -1,0 +1,15 @@
+DEFINED_PHASES=compile install postinst postrm setup test unpack
+DEPEND=doc? ( dev-lang/tcl ) tcl? ( dev-lang/tcl )
+DESCRIPTION=an SQL Database Engine in a C Library
+EAPI=1
+HOMEPAGE=http://www.sqlite.org/
+IUSE=debug doc soundex tcl +threadsafe
+KEYWORDS=alpha amd64 arm hppa ia64 mips ppc ppc64 s390 sh sparc ~sparc-fbsd x86 ~x86-fbsd
+LICENSE=as-is
+RDEPEND=tcl? ( dev-lang/tcl )
+RESTRICT=!tcl? ( test )
+SLOT=3
+SRC_URI=http://be.lunar-linux.org/lunar/cache/sqlite-3.3.17.tar.gz
+_eclass_exported_funcs=pkg_postrm:alternatives pkg_postinst:alternatives pkg_setup:- src_unpack:- src_compile:- src_test:- src_install:-
+_eclasses_=alternatives	b19e1ec28e600fa497461bddfb9c1f16	eutils	792f83d5ec9536cb5ccef375469d8bde	flag-o-matic	d270fa247153df66074f795fa42dba3e	libtool	4890219c51da247200223277f993e054	multilib	d062ae4ba2fc40a19c11de2ad89b6616	toolchain-funcs	d513d423d449877e49d99af3f7af7acb
+_md5_=1b87cc8cfc3061d9c58f9e502f1479f1

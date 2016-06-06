@@ -1,0 +1,10 @@
+DEFINED_PHASES=compile configure install prepare
+EAPI=4
+HOMEPAGE=http://pdcurses.sourceforge.net/
+IUSE=debug static-libs unicode
+KEYWORDS=~x86
+LICENSE=public-domain
+SLOT=0
+SRC_URI=mirror://sourceforge/pdcurses/pdcurses/3.4/PDCurses-3.4.tar.gz
+_eclass_exported_funcs=src_prepare:- src_configure:- src_compile:- src_install:-
+_md5_=0da67a11f8769f05624ec276d7c97a8f

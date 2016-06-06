@@ -1,0 +1,14 @@
+DEFINED_PHASES=compile install setup unpack
+DEPEND=!static-blob? ( =dev-libs/apr-1* =dev-libs/apr-util-1* javascript? ( net-misc/curl dev-lang/spidermonkey ) xmlrpc? ( net-misc/curl >=dev-libs/xmlrpc-c-1.12 ) jingle? ( net-libs/libdingaling dev-libs/iksemel ) jabber? ( dev-libs/iksemel ) portaudio? ( media-libs/portaudio ) dev-libs/libpcre sndfile? ( media-libs/libsndfile ) sip? ( >=net-libs/sofia-sip-1.12.9 ) speex? ( media-libs/speex ) g7xx? ( media-libs/voipcodecs ) ilbc? ( dev-libs/ilbc-rfc3951 ) =dev-db/sqlite-3.3* net-libs/libsrtp net-libs/libteletone mrcp? ( app-accessibility/openmrcp ) net-libs/udns ) radius? ( net-dialup/freeradius ) ldap? ( net-nds/openldap ) gsm? ( media-sound/gsm ) !static-blob? ( net-libs/stfu ) !<sys-devel/gettext-0.18.1.1-r3 || ( >=sys-devel/automake-1.15:1.15 ) >=sys-devel/autoconf-2.69 >=sys-devel/libtool-2.4
+DESCRIPTION=an open source telephony platform designed to facilitate the creation of voice and chat driven products scaling from a soft-phone up to a soft-switch
+EAPI=1
+HOMEPAGE=http://freeswitch.org/
+IUSE=alsa cepstral debug +g7xx +gsm iax ilbc jabber javascript jingle ldap libedit lpc10 lua odbc mrcp perl php portaudio python radius resample +sip sndfile speex static-blob wanpipe xmlrpc zeroconf linguas_de linguas_en linguas_es linguas_fr linguas_it linguas_nl linguas_zh
+KEYWORDS=~amd64 ~x86
+LICENSE=MPL-1.1
+RDEPEND=!static-blob? ( =dev-libs/apr-1* =dev-libs/apr-util-1* javascript? ( net-misc/curl dev-lang/spidermonkey ) xmlrpc? ( net-misc/curl >=dev-libs/xmlrpc-c-1.12 ) jingle? ( net-libs/libdingaling dev-libs/iksemel ) jabber? ( dev-libs/iksemel ) portaudio? ( media-libs/portaudio ) dev-libs/libpcre sndfile? ( media-libs/libsndfile ) sip? ( >=net-libs/sofia-sip-1.12.9 ) speex? ( media-libs/speex ) g7xx? ( media-libs/voipcodecs ) ilbc? ( dev-libs/ilbc-rfc3951 ) =dev-db/sqlite-3.3* net-libs/libsrtp net-libs/libteletone mrcp? ( app-accessibility/openmrcp ) net-libs/udns ) radius? ( net-dialup/freeradius ) ldap? ( net-nds/openldap ) gsm? ( media-sound/gsm )
+SLOT=0
+SRC_URI=http://files.freeswitch.org/freeswitch-1.0.0.tar.gz
+_eclass_exported_funcs=pkg_setup:- src_unpack:- src_compile:- src_install:-
+_eclasses_=autotools	07e71b3b5690738ef7e8bc097077e00c	eutils	792f83d5ec9536cb5ccef375469d8bde	libtool	4890219c51da247200223277f993e054	multilib	d062ae4ba2fc40a19c11de2ad89b6616	toolchain-funcs	d513d423d449877e49d99af3f7af7acb
+_md5_=5e2f48059b97292e079a0319bccd8eb2

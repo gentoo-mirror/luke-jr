@@ -1,0 +1,14 @@
+DEFINED_PHASES=compile install postinst
+DEPEND=app-arch/unzip !sys-libs/labjackusb-udev-rules !sys-libs/labjackusb-u3-driver !sys-libs/labjackusb-ue9-driver virtual/libusb:1
+DESCRIPTION=This package contains the USB library/examples (written in C) for calling low-level U3, U6 and UE9 functions over a USB connection.
+EAPI=2
+HOMEPAGE=http://labjack.com/
+IUSE=examples
+KEYWORDS=~x86 ~amd64
+LICENSE=MIT
+RDEPEND=!sys-libs/labjackusb-udev-rules !sys-libs/labjackusb-u3-driver !sys-libs/labjackusb-ue9-driver virtual/libusb:1
+SLOT=0
+SRC_URI=http://labjack.com/files/Linux_C_NativeUSB.zip -> liblabjackusb-2.0.1.zip http://luke.dashjr.org/mirror/labjack/liblabjackusb-2.0.1.zip
+_eclass_exported_funcs=pkg_postinst:- src_compile:- src_install:-
+_eclasses_=multilib	d062ae4ba2fc40a19c11de2ad89b6616	toolchain-funcs	d513d423d449877e49d99af3f7af7acb
+_md5_=f7e892190c138dd2b233e928c032592a

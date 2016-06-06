@@ -1,0 +1,13 @@
+DEFINED_PHASES=compile install postinst postrm prepare setup
+DEPEND=dev-lang/python
+DESCRIPTION=Meliae is a library meant to help people understand how their memory is being used in Python
+EAPI=4
+HOMEPAGE=https://launchpad.net/meliae/
+KEYWORDS=~amd64 ~x86
+LICENSE=GPL-3
+RDEPEND=dev-lang/python
+SLOT=0
+SRC_URI=https://launchpad.net/meliae/trunk/0.4/+download/meliae-0.4.0.tar.gz
+_eclass_exported_funcs=pkg_postrm:distutils pkg_postinst:distutils pkg_setup:python src_prepare:distutils src_compile:distutils src_install:-
+_eclasses_=distutils	ad9e4720eb3e69090dd968b152fc611b	multilib	d062ae4ba2fc40a19c11de2ad89b6616	python	efc1c55fc44c5b7272fc2ffba73c3e6f	toolchain-funcs	d513d423d449877e49d99af3f7af7acb
+_md5_=adfcaafeb8f1d193efdbaa735b84d2c2

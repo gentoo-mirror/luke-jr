@@ -1,0 +1,14 @@
+DEFINED_PHASES=compile install postinst preinst setup unpack
+DEPEND=virtual/libc sys-libs/ncurses dev-libs/popt sys-libs/zlib ssl? ( dev-libs/openssl ) alsa? ( media-libs/alsa-lib ) curl? ( net-misc/curl ) newt? ( dev-libs/newt ) h323? ( dev-libs/pwlib net-libs/openh323 ) imap? ( virtual/imap-c-client ) odbc? ( dev-db/unixODBC ) snmp? ( net-analyzer/net-snmp ) misdn? ( net-dialup/misdnuser ) mysql? ( dev-db/mysql ) speex? ( media-libs/speex ) jabber? ( dev-libs/iksemel ) radius? ( net-dialup/radiusclient-ng ) sqlite? ( dev-db/sqlite ) vorbis? ( media-libs/libvorbis ) zaptel? ( >=net-libs/libpri-1.4.0 >=net-misc/zaptel-1.4.1 ) freetds? ( dev-db/freetds ) postgres? ( dev-db/libpq )
+DESCRIPTION=Asterisk: A Modular Open Source PBX System
+EAPI=0
+HOMEPAGE=http://www.asterisk.org/
+IUSE=alsa curl debug freetds h323 imap jabber kde keepsrc ljr misdn mmx mysql newt nosamples odbc oss pic postgres radius snmp speex ssl sqlite static vorbis zaptel
+KEYWORDS=~amd64 ~x86
+LICENSE=GPL-2
+RDEPEND=virtual/libc sys-libs/ncurses dev-libs/popt sys-libs/zlib ssl? ( dev-libs/openssl ) alsa? ( media-libs/alsa-lib ) curl? ( net-misc/curl ) newt? ( dev-libs/newt ) h323? ( dev-libs/pwlib net-libs/openh323 ) imap? ( virtual/imap-c-client ) odbc? ( dev-db/unixODBC ) snmp? ( net-analyzer/net-snmp ) misdn? ( net-dialup/misdnuser ) mysql? ( dev-db/mysql ) speex? ( media-libs/speex ) jabber? ( dev-libs/iksemel ) radius? ( net-dialup/radiusclient-ng ) sqlite? ( dev-db/sqlite ) vorbis? ( media-libs/libvorbis ) zaptel? ( >=net-libs/libpri-1.4.0 >=net-misc/zaptel-1.4.1 ) freetds? ( dev-db/freetds ) postgres? ( dev-db/libpq )
+SLOT=0
+SRC_URI=http://ftp.digium.com/pub/asterisk/old-releases/asterisk-1.4.18.1.tar.gz http://downloads.digium.com/pub/asterisk/old-releases/asterisk-1.4.18.1.tar.gz
+_eclass_exported_funcs=pkg_preinst:- pkg_postinst:- pkg_setup:- src_unpack:- src_compile:- src_install:-
+_eclasses_=eutils	792f83d5ec9536cb5ccef375469d8bde	multilib	d062ae4ba2fc40a19c11de2ad89b6616	toolchain-funcs	d513d423d449877e49d99af3f7af7acb
+_md5_=a62b9ee88cccc02de4c92317f3027f45
