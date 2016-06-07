@@ -91,12 +91,14 @@ pkg_setup() {
 
 src_unpack() {
 	EGIT_COMMIT=c3a4af657c95f626428eedb64be8d3a90b05ff23
+	EGIT_BOOTSTRAP='git submodule update'
 	git-2_src_unpack
-	unset EGIT_HAS_SUBMODULES EGIT_NONBARE
+	unset EGIT_HAS_SUBMODULES EGIT_NONBARE EGIT_BOOTSTRAP
 
 	# fetch translations
 	mkdir "${WORKDIR}/psi-l10n"
 	unset EGIT_MASTER EGIT_BRANCH EGIT_COMMIT
+	EGIT_COMMIT=821dad576e89859bdfe35f4c363b8bc51a6b8d59
 	EGIT_REPO_URI="${LANGS_REPO_URI}" \
 	EGIT_SOURCEDIR="${WORKDIR}/psi-l10n" git-2_src_unpack
 
