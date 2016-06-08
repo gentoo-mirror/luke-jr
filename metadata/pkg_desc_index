@@ -18,6 +18,9 @@ dev-python/labjackpython 0.64 0.65 0.66c: Python bindings for LabJack devices
 dev-python/meliae 0.4.0 9999: Meliae is a library meant to help people understand how their memory is being used in Python
 dev-python/pyparallel 0.2: Python Serial Port Extension
 dev-qt/linguist 5.1.0: Graphical tool for translating Qt applications
+games-fps/openjk-academy 9999: Community-maintained Jedi Academy, story version
+games-fps/openjk-academy-mp 9999: Community-maintained Jedi Academy, multiplayer version
+games-fps/openjk-outcast 9999: Community-maintained Jedi Outcast, story version
 mail-filter/hashcash-milter 0.1.2: A milter-based application to mint and check HashCash stamps
 media-fonts/code2000 1.17.1: TrueType font covering all of the CJK ideographs in the Basic Multilingual Plane of Unicode
 media-fonts/overpass 2.1: An open source webfont family inspired by Highway Gothic
