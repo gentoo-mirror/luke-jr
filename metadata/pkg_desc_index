@@ -26,7 +26,7 @@ media-gfx/kodakaio 0.2.1: Kodak AIO SANE backend
 media-libs/glew 1.5.8: The OpenGL Extension Wrangler Library
 media-libs/voipcodecs 0.0.1_rc3 0.0.1_rc4 0.0.1_rc5 0.0.1: A set of commonly used, unencumbered, codecs for VoIP
 media-video/dvd-baker 0.7.43: dvd-baker is an application designed to turn your image collection into a DVD.
-net-im/psi 9999_pre20150515 9999: Qt4 Jabber client, with Licq-like interface
+net-im/psi 9999_pre20150515: Qt4 Jabber client, with Licq-like interface
 net-im/psi-conferencelogger 9999: Psi plugin which saves logs of conferences
 net-libs/libdingaling 0.1: Cross Platform Jingle (Google Talk) voip signaling library
 net-libs/libiax-freeswitch 0.2.3: 
