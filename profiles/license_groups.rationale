@@ -98,6 +98,7 @@
 		MaxMind2
 	SMAIL
 	Old-MIT
+	MIT-with-advertising
 	rc
 	PCRE
 	BSD-with-attribution
@@ -107,6 +108,7 @@
 	gd
 	Ispell
 	perforce
+	Dina
 
 	AMBIGUOUS-no-fee:
 		CNRI
