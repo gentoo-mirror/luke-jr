@@ -9,7 +9,7 @@ inherit toolchain-funcs git-2
 DESCRIPTION="fastboot is a util to control android bootloader"
 HOMEPAGE="android.googlesource.com"
 
-EGIT_ANDROID="http://android.googlesource.com/platform"
+EGIT_ANDROID="https://android.googlesource.com/platform"
 EGIT_REPO_URI=""$EGIT_ANDROID"/system/core"
 
 LICENSE="Apache-2.0"
