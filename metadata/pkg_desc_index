@@ -55,5 +55,6 @@ sys-libs/pdcurses 3.4 3.4-r1 3.4-r2 3.4-r3 3.4-r4 3.4-r5:
 sys-libs/plibc 0.1.7 0.1.8_pre147 9999: 
 sys-libs/pthreads-win32 2.9.1 9999: Provides the pthreads API on windows
 www-apps/gallery 3.0.2_pre0: Web based (PHP Script) photo album viewer/creator
+www-client/chromium 51.0.2704.103: Open-source version of Google Chrome web browser
 www-client/qupzilla 1.4.4: Qt WebKit web browser
 x11-drivers/xf86-video-intel 2.20.19-r1: X.Org driver for Intel cards
