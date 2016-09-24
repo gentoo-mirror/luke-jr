@@ -5,12 +5,11 @@
 EAPI="5"
 PYTHON_COMPAT=( python2_7 )
 
-CHROMIUM_LANGS="am ar bg bn ca cs da de el en_GB es es_419 et fa fi fil fr gu he
-	hi hr hu id it ja kn ko lt lv ml mr ms nb nl pl pt_BR pt_PT ro ru sk sl sr
-	sv sw ta te th tr uk vi zh_CN zh_TW"
+CHROMIUM_LANGS="am ar bg bn ca cs da de el en-GB es es-419 et fa fi fil fr gu he
+	hi hr hu id it ja kn ko lt lv ml mr ms nb nl pl pt-BR pt-PT ro ru sk sl sr
+	sv sw ta te th tr uk vi zh-CN zh-TW"
 
-inherit check-reqs chromium eutils flag-o-matic multilib multiprocessing pax-utils \
-	portability python-any-r1 readme.gentoo-r1 toolchain-funcs versionator virtualx
+inherit check-reqs chromium-2 eutils flag-o-matic multilib multiprocessing pax-utils portability python-any-r1 readme.gentoo-r1 toolchain-funcs versionator virtualx
 
 DESCRIPTION="Open-source version of Google Chrome web browser"
 HOMEPAGE="http://chromium.org/"
@@ -113,7 +112,7 @@ RDEPEND+="
 # with python_check_deps.
 DEPEND+=" $(python_gen_any_dep '
 	dev-python/beautifulsoup:python-2[${PYTHON_USEDEP}]
-	dev-python/beautifulsoup:4[${PYTHON_USEDEP}]
+	>=dev-python/beautifulsoup-4.3.2:4[${PYTHON_USEDEP}]
 	dev-python/html5lib[${PYTHON_USEDEP}]
 	dev-python/jinja[${PYTHON_USEDEP}]
 	dev-python/ply[${PYTHON_USEDEP}]
@@ -121,7 +120,7 @@ DEPEND+=" $(python_gen_any_dep '
 ')"
 python_check_deps() {
 	has_version --host-root "dev-python/beautifulsoup:python-2[${PYTHON_USEDEP}]" &&
-	has_version --host-root "dev-python/beautifulsoup:4[${PYTHON_USEDEP}]" &&
+	has_version --host-root ">=dev-python/beautifulsoup-4.3.2:4[${PYTHON_USEDEP}]" &&
 	has_version --host-root "dev-python/html5lib[${PYTHON_USEDEP}]" &&
 	has_version --host-root "dev-python/jinja[${PYTHON_USEDEP}]" &&
 	has_version --host-root "dev-python/ply[${PYTHON_USEDEP}]" &&
@@ -157,9 +156,10 @@ For other desktop environments, try one of the following:
 "
 
 pkg_pretend() {
-	if [[ $(tc-getCC)$ == *gcc* ]] && \
-		[[ $(gcc-major-version)$(gcc-minor-version) -lt 48 ]]; then
-		die 'At least gcc 4.8 is required, see bugs: #535730, #525374, #518668.'
+	if [[ ${MERGE_TYPE} != binary ]]; then
+		if tc-is-gcc && ! version_is_at_least 4.8 "$(gcc-version)"; then
+			die 'At least gcc 4.8 is required, see bugs: #535730, #525374, #518668.'
+		fi
 	fi
 
 	# Check build requirements, bug #541816 and bug #471810 .
@@ -425,9 +425,9 @@ src_configure() {
 	myconf_gyp+="
 		-Dlogging_like_official_build=1"
 
-	if [[ $(tc-getCC) == *clang* ]]; then
+	if tc-is-clang; then
 		myconf_gyp+=" -Dclang=1"
-		myconf_gn+=" is_clang=true"
+		myconf_gn+=" is_clang=true clang_base_path=\"/usr\" clang_use_chrome_plugins=false"
 	else
 		myconf_gyp+=" -Dclang=0"
 		myconf_gn+=" is_clang=false"
@@ -445,7 +445,7 @@ src_configure() {
 	myconf_gn+=" use_sysroot=false"
 
 	ffmpeg_branding="$(usex proprietary-codecs Chrome Chromium)"
-	myconf_gyp+=" -Dproprietary_codecs=1 -Dffmpeg_branding=${ffmpeg_branding}"
+	myconf_gyp+=" -Dproprietary_codecs=$(usex proprietary-codecs 1 0) -Dffmpeg_branding=${ffmpeg_branding}"
 
 	# Set up Google API keys, see http://www.chromium.org/developers/how-tos/api-keys .
 	# Note: these are for Gentoo use ONLY. For your own distribution,
@@ -687,6 +687,15 @@ src_install() {
 	fi
 
 	readme.gentoo_create_doc
+}
+
+pkg_preinst() {
+	gnome2_icon_savelist
+}
+
+pkg_postrm() {
+	gnome2_icon_cache_update
+	xdg_desktop_database_update
 }
 
 pkg_postinst() {
