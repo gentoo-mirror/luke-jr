@@ -170,7 +170,6 @@ eblit-src_unpack-post() {
 	(
 		cd "${S}"
 		epatch "${FILESDIR}/2.11/glibc-configure-make.patch"
-		epatch "${FILESDIR}/2.11/glibc-configure-texinfo.patch"
 	)
 
 	if use hardened ; then
