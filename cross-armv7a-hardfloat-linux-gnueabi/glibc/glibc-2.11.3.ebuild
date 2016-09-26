@@ -167,7 +167,10 @@ for x in setup {pre,post}inst ; do
 done
 
 eblit-src_unpack-post() {
-	epatch "${FILESDIR}/2.11/glibc-configure-texinfo.patch"
+	(
+		cd "${S}"
+		epatch "${FILESDIR}/2.11/glibc-configure-texinfo.patch"
+	)
 
 	if use hardened ; then
 		cd "${S}"
