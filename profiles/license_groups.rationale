@@ -9,6 +9,8 @@
 		libgcc
 	GPL-2-with-font-exception
 	LGPL-2
+	LGPL-with-exceptions:
+		FLTK
 	Arphic
 	wxWinLL-3
 	FDL-1.1
