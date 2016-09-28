@@ -3,4 +3,5 @@
 # * generated automatically using pmaint *
 
 dev-embedded/xc3sprog:ftd2xx - Use dev-embedded/libftd2xx instead of dev-embedded/libftdi
+dev-util/nsis:config-log - Enable the logging facility (useful in debugging installers)
 www-client/qupzilla:nonblockdialogs - Enable fancy non-blocking JavaScript dialogs shown inside the page, not blocking the application window. When closing browser windows with open dialogs, this can crash the application.
