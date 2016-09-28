@@ -6,14 +6,7 @@ EAPI="4"
 
 LANGS="be bg ca cs de en eo es et fi fr hu it ja mk nl pl pt pt_BR ru sk sl sr@latin sv sw uk ur_PK vi zh_CN zh_TW"
 
-EGIT_REPO_URI="git://github.com/psi-im/psi.git"
-EGIT_HAS_SUBMODULES=1
-LANGS_REPO_URI="git://github.com/psi-plus/psi-plus-l10n.git"
-
-PSI_PLUS_URI="git://github.com/psi-plus/main.git"
-PSI_PLUS_RESOURCES_URI="git://github.com/psi-plus/resources.git"
-
-inherit eutils gnome2-utils qt4-r2 multilib git-2 subversion
+inherit eutils gnome2-utils qt4-r2 multilib git-r3 subversion
 
 DESCRIPTION="Qt4 Jabber client, with Licq-like interface"
 HOMEPAGE="http://psi-im.org/"
@@ -63,6 +56,11 @@ PDEPEND="
 "
 RESTRICT="test"
 
+pkg_needrebuild() {
+	# This is a snapshot, so it never needs rebuilding
+	false
+}
+
 pkg_setup() {
 	MY_PN=psi
 	if use extras; then
@@ -89,31 +87,60 @@ pkg_setup() {
 	fi
 }
 
-src_unpack() {
-	EGIT_COMMIT=c3a4af657c95f626428eedb64be8d3a90b05ff23
-	EGIT_BOOTSTRAP='git submodule update'
-	git-2_src_unpack
-	unset EGIT_HAS_SUBMODULES EGIT_NONBARE EGIT_BOOTSTRAP
+psi_vars() {
+	local repo="$1"
+	EGIT_MIN_CLONE_TYPE=single
+	unset psi_LIVE_REPO
+	unset EGIT_BRANCH
+	unset psi_LIVE_BRANCH
+	unset psi_LIVE_COMMIT
+	unset psi_LIVE_COMMIT_DATE
+	case "$repo" in
+	psi)
+		EGIT_REPO_URI="git://github.com/psi-im/psi.git"
+		EGIT_COMMIT=c3a4af657c95f626428eedb64be8d3a90b05ff23
+		EGIT_CHECKOUT_DIR="${WORKDIR}/${P}"
+		;;
+	l10n)
+		EGIT_REPO_URI="git://github.com/psi-plus/psi-plus-l10n.git"
+		EGIT_COMMIT=821dad576e89859bdfe35f4c363b8bc51a6b8d59
+		EGIT_CHECKOUT_DIR="${WORKDIR}/psi-l10n"
+		;;
+	plus)
+		EGIT_REPO_URI="git://github.com/psi-plus/main.git"
+		EGIT_COMMIT=0f246ca0c674b7dd3d3a8bff56412479df7785fe
+		EGIT_CHECKOUT_DIR="${WORKDIR}/psi-plus"
+		;;
+	iconsets)
+		EGIT_REPO_URI="git://github.com/psi-plus/resources.git"
+		EGIT_COMMIT=  # FIXME
+		EGIT_CHECKOUT_DIR="${WORKDIR}/resources"
+		;;
+	esac
+}
 
-	# fetch translations
-	mkdir "${WORKDIR}/psi-l10n"
-	unset EGIT_MASTER EGIT_BRANCH EGIT_COMMIT
-	EGIT_COMMIT=821dad576e89859bdfe35f4c363b8bc51a6b8d59
-	EGIT_REPO_URI="${LANGS_REPO_URI}" \
-	EGIT_SOURCEDIR="${WORKDIR}/psi-l10n" git-2_src_unpack
+psi_call_git() {
+	local gitfunc="$1"
+
+	psi_vars psi
+	$gitfunc
+
+	psi_vars l10n
+	$gitfunc
 
 	if use extras; then
-		EGIT_COMMIT=0f246ca0c674b7dd3d3a8bff56412479df7785fe
-		EGIT_DIR="${EGIT_STORE_DIR}/psi-plus/main" \
-		EGIT_SOURCEDIR="${WORKDIR}/psi-plus" \
-		EGIT_REPO_URI="${PSI_PLUS_URI}" git-2_src_unpack
-		unset EGIT_COMMIT
+		psi_vars plus
+		$gitfunc
 		if use iconsets; then
-			EGIT_DIR="${EGIT_STORE_DIR}/psi-plus/resources" \
-			EGIT_SOURCEDIR="${WORKDIR}/resources" \
-			EGIT_REPO_URI="${PSI_PLUS_RESOURCES_URI}" git-2_src_unpack
+			psi_vars iconsets
+			$gitfunc
 		fi
 	fi
+}
+
+src_unpack() {
+	psi_call_git git-r3_src_fetch
+	psi_call_git git-r3_checkout
 }
 
 src_prepare() {
