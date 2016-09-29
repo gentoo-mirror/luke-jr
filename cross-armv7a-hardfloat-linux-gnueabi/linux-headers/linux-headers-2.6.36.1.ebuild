@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/sys-kernel/linux-headers/Attic/linux-headers-2.6.36.1.ebuild,v 1.9 2012/05/14 20:16:29 vapier dead $
 
-EAPI="3"
+EAPI="5"
 
 ETYPE="headers"
 H_SUPPORTEDARCH="alpha amd64 arm bfin cris hppa m68k mips ia64 ppc ppc64 s390 sh sparc x86"
