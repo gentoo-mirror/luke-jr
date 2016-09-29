@@ -7,8 +7,10 @@ dev-android/adb 9999: android debug bridge
 dev-android/fastboot 9999: fastboot is a util to control android bootloader
 dev-db/sqlite 3.3.17: an SQL Database Engine in a C Library
 dev-embedded/xc3sprog 9999: A suite of utilities for programming Xilinx FPGAs, CPLDs, and EEPROMs
+dev-libs/DirectFB 1.6.3-r1: Thin library on top of the Linux framebuffer devices
 dev-libs/hidapi 0.8.0_pre20130121: A multi-platform library for USB and Bluetooth HID-Class devices
 dev-libs/protobuf 2.5.0: Google's Protocol Buffers -- an efficient method of encoding structured data
+dev-libs/protobuf-c 1.0.0_rc2: code generator and runtime libraries to use Protocol Buffers (protobuf) from pure C
 dev-libs/win_backtrace 9999: DLL to dump a usable backtrace to stderr for MingW/GCC software on Windows (requires application support)
 dev-libs/xmlrpc-c 1.03.14-r1 1.14.5: A lightweight RPC library based on XML and HTTP
 dev-perl/AniDB 0.3_pre414: Perl clients for AniDB
