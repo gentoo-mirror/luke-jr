@@ -32,7 +32,8 @@ DEPEND="
 		webkit? ( dev-qt/qtwebkit:5 )
 		whiteboarding? ( dev-qt/qtsvg:5 )
 	)
-	app-crypt/qca[qt4?,qt5?,gpg?,ssl?]
+	app-crypt/qca[qt4?,qt5?,gpg?]
+	ssl? ( app-crypt/qca[openssl] )
 	net-libs/jdns[qt4?,qt5?]
 	sys-libs/zlib[minizip]
 	aspell? ( app-text/aspell )
@@ -166,7 +167,7 @@ src_compile() {
 }
 
 src_install() {
-	emake INSTALL_ROOT="${D}" install
+	emake INSTALL_ROOT="${D}" STRIP=true install
 
 	# this way the docs will be installed in the standard gentoo dir
 	rm -f "${ED}"/usr/share/${MY_PN}/{COPYING,README}
