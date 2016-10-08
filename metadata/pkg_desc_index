@@ -35,6 +35,7 @@ media-libs/voipcodecs 0.0.1_rc3 0.0.1_rc4 0.0.1_rc5 0.0.1: A set of commonly use
 media-video/dvd-baker 0.7.43: dvd-baker is an application designed to turn your image collection into a DVD.
 net-im/psi 9999_pre20150515: Qt4 Jabber client, with Licq-like interface
 net-im/psi-conferencelogger 9999: Psi plugin which saves logs of conferences
+net-libs/jdns 2.0.4: A simple DNS implementation that can perform multicast DNS queries and advertising
 net-libs/libdingaling 0.1: Cross Platform Jingle (Google Talk) voip signaling library
 net-libs/libiax-freeswitch 0.2.3: 
 net-libs/libiaxclient 2.1_beta3: an open source, multiplatform library for creating telephony solutions that interoperate with Asterisk, the Open Source PBX
