@@ -8,12 +8,16 @@ inherit gnome2-utils git-r3
 
 DESCRIPTION="Qt Jabber client, with Licq-like interface"
 HOMEPAGE="http://${PN}-im.org/"
-LICENSE="GPL-2-with-exceptions LGPL-2.1"
+LICENSE="GPL-2 LGPL-2.1 l10n_mk? ( GPL-3 ) l10n_zh_TW? ( BSD )"
 
 EGIT_REPO_URI="git://github.com/psi-im/${PN}.git"
 SLOT="0"
 KEYWORDS=""
 IUSE="aspell dbus debug doc enchant gpg hunspell plugins qt4 qt5 ssl webkit whiteboarding xscreensaver"
+PLOCALES="be cs de eo es es_ES fr he it ja kk mk pl pt_BR ru sl sv uk ur_PK vi zh_CN zh_TW"
+for psi_l10n in ${PLOCALES}; do
+	IUSE+=" l10n_${psi_l10n}"
+done
 
 DEPEND="
 	qt4? (
@@ -52,6 +56,15 @@ REQUIRED_USE="
 
 PSI_USERVARS="LIVE_REPO LIVE_BRANCH LIVE_COMMIT LIVE_COMMIT_DATE"
 
+l10n_for_each_locale_do() {
+	# l10n.eclass is trying to use obsolete linguas_*
+	local l10n
+	for l10n in ${PLOCALES}; do
+		use "l10n_${l10n}" || continue
+		"$@" "$l10n"
+	done
+}
+
 psi_get_uservar() {
 	local repo="$1" uv="$2"
 	local var="psi_${uv}" val="$(eval echo \"\${psi_${repo}_${uv}}\")"
@@ -76,14 +89,20 @@ psi_vars() {
 		EGIT_REPO_URI="git://github.com/psi-im/psi.git"
 		EGIT_CHECKOUT_DIR="${WORKDIR}/${P}"
 		;;
+	l10n)
+		EGIT_REPO_URI="git://github.com/psi-im/psi-translations.git"
+		EGIT_CHECKOUT_DIR="${WORKDIR}/l10n"
+		;;
 	esac
 }
 
 psi_call_git() {
-	local gitfunc="$1"
+	local gitfunc="$1" repo
 
-	psi_vars main
-	$gitfunc
+	for repo in main l10n; do
+		psi_vars $repo
+		$gitfunc
+	done
 }
 
 psi_check_needrebuild() {
@@ -103,8 +122,12 @@ src_unpack() {
 	psi_call_git git-r3_checkout
 }
 
-xx_src_prepare() {
+src_prepare() {
 	rm -r iris/src/jdns
+
+	local supported_l10n=$(tr '\n' ' ' <../l10n/langs)
+	[ "${supported_l10n% }" = "${PLOCALES}" ] || ewarn "PLOCALES needs updating to: ${supported_l10n% }"
+
 	eapply_user
 }
 
@@ -135,6 +158,11 @@ src_compile() {
 		mkdir -p api # 259632
 		make api_public || die "make api_public failed"
 	fi
+
+	build_locale() {
+		lrelease "../l10n/${1}/${PN}_${1}.ts" || die "lrelease ${1} failed"
+	}
+	l10n_for_each_locale_do build_locale
 }
 
 src_install() {
@@ -148,6 +176,12 @@ src_install() {
 	dodoc README
 
 	use doc && dohtml -r doc/api
+
+	insinto "/usr/share/${PN}"
+	install_locale() {
+		doins "../l10n/${1}/${PN}_${1}.qm"
+	}
+	l10n_for_each_locale_do install_locale
 }
 
 pkg_preinst() {
