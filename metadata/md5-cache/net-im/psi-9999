@@ -1,13 +1,13 @@
 DEFINED_PHASES=compile configure install postinst postrm preinst prepare unpack
-DEPEND=qt4? ( dev-qt/qtgui:4 dbus? ( dev-qt/qtdbus:4 ) webkit? ( dev-qt/qtwebkit:4 ) whiteboarding? ( dev-qt/qtsvg:4 ) ) qt5? ( dev-qt/qtgui:5 dbus? ( dev-qt/qtdbus:5 ) webkit? ( dev-qt/qtwebkit:5 ) whiteboarding? ( dev-qt/qtsvg:5 ) ) app-crypt/qca[qt4?,qt5?,gpg?] ssl? ( app-crypt/qca[openssl] ) net-libs/jdns[qt4?,qt5?] sys-libs/zlib[minizip] aspell? ( app-text/aspell ) enchant? ( app-text/enchant ) hunspell? ( app-text/hunspell ) xscreensaver? ( x11-libs/libXScrnSaver ) doc? ( app-doc/doxygen ) virtual/pkgconfig >=sys-apps/sed-4 >=dev-vcs/git-1.8.2.1
+DEPEND=qt4? ( dev-qt/qtgui:4 dbus? ( dev-qt/qtdbus:4 ) webkit? ( dev-qt/qtwebkit:4 ) whiteboarding? ( dev-qt/qtsvg:4 ) ) qt5? ( dev-qt/qtgui:5 dbus? ( dev-qt/qtdbus:5 ) webkit? ( dev-qt/qtwebkit:5 ) whiteboarding? ( dev-qt/qtsvg:5 ) ) app-crypt/qca[qt4?,qt5?,gpg?] ssl? ( app-crypt/qca[ssl] ) net-libs/jdns[qt4?,qt5?] sys-libs/zlib[minizip] aspell? ( app-text/aspell ) enchant? ( app-text/enchant ) hunspell? ( app-text/hunspell ) xscreensaver? ( x11-libs/libXScrnSaver ) doc? ( app-doc/doxygen ) virtual/pkgconfig >=sys-apps/sed-4 >=dev-vcs/git-1.8.2.1
 DESCRIPTION=Qt Jabber client, with Licq-like interface
 EAPI=6
 HOMEPAGE=http://psi-im.org/
 IUSE=aspell dbus debug doc enchant gpg hunspell plugins qt4 qt5 ssl webkit whiteboarding xscreensaver l10n_be l10n_cs l10n_de l10n_eo l10n_es l10n_es_ES l10n_fr l10n_he l10n_it l10n_ja l10n_kk l10n_mk l10n_pl l10n_pt_BR l10n_ru l10n_sl l10n_sv l10n_uk l10n_ur_PK l10n_vi l10n_zh_CN l10n_zh_TW
 LICENSE=GPL-2 LGPL-2.1 l10n_mk? ( GPL-3 ) l10n_zh_TW? ( BSD )
-RDEPEND=qt4? ( dev-qt/qtgui:4 dbus? ( dev-qt/qtdbus:4 ) webkit? ( dev-qt/qtwebkit:4 ) whiteboarding? ( dev-qt/qtsvg:4 ) ) qt5? ( dev-qt/qtgui:5 dbus? ( dev-qt/qtdbus:5 ) webkit? ( dev-qt/qtwebkit:5 ) whiteboarding? ( dev-qt/qtsvg:5 ) ) app-crypt/qca[qt4?,qt5?,gpg?] ssl? ( app-crypt/qca[openssl] ) net-libs/jdns[qt4?,qt5?] sys-libs/zlib[minizip] aspell? ( app-text/aspell ) enchant? ( app-text/enchant ) hunspell? ( app-text/hunspell ) xscreensaver? ( x11-libs/libXScrnSaver )
+RDEPEND=qt4? ( dev-qt/qtgui:4 dbus? ( dev-qt/qtdbus:4 ) webkit? ( dev-qt/qtwebkit:4 ) whiteboarding? ( dev-qt/qtsvg:4 ) ) qt5? ( dev-qt/qtgui:5 dbus? ( dev-qt/qtdbus:5 ) webkit? ( dev-qt/qtwebkit:5 ) whiteboarding? ( dev-qt/qtsvg:5 ) ) app-crypt/qca[qt4?,qt5?,gpg?] ssl? ( app-crypt/qca[ssl] ) net-libs/jdns[qt4?,qt5?] sys-libs/zlib[minizip] aspell? ( app-text/aspell ) enchant? ( app-text/enchant ) hunspell? ( app-text/hunspell ) xscreensaver? ( x11-libs/libXScrnSaver )
 REQUIRED_USE=^^ ( qt4 qt5 ) ?? ( aspell enchant hunspell )
 SLOT=0
 _eclass_exported_funcs=pkg_preinst:- pkg_postrm:- pkg_postinst:- src_unpack:- src_prepare:- src_configure:- src_compile:- src_install:-
 _eclasses_=eutils	b83a2420b796f7c6eff682679d08fe25	git-r3	e928b84a9f6f1d9076d1d27687876dc6	gnome2-utils	c6dcdf3a2c22b578b16adb945dc85c35	multilib	165fc17c38d1b11dac2008280dab6e80	toolchain-funcs	1b1da0c45c555989dc5d832b54880783	xdg-utils	e2b2bd56125ce8cf59ce30c642b59d48
-_md5_=7677857be48c147759b3c3dc1c85f6e4
+_md5_=c0d10b5dd764ceece79471ff3dc21e7d
