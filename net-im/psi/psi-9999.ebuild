@@ -33,7 +33,7 @@ DEPEND="
 		whiteboarding? ( dev-qt/qtsvg:5 )
 	)
 	app-crypt/qca[qt4?,qt5?,gpg?]
-	ssl? ( app-crypt/qca[openssl] )
+	ssl? ( app-crypt/qca[ssl] )
 	net-libs/jdns[qt4?,qt5?]
 	sys-libs/zlib[minizip]
 	aspell? ( app-text/aspell )
