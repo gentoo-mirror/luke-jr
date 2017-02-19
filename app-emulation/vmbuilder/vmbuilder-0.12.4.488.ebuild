@@ -3,10 +3,10 @@
 # $Header: $
 
 EAPI=5
-SUPPORT_PYTHON_ABIS="1"
-RESTRICT_PYTHON_ABIS="3.*"
+PYTHON_COMPAT=( python2_{5,6,7} )
+DISTUTILS_SINGLE_IMPL=1
 
-inherit bzr distutils
+inherit bzr distutils-r1
 
 EBZR_REPO_URI="lp:${PN}"
 EBZR_REVISION=488
@@ -20,17 +20,14 @@ LICENSE="GPL-3"
 
 RDEPEND="
 	>=dev-util/debootstrap-1.0.9
-	|| (
-		dev-lang/python:2.5
-		dev-lang/python:2.6
-		dev-lang/python:2.7
-	)
+	${PYTHON_DEPS}
 	app-emulation/qemu
 	net-misc/rsync
-	dev-python/cheetah
+	dev-python/cheetah[${PYTHON_USEDEP}]
 	sys-block/parted
 	sys-fs/multipath-tools
 "
+REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 # python-central
 
 src_prepare() {
