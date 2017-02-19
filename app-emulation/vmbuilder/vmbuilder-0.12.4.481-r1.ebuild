@@ -11,7 +11,7 @@ inherit bzr distutils
 EBZR_REPO_URI="lp:${PN}"
 EBZR_REVISION=481
 SLOT="0"
-KEYWORDS="x86"
+KEYWORDS="~amd64 x86"
 IUSE=""
 
 DESCRIPTION="Install virtual machines in a snap without ever actually booting a virtual machine!"

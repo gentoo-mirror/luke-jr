@@ -12,7 +12,7 @@ MyPN="VMBuilder"
 MyP="${MyPN}-${PV}"
 SRC_URI="https://launchpad.net/${PN}/0.12/${PV}/+download/${MyP}.tar.gz"
 SLOT="0"
-KEYWORDS="~x86"
+KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 DESCRIPTION="Install virtual machines in a snap without ever actually booting a virtual machine!"
