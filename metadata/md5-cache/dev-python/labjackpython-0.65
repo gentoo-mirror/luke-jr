@@ -10,5 +10,5 @@ RDEPEND=dev-lang/python usb? ( >=sys-libs/liblabjackusb-1.10 || ( sys-libs/labja
 SLOT=0
 SRC_URI=http://luke.dashjr.org/mirror/labjack/labjackpython-0.65.zip
 _eclass_exported_funcs=pkg_postrm:- pkg_postinst:- pkg_setup:- src_compile:- src_install:-
-_eclasses_=multilib	165fc17c38d1b11dac2008280dab6e80	python	efc1c55fc44c5b7272fc2ffba73c3e6f	toolchain-funcs	1b1da0c45c555989dc5d832b54880783
+_eclasses_=multilib	165fc17c38d1b11dac2008280dab6e80	python	8b7143ec94293338ed5da8a7ef97cfdb	toolchain-funcs	1b1da0c45c555989dc5d832b54880783
 _md5_=2fa3bc500fe35a2d791a2d834af8a05c
