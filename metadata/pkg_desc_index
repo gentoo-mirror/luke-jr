@@ -13,7 +13,6 @@ dev-perl/AniDB 0.3_pre414: Perl clients for AniDB
 dev-perl/Text-vCard 2.01: a package to parse, edit and create vCards
 dev-perl/URI-imap 1.01: Support IMAP schemas with URI
 dev-perl/asterisk-perl 0.10: asterisk-perl is a collection of perl modules to be used with the Asterisk PBX
-dev-python/labjackpython 0.64 0.65 0.66c: Python bindings for LabJack devices
 dev-util/nsis 2.51: Nullsoft Scriptable Install System
 games-fps/openjk-academy 9999: Community-maintained Jedi Academy, story version
 games-fps/openjk-academy-mp 9999: Community-maintained Jedi Academy, multiplayer version
