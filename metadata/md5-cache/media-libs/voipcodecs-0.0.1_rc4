@@ -7,5 +7,4 @@ KEYWORDS=~amd64 ~x86
 LICENSE=GPL-2
 SLOT=0
 SRC_URI=http://files.freeswitch.org/freeswitch-1.0.rc4.tar.gz
-_eclass_exported_funcs=src_unpack:- src_compile:- src_install:-
 _md5_=8f5a78738d5502122080a1f3d2907acf

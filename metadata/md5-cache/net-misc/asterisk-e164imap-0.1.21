@@ -8,5 +8,4 @@ LICENSE=Luke-Jr
 RDEPEND=dev-perl/asterisk-perl dev-perl/Mail-IMAPClient dev-perl/Text-vCard dev-perl/Text-vFile-asData dev-lang/perl
 SLOT=0
 SRC_URI=http://luke.dashjr.org/programs/AGI/e164IMAP-0.1.21.tbz2
-_eclass_exported_funcs=src_install:-
 _md5_=1279510443ae6fa195d1db8a0921e063

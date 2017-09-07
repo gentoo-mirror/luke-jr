@@ -7,5 +7,4 @@ KEYWORDS=x86 ~amd64
 LICENSE=X11
 SLOT=0
 SRC_URI=http://labjack.com/files/Linux_C_NativeUSB_U3UE9.zip -> Linux_C_NativeUSB_U3UE9_2008-08-11.zip
-_eclass_exported_funcs=src_unpack:- src_compile:- src_install:-
 _md5_=844634073003e8bb8cd469eb80506b67

@@ -8,5 +8,4 @@ LICENSE=Luke-Jr
 RDEPEND=dev-perl/asterisk-perl dev-perl/Text-vCard dev-perl/Text-vFile-asData dev-lang/perl
 SLOT=0
 SRC_URI=http://luke.dashjr.org/programs/AGI/e164-vCard-0.1.26.tbz2
-_eclass_exported_funcs=src_install:-
 _md5_=ba2efeff8d99ace612cf566be3c25c13

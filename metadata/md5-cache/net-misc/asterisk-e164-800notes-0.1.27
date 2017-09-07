@@ -8,5 +8,4 @@ LICENSE=Luke-Jr
 RDEPEND=dev-perl/asterisk-perl dev-perl/libwww-perl dev-lang/perl
 SLOT=0
 SRC_URI=http://luke.dashjr.org/programs/AGI/e164-800notes-0.1.27.tbz2
-_eclass_exported_funcs=src_install:-
 _md5_=1b4588b2003e15acdbc212b385738870

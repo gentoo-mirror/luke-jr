@@ -38,7 +38,6 @@ net-misc/asterisk-app_rxfax 20070624-r1: Asterisk applications for sending and r
 net-misc/asterisk-e164-800notes 0.1.27: Asterisk AGI script to search 800notes for CallerID info
 net-misc/asterisk-e164-vcard 0.1.26: Asterisk AGI script to search and append a vCard addressbook with CallerID
 net-misc/asterisk-e164imap 0.1.11 0.1.21: Asterisk AGI script to search and append an IMAP vCard addressbook with CallerID
-net-misc/freeswitch 1.0.0 1.0.1: an open source telephony platform designed to facilitate the creation of voice and chat driven products scaling from a soft-phone up to a soft-switch
 net-misc/gammamoo 1.8.2.4: a modern MOO server, based on LambdaMOO
 sci-biology/gnaural 1.0.20080808: A programmable binaural-beat generator, implementing the principle of binaural beats as described in the October 1973 Scientific American article "Auditory Beats in the Brain" (Gerald Oster).
 sys-block/compcache-tools 0.6: Compressed in-memory swap device for Linux

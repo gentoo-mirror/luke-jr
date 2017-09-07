@@ -7,5 +7,4 @@ LICENSE=GPL-2
 RDEPEND=>=media-video/dvd-slideshow-0.7.3 >=media-gfx/imagemagick-6.0.6 >=app-shells/bash-2.05 >=sys-process/lsof-4.74
 SLOT=0
 SRC_URI=mirror://sourceforge/dvd-baker/dvd-baker_0.7.43-1.tar.gz
-_eclass_exported_funcs=src_install:-
 _md5_=69a46b5374166027277dbdf4b5634fe1

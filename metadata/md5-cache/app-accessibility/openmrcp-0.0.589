@@ -8,5 +8,4 @@ LICENSE=MPL-1.1
 RDEPEND==dev-libs/apr-1* =dev-libs/apr-util-1* cepstral? ( virtual/cepstral-voice ) net-libs/sofia-sip
 SLOT=0
 SRC_URI=http://files.freeswitch.org/freeswitch-1.0.rc4.tar.gz
-_eclass_exported_funcs=src_unpack:- src_compile:- src_install:-
 _md5_=20f87a766e5f3541f0de02a1d926ab1a

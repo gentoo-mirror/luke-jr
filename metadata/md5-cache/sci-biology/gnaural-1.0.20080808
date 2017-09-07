@@ -8,5 +8,4 @@ LICENSE=GPL-2
 RDEPEND=>media-libs/portaudio-19_alpha0 >=x11-libs/gtk+-2 gnome-base/libglade >=dev-libs/glib-2 >=media-libs/libsndfile-1.0.2 >=media-libs/portaudio-19_alpha0
 SLOT=0
 SRC_URI=mirror://sourceforge/gnaural/gnaural-1.0.20080808.tar.gz
-_eclass_exported_funcs=src_install:-
 _md5_=f26d0aee4d0112123d6c8f6f30d6bb56
