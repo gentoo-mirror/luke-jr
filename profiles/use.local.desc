@@ -4,3 +4,4 @@
 
 dev-embedded/xc3sprog:ftd2xx - Use dev-embedded/libftd2xx instead of dev-embedded/libftdi
 dev-util/nsis:config-log - Enable the logging facility (useful in debugging installers)
+kde-apps/kwalletd:gpg - Support wallets with GnuPG encryption additionally to default blowfish-encrypted file

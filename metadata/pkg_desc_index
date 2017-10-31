@@ -17,6 +17,8 @@ dev-util/nsis 2.51: Nullsoft Scriptable Install System
 games-fps/openjk-academy 9999: Community-maintained Jedi Academy, story version
 games-fps/openjk-academy-mp 9999: Community-maintained Jedi Academy, multiplayer version
 games-fps/openjk-outcast 9999: Community-maintained Jedi Outcast, story version
+kde-apps/kwalletd 4.14.3-r2: KDE Password Server
+kde-apps/kwalletmanager4 4.14.3: KDE Wallet Management Tool
 mail-filter/hashcash-milter 0.1.2: A milter-based application to mint and check HashCash stamps
 media-fonts/code2000 1.17.1: TrueType font covering all of the CJK ideographs in the Basic Multilingual Plane of Unicode
 media-fonts/overpass 2.1: An open source webfont family inspired by Highway Gothic
