@@ -1,8 +1,0 @@
-# Luke-Jr <luke_gentoooverlay@dashjr.org> (03 Jul 2007)
-# Depends on masked zaptel etc
-# You probably need the voip overlay to use this, BTW
-=net-misc/asterisk-1.4*
-
-# Luke-Jr <luke_gentoooverlay@dashjr.org> (23 May 2008)
-# Live darcs ebuild for FS pending 1.13 release
-~games-mud/wxmud-9999
