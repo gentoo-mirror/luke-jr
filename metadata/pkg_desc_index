@@ -29,7 +29,6 @@ net-im/psi-conferencelogger 9999: Psi plugin which saves logs of conferences
 net-libs/jdns 2.0.4: A simple DNS implementation that can perform multicast DNS queries and advertising
 net-libs/libiaxclient 2.1_beta3: an open source, multiplatform library for creating telephony solutions that interoperate with Asterisk, the Open Source PBX
 net-libs/sofia-sip 9999: RFC3261 compliant SIP User-Agent library
-net-misc/asterisk-app_rxfax 20070624-r1: Asterisk applications for sending and receiving faxes
 net-misc/asterisk-e164-800notes 0.1.27: Asterisk AGI script to search 800notes for CallerID info
 net-misc/asterisk-e164-vcard 0.1.26: Asterisk AGI script to search and append a vCard addressbook with CallerID
 net-misc/asterisk-e164imap 0.1.11 0.1.21: Asterisk AGI script to search and append an IMAP vCard addressbook with CallerID
