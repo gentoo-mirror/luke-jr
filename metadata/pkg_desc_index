@@ -1,43 +1,7 @@
-app-emulation/vmbuilder 0.12.4.481-r1 0.12.4.495: Install virtual machines in a snap without ever actually booting a virtual machine!
-app-misc/adbren 3-r1 4 6.0.0.2010.03.13: AniDB Renamer
-app-misc/adbren-anidb 0.3_pre400: AniDB Renamer
-app-text/prince 6.0_p3 6.0_p5 6.0_p6: Prince is a computer program that converts XML and HTML into PDF documents.
-dev-embedded/xc3sprog 9999: A suite of utilities for programming Xilinx FPGAs, CPLDs, and EEPROMs
-dev-libs/DirectFB 1.6.3-r1: Thin library on top of the Linux framebuffer devices
+app-text/prince 6.0_p3: Prince is a computer program that converts XML and HTML into PDF documents.
 dev-libs/protobuf 2.5.0: Google's Protocol Buffers -- an efficient method of encoding structured data
-dev-libs/protobuf-c 1.0.0_rc2: code generator and runtime libraries to use Protocol Buffers (protobuf) from pure C
-dev-libs/win_backtrace 9999: DLL to dump a usable backtrace to stderr for MingW/GCC software on Windows (requires application support)
-dev-perl/AniDB 0.3_pre414: Perl clients for AniDB
-dev-perl/Text-vCard 2.01: a package to parse, edit and create vCards
-dev-perl/URI-imap 1.01: Support IMAP schemas with URI
-dev-perl/asterisk-perl 0.10: asterisk-perl is a collection of perl modules to be used with the Asterisk PBX
-dev-util/nsis 2.51: Nullsoft Scriptable Install System
-games-fps/openjk-academy 9999: Community-maintained Jedi Academy, story version
-games-fps/openjk-academy-mp 9999: Community-maintained Jedi Academy, multiplayer version
-games-fps/openjk-outcast 9999: Community-maintained Jedi Outcast, story version
 kde-apps/kwalletd 4.14.3-r2: KDE Password Server
 kde-apps/kwalletmanager4 4.14.3: KDE Wallet Management Tool
-mail-filter/hashcash-milter 0.1.2: A milter-based application to mint and check HashCash stamps
 media-fonts/code2000 1.17.1: TrueType font covering all of the CJK ideographs in the Basic Multilingual Plane of Unicode
 media-fonts/overpass 2.1: An open source webfont family inspired by Highway Gothic
 media-fonts/tuffy 20120614: Public Domain TrueType font
-media-gfx/kodakaio 0.2.1: Kodak AIO SANE backend
-media-libs/glew 1.5.8: The OpenGL Extension Wrangler Library
-media-video/dvd-baker 0.7.43: dvd-baker is an application designed to turn your image collection into a DVD.
-net-im/psi 9999_pre20150515 9999: Qt Jabber client, with Licq-like interface
-net-im/psi-conferencelogger 9999: Psi plugin which saves logs of conferences
-net-libs/jdns 2.0.4: A simple DNS implementation that can perform multicast DNS queries and advertising
-net-libs/libiaxclient 2.1_beta3: an open source, multiplatform library for creating telephony solutions that interoperate with Asterisk, the Open Source PBX
-net-libs/sofia-sip 9999: RFC3261 compliant SIP User-Agent library
-net-misc/asterisk-e164-800notes 0.1.27: Asterisk AGI script to search 800notes for CallerID info
-net-misc/asterisk-e164-vcard 0.1.26: Asterisk AGI script to search and append a vCard addressbook with CallerID
-net-misc/asterisk-e164imap 0.1.11 0.1.21: Asterisk AGI script to search and append an IMAP vCard addressbook with CallerID
-net-misc/gammamoo 1.8.2.4: a modern MOO server, based on LambdaMOO
-sci-biology/gnaural 1.0.20080808: A programmable binaural-beat generator, implementing the principle of binaural beats as described in the October 1973 Scientific American article "Auditory Beats in the Brain" (Gerald Oster).
-sys-block/compcache-tools 0.6: Compressed in-memory swap device for Linux
-sys-libs/labjackusb-u3-driver 0.0.2008.08.11: 
-sys-libs/labjackusb-udev-rules 0.0.1: 
-sys-libs/labjackusb-ue9-driver 0.0.2008.08.11: 
-sys-libs/liblabjackusb 1.10 2.0.1: This package contains the USB library/examples (written in C) for calling low-level U3, U6 and UE9 functions over a USB connection.
-sys-libs/plibc 0.1.7 0.1.8_pre147 9999: 
-sys-libs/pthreads-win32 2.9.1 9999: Provides the pthreads API on windows
