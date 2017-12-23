@@ -33,7 +33,9 @@ DEPEND="
 "
 # boost is not linked to, but headers which include it are installed
 # bug #418071
-RDEPEND="${DEPEND}"
+RDEPEND="${DEPEND}
+	kde-frameworks/kio
+"
 
 S="${WORKDIR}/${PN}-${COMMIT}"
 
@@ -53,4 +55,8 @@ src_install() {
 
 	# Collides with net-im/choqok
 	rm "${ED}"usr/share/apps/cmake/modules/FindQtOAuth.cmake || die
+
+	# kdelibs4 expects kioexec in PATH
+	# This is needed at least for KMail opening attachments
+	dosym ../lib/libexec/kf5/kioexec /usr/bin/kioexec
 }
