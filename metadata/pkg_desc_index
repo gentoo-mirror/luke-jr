@@ -1,5 +1,6 @@
 app-text/prince 6.0_p3: Prince is a computer program that converts XML and HTML into PDF documents.
 dev-libs/protobuf 2.5.0: Google's Protocol Buffers -- an efficient method of encoding structured data
+kde-apps/kdepimlibs 4.14.10_p20160611 4.14.10_p20170828: Common library for KDE PIM apps
 kde-apps/kwalletd 4.14.3-r2: KDE Password Server
 kde-apps/kwalletmanager4 4.14.3: KDE Wallet Management Tool
 media-fonts/code2000 1.17.1: TrueType font covering all of the CJK ideographs in the Basic Multilingual Plane of Unicode
