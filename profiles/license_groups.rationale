@@ -126,6 +126,7 @@
 		IJG
 		libmng
 		openafs-krb5-a
+		rdisc
 
 	Barely-free-strict:
 		FDL-1.2
