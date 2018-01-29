@@ -7,18 +7,12 @@
 # Purpose: support planty of ebuilds for trinity project (a kde3 fork).
 #
 
-inherit trinity-functions cmake-utils base
-
-# FIXME we don't need to write to both 
-addwrite "/usr/qt/3/etc/settings"
-addpredict "/usr/qt/3/etc/settings"
-addwrite "/usr/tqt3/etc/settings"
-addpredict "/usr/tqt3/etc/settings"
+inherit trinity-functions cmake-utils
 
 # ban EAPI 0, 1 and 2
 case $EAPI in
 	0|1|2|3|4) die "EAPI=${EAPI} is not supported" ;;
-	5) ;;
+	5|6) ;;
 	*) die "Unknown EAPI=${EAPI}"
 esac
 
@@ -87,7 +81,7 @@ TRINITY_HANDBOOK="${TRINITY_HANDBOOK:-never}"
 # @ECLASS-VARIABLE: TRINITY_GIT_MIRROR
 # @DESCRIPTION:
 # User (or ebuild) can decide another git mirror if it's needed;
-# Defaults to http://scm.trinitydesktop.org/scm/git
+# Defaults to https://scm.trinitydesktop.org/scm/git
 
 # @ECLASS-VARIABLE: TRINITY_GIT_BRANCH
 # @DESCRIPTION:
@@ -118,20 +112,17 @@ if [[ ${BUILD_TYPE} = live ]]; then
 	[[ -z "$TRINITY_SCM" ]] && TRINITY_SCM=git
 
 	case ${TRINITY_SCM} in
-		git) inherit git-2 ;;
+		git) inherit git-r3 ;;
 		*) die "Unsupported TRINITY_SCM=${TRINITY_SCM}" ;;
 	esac
 
 	#set some varyables
 	case ${TRINITY_SCM} in
 	git)
-		 EGIT_REPO_URI="${TRINITY_GIT_MIRROR:=http://scm.trinitydesktop.org/scm/git}/${TRINITY_MODULE_NAME}"
+		 EGIT_REPO_URI="${TRINITY_GIT_MIRROR:=https://scm.trinitydesktop.org/scm/git}/${TRINITY_MODULE_NAME}"
 		 EGIT_BRANCH="${TRINITY_GIT_BRANCH:=master}"
-		 EGIT_PROJECT="trinity/${TRINITY_MODULE_NAME}"
-		 EGIT_HAS_SUBMODULES="yes"
 	;;
 	esac
-	S="${WORKDIR}/${TRINITY_MODULE_NAME}"
 elif [[ "${BUILD_TYPE}" == release ]]; then
 	mod_name="${TRINITY_MODULE_NAME}"
 	mod_ver="${TRINITY_MODULE_VER:=${PV}}"
@@ -193,86 +184,6 @@ if [[ -n "${TRINITY_EXTRAGEAR_PACKAGING}" ]]; then
 		esac
 	fi
 fi
-
-# @FUNCTION: trinity-base_src_unpack
-# @DESCRIPTION:
-# A default src unpack function to be call git-2_src_unpack either 
-trinity-base_src_unpack() {
-	if [[ ${BUILD_TYPE} = live ]]; then
-		case "${TRINITY_SCM}" in
-
-			git)
-				git-2_src_unpack
-				;;
-			*)   die "TRINITY_SCM: ${TRINITY_SCM} is not supported by ${FUNCNAME}" ;;
-		esac
-	else
-		base_src_unpack
-	fi
-}
-
-
-# @FUNCTION: trinity-base_src_prepare
-# @DESCRIPTION:
-# General pre-configure and pre-compile function for Trinity applications.
-trinity-base_src_prepare() {
-	debug-print-function ${FUNCNAME} "$@"
-
-# 	# Only enable selected languages, used for KDE extragear apps.
-# 	if [[ -n ${KDE_LINGUAS} ]]; then
-# 		enable_selected_linguas
-# 	fi
-	local dir lang
-
-	# SCM bootstrap
-	if [[ ${BUILD_TYPE} = live ]]; then
-		case ${TRINITY_SCM} in
-			svn) subversion_src_prepare ;;
-	        git) ;;
-			*)  die "TRINITY_SCM: ${TRINITY_SCM} is not supported by ${FUNCNAME}"
-		esac
-	fi
-
-	# Apply patches
-	base_src_prepare
-	
-	# Handle documentation and  translations for extragear packages
-	if [[ -n "$TRINITY_EXTRAGEAR_PACKAGING" ]]; then
-		# remove not selected languages
-		if [[ -n $TRINITY_LANGS ]]; then
-			einfo "Removing unselected translations from ${TEG_PO_DIR}"
-			for dir in $(find ${TEG_PO_DIR} -mindepth 1 -maxdepth 1 -type d ); do
-				lang="$(basename "$dir")"
-				if ! has "$lang" ${TRINITY_LANGS}; then
-					eerror "Translation $lang seems to present in the package but is not supported by the ebuild"
-				elif ! has $lang ${LINGUAS}; then
-					rm -rf $dir
-				fi
-			done
-		fi
-
-		# if we removed all translations we should point it
-		if [[ -z $(find ${TEG_PO_DIR} -mindepth 1 -maxdepth 1 -type d) ]]; then
-			TRINITY_NO_TRANSLATIONS=yes
-		fi
-		
-		# remove not selected documentation
-		if [[ -n $TRINITY_DOC_LANGS ]]; then
-			einfo "Removing unselected documentation from ${TEG_DOC_DIR}"
-			for dir in $(find ${TEG_DOC_DIR} -mindepth 1 -maxdepth 1 -type d ); do
-				lang="$(basename "$dir")"
-				if [[	"$lang" == "${PN}" || \
-						"$lang" == "${TRINITY_MODULE_NAME}"  ]] ; then
-					echo -n; # do nothing it's main documentation
-				elif ! has "$lang" ${TRINITY_LANGS}; then
-					eerror "Documentation translated to language $lang seems to present in the package but is not supported by the ebuild"
-				elif ! has $lang ${LINGUAS}; then
-					rm -rf $dir
-				fi
-			done
-		fi
-	fi
-}
 
 
 # @FUNCTION: trinity-base_src_configure
@@ -436,4 +347,4 @@ trinity-base_fix_desktop_files() {
 	esac
 }
 
-EXPORT_FUNCTIONS src_configure src_compile src_install src_prepare
+EXPORT_FUNCTIONS src_configure src_compile src_install
