@@ -1,0 +1,21 @@
+--- a/src/tools/qsettings.cpp	2018-01-29 03:15:44.110695204 +0000
++++ b/src/tools/qsettings.cpp	2018-01-29 03:16:29.316937449 +0000
+@@ -980,15 +980,14 @@
+ 	TQStringList::Iterator pit = d->searchPaths.begin();
+ 	if ( !d->globalScope )
+ 	    ++pit;
+-	while (pit != d->searchPaths.end()) {
++	for ( ; pit != d->searchPaths.end(); ++pit) {
+             TQString filebase = it.key().lower().replace(TQRegExp(TQString::fromLatin1("\\s+")), "_");
+ 	    TQFileInfo di(*pit);
+ 	    if ( !di.exists() ) {
+-		TQDir dir;
+-		dir.mkdir( *pit );
++		continue;
+ 	    }
+ 
+-	    TQFileInfo fi((*pit++) + "/" + filebase + "rc");
++	    TQFileInfo fi((*pit) + "/" + filebase + "rc");
+ 
+ 	    if ((fi.exists() && fi.isFile() && fi.isWritable()) ||
+ 		(! fi.exists() && di.isDir()
