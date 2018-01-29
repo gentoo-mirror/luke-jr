@@ -1,7 +1,7 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
-EAPI=5
+EAPI=6
 
 inherit eutils git-r3 flag-o-matic toolchain-funcs
 
@@ -19,9 +19,10 @@ LICENSE="|| ( QPL-1.0 GPL-2 GPL-3 )"
 
 SLOT="3"
 KEYWORDS=
-IUSE="cups debug doc examples firebird ipv6 mysql nas nis opengl postgres sqlite xinerama"
+IUSE="cups debug doc firebird ipv6 mysql nas nis opengl postgres sqlite xinerama"
 # no odbc, immtqt and immtqt-bc support anymore.
 # TODO: optional support for xrender and xrandr
+# TODO: examples
 
 RDEPEND="
 	virtual/jpeg:=
@@ -53,8 +54,6 @@ DEPEND="${RDEPEND}
 #PDEPEND="odbc? ( ~dev-db/tqt-unixODBC-$PV )"
 
 #S="${WORKDIR}/tqt-x11-${SRCTYPE}-${PV}"
-
-TQTBASE="/usr/tqt3"
 
 pkg_setup() {
 #	if use immtqt && use immtqt-bc ; then
@@ -105,17 +104,19 @@ pkg_setup() {
 }
 
 src_prepare() {
+	eapply "${FILESDIR}/${PV}-qsettings-skip-mkdir.patch"
+
 	# Apply user-provided patches
-	epatch_user
+	eapply_user
 
 	# Do not link with -rpath. See bug #75181.
 	find "${S}"/mkspecs -name qmake.conf | xargs \
 		sed -i -e 's:QMAKE_RPATH.*:QMAKE_RPATH =:'
 #	if use immtqt || use immtqt-bc ; then
-#		epatch ../${IMMTQT_P}.diff
+#		eapply ../${IMMTQT_P}.diff
 #		sh make-symlinks.sh || die "make symlinks failed"
 #
-#		epatch "${FILESDIR}"/tqt-3.3.8-immtqt+gcc-4.3.patch
+#		eapply "${FILESDIR}"/tqt-3.3.8-immtqt+gcc-4.3.patch
 #	fi
 
 	# set c/xxflags and ldflags
@@ -141,26 +142,26 @@ src_prepare() {
 		   -e "s:LFLAGS.*=:LFLAGS=${LDFLAGS} :" \
 		"${S}/qmake/Makefile.unix" || die
 
-	# remove docs from install if we don't need it
-	use doc || sed -i -e '/INSTALLS.*=.*htmldocs/d' \
+	# remove docs from install (if we need it, we install with dodoc later)
+	sed -i -e '/INSTALLS.*=.*htmldocs/d' \
 		"${S}/src/qt_install.pri"
+	
+	# move manpages out of doc so it can be installed separately
+	mv doc/man . || die
 }
 
 src_configure() {
-	export SYSCONF="${D}${TQTBASE}"/etc/settings
-
-	# Let's just allow writing to these directories during Qt emerge
-	# as it makes Qt much happier.
-	addwrite "${TQTBASE}/etc/settings"
-	addwrite "${HOME}/.qt"
-	addwrite "${HOME}/.tqt"
-
 	# common opts
 	myconf=" -sm -thread -stl -no-verbose -no-verbose -verbose -largefile -tablet"
 	myconf+=" $(echo -{qt-imgfmt-,system-lib}{jpeg,mng,png})"
 	myconf+=" -platform ${PLATFORM} -xplatform ${PLATFORM}"
-	myconf+=" -xft -xrender -prefix ${TQTBASE}"
-	myconf+=" -libdir ${TQTBASE}/$(get_libdir) -fast -no-sql-odbc"
+	myconf+=" -xft -xrender -prefix /usr"
+	myconf+=" -headerdir /usr/include/tqt"
+	myconf+=" -plugindir /usr/libexec/tqt/plugins"
+	myconf+=" -datadir /usr/share/tqt"
+	myconf+=" -translationdir /usr/share/tqt/translations"
+	myconf+=" -sysconfdir /etc/tqt"
+	myconf+=" -libdir /usr/$(get_libdir) -fast -no-sql-odbc"
 
 	[ "$(get_libdir)" != "lib" ] && myconf+="${myconf} -L/usr/$(get_libdir)"
 
@@ -200,9 +201,9 @@ src_compile() {
 
 	emake sub-tools
 
-	if use examples; then
-		emake sub-tutorial sub-examples
-	fi
+# 	if use examples; then
+# 		emake sub-tutorial sub-examples
+# 	fi
 
 	# Make the msg2qm utility (not made by default)
 	cd "${S}"/tools/msg2tqm
@@ -225,68 +226,23 @@ src_install() {
 	#	/usr/qt/3/bin/qtrename140
 	# I'm not sure if they are really needed
 
-	# fix pkgconfig location
-	dodir /usr/$(get_libdir)
-	mv "${D}${TQTBASE}/$(get_libdir)/pkgconfig" "${D}/usr/$(get_libdir)/"
+	keepdir /etc/tqt
 
-	# cleanup a bad symlink created by crappy install scrypt
-	rm -r "${D}${TQTBASE}/mkspec/${PLATFORM}/${PLATFORM}"
-
-	# List all the multilib libdirs
-	local libdirs
-	for alibdir in $(get_all_libdirs); do
-		libdirs="${libdirs}:${TQTBASE}/${alibdir}"
-	done
-
-	# environment variables
-	cat <<EOF > "${T}"/44tqt3
-PATH=${TQTBASE}/bin
-ROOTPATH=${TQTBASE}/bin
-LDPATH=${libdirs:1}
-MANPATH=${TQTBASE}/doc/man
-EOF
-
-	cat <<EOF > "${T}"/44-tqt3-revdep
-SEARCH_DIRS="${TQTBASE}"
-EOF
-
-	insinto /etc/revdep-rebuild
-	doins "${T}"/44-tqt3-revdep
-	doenvd "${T}"/44tqt3
-
-	if [ "${SYMLINK_LIB}" = "yes" ]; then
-		dosym $(get_abi_LIBDIR ${DEFAULT_ABI}) ${TQTBASE}/lib
-	fi
-
-#	insinto ${TQTBASE}/tools/designer
-#	doins -r tools/designer/templates
-#
-#	insinto ${TQTBASE}
-#	doins -r translations
-#
-	keepdir ${TQTBASE}/etc/settings
+	doman man/man*/*
 
 	if use doc; then
-		insinto ${TQTBASE}
-		doins -r "${S}"/doc
+		dodoc -r doc/*
 	fi
 
-	if use examples; then
-		find "${S}"/examples "${S}"/tutorial -name Makefile | \
-			xargs sed -i -e "s:${S}:${TQTBASE}:g"
+# 	if use examples; then
+# 		find "${S}"/examples "${S}"/tutorial -name Makefile | \
+# 			xargs sed -i -e "s:${S}:/usr/share/doc/:g"
+# 
+# 		dodoc -r "${S}"/examples
+# 		dodoc -r "${S}"/tutorial
+# 	fi
 
-		cp -r "${S}"/examples "${D}"${TQTBASE}/
-		cp -r "${S}"/tutorial "${D}"${TQTBASE}/
-	fi
-
-#	# misc build reqs
-#	insinto ${TQTBASE}/mkspecs
-#	doins -r "${S}"/mkspecs/${PLATFORM}
-
-	sed -e "s:${S}:${TQTBASE}:g" \
-		"${S}"/.qmake.cache > "${D}"${TQTBASE}/.qmake.cache
-
-	dodoc FAQ README README-QT.TXT changes*
+	dodoc FAQ README README-QT.TXT
 #	if use immtqt || use immtqt-bc ; then
 #		dodoc "${S}"/README.immodule
 #	fi
@@ -294,12 +250,10 @@ EOF
 
 pkg_postinst() {
 	echo
-	elog "After a rebuild of Qt, it can happen that Qt plugins (such as Qt/KDE styles,"
-	elog "or widgets for the Qt designer) are no longer recognized.  If this situation"
+	elog "After a rebuild of TQt, it can happen that TQt plugins (such as TQt/TDE styles,"
+	elog "or widgets for the TQt designer) are no longer recognized.  If this situation"
 	elog "occurs you should recompile the packages providing these plugins,"
-	elog "and you should also make sure that Qt and its plugins were compiled with the"
-	elog "same version of GCC.  Packages that may need to be rebuilt are, for instance,"
-	elog "kde-base/kdelibs, kde-base/kdeartwork and kde-base/kdeartwork-styles."
-	elog "See http://doc.trolltech.com/3.3/plugins-howto.html for more infos."
+	elog "and you should also make sure that TQt and its plugins were compiled with the"
+	elog "same version of GCC."
 	echo
 }
