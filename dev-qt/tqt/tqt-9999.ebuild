@@ -156,11 +156,11 @@ src_configure() {
 	myconf+=" $(echo -{qt-imgfmt-,system-lib}{jpeg,mng,png})"
 	myconf+=" -platform ${PLATFORM} -xplatform ${PLATFORM}"
 	myconf+=" -xft -xrender -prefix /usr"
-	myconf+=" -headerdir /usr/include/tqt"
-	myconf+=" -plugindir /usr/libexec/tqt/plugins"
-	myconf+=" -datadir /usr/share/tqt"
-	myconf+=" -translationdir /usr/share/tqt/translations"
-	myconf+=" -sysconfdir /etc/tqt"
+	myconf+=" -headerdir /usr/include/tqt3"
+	myconf+=" -plugindir /usr/libexec/tqt3/plugins"
+	myconf+=" -datadir /usr/share/tqt3"
+	myconf+=" -translationdir /usr/share/tqt3/translations"
+	myconf+=" -sysconfdir /etc/tqt3"
 	myconf+=" -libdir /usr/$(get_libdir) -fast -no-sql-odbc"
 
 	[ "$(get_libdir)" != "lib" ] && myconf+="${myconf} -L/usr/$(get_libdir)"
@@ -226,7 +226,7 @@ src_install() {
 	#	/usr/qt/3/bin/qtrename140
 	# I'm not sure if they are really needed
 
-	keepdir /etc/tqt
+	keepdir /etc/tqt3
 
 	doman man/man*/*
 
