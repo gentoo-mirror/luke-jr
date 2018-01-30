@@ -62,7 +62,7 @@ trinity-meta_src_unpack() {
 				subversion_bootstrap
 				;;
 			git)
-				git-2_src_unpack
+				git-r3_src_unpack
 				;;
 			*)   die "TRINITY_SCM: ${TRINITY_SCM} is not supported by ${FUNCNAME}" ;;
 		esac
@@ -212,7 +212,7 @@ trinity-meta_src_prepare() {
 				cmake/modules/FindTDE.cmake
 	fi
 	
-	trinity-base_src_prepare
+	default
 }
 
 # @FUNCTION: trinity-meta_src_configure
