@@ -1,7 +1,8 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
-EAPI="5"
+
+EAPI=6
 TRINITY_MODULE_NAME="$PN"
 
 inherit trinity-base multilib
@@ -12,70 +13,92 @@ DESCRIPTION="Trinity libraries needed by all TDE programs."
 HOMEPAGE="http://www.trinitydesktop.org/"
 LICENSE="GPL-2 LGPL-2"
 SLOT="${TRINITY_VER}"
-KEYWORDS="~amd64 ~x86"
-IUSE="alsa avahi arts cups fam jpeg2k lua lzma openexr spell sudo tiff utempter
-	xcomposite"
+KEYWORDS=""
+IUSE="alsa arts consolekit cryptsetup cups fam idn jpeg2k lzma networkmanager openexr pcre pcsc-lite pkcs11 shm spell ssl sudo svg tiff udevil udisks upower utempter xcomposite xrandr"
 
 DEPEND="${DEPEND}
-	=dev-qt/tqtinterface-${TRINITY_VER}*
-	>=dev-libs/libxslt-1.1.16
-	>=dev-libs/libxml2-2.6.6
-	>=dev-libs/libpcre-6.6
-	media-libs/libart_lgpl
-	net-dns/libidn
+	dev-libs/dbus-1-tqt
+	dev-qt/tqtinterface
+	app-arch/bzip2:=
+	sys-apps/file:=
+	dev-libs/glib:2=
+	media-libs/libjpeg-turbo:=
+	dev-libs/libltdl:=
+	media-libs/libpng:=
+	>=dev-libs/libxslt-1.1.16:=
+	>=dev-libs/libxml2-2.6.6:=
+	consolekit? ( sys-auth/consolekit:= )
+	cryptsetup? ( sys-fs/cryptsetup:= )
+	pcre? ( >=dev-libs/libpcre-6.6:= )
+	idn? ( net-dns/libidn:= )
 	app-text/ghostscript-gpl
-	>=dev-libs/openssl-0.9.7d:=
-	media-libs/fontconfig
-	media-libs/freetype:2
-	media-libs/libart_lgpl
-	x11-libs/libXcursor
-	alsa? ( media-libs/alsa-lib )
+	ssl? ( >=dev-libs/openssl-0.9.7d:= )
+	media-libs/fontconfig:=
+	media-libs/freetype:2=
+	svg? ( media-libs/libart_lgpl )
+	x11-libs/libXext:=
+	x11-libs/libXrender:=
+	alsa? ( media-libs/alsa-lib:= )
 	arts? ( trinity-base/arts:= )
-	avahi? ( net-dns/avahi )
-	cups? ( >=net-print/cups-1.1.19 )
-	fam? ( virtual/fam )
-	jpeg2k? ( media-libs/jasper )
-	lua? ( dev-lang/lua:* )
-	openexr? ( >=media-libs/openexr-1.2.2-r2 )
-	spell? ( >=app-dicts/aspell-en-6.0.0 >=app-text/aspell-0.60.5 )
+	cups? ( >=net-print/cups-1.1.19:= )
+	fam? ( app-admin/gamin )
+	jpeg2k? ( media-libs/jasper:= )
+	networkmanager? ( net-misc/networkmanager:= )
+	openexr? ( >=media-libs/openexr-1.2.2-r2:= )
+	pcsc-lite? ( sys-apps/pcsc-lite:= )
+	pkcs11? ( dev-libs/pkcs11-helper )
+	spell? ( >=app-dicts/aspell-en-6.0.0 >=app-text/aspell-0.60.5:= )
 	sudo? ( app-admin/sudo )
 	tiff? ( media-libs/tiff:= )
+	udevil? ( sys-apps/udevil )
+	udisks? ( sys-fs/udisks:2 )
+	upower? ( sys-power/upower )
 	utempter? ( sys-libs/libutempter )
-	xcomposite? ( x11-libs/libXcomposite )
-	lzma? ( app-arch/xz-utils )"
-# NOTE: upstream lacks avahi support, so the use flag is currenly masked
+	xcomposite? ( x11-libs/libXcomposite:= )
+	xrandr? ( x11-libs/libXrandr:= )
+	lzma? ( app-arch/xz-utils:= )
+	sys-libs/zlib:=
+"
+# NOTE: upstream lacks avahi?, lua support
+# TODO: elficon (needs libr), logind, libbfd/gcc, Xft iff tqt[Xft]
 
 RDEPEND="${DEPEND}"
-
-PATCHES=( "$FILESDIR/${PN}-3.5.13.2-make-xcomposite-optional.patch"
-		"$FILESDIR/${PN}-3.5.13.1-fix-no-xcomposite.patch"
-		"$FILESDIR/${PN}-3.5.13.1-OnlyShowIn-TDE.patch" )
 
 src_configure() {
 	mycmakeargs=(
 		-DMALLOC_FULL=ON
-		-DWITH_LIBIDN=ON
-		-DWITH_SSL=ON
-		-DWITH_LIBART=ON
-		-DWITH_PCRE=ON
+		-DWITH_CONSOLEKIT=$(usex consolekit)
+		-DWITH_CRYPTSETUP=$(usex cryptsetup)
+		-DWITH_LIBIDN=$(usex idn)
+		-DWITH_SSL=$(usex ssl)
+		-DWITH_LIBART=$(usex svg)
+		-DWITH_PCRE=$(usex pcre)
 		-DWITH_XCURSOR=ON
 		-DWITH_HSPELL=OFF
 		-DKDE4_DEFAULT_HOME=.kde4
-		$(cmake-utils_use_with alsa ALSA)
-		$(cmake-utils_use_with arts ARTS)
-		$(cmake-utils_use_with avahi AVAHI)
-		$(cmake-utils_use_with cups CUPS)
-		$(cmake-utils_use_with kernel_linux INOTIFY)
-		$(cmake-utils_use_with jpeg2k JASPER)
-		$(cmake-utils_use_with lua LUA)
-		$(cmake-utils_use_with lzma LZMA)
-		$(cmake-utils_use_with openexr OPENEXR)
-		$(cmake-utils_use_with spell ASPELL)
-		$(cmake-utils_use_with fam GAMIN)
-		$(cmake-utils_use_with tiff TIFF)
-		$(cmake-utils_use_with utempter UTEMPTER)
-		$(cmake-utils_use_with xcomposite XCOMPOSITE)
-		$(cmake-utils_use_with sudo SUDO_KDESU_BACKEND)
+		-DWITH_ALSA=$(usex alsa)
+		-DWITH_ARTS=$(usex arts)
+		-DWITH_AVAHI=OFF
+		-DWITH_CUPS=$(usex cups)
+		-DWITH_INOTIFY=$(usex kernel_linux)
+		-DWITH_JASPER=$(usex jpeg2k)
+		-DWITH_LUA=OFF
+		-DWITH_LZMA=$(usex lzma)
+		-DWITH_NETWORK_MANAGER_BACKEND=$(usex networkmanager)
+		-DWITH_OPENEXR=$(usex openexr)
+		-DWITH_ASPELL=$(usex spell)
+		-DWITH_GAMIN=$(usex fam)
+		-DWITH_PCSC=$(usex pcsc-lite)
+		-DWITH_PKCS=$(usex pkcs11)
+		-DWITH_MITSHM=$(usex shm)
+		-DWITH_TIFF=$(usex tiff)
+		-DWITH_UDEVIL=$(usex udevil)
+		-DWITH_UDISKS2=$(usex udisks)
+		-DWITH_UPOWER=$(usex upower)
+		-DWITH_UTEMPTER=$(usex utempter)
+		-DWITH_XCOMPOSITE=$(usex xcomposite)
+		-DWITH_XRANDR=$(usex xrandr)
+		-DWITH_SUDO_KDESU_BACKEND=$(usex sudo)
 	)
 
 	trinity-base_src_configure
@@ -127,7 +150,7 @@ EOF
 
 pkg_postinst () {
 	if use sudo; then
-		einfo "Remember sudo use flag sets only the defauld value"
+		einfo "Remember sudo use flag sets only the default value"
 		einfo "It can be overriden on a user-level by adding:"
 		einfo "  [super-user-command]"
 		einfo "    super-user-command=su"
