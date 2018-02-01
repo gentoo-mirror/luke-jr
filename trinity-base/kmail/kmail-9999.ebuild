@@ -27,7 +27,7 @@ DEPEND="${COMMON_DEPEND}"
 RDEPEND="${COMMON_DEPEND}
 	>=trinity-base/tdebase-tdeioslaves-${PV}:${SLOT}
 	mbox? ( >=trinity-base/tdepim-tdeioslaves-${PV}:${SLOT} )
-	imap? ( >=trinity-base/tdepim-tdeioslaves-${PV}:${SLOT}[imap,sasl=] )
+	imap? ( >=trinity-base/tdepim-tdeioslaves-${PV}:${SLOT}[sasl=] )
 "
 # tdebase-tdeioslaves for smtp
 
