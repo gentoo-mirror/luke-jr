@@ -212,7 +212,7 @@ trinity-meta_src_prepare() {
 				cmake/modules/FindTDE.cmake
 	fi
 	
-	default
+	cmake-utils_src_prepare
 }
 
 # @FUNCTION: trinity-meta_src_configure
