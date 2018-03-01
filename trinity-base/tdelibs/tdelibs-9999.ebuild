@@ -14,7 +14,7 @@ HOMEPAGE="http://www.trinitydesktop.org/"
 LICENSE="GPL-2 LGPL-2"
 SLOT="${TRINITY_VER}"
 KEYWORDS=""
-IUSE="alsa arts consolekit cryptsetup cups fam idn jpeg2k lzma networkmanager openexr pcre pcsc-lite pkcs11 shm spell ssl sudo svg tiff udevil udisks upower utempter xcomposite xrandr"
+IUSE="alsa arts consolekit cryptsetup cups fam idn jpeg2k lzma networkmanager openexr +path pcre pcsc-lite pkcs11 shm spell ssl sudo svg tiff udevil udisks upower utempter xcomposite xrandr"
 
 DEPEND="${DEPEND}
 	dev-libs/dbus-1-tqt
@@ -66,16 +66,14 @@ RDEPEND="${DEPEND}"
 
 src_configure() {
 	mycmakeargs=(
-		-DMALLOC_FULL=ON
+		-DTDE_MALLOC_FULL=ON
 		-DWITH_CONSOLEKIT=$(usex consolekit)
 		-DWITH_CRYPTSETUP=$(usex cryptsetup)
 		-DWITH_LIBIDN=$(usex idn)
 		-DWITH_SSL=$(usex ssl)
 		-DWITH_LIBART=$(usex svg)
 		-DWITH_PCRE=$(usex pcre)
-		-DWITH_XCURSOR=ON
 		-DWITH_HSPELL=OFF
-		-DKDE4_DEFAULT_HOME=.kde4
 		-DWITH_ALSA=$(usex alsa)
 		-DWITH_ARTS=$(usex arts)
 		-DWITH_AVAHI=OFF
@@ -96,9 +94,10 @@ src_configure() {
 		-DWITH_UDISKS2=$(usex udisks)
 		-DWITH_UPOWER=$(usex upower)
 		-DWITH_UTEMPTER=$(usex utempter)
+		-DUTEMPTER_HELPER=/usr/sbin/utempter
 		-DWITH_XCOMPOSITE=$(usex xcomposite)
 		-DWITH_XRANDR=$(usex xrandr)
-		-DWITH_SUDO_KDESU_BACKEND=$(usex sudo)
+		-DWITH_SUDO_TDESU_BACKEND=$(usex sudo)
 	)
 
 	trinity-base_src_configure
@@ -123,16 +122,20 @@ src_install() {
 	# number goes down with version upgrade
 	# NOTE: they should be less than kdepaths for kde-3.5
 	cat <<EOF > "${D}/etc/env.d/42trinitypaths-${SLOT}"
-PATH=${TDEDIR}/bin
-ROOTPATH=${TDEDIR}/sbin:${TDEDIR}/bin
-LDPATH=${libdirs#:}
-MANPATH=${TDEDIR}/share/man
 CONFIG_PROTECT="${TDEDIR}/share/config ${TDEDIR}/env ${TDEDIR}/shutdown /usr/share/config"
 #TDE_IS_PRELINKED=1
 # Excessive flushing to disk as in releases before KDE 3.5.10. Usually you don't want that.
 #TDE_EXTRA_FSYNC=1
+EOF
+	if use path; then
+		cat <<EOF >> "${D}/etc/env.d/42trinitypaths-${SLOT}"
+PATH=${TDEDIR}/bin
+ROOTPATH=${TDEDIR}/sbin:${TDEDIR}/bin
+LDPATH=${libdirs#:}
+MANPATH=${TDEDIR}/share/man
 XDG_DATA_DIRS="${TDEDIR}/share"
 EOF
+	fi
 
 	# Make sure the target for the revdep-rebuild stuff exists. Fixes bug 184441.
 	dodir /etc/revdep-rebuild
