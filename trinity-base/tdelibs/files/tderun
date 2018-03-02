@@ -1,0 +1,19 @@
+#!/bin/bash
+if [[ $# = 0 ]]; then
+	echo "Usage: $0 <command>" >&2
+	exit 2
+fi
+export PATH="@TDEDIR@/bin:$PATH"
+if [[ $(id -u) = 0 ]]; then
+	export PATH="@TDEDIR@/sbin:$PATH"
+fi
+export LD_LIBRARY_PATH="@TDELIBDIRS@"
+export XDG_DATA_DIRS="@TDEDIR@/share:$XDG_DATA_DIRS"
+abspath="$(which "$1" 2>/dev/null)"
+if ! [[ "${abspath}" =~ ^/usr/trinity ]]; then
+	if ! [[ "${abspath}" = "$(which man 2>&1)" ]]; then
+		echo "No installed Trinity program by that name: $1" >&2
+		exit 127
+	fi
+fi
+exec "$@"
