@@ -131,11 +131,14 @@ EOF
 		cat <<EOF >> "${D}/etc/env.d/42trinitypaths-${SLOT}"
 PATH=${TDEDIR}/bin
 ROOTPATH=${TDEDIR}/sbin:${TDEDIR}/bin
-LDPATH=${libdirs#:}
+LDPATH=${libdirs%:}
 MANPATH=${TDEDIR}/share/man
 XDG_DATA_DIRS="${TDEDIR}/share"
 EOF
 	fi
+	cp "${FILESDIR}/tderun" "${WORKDIR}" || die
+	sed -i "s|@TDEDIR@|${TDEDIR}|g;s|@TDELIBDIRS@|${libdirs%:}|" "${WORKDIR}/tderun" || die
+	dobin "${WORKDIR}/tderun"
 
 	# Make sure the target for the revdep-rebuild stuff exists. Fixes bug 184441.
 	dodir /etc/revdep-rebuild
