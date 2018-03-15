@@ -3,6 +3,8 @@
 
 EAPI=6
 
+KMNAME="kdepimlibs"
+KMMODULE="kdepimlibs"
 KDE_HANDBOOK="optional"
 CPPUNIT_REQUIRED="optional"
 SQL_REQUIRED="always"
@@ -11,7 +13,7 @@ inherit kde4-base
 COMMIT="9d002cef7ba36b6617935f33934badc39867d9eb"
 
 DESCRIPTION="Common library for KDE PIM apps"
-SRC_URI="https://github.com/luke-jr/kdepimlibs/archive/${COMMIT}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/luke-jr/kdepimlibs/archive/${COMMIT}.tar.gz -> kdepimlibs-${PV}.tar.gz"
 
 KEYWORDS="amd64 ~arm x86"
 LICENSE="LGPL-2.1"
@@ -37,7 +39,7 @@ RDEPEND="${DEPEND}
 	kde-frameworks/kio
 "
 
-S="${WORKDIR}/${PN}-${COMMIT}"
+S="${WORKDIR}/kdepimlibs-${COMMIT}"
 
 src_configure() {
 	local mycmakeargs=(

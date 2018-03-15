@@ -15,7 +15,7 @@ DEPEND="
 	dev-libs/libgcrypt:0=
 	gpg? (
 		app-crypt/gpgme
-		$(add_kdeapps_dep kdepimlibs)
+		$(add_kdeapps_dep kdepimlibs4)
 	)
 "
 RDEPEND="${DEPEND}"
