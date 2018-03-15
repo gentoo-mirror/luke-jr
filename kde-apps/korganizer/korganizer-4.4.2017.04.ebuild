@@ -15,12 +15,11 @@ KEYWORDS="~amd64 ~x86"
 IUSE="debug"
 
 DEPEND="
-	$(add_kdeapps_dep kdepimlibs '' 4.14.10_p20160611)
+	$(add_kdeapps_dep kdepimlibs4)
 	$(add_kdeapps_dep libkdepim)
 	sys-libs/zlib
 "
 RDEPEND="${DEPEND}
-	!>kde-apps/kdepimlibs-4.14.11_pre20160211
 	$(add_kdeapps_dep ktimezoned '' 4.14.3)
 "
 

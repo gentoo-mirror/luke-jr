@@ -16,7 +16,7 @@ KEYWORDS="~amd64 ~x86"
 
 DEPEND="
 	$(add_kdeapps_dep kaddressbook)
-	$(add_kdeapps_dep kdepimlibs)
+	$(add_kdeapps_dep kdepimlibs4)
 	$(add_kdeapps_dep libkdepim)
 "
 RDEPEND="${DEPEND}"
