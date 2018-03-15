@@ -7,3 +7,4 @@ kde-apps/kwalletmanager4 4.14.3: KDE Wallet Management Tool
 media-fonts/code2000 1.17.1: TrueType font covering all of the CJK ideographs in the Basic Multilingual Plane of Unicode
 media-fonts/overpass 2.1: An open source webfont family inspired by Highway Gothic
 media-fonts/tuffy 20120614: Public Domain TrueType font
+media-libs/fontconfig 2.11.1-r2: A library for configuring and customizing font access
