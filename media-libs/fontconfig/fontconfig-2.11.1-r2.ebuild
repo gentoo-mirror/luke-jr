@@ -34,6 +34,8 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-2.7.1-latin-reorder.patch	# 130466
 	"${FILESDIR}"/${PN}-2.10.2-docbook.patch	# 310157
 	"${FILESDIR}"/${PN}-2.11.1-fc-cache-r.patch	# 531748
+	"${FILESDIR}"/${P}-fix-ts18661-1-namespace-conflicts-w-glibc.patch
+	"${FILESDIR}"/${P}-gperf31.patch
 )
 
 MULTILIB_CHOST_TOOLS=(
