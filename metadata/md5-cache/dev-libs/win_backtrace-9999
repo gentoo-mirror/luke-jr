@@ -1,9 +1,0 @@
-DEFINED_PHASES=compile install unpack
-DEPEND=sys-devel/binutils dev-vcs/git
-DESCRIPTION=DLL to dump a usable backtrace to stderr for MingW/GCC software on Windows (requires application support)
-EAPI=5
-HOMEPAGE=https://github.com/luke-jr/win_backtrace
-LICENSE=BSD-2
-SLOT=0
-_eclasses_=git-2	45ff482316b52b3f96ff6b7309b77f03
-_md5_=dffdc2f0b81ea9c951866f2dc9a1d29f
