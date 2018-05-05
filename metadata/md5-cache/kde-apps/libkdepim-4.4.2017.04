@@ -1,0 +1,14 @@
+DEFINED_PHASES=compile configure install postinst postrm preinst prepare setup test unpack
+DEPEND=>=kde-apps/kdepimlibs4-4.4.2017.04:4 >=sys-apps/sed-4 sys-devel/make >=dev-util/cmake-3.9.6 dev-util/automoc virtual/pkgconfig >=x11-libs/libXtst-1.1.0 x11-proto/xf86vidmodeproto >=dev-qt/qt3support-4.8.5:4[accessibility] dev-lang/perl >=dev-qt/designer-4.8.5:4 >=dev-qt/qtcore-4.8.5:4[qt3support,ssl] >=dev-qt/qtdbus-4.8.5:4 >=dev-qt/qtgui-4.8.5:4[accessibility,dbus(+)] >=dev-qt/qtscript-4.8.5:4 >=dev-qt/qtsvg-4.8.5:4 >=dev-qt/qttest-4.8.5:4 kde-frameworks/kdelibs:4[qt3support(+)]
+DESCRIPTION=Common library for KDE PIM apps (noakonadi branch)
+EAPI=6
+HOMEPAGE=https://launchpad.net/~pali/+archive/ubuntu/kdepim-noakonadi
+IUSE=debug
+KEYWORDS=~amd64 ~x86
+LICENSE=GPL-2
+RDEPEND=>=kde-apps/kdepimlibs4-4.4.2017.04:4 kde-frameworks/oxygen-icons >=dev-qt/qt3support-4.8.5:4[accessibility] dev-lang/perl >=dev-qt/designer-4.8.5:4 >=dev-qt/qtcore-4.8.5:4[qt3support,ssl] >=dev-qt/qtdbus-4.8.5:4 >=dev-qt/qtgui-4.8.5:4[accessibility,dbus(+)] >=dev-qt/qtscript-4.8.5:4 >=dev-qt/qtsvg-4.8.5:4 >=dev-qt/qttest-4.8.5:4 kde-frameworks/kdelibs:4[qt3support(+)]
+RESTRICT=test
+SLOT=4/4.4
+SRC_URI=https://dev.gentoo.org/~dilfridge/distfiles/kdepim-4.4.2017.04.tar.xz
+_eclasses_=cmake-utils	d2f8cff68b90b869ef9d460c6f3c4e2e	desktop	2ccd1dd1dd7bfb8795eea024a4f91bb6	epatch	9a5f039771f143195164a15a4faa41a1	estack	43ddf5aaffa7a8d0482df54d25a66a1f	eutils	63392afb034aad67f17fa129019eb4d9	flag-o-matic	5128c4729303400bd8d4b0b966530955	gnome2-utils	4d211d7614f303710fca59db6ec12c88	kde4-base	18e8aba8f8143fa51dc0f48b9d19712e	kde4-functions	866151bffb5d8f6033e9e3aa943520bd	kde4-meta	d9eee836f90d24b95a2a7d1ff20dce06	ltprune	607e058da37aa6dabfa408b7d61da72e	multilib	97f470f374f2e94ccab04a2fb21d811e	multiprocessing	cac3169468f893670dac3e7cb940e045	ninja-utils	ebb2eaddc6331c4fa000b8eb8f6fe074	preserve-libs	ef207dc62baddfddfd39a164d9797648	toolchain-funcs	fa02994d0beba88681127d93da4411ec	vcs-clean	2a0f74a496fa2b1552c4f3398258b7bf	versionator	26ca8a8bd95d6a74122c08ba98a4ee72	virtualx	3a3c4637ea6d5a2113707a644766337c	xdg-utils	f2c8335407f0b935b0a96d4adf23ef25
+_md5_=4b34aed85a72ec7d8aca80036452f9f8
