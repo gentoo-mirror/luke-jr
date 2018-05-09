@@ -1,4 +1,11 @@
 app-text/prince 6.0_p3: Prince is a computer program that converts XML and HTML into PDF documents.
+dev-erlang/fast_tls 1.0.21: TLS/SSL native driver for Erlang and Elixir
+dev-erlang/fast_xml 1.1.29: Fast Expat based Erlang XML parsing library
+dev-erlang/fast_yaml 1.0.13: Fast Yaml native library for Erlang and Elixir
+dev-erlang/iconv 1.0.7: Fast encoding conversion library for Erlang and Elixir
+dev-erlang/lager 3.6.1: Logging framework for Erlang/OTP
+dev-erlang/luerl 0.3: Lua in Erlang
+dev-erlang/p1_oauth2 0.6.2: Erlang OAuth 2.0 implementation
 dev-libs/protobuf 2.5.0: Google's Protocol Buffers -- an efficient method of encoding structured data
 dev-vcs/git 2.7.4: stupid content tracker: distributed VCS designed for speed and efficiency
 kde-apps/kdepimlibs4 4.14.10_p20170828: Common library for KDE PIM apps
