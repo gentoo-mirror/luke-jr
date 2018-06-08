@@ -9,8 +9,8 @@ SRC_URI="https://github.com/rednex/${PN}/releases/download/v${PV}/${P}.tar.gz"
 LICENSE="MIT"
 
 SLOT="0"
-KEYWORDS="~amd64"
-IUSE="gnome X"
+KEYWORDS="~amd64 ~ppc64"
+IUSE=""
 
 RDEPEND="
 	media-libs/libpng:=
