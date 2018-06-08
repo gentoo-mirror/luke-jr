@@ -1,0 +1,11 @@
+diff -ur SameBoy-0.10.1.orig/SDL/utils.c SameBoy-0.10.1/SDL/utils.c
+--- SameBoy-0.10.1.orig/SDL/utils.c	2018-02-02 22:50:38.000000000 +0000
++++ SameBoy-0.10.1/SDL/utils.c	2018-06-08 05:28:21.558596777 +0000
+@@ -5,6 +5,7 @@
+ 
+ const char *executable_folder(void)
+ {
++    return "/usr/share/sameboy/";
+     static const char *ret = NULL;
+     if (!ret) {
+         ret = SDL_GetBasePath();
