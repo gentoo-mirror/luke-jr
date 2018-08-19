@@ -64,8 +64,10 @@ DEPEND="
 	media-fonts/hack
 	media-fonts/intlfonts
 	media-fonts/jsmath
-	media-fonts/jsmath-extra-dark
-	media-fonts/jsmath-extra-light
+	|| (
+		media-fonts/jsmath-extra-dark
+		media-fonts/jsmath-extra-light
+	)
 	media-fonts/konfont
 	media-fonts/lfpfonts-fix
 	media-fonts/lfpfonts-var
