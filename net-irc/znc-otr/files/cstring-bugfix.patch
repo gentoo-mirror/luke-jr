@@ -1,0 +1,16 @@
+diff -ur orig/otr.cpp znc-otr-11560d6700bdc57241968ada2f44f99220ef0bf6/otr.cpp
+--- orig/otr.cpp	2017-07-27 14:48:52.000000000 +0000
++++ znc-otr-11560d6700bdc57241968ada2f44f99220ef0bf6/otr.cpp	2018-09-07 04:03:44.221995315 +0000
+@@ -120,9 +120,9 @@
+ 
+     static CString Clr(Color eClr, const CString& sWhat) {
+         if (eClr == Bold) {
+-            return "\x02" + sWhat + "\x02";
++            return CString("\x02") + sWhat + "\x02";
+         } else {
+-            return "\x03" + eClr + sWhat + "\x03";
++            return CString("\x03") + (char)eClr + sWhat + "\x03";
+         }
+     }
+ 
+Only in znc-otr-11560d6700bdc57241968ada2f44f99220ef0bf6/: otr.cpp~
