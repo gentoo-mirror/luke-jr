@@ -19,6 +19,7 @@ REQUIRED_USE="
 	sieve? ( sasl )
 "
 DEPEND="
+	trinity-base/libkmime
 	sasl? ( net-libs/libgsasl )
 "
 RDEPEND="${DEPEND}"
