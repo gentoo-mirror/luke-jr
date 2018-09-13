@@ -19,6 +19,13 @@ REQUIRED_USE="
 	sieve? ( sasl )
 "
 DEPEND="
+	|| (
+		(
+			net-libs/libtirpc
+			net-libs/rpcsvc-proto
+		)
+		<sys-libs/glibc-2.26[rpc]
+	)
 	trinity-base/libkmime
 	sasl? ( net-libs/libgsasl )
 "
