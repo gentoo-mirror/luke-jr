@@ -30,7 +30,10 @@ COMMONDEPEND="
 	app-text/docbook-xsl-stylesheets
 	dev-lang/perl
 	>=dev-libs/libattica-0.4.2
-	dev-libs/libdbusmenu-qt[qt4]
+	|| (
+		dev-libs/libdbusmenu-qt4
+		dev-libs/libdbusmenu-qt[qt4]
+	)
 	dev-libs/libpcre[unicode]
 	dev-libs/libxml2
 	dev-libs/libxslt
