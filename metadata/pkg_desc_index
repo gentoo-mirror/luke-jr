@@ -6,12 +6,16 @@ dev-erlang/iconv 1.0.7: Fast encoding conversion library for Erlang and Elixir
 dev-erlang/lager 3.6.1: Logging framework for Erlang/OTP
 dev-erlang/luerl 0.3: Lua in Erlang
 dev-erlang/p1_oauth2 0.6.2: Erlang OAuth 2.0 implementation
+dev-libs/libattica 0.4.2: A library providing access to Open Collaboration Services
+dev-libs/libdbusmenu-qt4 0.9.3_pre20160218-r1: Library providing Qt 4 implementation of DBusMenu specification
 dev-libs/protobuf 2.5.0: Google's Protocol Buffers -- an efficient method of encoding structured data
 dev-vcs/git 2.7.4: stupid content tracker: distributed VCS designed for speed and efficiency
 kde-apps/kdepimlibs4 4.14.10_p20170828: Common library for KDE PIM apps
 kde-apps/ktimezoned 16.04.3: KDE: Timezone daemon
 kde-apps/kwalletd 4.14.3-r2: KDE Password Server
 kde-apps/kwalletmanager4 4.14.3: KDE Wallet Management Tool
+kde-frameworks/kdelibs 4.14.37: Libraries needed for programs by KDE
+kde-frameworks/kdelibs-env 4.14.3: Environment setting required for all KDELibs4 apps to run
 media-fonts/code2000 1.17.1: TrueType font covering all of the CJK ideographs in the Basic Multilingual Plane of Unicode
 media-fonts/console-font 0.0.20151103: Console font
 media-fonts/ljr-free-fonts-meta 20180818: Metapackage for free fonts

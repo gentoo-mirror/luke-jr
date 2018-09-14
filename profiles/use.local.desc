@@ -3,5 +3,6 @@
 # * generated automatically using pmaint *
 
 kde-apps/kwalletd:gpg - Support wallets with GnuPG encryption additionally to default blowfish-encrypted file
+kde-frameworks/kdelibs:qt3support - Enable kde3support/qt3support for very old applications
 media-fonts/ljr-free-fonts-meta:cyrillic - Install Cyrillic fonts
 media-fonts/ljr-free-fonts-meta:l10n_iu - Install Inuktitut font
