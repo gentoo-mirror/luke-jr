@@ -7,5 +7,5 @@ IUSE=glib ipv6 ntlm sctp ssl +stun
 LICENSE=LGPL-2.1
 RDEPEND=glib? ( dev-libs/glib ) ssl? ( dev-libs/openssl )
 SLOT=0
-_eclasses_=darcs	87c29dece3467022cfeee8654d38b9f4
+_eclasses_=darcs	ab4c6e55cad1010076a2a4db27b70b0c
 _md5_=e9be07f009b70e31ad1b658e760b8c98
