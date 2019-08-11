@@ -2,7 +2,33 @@
 # Please add your descriptions to your package's metadata.xml ONLY.
 # * generated automatically using pmaint *
 
+app-crypt/qca:botan - Enable botan plugin
+app-crypt/qca:gcrypt - Enable gcrypt plugin
+app-crypt/qca:gpg - Enable GnuPG plugin
+app-crypt/qca:logger - Enable logger plugin
+app-crypt/qca:nss - Enable NSS plugin
+app-crypt/qca:pkcs11 - Enable PKCS#11 plugin
+app-crypt/qca:sasl - Enable SASL plugin
+app-crypt/qca:softstore - Enable softstore plugin
+dev-embedded/xc3sprog:ftd2xx - Use dev-embedded/libftd2xx instead of dev-embedded/libftdi
+dev-util/nsis:config-log - Enable the logging facility (useful in debugging installers)
 kde-apps/kwalletd:gpg - Support wallets with GnuPG encryption additionally to default blowfish-encrypted file
 kde-frameworks/kdelibs:qt3support - Enable kde3support/qt3support for very old applications
 media-fonts/ljr-free-fonts-meta:cyrillic - Install Cyrillic fonts
 media-fonts/ljr-free-fonts-meta:l10n_iu - Install Inuktitut font
+net-im/ejabberd:captcha - Support for CAPTCHA Forms (XEP-158) on registration
+net-im/ejabberd:full-xml - Use XML features in XMPP stream (ex: CDATA), requires XML compliant clients
+net-im/ejabberd:graphics - Enable graphics manipulation (avatars,captcha)
+net-im/ejabberd:hipe - Compile natively with HiPE, not recommended
+net-im/ejabberd:mssql - Enable Microsoft SQL Server support (via ODBC) for data storage
+net-im/ejabberd:mysql - Enable MySQL support for data storage
+net-im/ejabberd:nls - Enable character set conversion for mod_irc
+net-im/ejabberd:odbc - Enable ODBC support to access data storage
+net-im/ejabberd:postgres - Enable PostgreSQL support for data storage
+net-im/ejabberd:redis - Enable Redis support for transient data
+net-im/ejabberd:riak - Enable support for Riak - distributed NoSQL key-value data store
+net-im/ejabberd:roster-gw - Turn on workaround for processing gateway subscriptions
+net-im/ejabberd:sip - Enable SIP support
+net-im/ejabberd:sqlite - Enable SQLite database support
+net-im/ejabberd:stun - Enable STUN/TURN support
+net-im/ejabberd:zlib - Enable Stream Compression (XEP-0138) using zlib

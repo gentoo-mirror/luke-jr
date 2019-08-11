@@ -1,22 +1,109 @@
+app-crypt/libsignal-protocol-c 2.3.1_p20180209: Signal Protocol C Library
+app-crypt/qca 2.1.3_p20180105: Qt Cryptographic Architecture (QCA)
+app-emulation/vmbuilder 0.12.4.481-r1 0.12.4.495 0.12.4.20180502: Install virtual machines in a snap without ever actually booting a virtual machine!
+app-misc/adbren 3-r1 4 6.0.0.2010.03.13: AniDB Renamer
+app-misc/adbren-anidb 0.3_pre400: AniDB Renamer
+app-text/prince 6.0_p3 6.0_p5 6.0_p6: Prince is a computer program that converts XML and HTML into PDF documents.
+dev-embedded/xc3sprog 9999: A suite of utilities for programming Xilinx FPGAs, CPLDs, and EEPROMs
+dev-erlang/base64url 1.0: URL safe base64-compatible codec
+dev-erlang/cache_tab 1.0.13: In-memory cache Erlang and Elixir library
+dev-erlang/eimp 1.0.3: Erlang Image Manipulation Process
 dev-erlang/fast_tls 1.0.21: TLS/SSL native driver for Erlang and Elixir
 dev-erlang/fast_xml 1.1.29: Fast Expat based Erlang XML parsing library
 dev-erlang/fast_yaml 1.0.13: Fast Yaml native library for Erlang and Elixir
 dev-erlang/iconv 1.0.7: Fast encoding conversion library for Erlang and Elixir
+dev-erlang/jose 1.8.4: JSON Object Signing and Encryption (JOSE) for Erlang and Elixir
 dev-erlang/lager 3.6.1: Logging framework for Erlang/OTP
 dev-erlang/luerl 0.3: Lua in Erlang
 dev-erlang/p1_oauth2 0.6.2: Erlang OAuth 2.0 implementation
+dev-erlang/p1_utils 1.0.11: Erlang utility modules from ProcessOne
+dev-erlang/stringprep 1.0.11: Fast Stringprep implementation for Erlang and Elixir
+dev-erlang/xmpp 1.1.20: XMPP parsing and serialization library on top of Fast XML
+dev-lang/rgbds 0.3.7: Free assembler/linker package for the Game Boy and Game Boy Color
+dev-libs/DirectFB 1.6.3-r1: Thin library on top of the Linux framebuffer devices
+dev-libs/dbus-1-tqt 9999: D-BUS TQt bindings
 dev-libs/libattica 0.4.2: A library providing access to Open Collaboration Services
 dev-libs/libdbusmenu-qt4 0.9.3_pre20160218-r1: Library providing Qt 4 implementation of DBusMenu specification
 dev-libs/protobuf 2.5.0: Google's Protocol Buffers -- an efficient method of encoding structured data
+dev-libs/protobuf-c 1.0.0_rc2: code generator and runtime libraries to use Protocol Buffers (protobuf) from pure C
+dev-libs/win_backtrace 9999: DLL to dump a usable backtrace to stderr for MingW/GCC software on Windows (requires application support)
+dev-perl/AniDB 0.3_pre414: Perl clients for AniDB
+dev-perl/Text-vCard 2.01: a package to parse, edit and create vCards
+dev-perl/URI-imap 1.01: Support IMAP schemas with URI
+dev-perl/asterisk-perl 0.10: asterisk-perl is a collection of perl modules to be used with the Asterisk PBX
+dev-qt/tqt 9999: The Trinitie's Qt toolkit fork.
+dev-qt/tqtinterface 9999: Interface and abstraction library for Qt and Trinity
+dev-util/nsis 2.51: Nullsoft Scriptable Install System
 dev-vcs/git 2.7.4: stupid content tracker: distributed VCS designed for speed and efficiency
+games-emulation/sameboy 0.10.1: A user friendly Game Boy and Game Boy Color emulator
+games-fps/openjk-academy 9999: Community-maintained Jedi Academy, story version
+games-fps/openjk-academy-mp 9999: Community-maintained Jedi Academy, multiplayer version
+games-fps/openjk-outcast 9999: Community-maintained Jedi Outcast, story version
+games-mud/kmuddy 1.0.1-r3: MUD client by KDE
+kde-apps/kabcclient 4.4.2017.04: Command line client for accessing the KDE addressbook
+kde-apps/kaddressbook 4.4.2017.04: Address book application (noakonadi branch)
+kde-apps/kdepim-kresources 4.4.2017.04: KDE PIM groupware plugin collection (noakonadi branch)
 kde-apps/kdepimlibs4 4.14.10_p20170828: Common library for KDE PIM apps
+kde-apps/kmail 4.4.2017.04: Email client, supporting POP3 and IMAP mailboxes (noakonadi branch)
+kde-apps/konsolekalendar 4.4.2017.04: Command line interface to KDE calendars (noakonadi branch)
+kde-apps/kontact 4.4.2017.04: Container application to unify PIM applications within one (noakonadi branch)
+kde-apps/korganizer 4.4.2017.04: Personal Organizer by KDE (noakonadi branch)
 kde-apps/ktimezoned 16.04.3: KDE: Timezone daemon
 kde-apps/kwalletd 4.14.3-r2: KDE Password Server
 kde-apps/kwalletmanager4 4.14.3: KDE Wallet Management Tool
+kde-apps/libkdepim 4.4.2017.04: Common library for KDE PIM apps (noakonadi branch)
+kde-apps/libkleo 4.4.2017.04: Library for encryption handling
+kde-apps/libkpgp 4.4.2017.04: KDE pgp abstraction library
 kde-frameworks/kdelibs 4.14.37: Libraries needed for programs by KDE
 kde-frameworks/kdelibs-env 4.14.3: Environment setting required for all KDELibs4 apps to run
+mail-filter/hashcash-milter 0.1.2: A milter-based application to mint and check HashCash stamps
 media-fonts/code2000 1.17.1: TrueType font covering all of the CJK ideographs in the Basic Multilingual Plane of Unicode
+media-fonts/console-font 0.0.20151103: Console font
 media-fonts/ljr-free-fonts-meta 20180818: Metapackage for free fonts
 media-fonts/overpass 2.1: An open source webfont family inspired by Highway Gothic
 media-fonts/tuffy 20120614: Public Domain TrueType font
+media-gfx/kodakaio 0.2.1: Kodak AIO SANE backend
 media-libs/fontconfig 2.11.1-r2: A library for configuring and customizing font access
+media-libs/glew 1.5.8: The OpenGL Extension Wrangler Library
+net-im/ejabberd 18.03: Robust, scalable and extensible XMPP server
+net-im/psi 1.3: Qt XMPP client
+net-im/psi-omemo 9999: Psi plugin for OMEMO
+net-irc/znc-otr 0.0.0_pre20170727 9999: Encrypt private conversations using the OTR protocol, on a ZNC server
+net-libs/jdns 2.0.4: A simple DNS implementation that can perform multicast DNS queries and advertising
+net-libs/libiaxclient 2.1_beta3: an open source, multiplatform library for creating telephony solutions that interoperate with Asterisk, the Open Source PBX
+net-libs/sofia-sip 9999: RFC3261 compliant SIP User-Agent library
+net-misc/asterisk-e164-800notes 0.1.27: Asterisk AGI script to search 800notes for CallerID info
+net-misc/asterisk-e164-vcard 0.1.26: Asterisk AGI script to search and append a vCard addressbook with CallerID
+net-misc/asterisk-e164imap 0.1.11 0.1.21: Asterisk AGI script to search and append an IMAP vCard addressbook with CallerID
+net-misc/gammamoo 1.8.2.4: a modern MOO server, based on LambdaMOO
+net-misc/knutclient 1.0.5: Visual client for UPS systems based on kdelibs-4
+sci-biology/gnaural 1.0.20080808: A programmable binaural-beat generator, implementing the principle of binaural beats as described in the October 1973 Scientific American article "Auditory Beats in the Brain" (Gerald Oster).
+sys-block/compcache-tools 0.6: Compressed in-memory swap device for Linux
+sys-libs/labjackusb-u3-driver 0.0.2008.08.11: 
+sys-libs/labjackusb-udev-rules 0.0.1: 
+sys-libs/labjackusb-ue9-driver 0.0.2008.08.11: 
+sys-libs/liblabjackusb 1.10 2.0.1: This package contains the USB library/examples (written in C) for calling low-level U3, U6 and UE9 functions over a USB connection.
+sys-libs/pdcurses 3.4 3.4-r1 3.4-r2 3.4-r3 3.4-r4 3.4-r5: 
+sys-libs/plibc 0.1.7 0.1.8_pre147 9999: 
+sys-libs/pthreads-win32 2.9.1 9999: Provides the pthreads API on windows
+trinity-base/certmanager 9999: Trinity certificate manager gui
+trinity-base/kaddressbook 9999: The Trinity Address Book
+trinity-base/kdialog 9999: KDialog can be used to show nice dialog boxes from shell scripts
+trinity-base/kgantt 9999: A Trinity library for drawing and editing gantt-diagramms
+trinity-base/kmail 9999: An email client for Trinity
+trinity-base/knotes 9999: Trinity Notes application
+trinity-base/korganizer 9999: A Personal Organizer for Trinity
+trinity-base/ktnef 9999: Trinity Viewer for mail attachments using TNEF format
+trinity-base/libkcal 9999: Trinity kcal library for KOrganizer etc
+trinity-base/libkholidays 9999: Trinity library to compute holidays.
+trinity-base/libkmime 9999: Trinity kmime library for Message Handling
+trinity-base/libkpgp 9999: Trinity PGP library
+trinity-base/libkpimidentities 9999: Trinity PIM identities library
+trinity-base/libksieve 9999: Trinity ksieve library
+trinity-base/libtdenetwork 9999: library common to many tdepim apps interacting to network
+trinity-base/libtdepim 9999: Common library for Trinity PIM applications.
+trinity-base/mimelib 9999: Trinity MIME library
+trinity-base/tdebase-tdeioslaves 9999: Generic Trinity KIOslaves
+trinity-base/tdeeject 9999: Trinity eject frontend
+trinity-base/tdelibs 9999: Trinity libraries needed by all TDE programs.
+trinity-base/tdepim-tdeioslaves 9999: PIM Trinity IO slaves
