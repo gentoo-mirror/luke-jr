@@ -42,6 +42,7 @@ games-fps/openjk-outcast 9999: Community-maintained Jedi Outcast, story version
 games-mud/kmuddy 1.0.1-r3: MUD client by KDE
 kde-apps/kabcclient 4.4.2017.04: Command line client for accessing the KDE addressbook
 kde-apps/kaddressbook 4.4.2017.04: Address book application (noakonadi branch)
+kde-apps/kcaldav 1.2.1: This is a sample skeleton ebuild file
 kde-apps/kdepim-kresources 4.4.2017.04: KDE PIM groupware plugin collection (noakonadi branch)
 kde-apps/kdepimlibs4 4.14.10_p20170828: Common library for KDE PIM apps
 kde-apps/kmail 4.4.2017.04: Email client, supporting POP3 and IMAP mailboxes (noakonadi branch)
