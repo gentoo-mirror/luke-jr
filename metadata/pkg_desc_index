@@ -58,7 +58,6 @@ kde-apps/libkpgp 4.4.2017.04: KDE pgp abstraction library
 kde-frameworks/kdelibs 4.14.37: Libraries needed for programs by KDE
 kde-frameworks/kdelibs-env 4.14.3: Environment setting required for all KDELibs4 apps to run
 mail-filter/hashcash-milter 0.1.2: A milter-based application to mint and check HashCash stamps
-media-fonts/code2000 1.17.1: TrueType font covering all of the CJK ideographs in the Basic Multilingual Plane of Unicode
 media-fonts/console-font 0.0.20151103: Console font
 media-fonts/ljr-free-fonts-meta 20180818: Metapackage for free fonts
 media-fonts/overpass 2.1: An open source webfont family inspired by Highway Gothic
