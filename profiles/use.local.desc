@@ -2,14 +2,14 @@
 # Please add your descriptions to your package's metadata.xml ONLY.
 # * generated automatically using pmaint *
 
-app-crypt/qca:botan - Enable botan plugin
-app-crypt/qca:gcrypt - Enable gcrypt plugin
-app-crypt/qca:gpg - Enable GnuPG plugin
-app-crypt/qca:logger - Enable logger plugin
-app-crypt/qca:nss - Enable NSS plugin
-app-crypt/qca:pkcs11 - Enable PKCS#11 plugin
-app-crypt/qca:sasl - Enable SASL plugin
-app-crypt/qca:softstore - Enable softstore plugin
+app-crypt/qca-qt4:botan - Enable botan plugin
+app-crypt/qca-qt4:gcrypt - Enable gcrypt plugin
+app-crypt/qca-qt4:gpg - Enable GnuPG plugin
+app-crypt/qca-qt4:logger - Enable logger plugin
+app-crypt/qca-qt4:nss - Enable NSS plugin
+app-crypt/qca-qt4:pkcs11 - Enable PKCS#11 plugin
+app-crypt/qca-qt4:sasl - Enable SASL plugin
+app-crypt/qca-qt4:softstore - Enable softstore plugin
 dev-embedded/xc3sprog:ftd2xx - Use dev-embedded/libftd2xx instead of dev-embedded/libftdi
 dev-util/nsis:config-log - Enable the logging facility (useful in debugging installers)
 kde-apps/kwalletd:gpg - Support wallets with GnuPG encryption additionally to default blowfish-encrypted file

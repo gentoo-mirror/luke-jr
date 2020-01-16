@@ -1,5 +1,5 @@
 app-crypt/libsignal-protocol-c 2.3.1_p20180209: Signal Protocol C Library
-app-crypt/qca 2.1.3_p20180105: Qt Cryptographic Architecture (QCA)
+app-crypt/qca-qt4 2.2.1: Qt Cryptographic Architecture (QCA)
 app-emulation/vmbuilder 0.12.4.481-r1 0.12.4.495 0.12.4.20180502: Install virtual machines in a snap without ever actually booting a virtual machine!
 app-misc/adbren 3-r1 4 6.0.0.2010.03.13: AniDB Renamer
 app-misc/adbren-anidb 0.3_pre400: AniDB Renamer
