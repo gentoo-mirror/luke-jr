@@ -10,7 +10,7 @@ TSM_EXTRACT="tdeioslave"
 
 DESCRIPTION="Generic Trinity KIOslaves"
 KEYWORDS=
-IUSE="samba ldap sasl openexr -hal +tdehw"
+IUSE="samba ldap sasl openexr -hal +tdehw +tdeio_media"
 REQUIRED_USE="tdehw? ( !hal )"
 
 DEPEND="
@@ -30,9 +30,14 @@ RDEPEND="${DEPEND}"
 #	x11-apps/xhost
 RDEPEND="${DEPEND}
 	virtual/ssh
-	trinity-base/tdeeject:${SLOT}"
+	tdeio_media? ( trinity-base/tdeeject:${SLOT} )
+"
 
 src_configure() {
+	if ! use tdeio_media; then
+		sed '/media/d' -i tdeioslave/CMakeLists.txt || die
+	fi
+
 	mycmakeargs=(
 		-DWITH_XCURSOR=ON
 		$(cmake-utils_use_with samba SAMBA)
