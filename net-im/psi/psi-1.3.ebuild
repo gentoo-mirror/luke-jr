@@ -28,7 +28,7 @@ REQUIRED_USE="
 "
 
 RDEPEND="
-	app-crypt/qca:2[qt5]
+	app-crypt/qca:2
 	dev-qt/qtconcurrent:5
 	dev-qt/qtcore:5
 	dev-qt/qtgui:5
