@@ -124,6 +124,7 @@
 		POSTGRESQL
 		HPND
 		libpng
+		libpng2
 		docbook
 		IJG
 		libmng
