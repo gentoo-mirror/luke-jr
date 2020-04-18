@@ -11,7 +11,7 @@ DESCRIPTION="Unicode font for Latin, IPA Extensions, Greek, Cyrillic and many Sy
 HOMEPAGE="http://users.teilar.gr/~g1951d/"
 SRC_URI="https://luke.dashjr.org/mirror/misc/${P}.zip"
 
-LICENSE="all-rights-reserved"
+LICENSE="public-domain"
 SLOT="0"
 KEYWORDS="amd64 arm ppc x86"
 IUSE="doc"
