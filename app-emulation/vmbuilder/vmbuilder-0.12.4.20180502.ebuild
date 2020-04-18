@@ -23,7 +23,7 @@ RDEPEND="
 	${PYTHON_DEPS}
 	app-emulation/qemu
 	net-misc/rsync
-	dev-python/cheetah[${PYTHON_USEDEP}]
+	dev-python/cheetah[${PYTHON_SINGLE_USEDEP}]
 	sys-block/parted
 	sys-fs/multipath-tools
 "
