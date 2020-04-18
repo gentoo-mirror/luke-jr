@@ -1,4 +1,4 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 2018-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -64,10 +64,7 @@ DEPEND="
 	media-fonts/hack
 	media-fonts/intlfonts
 	media-fonts/jsmath
-	|| (
-		media-fonts/jsmath-extra-dark
-		media-fonts/jsmath-extra-light
-	)
+	media-fonts/jsmath-extra-dark
 	media-fonts/konfont
 	media-fonts/lfpfonts-fix
 	media-fonts/lfpfonts-var
@@ -89,7 +86,6 @@ DEPEND="
 	media-fonts/ubuntu-font-family
 	media-fonts/unifont
 	media-fonts/urw-fonts
-	media-fonts/vc-fonts
 	media-fonts/webby-fonts
 	media-fonts/x11fonts-jmk
 
