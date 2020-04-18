@@ -3,7 +3,7 @@
 
 EAPI=6
 
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python3_4 python3_5 python3_6 python3_7 )
 
 inherit python-r1
 
@@ -13,23 +13,22 @@ SRC_URI="https://github.com/Syncplay/syncplay/archive/v${PV}.tar.gz -> ${P}.tar.
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~amd64 ~ppc64 x86"
+KEYWORDS="~amd64 ~ppc64 ~x86"
 IUSE="+client +server vlc"
 REQUIRED_USE="vlc? ( client )
 	${PYTHON_REQUIRED_USE}"
 
 DEPEND=""
-# TODO: investigate the possibility of enabling PyQt5 gui
-# possible licensing concerns
 RDEPEND="${PYTHON_DEPS}
-	>=dev-python/twisted-16.0.0[${PYTHON_USEDEP}]
+	>=dev-python/certifi-2018.11.29[${PYTHON_USEDEP}]
+	>=dev-python/twisted-16.4.0[crypt,${PYTHON_USEDEP}]
 	vlc? ( media-video/vlc[lua] )"
 
 src_prepare() {
-	default
 	sed -i 's/"noGui": False,/"noGui": True,/' \
 		syncplay/ui/ConfigurationGetter.py \
 		|| die "Failed to patch ConfigurationGetter.py"
+	default
 }
 
 src_compile() {
