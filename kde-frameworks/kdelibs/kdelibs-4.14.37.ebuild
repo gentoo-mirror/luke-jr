@@ -48,7 +48,10 @@ COMMONDEPEND="
 	media-libs/freetype:2
 	media-libs/giflib:=
 	media-libs/libpng:0=
-	media-libs/phonon[qt4]
+	|| (
+		media-libs/phonon-qt4
+		media-libs/phonon[qt4]
+	)
 	sys-libs/zlib
 	virtual/jpeg:0
 	x11-libs/libICE

@@ -29,7 +29,10 @@ DEPEND="
 	dev-libs/libgpg-error
 	dev-libs/libical:=
 	dev-libs/qjson
-	media-libs/phonon[qt4]
+	|| (
+		media-libs/phonon-qt4
+		media-libs/phonon[qt4]
+	)
 	x11-misc/shared-mime-info
 	ldap? ( net-nds/openldap )
 "
