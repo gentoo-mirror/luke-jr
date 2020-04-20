@@ -6,14 +6,9 @@ EAPI=6
 MY_PN="phonon-backend-vlc"
 MY_P="${MY_PN}-${PV}"
 
-if [[ ${PV} != *9999* ]]; then
-	SRC_URI="mirror://kde/stable/phonon/${MY_PN}/${PV}/${MY_P}.tar.xz"
-	KEYWORDS="~amd64 ~arm ~ppc ~ppc64 ~x86 ~amd64-fbsd"
-	S="${WORKDIR}/${MY_P}"
-else
-	EGIT_REPO_URI=( "git://anongit.kde.org/${PN}" )
-	inherit git-r3
-fi
+SRC_URI="mirror://kde/stable/phonon/${MY_PN}/${PV}/${MY_P}.tar.xz"
+KEYWORDS="~amd64 ~arm ~ppc ~ppc64 ~x86 ~amd64-fbsd"
+S="${WORKDIR}/${MY_P}"
 
 inherit cmake-utils multibuild
 
