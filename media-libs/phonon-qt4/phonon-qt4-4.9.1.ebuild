@@ -19,6 +19,7 @@ IUSE="aqua debug designer gstreamer pulseaudio +vlc zeitgeist"
 
 RDEPEND="
 	!!dev-qt/qtphonon:4
+	!!media-libs/phonon[qt4]
 	dev-qt/qtcore:4[${MULTILIB_USEDEP}]
 	dev-qt/qtdbus:4[${MULTILIB_USEDEP}]
 	dev-qt/qtgui:4[${MULTILIB_USEDEP}]
