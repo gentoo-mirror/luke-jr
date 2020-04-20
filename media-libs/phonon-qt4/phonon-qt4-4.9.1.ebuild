@@ -3,7 +3,9 @@
 
 EAPI=6
 
-SRC_URI="mirror://kde/stable/phonon/${PV}/${P}.tar.xz"
+MyP="phonon-${PV}"
+
+SRC_URI="mirror://kde/stable/phonon/${PV}/${MyP}.tar.xz"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sparc ~x86 ~amd64-fbsd ~x86-fbsd ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos"
 
 inherit cmake-multilib multibuild qmake-utils
@@ -52,6 +54,8 @@ PDEPEND="
 "
 
 PATCHES=( "${FILESDIR}/${PN}-4.7.0-plugin-install.patch" )
+
+S="${WORKDIR}/${MyP}"
 
 pkg_setup() {
 	MULTIBUILD_VARIANTS=( $(usev qt4) $(usev qt5) )
