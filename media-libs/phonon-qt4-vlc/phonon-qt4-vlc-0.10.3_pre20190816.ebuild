@@ -21,6 +21,7 @@ SLOT="0"
 IUSE="debug"
 
 RDEPEND="
+	!!media-libs/phonon-vlc[qt4]
 	|| (
 		>=media-libs/phonon-qt4-4.9.0
 		>=media-libs/phonon-4.9.0[qt4]
