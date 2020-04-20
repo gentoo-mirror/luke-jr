@@ -17,22 +17,13 @@ HOMEPAGE="https://phonon.kde.org/"
 
 LICENSE="LGPL-2.1+ || ( LGPL-2.1 LGPL-3 )"
 SLOT="0"
-IUSE="debug +qt4 qt5"
-
-REQUIRED_USE="|| ( qt4 qt5 )"
+IUSE="debug"
 
 RDEPEND="
-	>=media-libs/phonon-4.9.0[qt4=,qt5=]
+	>=media-libs/phonon-4.9.0[qt4]
 	>=media-video/vlc-2.0.1:=[dbus,ogg,vorbis]
-	qt4? (
-		dev-qt/qtcore:4
-		dev-qt/qtgui:4
-	)
-	qt5? (
-		dev-qt/qtcore:5
-		dev-qt/qtgui:5
-		dev-qt/qtwidgets:5
-	)
+	dev-qt/qtcore:4
+	dev-qt/qtgui:4
 "
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
@@ -41,18 +32,14 @@ DEPEND="${RDEPEND}
 DOCS=( AUTHORS )
 
 pkg_setup() {
-	MULTIBUILD_VARIANTS=( $(usev qt4) $(usev qt5) )
+	MULTIBUILD_VARIANTS=( qt4 )
 }
 
 src_configure() {
 	myconfigure() {
-		local mycmakeargs=()
-		if [[ ${MULTIBUILD_VARIANT} = qt4 ]]; then
-			mycmakeargs+=( -DPHONON_BUILD_PHONON4QT5=OFF )
-		fi
-		if [[ ${MULTIBUILD_VARIANT} = qt5 ]]; then
-			mycmakeargs+=( -DPHONON_BUILD_PHONON4QT5=ON )
-		fi
+		local mycmakeargs=(
+			-DPHONON_BUILD_PHONON4QT5=OFF
+		)
 		cmake-utils_src_configure
 	}
 
