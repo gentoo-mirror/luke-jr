@@ -22,6 +22,7 @@ if [[ "$TRINITY_VER" == "3.5" ]]; then
 else
 	DEPEND="trinity-base/tdelibs:${SLOT}"
 fi
+RDEPEND="$DEPEND"
 
 # @FUNCTION: trinity-meta_set_trinity_submodule
 # @DESCRIPTION:
