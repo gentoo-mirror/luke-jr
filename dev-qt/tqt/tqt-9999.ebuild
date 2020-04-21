@@ -70,7 +70,7 @@ pkg_setup() {
 #		ewarn
 #	fi
 
-	export QTDIR="${S}"
+	export TQTDIR="${S}"
 
 	CXX=$(tc-getCXX)
 	if [[ ${CXX/g++/} != ${CXX} ]]; then

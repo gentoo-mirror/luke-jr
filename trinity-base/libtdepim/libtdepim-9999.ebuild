@@ -25,5 +25,5 @@ TSM_EXTRACT_ALSO="libemailfunctions/
 src_prepare() {
 	trinity-meta_src_prepare
 	# Call Qt 3 designer
-	sed -i -e "s:\"designer\":\"${QTDIR}/bin/designer\":g" "${S}/libtdepim/kcmdesignerfields.cpp" || die "sed failed"
+	sed -i -e "s:\"designer\":\"${TQTDIR}/bin/designer\":g" "${S}/libtdepim/kcmdesignerfields.cpp" || die "sed failed"
 }
