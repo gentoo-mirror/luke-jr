@@ -27,7 +27,7 @@ DEPEND="
 	dev-libs/boost:=
 	dev-libs/cyrus-sasl
 	dev-libs/libgpg-error
-	dev-libs/libical:=
+	>=dev-libs/libical-3.0.0:=
 	dev-libs/qjson
 	|| (
 		media-libs/phonon-qt4
@@ -43,6 +43,11 @@ RDEPEND="${DEPEND}
 "
 
 S="${WORKDIR}/kdepimlibs-${COMMIT}"
+
+src_prepare() {
+	eapply "${FILESDIR}/${PN}-libical3.patch"
+	default
+}
 
 src_configure() {
 	local mycmakeargs=(
