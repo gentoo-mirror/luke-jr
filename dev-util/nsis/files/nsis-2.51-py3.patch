@@ -1,0 +1,41 @@
+--- nsis-2.51-src/SCons/Tools/crossmingw.py
++++ nsis-2.51-src/SCons/Tools/crossmingw.py
+@@ -138,7 +138,7 @@
+         if not path: 
+             path = []
+         if SCons.Util.is_String(path):
+-            path = string.split(path, os.pathsep)
++            path = path.split(os.pathsep)
+ 
+         env['ENV']['PATH'] = string.join([dir] + path, os.pathsep)
+ 
+@@ -140,7 +140,7 @@
+         if SCons.Util.is_String(path):
+             path = path.split(os.pathsep)
+ 
+-        env['ENV']['PATH'] = string.join([dir] + path, os.pathsep)
++        env['ENV']['PATH'] = os.pathsep.join([dir] + path)
+ 
+     # Most of mingw is the same as gcc and friends...
+     gnu_tools = ['gcc', 'g++', 'gnulink', 'ar', 'gas']
+diff -ur nsis-2.51-src.orig/SConstruct nsis-2.51-src/SConstruct
+--- nsis-2.51-src.orig/SConstruct	2020-04-22 17:08:56.772127712 +0000
++++ nsis-2.51-src/SConstruct	2020-04-22 17:11:25.901007599 +0000
+@@ -233,7 +233,7 @@
+ defenv.Execute(Delete('$TESTDISTDIR'))
+ 
+ def SafeFile(f):
+-	from types import StringType
++	StringType = ''.__class__
+ 
+ 	if isinstance(f, StringType):
+ 		return File(f)
+@@ -244,7 +244,7 @@
+ 	return Flatten(File(files))
+ 
+ def Distribute(files, names, component, path, subpath, alias, install_alias=None):
+-	from types import StringType
++	StringType = ''.__class__
+ 
+ 	files = MakeFileList(files)
+ 

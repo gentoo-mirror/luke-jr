@@ -10,7 +10,7 @@ inherit eutils
 DESCRIPTION="Nullsoft Scriptable Install System"
 HOMEPAGE="http://nsis.sourceforge.net/"
 SRC_URI="mirror://sourceforge/${PN}/${P}-src.tar.bz2
-	mirror://gentoo/nsis-2.51-64bit.patch.gz"
+	https://luke.dashjr.org/mirror/misc/nsis-2.51-64bit.patch.gz"
 
 LICENSE="ZLIB BZIP2 CPL-1.0"
 SLOT="0"
@@ -45,11 +45,30 @@ pkg_pretend() {
 }
 
 src_prepare() {
+	local files=(
+		SConstruct
+		SCons/Tools/crossmingw.py
+		SCons/Config/gnu
+		SCons/utils.py
+		Scripts/release.py
+		Source/exehead/SConscript
+		Source/Tests/icons.py
+		Source/Tests/SConscript
+		Contrib/Graphics/SConscript
+		"Contrib/Modern UI/SConscript"
+		"Contrib/Modern UI 2/SConscript"
+	)
+	2to3 --write --no-diffs --nobackups "${files[@]}"
+
 	epatch "${FILESDIR}/${P}-build.patch"
 	epatch "${WORKDIR}/${P}-64bit.patch"
+	epatch "${FILESDIR}/${P}-py3.patch"
+	epatch "${FILESDIR}/${P}-scons3.patch"
 
 	# a dirty but effective way of killing generated docs
 	use doc || echo > Docs/src/SConscript
+
+	epatch_user
 }
 
 get_additional_options() {

@@ -1,0 +1,12 @@
+diff -ur nsis-2.51-src.orig/SConstruct nsis-2.51-src/SConstruct
+--- nsis-2.51-src.orig/SConstruct	2020-04-22 18:06:25.274038993 +0000
++++ nsis-2.51-src/SConstruct	2020-04-22 18:06:49.959189789 +0000
+@@ -432,7 +432,7 @@
+ 
+ 	exports = { 'env' : env, 'compression' : compression, 'solid_compression' : solid }
+ 
+-	target = defenv.SConscript(dirs = 'Source/exehead', build_dir = build_dir, duplicate = False, exports = exports)
++	target = defenv.SConscript(dirs = 'Source/exehead', variant_dir = build_dir, duplicate = False, exports = exports)
+ 	env.SideEffect('%s/stub_%s.map' % (build_dir, stub), target)
+ 
+ 	env.DistributeStubs(target, names=compression+suffix)
