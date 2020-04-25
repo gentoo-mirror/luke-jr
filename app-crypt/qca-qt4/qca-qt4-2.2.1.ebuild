@@ -41,7 +41,6 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}
 	test? (
-		dev-qt/qtnetwork:4
 		dev-qt/qttest:4
 	)
 "
