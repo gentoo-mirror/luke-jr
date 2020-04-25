@@ -31,6 +31,15 @@ dev-perl/AniDB 0.3_pre414: Perl clients for AniDB
 dev-perl/Text-vCard 2.01: a package to parse, edit and create vCards
 dev-perl/URI-imap 1.01: Support IMAP schemas with URI
 dev-perl/asterisk-perl 0.10: asterisk-perl is a collection of perl modules to be used with the Asterisk PBX
+dev-qt/qt3support 4.8.7: The Qt3Support module for the Qt toolkit
+dev-qt/qtcore 4.8.7-r4: Cross-platform application development framework
+dev-qt/qtdbus 4.8.7: The DBus module for the Qt toolkit
+dev-qt/qtdeclarative 4.8.7: The Declarative module for the Qt toolkit
+dev-qt/qtgui 4.8.7: The GUI module for the Qt toolkit
+dev-qt/qtscript 4.8.7: The QtScript module for the Qt toolkit
+dev-qt/qtsql 4.8.7-r1: The SQL module for the Qt toolkit
+dev-qt/qtsvg 4.8.7: The SVG module for the Qt toolkit
+dev-qt/qttest 4.8.7: The QtTest module for unit testing Qt applications and libraries
 dev-qt/tqt 9999: The Trinitie's Qt toolkit fork.
 dev-qt/tqtinterface 9999: Interface and abstraction library for Qt and Trinity
 dev-util/nsis 2.51: Nullsoft Scriptable Install System
