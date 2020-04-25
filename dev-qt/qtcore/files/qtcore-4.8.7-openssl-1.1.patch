@@ -72,6 +72,15 @@ Bug-Debian: http://bugs.debian.org/828522
      q_EVP_PKEY_free(pkey);
      return key;
  }
+@@ -687,7 +696,7 @@
+         unsigned char *data = 0;
+         int size = q_ASN1_STRING_to_UTF8(&data, q_X509_NAME_ENTRY_get_data(e));
+         info[QString::fromUtf8(obj)] = QString::fromUtf8((char*)data, size);
+-        q_CRYPTO_free(data);
++        q_OPENSSL_free(data);
+     }
+     return info;
+ }
 --- a/src/network/ssl/qsslkey.cpp
 +++ b/src/network/ssl/qsslkey.cpp
 @@ -321,8 +321,19 @@
@@ -85,7 +94,7 @@ Bug-Debian: http://bugs.debian.org/828522
 +    if (d->algorithm == QSsl::Rsa) {
 +        return q_RSA_bits(d->rsa);
 +    }else{
-+        BIGNUM *p = NULL;
++        const BIGNUM *p = NULL;
 +        q_DSA_get0_pqg(d->dsa, &p, NULL, NULL);
 +	return q_BN_num_bits(p);
 +    }
@@ -196,52 +205,28 @@ Bug-Debian: http://bugs.debian.org/828522
          }
      }
  
---- a/src/network/ssl/qsslsocket_openssl_symbols_p.h
-+++ b/src/network/ssl/qsslsocket_openssl_symbols_p.h
-@@ -399,7 +399,25 @@
- 		PEM_ASN1_write_bio((int (*)(void*, unsigned char**))q_i2d_DSAPrivateKey,PEM_STRING_DSA,\
- 			bp,(char *)x,enc,kstr,klen,cb,u)
- #endif
-+
-+X509_STORE * q_SSL_CTX_get_cert_store(const SSL_CTX *ctx);
-+ASN1_INTEGER * q_X509_get_serialNumber(X509 *x);
-+
-+#if OPENSSL_VERSION_NUMBER < 0x10100000L
- #define q_SSL_CTX_set_options(ctx,op) q_SSL_CTX_ctrl((ctx),SSL_CTRL_OPTIONS,(op),NULL)
-+#define q_X509_get_version(x) X509_get_version(x)
-+#else
-+int q_EVP_PKEY_id(const EVP_PKEY *pkey);
-+int q_EVP_PKEY_base_id(const EVP_PKEY *pkey);
-+int q_SSL_CIPHER_get_bits(const SSL_CIPHER *cipher, int *alg_bits);
-+long q_SSL_CTX_set_options(SSL_CTX *ctx, long options);
-+long q_X509_get_version(X509 *x);
-+X509_PUBKEY * q_X509_get_X509_PUBKEY(X509 *x);
-+int q_RSA_bits(const RSA *rsa);
-+int q_DSA_security_bits(const DSA *dsa);
-+void q_DSA_get0_pqg(const DSA *d, BIGNUM **p, BIGNUM **q, BIGNUM **g);
-+#endif
-+
- #define q_SKM_sk_num(type, st) ((int (*)(const STACK_OF(type) *))q_sk_num)(st)
- #define q_SKM_sk_value(type, st,i) ((type * (*)(const STACK_OF(type) *, int))q_sk_value)(st, i)
- #define q_sk_GENERAL_NAME_num(st) q_SKM_sk_num(GENERAL_NAME, (st))
-@@ -410,8 +428,15 @@
- #define q_sk_SSL_CIPHER_value(st, i) q_SKM_sk_value(SSL_CIPHER, (st), (i))
- #define q_SSL_CTX_add_extra_chain_cert(ctx,x509) \
-         q_SSL_CTX_ctrl(ctx,SSL_CTRL_EXTRA_CHAIN_CERT,0,(char *)x509)
-+
-+#if OPENSSL_VERSION_NUMBER < 0x10100000L
- #define q_X509_get_notAfter(x) X509_get_notAfter(x)
- #define q_X509_get_notBefore(x) X509_get_notBefore(x)
-+#else
-+ASN1_TIME *q_X509_get_notAfter(X509 *x);
-+ASN1_TIME *q_X509_get_notBefore(X509 *x);
-+#endif
-+
- #define q_EVP_PKEY_assign_RSA(pkey,rsa) q_EVP_PKEY_assign((pkey),EVP_PKEY_RSA,\
- 					(char *)(rsa))
- #define q_EVP_PKEY_assign_DSA(pkey,dsa) q_EVP_PKEY_assign((pkey),EVP_PKEY_DSA,\
 --- a/src/network/ssl/qsslsocket_openssl_symbols.cpp
 +++ b/src/network/ssl/qsslsocket_openssl_symbols.cpp
+@@ -111,16 +111,16 @@
+ DEFINEFUNC2(int, ASN1_STRING_to_UTF8, unsigned char **a, a, ASN1_STRING *b, b, return 0, return);
+ DEFINEFUNC4(long, BIO_ctrl, BIO *a, a, int b, b, long c, c, void *d, d, return -1, return)
+ DEFINEFUNC(int, BIO_free, BIO *a, a, return 0, return)
+-DEFINEFUNC(BIO *, BIO_new, BIO_METHOD *a, a, return 0, return)
++DEFINEFUNC(BIO *, BIO_new, const BIO_METHOD *a, a, return 0, return)
+ DEFINEFUNC2(BIO *, BIO_new_mem_buf, void *a, a, int b, b, return 0, return)
+ DEFINEFUNC3(int, BIO_read, BIO *a, a, void *b, b, int c, c, return -1, return)
+-DEFINEFUNC(BIO_METHOD *, BIO_s_mem, void, DUMMYARG, return 0, return)
++DEFINEFUNC(const BIO_METHOD *, BIO_s_mem, void, DUMMYARG, return 0, return)
+ DEFINEFUNC3(int, BIO_write, BIO *a, a, const void *b, b, int c, c, return -1, return)
+ DEFINEFUNC(int, BN_num_bits, const BIGNUM *a, a, return 0, return)
+ DEFINEFUNC(int, CRYPTO_num_locks, DUMMYARG, DUMMYARG, return 0, return)
+ DEFINEFUNC(void, CRYPTO_set_locking_callback, void (*a)(int, int, const char *, int), a, return, DUMMYARG)
+ DEFINEFUNC(void, CRYPTO_set_id_callback, unsigned long (*a)(), a, return, DUMMYARG)
+-DEFINEFUNC(void, CRYPTO_free, void *a, a, return, DUMMYARG)
++DEFINEFUNC(void, OPENSSL_free, void *a, a, return, DUMMYARG)
+ DEFINEFUNC(void, DSA_free, DSA *a, a, return, DUMMYARG)
+ #if  OPENSSL_VERSION_NUMBER < 0x00908000L
+ DEFINEFUNC3(X509 *, d2i_X509, X509 **a, a, unsigned char **b, b, long c, c, return 0, return)
 @@ -290,6 +290,22 @@
  DEFINEFUNC(void, OPENSSL_add_all_algorithms_conf, void, DUMMYARG, return, DUMMYARG)
  DEFINEFUNC3(int, SSL_CTX_load_verify_locations, SSL_CTX *ctx, ctx, const char *CAfile, CAfile, const char *CApath, CApath, return 0, return)
@@ -260,7 +245,7 @@ Bug-Debian: http://bugs.debian.org/828522
 +DEFINEFUNC(int, DSA_security_bits, const DSA *dsa, dsa, return 0, return)
 +DEFINEFUNC(ASN1_TIME *, X509_get_notAfter, X509 *x, x, return 0, return)
 +DEFINEFUNC(ASN1_TIME *, X509_get_notBefore, X509 *x, x, return 0, return)
-+DEFINEFUNC4(void, DSA_get0_pqg, const DSA *d, d, BIGNUM **p, p, BIGNUM **q, q, BIGNUM **g, g, return, return)
++DEFINEFUNC4(void, DSA_get0_pqg, const DSA *d, d, const BIGNUM **p, p, const BIGNUM **q, q, const BIGNUM **g, g, return, return)
 +#endif
  
  #ifdef Q_OS_SYMBIAN
@@ -297,50 +282,8 @@ Bug-Debian: http://bugs.debian.org/828522
  #ifndef OPENSSL_NO_SSL2
      RESOLVEFUNC(SSLv2_client_method)
  #endif
---- qt-everywhere-opensource-src-4.8.7/src/network/ssl/qsslkey.cpp.0131~	2017-03-15 02:22:37.053244125 +0100
-+++ qt-everywhere-opensource-src-4.8.7/src/network/ssl/qsslkey.cpp	2017-03-15 02:22:37.055244057 +0100
-@@ -328,7 +328,7 @@ int QSslKey::length() const
-     if (d->algorithm == QSsl::Rsa) {
-         return q_RSA_bits(d->rsa);
-     }else{
--        BIGNUM *p = NULL;
-+        const BIGNUM *p = NULL;
-         q_DSA_get0_pqg(d->dsa, &p, NULL, NULL);
- 	return q_BN_num_bits(p);
-     }
---- qt-everywhere-opensource-src-4.8.7/src/network/ssl/qsslsocket_openssl_symbols.cpp.0131~	2017-03-15 02:22:37.054244091 +0100
-+++ qt-everywhere-opensource-src-4.8.7/src/network/ssl/qsslsocket_openssl_symbols.cpp	2017-03-15 02:29:41.155236836 +0100
-@@ -111,16 +111,16 @@ DEFINEFUNC(int, ASN1_STRING_length, ASN1
- DEFINEFUNC2(int, ASN1_STRING_to_UTF8, unsigned char **a, a, ASN1_STRING *b, b, return 0, return);
- DEFINEFUNC4(long, BIO_ctrl, BIO *a, a, int b, b, long c, c, void *d, d, return -1, return)
- DEFINEFUNC(int, BIO_free, BIO *a, a, return 0, return)
--DEFINEFUNC(BIO *, BIO_new, BIO_METHOD *a, a, return 0, return)
-+DEFINEFUNC(BIO *, BIO_new, const BIO_METHOD *a, a, return 0, return)
- DEFINEFUNC2(BIO *, BIO_new_mem_buf, void *a, a, int b, b, return 0, return)
- DEFINEFUNC3(int, BIO_read, BIO *a, a, void *b, b, int c, c, return -1, return)
--DEFINEFUNC(BIO_METHOD *, BIO_s_mem, void, DUMMYARG, return 0, return)
-+DEFINEFUNC(const BIO_METHOD *, BIO_s_mem, void, DUMMYARG, return 0, return)
- DEFINEFUNC3(int, BIO_write, BIO *a, a, const void *b, b, int c, c, return -1, return)
- DEFINEFUNC(int, BN_num_bits, const BIGNUM *a, a, return 0, return)
- DEFINEFUNC(int, CRYPTO_num_locks, DUMMYARG, DUMMYARG, return 0, return)
- DEFINEFUNC(void, CRYPTO_set_locking_callback, void (*a)(int, int, const char *, int), a, return, DUMMYARG)
- DEFINEFUNC(void, CRYPTO_set_id_callback, unsigned long (*a)(), a, return, DUMMYARG)
--DEFINEFUNC(void, CRYPTO_free, void *a, a, return, DUMMYARG)
-+DEFINEFUNC(void, OPENSSL_free, void *a, a, return, DUMMYARG)
- DEFINEFUNC(void, DSA_free, DSA *a, a, return, DUMMYARG)
- #if  OPENSSL_VERSION_NUMBER < 0x00908000L
- DEFINEFUNC3(X509 *, d2i_X509, X509 **a, a, unsigned char **b, b, long c, c, return 0, return)
-@@ -300,7 +300,7 @@ DEFINEFUNC(int, RSA_bits,  const RSA *rs
- DEFINEFUNC(int, DSA_security_bits, const DSA *dsa, dsa, return 0, return)
- DEFINEFUNC(ASN1_TIME *, X509_get_notAfter, X509 *x, x, return 0, return)
- DEFINEFUNC(ASN1_TIME *, X509_get_notBefore, X509 *x, x, return 0, return)
--DEFINEFUNC4(void, DSA_get0_pqg, const DSA *d, d, BIGNUM **p, p, BIGNUM **q, q, BIGNUM **g, g, return, return)
-+DEFINEFUNC4(void, DSA_get0_pqg, const DSA *d, d, const BIGNUM **p, p, const BIGNUM **q, q, const BIGNUM **g, g, return, return)
- #endif
- 
- #ifdef Q_OS_SYMBIAN
---- qt-everywhere-opensource-src-4.8.7/src/network/ssl/qsslsocket_openssl_symbols_p.h.0131~	2017-03-15 02:22:37.054244091 +0100
-+++ qt-everywhere-opensource-src-4.8.7/src/network/ssl/qsslsocket_openssl_symbols_p.h	2017-03-15 02:29:50.192986268 +0100
+--- a/src/network/ssl/qsslsocket_openssl_symbols_p.h
++++ b/src/network/ssl/qsslsocket_openssl_symbols_p.h
 @@ -59,6 +59,9 @@
  QT_BEGIN_NAMESPACE
  
@@ -351,7 +294,7 @@ Bug-Debian: http://bugs.debian.org/828522
  
  #if !defined QT_LINKED_OPENSSL
  // **************** Shared declarations ******************
-@@ -207,16 +210,16 @@ int q_ASN1_STRING_length(ASN1_STRING *a)
+@@ -207,16 +210,16 @@
  int q_ASN1_STRING_to_UTF8(unsigned char **a, ASN1_STRING *b);
  long q_BIO_ctrl(BIO *a, int b, long c, void *d);
  int q_BIO_free(BIO *a);
@@ -371,7 +314,7 @@ Bug-Debian: http://bugs.debian.org/828522
  void q_DSA_free(DSA *a);
  #if OPENSSL_VERSION_NUMBER >= 0x00908000L
  // 0.9.8 broke SC and BC by changing this function's signature.
-@@ -326,7 +329,6 @@ void q_SSL_set_accept_state(SSL *a);
+@@ -326,7 +329,6 @@
  void q_SSL_set_connect_state(SSL *a);
  int q_SSL_shutdown(SSL *a);
  #if OPENSSL_VERSION_NUMBER >= 0x10000000L
@@ -379,7 +322,7 @@ Bug-Debian: http://bugs.debian.org/828522
  const SSL_METHOD *q_SSLv3_client_method();
  const SSL_METHOD *q_SSLv23_client_method();
  const SSL_METHOD *q_TLSv1_client_method();
-@@ -335,7 +337,6 @@ const SSL_METHOD *q_SSLv3_server_method(
+@@ -335,7 +337,6 @@
  const SSL_METHOD *q_SSLv23_server_method();
  const SSL_METHOD *q_TLSv1_server_method();
  #else
@@ -387,23 +330,45 @@ Bug-Debian: http://bugs.debian.org/828522
  SSL_METHOD *q_SSLv3_client_method();
  SSL_METHOD *q_SSLv23_client_method();
  SSL_METHOD *q_TLSv1_client_method();
-@@ -415,7 +416,7 @@ long q_X509_get_version(X509 *x);
- X509_PUBKEY * q_X509_get_X509_PUBKEY(X509 *x);
- int q_RSA_bits(const RSA *rsa);
- int q_DSA_security_bits(const DSA *dsa);
--void q_DSA_get0_pqg(const DSA *d, BIGNUM **p, BIGNUM **q, BIGNUM **g);
-+void q_DSA_get0_pqg(const DSA *d, const BIGNUM **p, const BIGNUM **q, const BIGNUM **g);
+@@ -399,7 +400,25 @@
+ 		PEM_ASN1_write_bio((int (*)(void*, unsigned char**))q_i2d_DSAPrivateKey,PEM_STRING_DSA,\
+ 			bp,(char *)x,enc,kstr,klen,cb,u)
  #endif
- 
++
++X509_STORE * q_SSL_CTX_get_cert_store(const SSL_CTX *ctx);
++ASN1_INTEGER * q_X509_get_serialNumber(X509 *x);
++
++#if OPENSSL_VERSION_NUMBER < 0x10100000L
+ #define q_SSL_CTX_set_options(ctx,op) q_SSL_CTX_ctrl((ctx),SSL_CTRL_OPTIONS,(op),NULL)
++#define q_X509_get_version(x) X509_get_version(x)
++#else
++int q_EVP_PKEY_id(const EVP_PKEY *pkey);
++int q_EVP_PKEY_base_id(const EVP_PKEY *pkey);
++int q_SSL_CIPHER_get_bits(const SSL_CIPHER *cipher, int *alg_bits);
++long q_SSL_CTX_set_options(SSL_CTX *ctx, long options);
++long q_X509_get_version(X509 *x);
++X509_PUBKEY * q_X509_get_X509_PUBKEY(X509 *x);
++int q_RSA_bits(const RSA *rsa);
++int q_DSA_security_bits(const DSA *dsa);
++void q_DSA_get0_pqg(const DSA *d, const BIGNUM **p, const BIGNUM **q, const BIGNUM **g);
++#endif
++
  #define q_SKM_sk_num(type, st) ((int (*)(const STACK_OF(type) *))q_sk_num)(st)
---- qt-everywhere-opensource-src-4.8.7/src/network/ssl/qsslcertificate.cpp.omv~	2017-03-15 02:27:18.143322736 +0100
-+++ qt-everywhere-opensource-src-4.8.7/src/network/ssl/qsslcertificate.cpp	2017-03-15 02:29:56.215819741 +0100
-@@ -696,7 +696,7 @@
-         unsigned char *data = 0;
-         int size = q_ASN1_STRING_to_UTF8(&data, q_X509_NAME_ENTRY_get_data(e));
-         info[QString::fromUtf8(obj)] = QString::fromUtf8((char*)data, size);
--        q_CRYPTO_free(data);
-+        q_OPENSSL_free(data);
-     }
-     return info;
- }
+ #define q_SKM_sk_value(type, st,i) ((type * (*)(const STACK_OF(type) *, int))q_sk_value)(st, i)
+ #define q_sk_GENERAL_NAME_num(st) q_SKM_sk_num(GENERAL_NAME, (st))
+@@ -410,8 +429,15 @@
+ #define q_sk_SSL_CIPHER_value(st, i) q_SKM_sk_value(SSL_CIPHER, (st), (i))
+ #define q_SSL_CTX_add_extra_chain_cert(ctx,x509) \
+         q_SSL_CTX_ctrl(ctx,SSL_CTRL_EXTRA_CHAIN_CERT,0,(char *)x509)
++
++#if OPENSSL_VERSION_NUMBER < 0x10100000L
+ #define q_X509_get_notAfter(x) X509_get_notAfter(x)
+ #define q_X509_get_notBefore(x) X509_get_notBefore(x)
++#else
++ASN1_TIME *q_X509_get_notAfter(X509 *x);
++ASN1_TIME *q_X509_get_notBefore(X509 *x);
++#endif
++
+ #define q_EVP_PKEY_assign_RSA(pkey,rsa) q_EVP_PKEY_assign((pkey),EVP_PKEY_RSA,\
+ 					(char *)(rsa))
+ #define q_EVP_PKEY_assign_DSA(pkey,dsa) q_EVP_PKEY_assign((pkey),EVP_PKEY_DSA,\
