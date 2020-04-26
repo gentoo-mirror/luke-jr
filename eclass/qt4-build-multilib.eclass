@@ -23,7 +23,8 @@ HOMEPAGE="https://www.qt.io/"
 LICENSE="|| ( LGPL-2.1 LGPL-3 GPL-3 ) FDL-1.3"
 SLOT="4"
 
-case ${PV} in
+[ -n "${MY_PV}" ] || MY_PV="${PV}"
+case ${MY_PV} in
 	4.?.9999)
 		# git stable branch
 		QT4_BUILD_TYPE="live"
@@ -32,8 +33,8 @@ case ${PV} in
 	*)
 		# official stable release
 		QT4_BUILD_TYPE="release"
-		MY_P=qt-everywhere-opensource-src-${PV/_/-}
-		SRC_URI="http://download.qt.io/official_releases/qt/${PV%.*}/${PV}/${MY_P}.tar.gz"
+		MY_P=qt-everywhere-opensource-src-${MY_PV/_/-}
+		SRC_URI="http://download.qt.io/official_releases/qt/${MY_PV%.*}/${MY_PV}/${MY_P}.tar.gz"
 		S=${WORKDIR}/${MY_P}
 		;;
 esac

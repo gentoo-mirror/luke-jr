@@ -2,9 +2,14 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
+MY_PV='4.8.7'
 inherit qt4-build-multilib
 
 DESCRIPTION="Cross-platform application development framework"
+
+SRC_URI="${SRC_URI}
+	https://salsa.debian.org/qt-kde-team/qt/qt4-x11/-/archive/df517fcfe4ee9430cff23a180be42ae5ebe867d5/qt4-x11-master.tar.bz2?path=debian/patches -> qt4-x11-debian-patches-20200204.tar.bz2
+"
 
 if [[ ${QT4_BUILD_TYPE} == release ]]; then
 	KEYWORDS="alpha amd64 arm ~arm64 ~hppa ia64 ~mips ppc ppc64 sparc x86 ~amd64-fbsd ~x86-fbsd"
@@ -24,8 +29,8 @@ DEPEND="
 "
 RDEPEND="${DEPEND}"
 PDEPEND="
-	~dev-qt/qttranslations-${PV}
-	qt3support? ( ~dev-qt/qtgui-${PV}[aqua=,debug=,glib=,qt3support,${MULTILIB_USEDEP}] )
+	>=dev-qt/qttranslations-${MY_PV}
+	qt3support? ( >=dev-qt/qtgui-${MY_PV}[aqua=,debug=,glib=,qt3support,${MULTILIB_USEDEP}] )
 "
 
 MULTILIB_WRAPPED_HEADERS=(
@@ -36,11 +41,9 @@ MULTILIB_WRAPPED_HEADERS=(
 PATCHES=(
 	"${FILESDIR}/${PN}-4.8.5-honor-ExcludeSocketNotifiers-in-glib-event-loop.patch" # bug 514968
 	"${FILESDIR}/${PN}-4.8.5-qeventdispatcher-recursive.patch" # bug 514968
-	"${FILESDIR}/${PN}-4.8.7-libressl.patch" # bug 584796
 	"${FILESDIR}/${PN}-4.8.7-moc.patch" # bug 556104, 635394
-	"${FILESDIR}/${P}-openssl-1.1.patch"
-	"${FILESDIR}/${P}-gcc9.patch"
-	"${FILESDIR}/${P}-kde4home.patch"
+	"${FILESDIR}/${PN}-4.8.7-openssl-1.1.patch"
+	"${FILESDIR}/${PN}-4.8.7-kde4home.patch"
 )
 
 QT4_TARGET_DIRECTORIES="
@@ -62,6 +65,22 @@ QT4_TARGET_DIRECTORIES="
 QCONFIG_DEFINE="QT_ZLIB"
 
 src_prepare() {
+	local DEBIAN_PATCHES="$(echo "${WORKDIR}/qt4-x11-"*"-debian-patches/debian/patches/")" p
+	while read -u3 p; do
+		p="${p/\#*/}"  # strip comment
+		[ -n "${p}" ] || continue
+		case "${p}" in
+		07_trust_dpkg-arch_over_uname-m.diff | \
+		94_armv6_uname_entry.diff | \
+		fix-build-icu59.patch | \
+		openssl_1.1.patch | \
+		qt-everywhere-opensource-src-4.8.5-QTBUG-22829.patch )
+			continue
+			;;
+		esac
+		epatch "${DEBIAN_PATCHES}/${p}"
+	done 3<"${DEBIAN_PATCHES}/series"
+
 	qt4-build-multilib_src_prepare
 
 	# bug 172219
