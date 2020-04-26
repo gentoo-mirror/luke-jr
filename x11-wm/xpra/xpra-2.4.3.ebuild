@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -55,7 +55,7 @@ COMMON_DEPEND="${PYTHON_DEPS}
 		!libav? ( >=media-video/ffmpeg-2:0=[x264] )
 		libav? ( media-video/libav:0=[x264] ) )
 	jpeg? ( media-libs/libjpeg-turbo )
-	opengl? ( dev-python/pygtkglext )
+	opengl? ( dev-python/pyopengl )
 	pulseaudio? ( media-sound/pulseaudio )
 	sound? ( media-libs/gstreamer:1.0
 		media-libs/gst-plugins-base:1.0
