@@ -32,7 +32,7 @@ dev-perl/Text-vCard 2.01: a package to parse, edit and create vCards
 dev-perl/URI-imap 1.01: Support IMAP schemas with URI
 dev-perl/asterisk-perl 0.10: asterisk-perl is a collection of perl modules to be used with the Asterisk PBX
 dev-qt/qt3support 4.8.7: The Qt3Support module for the Qt toolkit
-dev-qt/qtcore 4.8.7-r4: Cross-platform application development framework
+dev-qt/qtcore 4.8.2020.02: Cross-platform application development framework
 dev-qt/qtdbus 4.8.7: The DBus module for the Qt toolkit
 dev-qt/qtdeclarative 4.8.7: The Declarative module for the Qt toolkit
 dev-qt/qtgui 4.8.7: The GUI module for the Qt toolkit
