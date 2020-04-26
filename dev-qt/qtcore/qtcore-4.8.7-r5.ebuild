@@ -40,6 +40,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-4.8.7-moc.patch" # bug 556104, 635394
 	"${FILESDIR}/${P}-openssl-1.1.patch"
 	"${FILESDIR}/${P}-gcc9.patch"
+	"${FILESDIR}/${P}-kde4home.patch"
 )
 
 QT4_TARGET_DIRECTORIES="
