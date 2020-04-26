@@ -39,6 +39,10 @@ case ${MY_PV} in
 		;;
 esac
 
+if [ -n "${QT4_DEBIAN_PATCHES_COMMIT}" ]; then
+	SRC_URI+=" https://salsa.debian.org/qt-kde-team/qt/qt4-x11/-/archive/${QT4_DEBIAN_PATCHES_COMMIT}/qt4-x11-master.tar.bz2?path=debian/patches -> qt4-x11-debian-patches-${PV}.tar.bz2"
+fi
+
 EGIT_REPO_URI=(
 	"git://code.qt.io/qt/qt.git"
 	"https://code.qt.io/git/qt/qt.git"
@@ -146,6 +150,23 @@ qt4-build-multilib_src_unpack() {
 # Prepare the sources before the configure phase. Strip CFLAGS if necessary, and fix
 # the build system in order to respect CFLAGS/CXXFLAGS/LDFLAGS specified in make.conf.
 qt4-build-multilib_src_prepare() {
+	if [ -n "${QT4_DEBIAN_PATCHES_COMMIT}" ]; then
+		local DEBIAN_PATCHES_DIR="$(echo "${WORKDIR}/qt4-x11-"*"-debian-patches/debian/patches/")" p
+		QT4_DEBIAN_PATCHES_EXCLUDE+=(
+			''
+			07_trust_dpkg-arch_over_uname-m.diff
+			94_armv6_uname_entry.diff
+		)
+		while read -u3 p; do
+			p="${p/\#*/}"  # strip comment
+			local excl
+			for excl in "${QT4_DEBIAN_PATCHES_EXCLUDE[@]}"; do
+				[ "${excl}" = "${p}" ] && continue 2
+			done
+			epatch "${DEBIAN_PATCHES_DIR}/${p}"
+		done 3<"${DEBIAN_PATCHES_DIR}/series"
+	fi
+
 	if [[ ${PN} != qtcore ]]; then
 		# avoid unnecessary qmake recompilations
 		sed -i -e 's/^if true;/if false;/' configure \
