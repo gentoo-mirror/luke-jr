@@ -2,6 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
+MY_PV='4.8.7'
+QT4_DEBIAN_PATCHES_COMMIT='df517fcfe4ee9430cff23a180be42ae5ebe867d5'
 inherit qt4-build-multilib
 
 DESCRIPTION="The Declarative module for the Qt toolkit"
@@ -13,15 +15,15 @@ fi
 IUSE="+accessibility qt3support webkit"
 
 DEPEND="
-	~dev-qt/qtcore-${PV}[aqua=,debug=,qt3support=,${MULTILIB_USEDEP}]
-	~dev-qt/qtgui-${PV}[accessibility=,aqua=,debug=,qt3support=,${MULTILIB_USEDEP}]
-	~dev-qt/qtopengl-${PV}[aqua=,debug=,qt3support=,${MULTILIB_USEDEP}]
-	~dev-qt/qtscript-${PV}[aqua=,debug=,${MULTILIB_USEDEP}]
-	~dev-qt/qtsql-${PV}[aqua=,debug=,qt3support=,${MULTILIB_USEDEP}]
-	~dev-qt/qtsvg-${PV}[accessibility=,aqua=,debug=,${MULTILIB_USEDEP}]
-	~dev-qt/qtxmlpatterns-${PV}[aqua=,debug=,${MULTILIB_USEDEP}]
-	qt3support? ( ~dev-qt/qt3support-${PV}[accessibility=,aqua=,debug=,${MULTILIB_USEDEP}] )
-	webkit? ( ~dev-qt/qtwebkit-${PV}[aqua=,debug=,${MULTILIB_USEDEP}] )
+	>=dev-qt/qtcore-${MY_PV}[aqua=,debug=,qt3support=,${MULTILIB_USEDEP}]
+	>=dev-qt/qtgui-${MY_PV}[accessibility=,aqua=,debug=,qt3support=,${MULTILIB_USEDEP}]
+	>=dev-qt/qtopengl-${MY_PV}[aqua=,debug=,qt3support=,${MULTILIB_USEDEP}]
+	>=dev-qt/qtscript-${MY_PV}[aqua=,debug=,${MULTILIB_USEDEP}]
+	>=dev-qt/qtsql-${MY_PV}[aqua=,debug=,qt3support=,${MULTILIB_USEDEP}]
+	>=dev-qt/qtsvg-${MY_PV}[accessibility=,aqua=,debug=,${MULTILIB_USEDEP}]
+	>=dev-qt/qtxmlpatterns-${MY_PV}[aqua=,debug=,${MULTILIB_USEDEP}]
+	qt3support? ( >=dev-qt/qt3support-${MY_PV}[accessibility=,aqua=,debug=,${MULTILIB_USEDEP}] )
+	webkit? ( >=dev-qt/qtwebkit-${MY_PV}[aqua=,debug=,${MULTILIB_USEDEP}] )
 "
 RDEPEND="${DEPEND}"
 

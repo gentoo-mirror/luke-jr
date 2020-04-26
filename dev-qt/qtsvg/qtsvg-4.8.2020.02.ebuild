@@ -2,6 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
+MY_PV='4.8.7'
+QT4_DEBIAN_PATCHES_COMMIT='df517fcfe4ee9430cff23a180be42ae5ebe867d5'
 inherit qt4-build-multilib
 
 DESCRIPTION="The SVG module for the Qt toolkit"
@@ -13,8 +15,8 @@ fi
 IUSE="+accessibility"
 
 DEPEND="
-	~dev-qt/qtcore-${PV}[aqua=,debug=,${MULTILIB_USEDEP}]
-	~dev-qt/qtgui-${PV}[accessibility=,aqua=,debug=,${MULTILIB_USEDEP}]
+	>=dev-qt/qtcore-${MY_PV}[aqua=,debug=,${MULTILIB_USEDEP}]
+	>=dev-qt/qtgui-${MY_PV}[accessibility=,aqua=,debug=,${MULTILIB_USEDEP}]
 	>=sys-libs/zlib-1.2.8-r1[${MULTILIB_USEDEP}]
 "
 RDEPEND="${DEPEND}"

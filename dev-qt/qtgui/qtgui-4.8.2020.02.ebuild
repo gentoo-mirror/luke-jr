@@ -2,10 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
+MY_PV='4.8.7'
+QT4_DEBIAN_PATCHES_COMMIT='df517fcfe4ee9430cff23a180be42ae5ebe867d5'
 inherit eutils qt4-build-multilib
 
 DESCRIPTION="The GUI module for the Qt toolkit"
-SRC_URI+=" https://dev.gentoo.org/~pesa/patches/${PN}-systemtrayicon-plugin-system.patch"
 
 if [[ ${QT4_BUILD_TYPE} == release ]]; then
 	KEYWORDS="alpha amd64 arm ~arm64 ~hppa ia64 ~mips ppc ppc64 sparc x86 ~amd64-fbsd ~x86-fbsd"
@@ -20,8 +21,8 @@ REQUIRED_USE="
 # cairo[-qt4] is needed because of bug 454066
 RDEPEND="
 	app-eselect/eselect-qtgraphicssystem
-	~dev-qt/qtcore-${PV}[aqua=,debug=,glib=,qt3support=,${MULTILIB_USEDEP}]
-	~dev-qt/qtscript-${PV}[aqua=,debug=,${MULTILIB_USEDEP}]
+	>=dev-qt/qtcore-${MY_PV}[aqua=,debug=,glib=,qt3support=,${MULTILIB_USEDEP}]
+	>=dev-qt/qtscript-${MY_PV}[aqua=,debug=,${MULTILIB_USEDEP}]
 	>=media-libs/fontconfig-2.10.2-r1[${MULTILIB_USEDEP}]
 	>=media-libs/freetype-2.4.11-r1:2[${MULTILIB_USEDEP}]
 	media-libs/libpng:0=[${MULTILIB_USEDEP}]
@@ -57,11 +58,10 @@ DEPEND="${RDEPEND}
 	!aqua? ( x11-base/xorg-proto )
 "
 PDEPEND="
-	qt3support? ( ~dev-qt/qt3support-${PV}[aqua=,debug=,${MULTILIB_USEDEP}] )
+	qt3support? ( >=dev-qt/qt3support-${MY_PV}[aqua=,debug=,${MULTILIB_USEDEP}] )
 "
 
 PATCHES=(
-	"${DISTDIR}/${PN}-systemtrayicon-plugin-system.patch" # bug 503880
 	"${FILESDIR}/${PN}-4.7.3-cups.patch" # bug 323257
 	"${FILESDIR}/${PN}-4.8.5-disable-gtk-theme-check.patch" # bug 491226
 	"${FILESDIR}/${PN}-4.8.5-qclipboard-delay.patch" # bug 514968
