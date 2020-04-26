@@ -121,3 +121,4 @@ trinity-base/tdebase-tdeioslaves 9999: Generic Trinity KIOslaves
 trinity-base/tdeeject 9999: Trinity eject frontend
 trinity-base/tdelibs 9999: Trinity libraries needed by all TDE programs.
 trinity-base/tdepim-tdeioslaves 9999: PIM Trinity IO slaves
+x11-wm/xpra 2.4.3: X Persistent Remote Apps (xpra) and Partitioning WM (parti) based on wimpiggy
