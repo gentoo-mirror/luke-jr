@@ -4,11 +4,15 @@
 EAPI=7
 
 PYTHON_COMPAT=( python3_{6,7,8} )
+
+MY_PN="${PN/-py2/}"
+MY_P="${MY_PN}-${PV}"
+
 inherit distutils-r1
 
 DESCRIPTION="similar to bencode from the BitTorrent project"
 HOMEPAGE="https://github.com/aresch/rencode"
-SRC_URI="https://github.com/aresch/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/aresch/${MY_PN}/archive/v${PV}.tar.gz -> ${MY_P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -18,3 +22,5 @@ IUSE=""
 RDEPEND=""
 DEPEND="dev-python/cython[${PYTHON_USEDEP}]
 	dev-python/wheel[${PYTHON_USEDEP}]"
+
+S="${WORKDIR}/${MY_P}"
