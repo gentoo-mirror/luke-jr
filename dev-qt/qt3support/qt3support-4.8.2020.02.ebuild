@@ -15,7 +15,7 @@ fi
 IUSE="+accessibility"
 
 DEPEND="
-	>=dev-qt/qtcore-${MY_PV}[aqua=,debug=,qt3support,${MULTILIB_USEDEP}]
+	>=dev-qt/qtcore-4.8.2020.02[aqua=,debug=,qt3support,${MULTILIB_USEDEP}]
 	>=dev-qt/qtgui-${MY_PV}[accessibility=,aqua=,debug=,qt3support,${MULTILIB_USEDEP}]
 	>=dev-qt/qtsql-${MY_PV}[aqua=,debug=,qt3support,${MULTILIB_USEDEP}]
 "

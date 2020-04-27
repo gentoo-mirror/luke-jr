@@ -15,7 +15,7 @@ fi
 IUSE="egl qt3support"
 
 DEPEND="
-	>=dev-qt/qtcore-${MY_PV}[aqua=,debug=,qt3support=,${MULTILIB_USEDEP}]
+	>=dev-qt/qtcore-4.8.2020.02[aqua=,debug=,qt3support=,${MULTILIB_USEDEP}]
 	>=dev-qt/qtgui-${MY_PV}[aqua=,debug=,egl=,qt3support=,${MULTILIB_USEDEP}]
 	>=x11-libs/libX11-1.5.0-r1[${MULTILIB_USEDEP}]
 	>=x11-libs/libXrender-0.9.7-r1[${MULTILIB_USEDEP}]

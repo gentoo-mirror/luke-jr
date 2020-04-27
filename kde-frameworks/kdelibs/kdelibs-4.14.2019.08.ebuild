@@ -3,7 +3,7 @@
 
 EAPI=6
 
-QT_MINIMAL="4.8.7"
+QT_MINIMAL="4.8.2020.02"
 MY_P="${PN}-4.14.37"
 inherit cmake-utils toolchain-funcs flag-o-matic gnome2-utils toolchain-funcs xdg-utils
 

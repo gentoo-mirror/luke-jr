@@ -15,7 +15,7 @@ fi
 IUSE="+accessibility qt3support webkit"
 
 DEPEND="
-	>=dev-qt/qtcore-${MY_PV}[aqua=,debug=,qt3support=,${MULTILIB_USEDEP}]
+	>=dev-qt/qtcore-4.8.2020.02[aqua=,debug=,qt3support=,${MULTILIB_USEDEP}]
 	>=dev-qt/qtgui-${MY_PV}[accessibility=,aqua=,debug=,qt3support=,${MULTILIB_USEDEP}]
 	>=dev-qt/qtopengl-${MY_PV}[aqua=,debug=,qt3support=,${MULTILIB_USEDEP}]
 	>=dev-qt/qtscript-${MY_PV}[aqua=,debug=,${MULTILIB_USEDEP}]
