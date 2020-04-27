@@ -21,7 +21,10 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS="amd64 arm ~arm64 x86 ~amd64-linux ~x86-linux"
 
-DEPEND="dev-python/setuptools[${PYTHON_USEDEP}]"
+DEPEND="
+	!!dev-python/netifaces[python_targets_python2_7(-)]
+	dev-python/setuptools[${PYTHON_USEDEP}]
+"
 
 S="${WORKDIR}/${MY_P}"
 
