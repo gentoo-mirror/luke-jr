@@ -15,7 +15,7 @@ fi
 IUSE=""
 
 DEPEND="
-	>=dev-qt/qtcore-${MY_PV}[aqua=,debug=,${MULTILIB_USEDEP}]
+	>=dev-qt/qtcore-4.8.2020.02[aqua=,debug=,${MULTILIB_USEDEP}]
 	sys-apps/dbus[${MULTILIB_USEDEP}]
 "
 RDEPEND="${DEPEND}"

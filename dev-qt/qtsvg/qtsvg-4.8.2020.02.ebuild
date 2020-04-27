@@ -15,7 +15,7 @@ fi
 IUSE="+accessibility"
 
 DEPEND="
-	>=dev-qt/qtcore-${MY_PV}[aqua=,debug=,${MULTILIB_USEDEP}]
+	>=dev-qt/qtcore-4.8.2020.02[aqua=,debug=,${MULTILIB_USEDEP}]
 	>=dev-qt/qtgui-${MY_PV}[accessibility=,aqua=,debug=,${MULTILIB_USEDEP}]
 	>=sys-libs/zlib-1.2.8-r1[${MULTILIB_USEDEP}]
 "

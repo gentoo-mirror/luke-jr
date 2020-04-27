@@ -21,7 +21,7 @@ REQUIRED_USE="
 # cairo[-qt4] is needed because of bug 454066
 RDEPEND="
 	app-eselect/eselect-qtgraphicssystem
-	>=dev-qt/qtcore-${MY_PV}[aqua=,debug=,glib=,qt3support=,${MULTILIB_USEDEP}]
+	>=dev-qt/qtcore-4.8.2020.02[aqua=,debug=,glib=,qt3support=,${MULTILIB_USEDEP}]
 	>=dev-qt/qtscript-${MY_PV}[aqua=,debug=,${MULTILIB_USEDEP}]
 	>=media-libs/fontconfig-2.10.2-r1[${MULTILIB_USEDEP}]
 	>=media-libs/freetype-2.4.11-r1:2[${MULTILIB_USEDEP}]

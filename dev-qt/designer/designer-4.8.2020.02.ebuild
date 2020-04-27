@@ -16,7 +16,7 @@ DESIGNER_PLUGINS="declarative phonon qt3support webkit"
 IUSE="${DESIGNER_PLUGINS}"
 
 DEPEND="
-	>=dev-qt/qtcore-${MY_PV}[aqua=,debug=,${MULTILIB_USEDEP}]
+	>=dev-qt/qtcore-4.8.2020.02[aqua=,debug=,${MULTILIB_USEDEP}]
 	>=dev-qt/qtgui-${MY_PV}[aqua=,debug=,${MULTILIB_USEDEP}]
 	>=dev-qt/qtscript-${MY_PV}[aqua=,debug=,${MULTILIB_USEDEP}]
 	declarative? ( >=dev-qt/qtdeclarative-${MY_PV}[aqua=,debug=,${MULTILIB_USEDEP}] )
