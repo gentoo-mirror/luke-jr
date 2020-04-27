@@ -31,6 +31,8 @@ dev-perl/AniDB 0.3_pre414: Perl clients for AniDB
 dev-perl/Text-vCard 2.01: a package to parse, edit and create vCards
 dev-perl/URI-imap 1.01: Support IMAP schemas with URI
 dev-perl/asterisk-perl 0.10: asterisk-perl is a collection of perl modules to be used with the Asterisk PBX
+dev-python/netifaces-py2 0.10.9: Portable network interface information
+dev-python/rencode-py2 1.0.6: similar to bencode from the BitTorrent project
 dev-qt/designer 4.8.2020.02: WYSIWYG tool for designing and building Qt-based GUIs
 dev-qt/qt3support 4.8.2020.02: The Qt3Support module for the Qt toolkit
 dev-qt/qtcore 4.8.2020.02: Cross-platform application development framework
