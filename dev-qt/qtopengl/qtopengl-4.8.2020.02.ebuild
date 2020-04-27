@@ -2,6 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
+MY_PV='4.8.7'
+QT4_DEBIAN_PATCHES_COMMIT='df517fcfe4ee9430cff23a180be42ae5ebe867d5'
 inherit qt4-build-multilib
 
 DESCRIPTION="The OpenGL module for the Qt toolkit"
@@ -13,8 +15,8 @@ fi
 IUSE="egl qt3support"
 
 DEPEND="
-	~dev-qt/qtcore-${PV}[aqua=,debug=,qt3support=,${MULTILIB_USEDEP}]
-	~dev-qt/qtgui-${PV}[aqua=,debug=,egl=,qt3support=,${MULTILIB_USEDEP}]
+	>=dev-qt/qtcore-${MY_PV}[aqua=,debug=,qt3support=,${MULTILIB_USEDEP}]
+	>=dev-qt/qtgui-${MY_PV}[aqua=,debug=,egl=,qt3support=,${MULTILIB_USEDEP}]
 	>=x11-libs/libX11-1.5.0-r1[${MULTILIB_USEDEP}]
 	>=x11-libs/libXrender-0.9.7-r1[${MULTILIB_USEDEP}]
 	>=virtual/opengl-7.0-r1[${MULTILIB_USEDEP}]
