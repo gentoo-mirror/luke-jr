@@ -64,8 +64,8 @@ COMMON_DEPEND="${PYTHON_DEPS}
 	webp? ( media-libs/libwebp )"
 
 RDEPEND="${COMMON_DEPEND}
-	dev-python/netifaces[${PYTHON_USEDEP}]
-	dev-python/rencode[${PYTHON_USEDEP}]
+	|| ( dev-python/netifaces-py2[${PYTHON_USEDEP}] dev-python/netifaces[${PYTHON_USEDEP}] )
+	|| ( dev-python/rencode-py2[${PYTHON_USEDEP}] dev-python/rencode[${PYTHON_USEDEP}] )
 	dev-python/pillow[jpeg?,${PYTHON_USEDEP}]
 	virtual/ssh
 	x11-apps/xmodmap
