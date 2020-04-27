@@ -2,6 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
+MY_PV='4.8.7'
+QT4_DEBIAN_PATCHES_COMMIT='df517fcfe4ee9430cff23a180be42ae5ebe867d5'
 inherit eutils qt4-build-multilib
 
 DESCRIPTION="WYSIWYG tool for designing and building Qt-based GUIs"
@@ -14,15 +16,22 @@ DESIGNER_PLUGINS="declarative phonon qt3support webkit"
 IUSE="${DESIGNER_PLUGINS}"
 
 DEPEND="
-	~dev-qt/qtcore-${PV}[aqua=,debug=,${MULTILIB_USEDEP}]
-	~dev-qt/qtgui-${PV}[aqua=,debug=,${MULTILIB_USEDEP}]
-	~dev-qt/qtscript-${PV}[aqua=,debug=,${MULTILIB_USEDEP}]
-	declarative? ( ~dev-qt/qtdeclarative-${PV}[aqua=,debug=,${MULTILIB_USEDEP}] )
-	qt3support? ( ~dev-qt/qt3support-${PV}[aqua=,debug=,${MULTILIB_USEDEP}] )
-	webkit? ( ~dev-qt/qtwebkit-${PV}[aqua=,debug=,${MULTILIB_USEDEP}] )
+	>=dev-qt/qtcore-${MY_PV}[aqua=,debug=,${MULTILIB_USEDEP}]
+	>=dev-qt/qtgui-${MY_PV}[aqua=,debug=,${MULTILIB_USEDEP}]
+	>=dev-qt/qtscript-${MY_PV}[aqua=,debug=,${MULTILIB_USEDEP}]
+	declarative? ( >=dev-qt/qtdeclarative-${MY_PV}[aqua=,debug=,${MULTILIB_USEDEP}] )
+	qt3support? ( >=dev-qt/qt3support-${MY_PV}[aqua=,debug=,${MULTILIB_USEDEP}] )
+	webkit? ( >=dev-qt/qtwebkit-${MY_PV}[aqua=,debug=,${MULTILIB_USEDEP}] )
 "
 RDEPEND="${DEPEND}"
-PDEPEND="phonon? ( media-libs/phonon[designer,qt4] )"
+PDEPEND="
+	phonon? (
+		|| (
+			media-libs/phonon-qt4[designer]
+			media-libs/phonon[designer,qt4]
+		)
+	)
+"
 
 QT4_TARGET_DIRECTORIES="tools/designer"
 
