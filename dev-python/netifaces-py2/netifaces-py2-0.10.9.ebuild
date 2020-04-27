@@ -4,6 +4,9 @@
 EAPI=7
 PYTHON_COMPAT=( pypy3 python3_{6,7,8} )
 
+MY_PN="${PN/-py2/}"
+MY_P="${MY_PN}-${PV}"
+
 inherit distutils-r1
 
 DESCRIPTION="Portable network interface information"
@@ -12,7 +15,7 @@ HOMEPAGE="
 	https://alastairs-place.net/projects/netifaces/
 	https://github.com/al45tair/netifaces
 "
-SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz"
+SRC_URI="mirror://pypi/${PN:0:1}/${MY_PN}/${MY_P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
@@ -20,4 +23,6 @@ KEYWORDS="amd64 arm ~arm64 x86 ~amd64-linux ~x86-linux"
 
 DEPEND="dev-python/setuptools[${PYTHON_USEDEP}]"
 
-PATCHES=( "${FILESDIR}"/${PN}-0.10.4-remove-osx-fix.patch )
+S="${WORKDIR}/${MY_P}"
+
+PATCHES=( "${FILESDIR}"/${MY_PN}-0.10.4-remove-osx-fix.patch )
