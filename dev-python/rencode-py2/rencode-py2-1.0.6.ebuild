@@ -3,7 +3,7 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{6,7,8} )
+PYTHON_COMPAT=( python2_7 )
 
 MY_PN="${PN/-py2/}"
 MY_P="${MY_PN}-${PV}"
@@ -21,6 +21,7 @@ IUSE=""
 
 RDEPEND=""
 DEPEND="dev-python/cython[${PYTHON_USEDEP}]
+	!!dev-python/rencode[python_targets_python2_7(-)]
 	dev-python/wheel[${PYTHON_USEDEP}]"
 
 S="${WORKDIR}/${MY_P}"
