@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -13,7 +13,7 @@ SRC_URI="http://xpra.org/src/${P}.tar.xz"
 
 LICENSE="GPL-2 BSD"
 SLOT="0"
-KEYWORDS="~amd64 ~x86 ~amd64-linux ~x86-linux"
+KEYWORDS="~amd64 ~ppc64 ~x86 ~amd64-linux ~x86-linux"
 IUSE="+client +clipboard csc cups dbus dec_avcodec2 enc_ffmpeg enc_x264 enc_x265 jpeg libav +lz4 lzo opengl pillow pulseaudio server sound test vpx webcam webp"
 RESTRICT="!test? ( test )"
 
@@ -64,8 +64,8 @@ COMMON_DEPEND="${PYTHON_DEPS}
 	webp? ( media-libs/libwebp )"
 
 RDEPEND="${COMMON_DEPEND}
-	dev-python/netifaces[${PYTHON_USEDEP}]
-	dev-python/rencode[${PYTHON_USEDEP}]
+	|| ( dev-python/netifaces-py2[${PYTHON_USEDEP}] dev-python/netifaces[${PYTHON_USEDEP}] )
+	|| ( dev-python/rencode-py2[${PYTHON_USEDEP}] dev-python/rencode[${PYTHON_USEDEP}] )
 	virtual/ssh
 	x11-apps/xmodmap
 	cups? ( dev-python/pycups[${PYTHON_USEDEP}] )
