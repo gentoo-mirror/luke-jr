@@ -55,7 +55,7 @@ COMMON_DEPEND="${PYTHON_DEPS}
 		!libav? ( >=media-video/ffmpeg-2:0=[x264] )
 		libav? ( media-video/libav:0=[x264] ) )
 	jpeg? ( media-libs/libjpeg-turbo )
-	opengl? ( dev-python/pyopengl )
+	opengl? ( dev-python/pygtkglext )
 	pulseaudio? ( media-sound/pulseaudio )
 	sound? ( media-libs/gstreamer:1.0
 		media-libs/gst-plugins-base:1.0
@@ -133,7 +133,7 @@ python_configure_all() {
 		$(use_with server shadow)
 		$(use_with server)
 		$(use_with sound)
-		--with-strict
+		--without-strict
 		$(use_with vpx)
 		--with-warn
 		$(use_with webcam)
