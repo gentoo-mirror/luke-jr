@@ -14,7 +14,7 @@ HOMEPAGE="http://www.trinitydesktop.org/"
 LICENSE="GPL-2 LGPL-2"
 SLOT="${TRINITY_VER}"
 KEYWORDS=""
-IUSE="alsa arts consolekit cryptsetup cups fam idn jpeg2k lzma networkmanager openexr +path pcre pcsc-lite pkcs11 shm spell ssl sudo svg tiff udevil udisks upower utempter xcomposite xrandr"
+IUSE="alsa arts consolekit cryptsetup cups fam idn lzma networkmanager openexr +path pcre pcsc-lite pkcs11 shm spell ssl sudo svg tiff udevil udisks upower utempter xcomposite xrandr"
 
 DEPEND="${DEPEND}
 	dev-libs/dbus-1-tqt
@@ -42,7 +42,6 @@ DEPEND="${DEPEND}
 	arts? ( trinity-base/arts:= )
 	cups? ( >=net-print/cups-1.1.19:= )
 	fam? ( app-admin/gamin )
-	jpeg2k? ( media-libs/jasper:= )
 	networkmanager? ( net-misc/networkmanager:= )
 	openexr? ( >=media-libs/openexr-1.2.2-r2:= )
 	pcsc-lite? ( sys-apps/pcsc-lite:= )
@@ -79,7 +78,7 @@ src_configure() {
 		-DWITH_AVAHI=OFF
 		-DWITH_CUPS=$(usex cups)
 		-DWITH_INOTIFY=$(usex kernel_linux)
-		-DWITH_JASPER=$(usex jpeg2k)
+		-DWITH_JASPER=OFF
 		-DWITH_LUA=OFF
 		-DWITH_LZMA=$(usex lzma)
 		-DWITH_NETWORK_MANAGER_BACKEND=$(usex networkmanager)
