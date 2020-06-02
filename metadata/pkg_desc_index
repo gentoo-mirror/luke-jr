@@ -1,3 +1,4 @@
+app-arch/pbzx 1.0.2: Unpacker for pbzx-format macOS disk images
 app-crypt/libsignal-protocol-c 2.3.1_p20180209: Signal Protocol C Library
 app-crypt/qca-qt4 2.2.1: Qt Cryptographic Architecture (QCA)
 app-emulation/vmbuilder 0.12.4.481-r1 0.12.4.495 0.12.4.20180502: Install virtual machines in a snap without ever actually booting a virtual machine!
