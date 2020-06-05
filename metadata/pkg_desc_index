@@ -4,7 +4,7 @@ app-crypt/qca-qt4 2.2.1: Qt Cryptographic Architecture (QCA)
 app-emulation/vmbuilder 0.12.4.481-r1 0.12.4.495 0.12.4.20180502: Install virtual machines in a snap without ever actually booting a virtual machine!
 app-misc/adbren 3-r1 4 6.0.0.2010.03.13: AniDB Renamer
 app-misc/adbren-anidb 0.3_pre400: AniDB Renamer
-app-text/prince 6.0_p3 6.0_p5 6.0_p6: Prince is a computer program that converts XML and HTML into PDF documents.
+app-text/prince 6.0_p3 6.0_p5 6.0_p6 13.5: Prince is a computer program that converts XML and HTML into PDF documents.
 dev-embedded/xc3sprog 9999: A suite of utilities for programming Xilinx FPGAs, CPLDs, and EEPROMs
 dev-erlang/base64url 1.0: URL safe base64-compatible codec
 dev-erlang/cache_tab 1.0.13: In-memory cache Erlang and Elixir library
