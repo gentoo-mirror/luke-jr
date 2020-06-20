@@ -24,9 +24,15 @@ EBZR="bzr.eclass"
 PROPERTIES+=" live"
 
 if [[ ${EBZR_REPO_URI%%:*} = sftp ]]; then
-	DEPEND=">=dev-vcs/bzr-2.6.0[sftp]"
+	DEPEND="|| (
+		>=dev-vcs/bzr-2.6.0[sftp]
+		dev-vcs/breezy[sftp]
+	)"
 else
-	DEPEND=">=dev-vcs/bzr-2.6.0"
+	DEPEND="|| (
+		>=dev-vcs/bzr-2.6.0
+		dev-vcs/breezy
+	)"
 fi
 
 case ${EAPI:-0} in
