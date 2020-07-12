@@ -34,6 +34,7 @@
 		freetts
 		gsm
 		SGI-B-2.0
+		curl
 	PHP-2.02
 	PHP-3
 	PHP-3.01
