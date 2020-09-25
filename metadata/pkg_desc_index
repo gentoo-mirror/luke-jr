@@ -49,6 +49,7 @@ dev-qt/qtxmlpatterns 4.8.2020.02: The XmlPatterns module for the Qt toolkit
 dev-qt/tqt 9999: The Trinitie's Qt toolkit fork.
 dev-qt/tqtinterface 9999: Interface and abstraction library for Qt and Trinity
 dev-util/nsis 2.51: Nullsoft Scriptable Install System
+dev-vcs/bzr 2.7.1_pre: Bazaar is a next generation distributed version control system
 dev-vcs/git 2.7.4: stupid content tracker: distributed VCS designed for speed and efficiency
 games-emulation/sameboy 0.10.1: A user friendly Game Boy and Game Boy Color emulator
 games-fps/openjk-academy 9999: Community-maintained Jedi Academy, story version
