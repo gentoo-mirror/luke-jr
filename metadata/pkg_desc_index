@@ -76,6 +76,7 @@ mail-filter/hashcash-milter 0.1.2: A milter-based application to mint and check 
 media-fonts/console-font 0.0.20151103: Console font
 media-fonts/liberation-fonts 1.07.4: A Helvetica/Times/Courier replacement TrueType font set, courtesy of Red Hat
 media-fonts/ljr-free-fonts-meta 20180818: Metapackage for free fonts
+media-fonts/lohit-fonts 2.4.2: The Lohit family of Indic fonts
 media-fonts/overpass 2.1: An open source webfont family inspired by Highway Gothic
 media-fonts/symbola 9.17 10.24: Unicode font for Latin, IPA Extensions, Greek, Cyrillic and many Symbol Blocks
 media-fonts/tuffy 20120614: Public Domain TrueType font
@@ -127,4 +128,5 @@ trinity-base/tdebase-tdeioslaves 9999: Generic Trinity KIOslaves
 trinity-base/tdeeject 9999: Trinity eject frontend
 trinity-base/tdelibs 9999: Trinity libraries needed by all TDE programs.
 trinity-base/tdepim-tdeioslaves 9999: PIM Trinity IO slaves
+x11-apps/inputplug 0.3: Simple daemon which monitors XInput events and runs arbitrary scripts on hierarchy change events
 x11-wm/xpra 2.2.6-r2 2.4.3: X Persistent Remote Apps (xpra) and Partitioning WM (parti) based on wimpiggy
