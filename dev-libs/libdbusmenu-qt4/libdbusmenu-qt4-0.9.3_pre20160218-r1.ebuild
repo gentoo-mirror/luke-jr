@@ -27,6 +27,7 @@ RDEPEND="
 	>=dev-qt/qtgui-4.8.6:4[${MULTILIB_USEDEP}]
 "
 DEPEND="${RDEPEND}
+	!!dev-libs/libdbusmenu-qt[qt4(-)]
 	test? (
 		>=dev-qt/qttest-4.8.6:4[${MULTILIB_USEDEP}]
 	)
