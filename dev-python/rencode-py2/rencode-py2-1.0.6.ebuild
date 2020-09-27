@@ -16,7 +16,7 @@ SRC_URI="https://github.com/aresch/${MY_PN}/archive/v${PV}.tar.gz -> ${MY_P}.tar
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~sparc ~x86 ~amd64-linux ~x86-linux"
+KEYWORDS="~amd64 ~arm ~ppc64 ~sparc ~x86 ~amd64-linux ~x86-linux"
 IUSE=""
 
 RDEPEND=""
