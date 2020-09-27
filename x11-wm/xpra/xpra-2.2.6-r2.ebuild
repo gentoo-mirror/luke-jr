@@ -68,10 +68,10 @@ RDEPEND="${COMMON_DEPEND}
 	|| ( dev-python/rencode-py2[${PYTHON_USEDEP}] dev-python/rencode[${PYTHON_USEDEP}] )
 	virtual/ssh
 	x11-apps/xmodmap
-	cups? ( dev-python/pycups[${PYTHON_USEDEP}] )
+	cups? ( || ( dev-python/pycups-py2[${PYTHON_USEDEP}] dev-python/pycups[${PYTHON_USEDEP}] ) )
 	dbus? ( dev-python/dbus-python[${PYTHON_USEDEP}] )
-	lz4? ( dev-python/lz4[${PYTHON_USEDEP}] )
-	lzo? ( >=dev-python/python-lzo-0.7.0[${PYTHON_USEDEP}] )
+	lz4? ( || ( dev-python/lz4-py2[${PYTHON_USEDEP}] dev-python/lz4[${PYTHON_USEDEP}] ) )
+	lzo? ( || ( >=dev-python/python-lzo-py2-0.7.0[${PYTHON_USEDEP}] >=dev-python/python-lzo-0.7.0[${PYTHON_USEDEP}] ) )
 	opengl? (
 		client? ( dev-python/pyopengl_accelerate[${PYTHON_USEDEP}] )
 	)

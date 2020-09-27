@@ -18,7 +18,7 @@ inherit bash-completion-r1 distutils-r1 flag-o-matic l10n
 #SERIES=$(get_version_component_range 1-2)
 SRC_URI="https://dev.gentoo.org/~grozin/${P}.tar.gz"
 
-RDEPEND="curl? ( dev-python/pycurl[${PYTHON_USEDEP}] )
+RDEPEND="curl? ( || ( dev-python/pycurl-py2[${PYTHON_USEDEP}] dev-python/pycurl[${PYTHON_USEDEP}] ) )
 	sftp? ( dev-python/paramiko[${PYTHON_USEDEP}] )"
 
 DEPEND="|| ( dev-python/cython[${PYTHON_USEDEP}] dev-python/pyrex[${PYTHON_USEDEP}] )
