@@ -48,11 +48,11 @@ RDEPEND="
 	sdl? ( media-libs/libsdl )
 	svg? ( x11-libs/libsvg-cairo )
 	truetype? ( >=media-libs/freetype-2.0.1 )
-	vdpau? ( x11-proto/xproto x11-libs/libX11 x11-libs/libXext x11-libs/libvdpau )
+	vdpau? ( x11-base/xorg-proto x11-libs/libX11 x11-libs/libXext x11-libs/libvdpau )
 	X? ( x11-libs/libXext x11-libs/libX11 )
 	zlib? ( sys-libs/zlib )	"
 DEPEND="${RDEPEND}
-	X? ( x11-proto/xextproto x11-proto/xproto )"
+	X? ( x11-base/xorg-proto )"
 
 src_prepare() {
 	epatch \
