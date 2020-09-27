@@ -11,6 +11,7 @@ app-crypt/qca-qt4:pkcs11 - Enable PKCS#11 plugin
 app-crypt/qca-qt4:sasl - Enable SASL plugin
 app-crypt/qca-qt4:softstore - Enable softstore plugin
 dev-embedded/xc3sprog:ftd2xx - Use dev-embedded/libftd2xx instead of dev-embedded/libftdi
+dev-python/paramiko-py2:server - Enable server feature
 dev-util/nsis:config-log - Enable the logging facility (useful in debugging installers)
 dev-vcs/bzr:sftp - Enable sftp support
 kde-apps/kwalletd:gpg - Support wallets with GnuPG encryption additionally to default blowfish-encrypted file
