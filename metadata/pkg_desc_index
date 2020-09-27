@@ -34,6 +34,7 @@ dev-qt/qttest 4.8.2020.02: The QtTest module for unit testing Qt applications an
 dev-qt/qtxmlpatterns 4.8.2020.02: The XmlPatterns module for the Qt toolkit
 dev-qt/tqt 9999: The Trinitie's Qt toolkit fork.
 dev-qt/tqtinterface 9999: Interface and abstraction library for Qt and Trinity
+dev-util/automoc 0.9.88-r1: KDE Meta Object Compiler
 dev-util/nsis 2.51: Nullsoft Scriptable Install System
 dev-vcs/bzr 2.7.1_pre: Bazaar is a next generation distributed version control system
 dev-vcs/git 2.7.4: stupid content tracker: distributed VCS designed for speed and efficiency
