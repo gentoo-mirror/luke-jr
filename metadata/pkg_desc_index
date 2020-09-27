@@ -21,7 +21,7 @@ dev-erlang/p1_utils 1.0.11: Erlang utility modules from ProcessOne
 dev-erlang/stringprep 1.0.11: Fast Stringprep implementation for Erlang and Elixir
 dev-erlang/xmpp 1.1.20: XMPP parsing and serialization library on top of Fast XML
 dev-lang/rgbds 0.3.7: Free assembler/linker package for the Game Boy and Game Boy Color
-dev-libs/DirectFB 1.6.3-r1: Thin library on top of the Linux framebuffer devices
+dev-libs/DirectFB 1.6.3-r1 1.7.6-r1: Thin library on top of the Linux framebuffer devices
 dev-libs/dbus-1-tqt 9999: D-BUS TQt bindings
 dev-libs/libattica 0.4.2: A library providing access to Open Collaboration Services
 dev-libs/libdbusmenu-qt4 0.9.3_pre20160218-r1: Library providing Qt 4 implementation of DBusMenu specification
