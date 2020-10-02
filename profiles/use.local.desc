@@ -10,6 +10,7 @@ app-crypt/qca-qt4:nss - Enable NSS plugin
 app-crypt/qca-qt4:pkcs11 - Enable PKCS#11 plugin
 app-crypt/qca-qt4:sasl - Enable SASL plugin
 app-crypt/qca-qt4:softstore - Enable softstore plugin
+app-text/prince:demo - Installs demo license file
 dev-embedded/xc3sprog:ftd2xx - Use dev-embedded/libftd2xx instead of dev-embedded/libftdi
 dev-python/paramiko-py2:server - Enable server feature
 dev-util/nsis:config-log - Enable the logging facility (useful in debugging installers)
