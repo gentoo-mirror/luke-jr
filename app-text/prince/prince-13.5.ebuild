@@ -13,12 +13,15 @@ SRC_URI="
 LICENSE="Prince-13.5-EULA"
 SLOT="0"
 KEYWORDS="-* ~amd64 ~x86"
-IUSE=""
+IUSE="demo"
 
 RDEPEND="
 	media-libs/fontconfig:1.0
 "
 QA_PRESTRIPPED="usr/lib/prince/.*"
+
+PRINCE_LICENSEDIR="/usr/lib/prince/license/"
+PRINCE_LICENSEFILE="${PRINCE_LICENSEDIR}/license.dat"
 
 src_unpack() {
 	default
@@ -31,5 +34,14 @@ src_prepare() {
 }
 
 src_install() {
-	DESTDIR="${D}" ./install.sh <<<'/usr'
+	DESTDIR="${ED}" ./install.sh <<<'/usr'
+	keepdir "${PRINCE_LICENSEDIR}"
+	use demo || rm "${ED}${PRINCE_LICENSEFILE}"
+}
+
+pkg_postinst() {
+	if ! ( use demo || [ -e "${PRINCE_LICENSEFILE}" ] ); then
+		elog "Demo license has not been installed (USE flag 'demo')."
+		elog "You must manually copy a license file to ${PRINCE_LICENSEFILE}"
+	fi
 }
