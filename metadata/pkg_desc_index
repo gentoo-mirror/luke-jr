@@ -14,6 +14,7 @@ dev-libs/libattica 0.4.2: A library providing access to Open Collaboration Servi
 dev-libs/libdbusmenu-qt4 0.9.3_pre20160218-r1: Library providing Qt 4 implementation of DBusMenu specification
 dev-libs/protobuf 2.5.0: Google's Protocol Buffers -- an efficient method of encoding structured data
 dev-libs/protobuf-c 1.0.0_rc2: code generator and runtime libraries to use Protocol Buffers (protobuf) from pure C
+dev-libs/qjson 0.9.0: Library for mapping JSON data to QVariant objects
 dev-libs/win_backtrace 9999: DLL to dump a usable backtrace to stderr for MingW/GCC software on Windows (requires application support)
 dev-perl/AniDB 0.3_pre414: Perl clients for AniDB
 dev-perl/Text-vCard 2.01: a package to parse, edit and create vCards
