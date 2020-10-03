@@ -12,7 +12,7 @@ SRC_URI="
 
 LICENSE="Prince-13.5-EULA"
 SLOT="0"
-KEYWORDS="-* ~amd64 ~x86"
+KEYWORDS="-* amd64 ~x86"
 IUSE="demo"
 
 RDEPEND="
