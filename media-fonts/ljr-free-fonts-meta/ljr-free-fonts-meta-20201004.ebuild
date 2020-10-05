@@ -24,6 +24,7 @@ DEPEND="
 	media-fonts/artwiz-latin1
 	media-fonts/cheapskatefonts
 	media-fonts/clearsans
+	media-fonts/console-font
 	media-fonts/crosextrafonts-caladea
 	media-fonts/croscorefonts
 	media-fonts/dina
@@ -63,21 +64,27 @@ DEPEND="
 	media-fonts/glass-tty-vt220
 	media-fonts/hack
 	media-fonts/intlfonts
+	media-fonts/jetbrains-mono
 	media-fonts/jsmath
 	media-fonts/jsmath-extra-dark
 	media-fonts/konfont
 	media-fonts/lfpfonts-fix
 	media-fonts/lfpfonts-var
+	media-fonts/liberation-fonts
 	media-fonts/libertine
+	media-fonts/lohit-fonts
 	media-fonts/montecarlo
 	media-fonts/ohsnap
 	media-fonts/open-sans
 	media-fonts/oto
 	media-fonts/overpass
+	media-fonts/polarsys-b612-fonts
 	media-fonts/powerline-symbols
 	media-fonts/proggy-fonts
+	media-fonts/quivira
 	media-fonts/roboto
 	media-fonts/sgi-fonts
+	media-fonts/solarize
 	media-fonts/source-han-sans
 	media-fonts/symbola
 	media-fonts/takao-fonts
@@ -141,7 +148,10 @@ DEPEND="
 		media-fonts/font-isas-misc
 		media-fonts/opendesktop-fonts
 		media-fonts/wqy-zenhei
+		media-fonts/zh-kcfonts
 		${CJK_DEPEND}
 	)
 "
 RDEPEND="${DEPEND}"
+
+# NOTE: media-fonts/ricty has a non-free dep on media-fonts/inconsolata (OFL-1.1)

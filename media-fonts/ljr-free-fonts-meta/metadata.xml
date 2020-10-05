@@ -8,6 +8,5 @@
 <longdescription>Metapackage for free fonts</longdescription>
 <use>
 	<flag name="cyrillic">Install Cyrillic fonts</flag>
-	<flag name="l10n_iu">Install Inuktitut font</flag>
 </use>
 </pkgmetadata>
