@@ -8,5 +8,6 @@
 <longdescription>Metapackage for free fonts</longdescription>
 <use>
 	<flag name="cyrillic">Install Cyrillic fonts</flag>
+	<flag name="psf">Install fonts for the Linux text console</flag>
 </use>
 </pkgmetadata>
