@@ -1,5 +1,6 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
+# $Header: /var/cvsroot/gentoo-x86/sys-libs/glibc/glibc-2.11.3.ebuild,v 1.22 2014/03/14 09:11:35 vapier Exp $
 
 inherit eutils versionator toolchain-funcs flag-o-matic gnuconfig multilib systemd unpacker multiprocessing
 
@@ -169,7 +170,6 @@ eblit-src_unpack-post() {
 	(
 		cd "${S}"
 		epatch "${FILESDIR}/2.11/glibc-configure-make.patch"
-		epatch "${FILESDIR}/2.11/glibc-configure-cc.patch"
 	)
 
 	if use hardened ; then
