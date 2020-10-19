@@ -6,7 +6,7 @@ DESCRIPTION="Metapackage for free fonts"
 HOMEPAGE=""
 
 SRC_URI=""
-LICENSE=""
+LICENSE="metapackage"
 SLOT="0"
 
 KEYWORDS="amd64 ppc64 x86"
