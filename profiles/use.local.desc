@@ -18,7 +18,7 @@ dev-vcs/bzr:sftp - Enable sftp support
 kde-apps/kwalletd:gpg - Support wallets with GnuPG encryption additionally to default blowfish-encrypted file
 kde-frameworks/kdelibs:qt3support - Enable kde3support/qt3support for very old applications
 media-fonts/ljr-free-fonts-meta:cyrillic - Install Cyrillic fonts
-media-fonts/ljr-free-fonts-meta:l10n_iu - Install Inuktitut font
+media-fonts/ljr-free-fonts-meta:psf - Install fonts for the Linux text console
 x11-wm/xpra:client - Build client-side code
 x11-wm/xpra:clipboard - Enable clipboard support
 x11-wm/xpra:csc - Enable csc softscaler support
