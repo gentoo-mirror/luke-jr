@@ -118,6 +118,7 @@
 	IPAfont
 	netcat
 	Texinfo-manual
+	Openwall
 
 	AMBIGUOUS-no-fee:
 		CNRI
