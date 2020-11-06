@@ -8,5 +8,5 @@ LICENSE=LGPL-2.1
 PROPERTIES=live
 RDEPEND=glib? ( dev-libs/glib ) ssl? ( dev-libs/openssl )
 SLOT=0
-_eclasses_=darcs	96ca03fcbf14b1745581481921153d55
+_eclasses_=darcs	2affb9c1b0522b809ad117a9ccc42669
 _md5_=e9be07f009b70e31ad1b658e760b8c98
