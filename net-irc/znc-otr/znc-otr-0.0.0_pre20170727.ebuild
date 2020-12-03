@@ -18,7 +18,7 @@ KEYWORDS="~amd64"
 IUSE=""
 
 DEPEND="
-	net-irc/znc
+	net-irc/znc:=
 	net-libs/libotr
 "
 RDEPEND="${DEPEND}"
