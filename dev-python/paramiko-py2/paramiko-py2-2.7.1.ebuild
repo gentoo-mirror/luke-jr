@@ -23,9 +23,9 @@ IUSE="examples server"
 
 RDEPEND="
 	|| ( >=dev-python/bcrypt-py2-3.1.3[${PYTHON_USEDEP}] >=dev-python/bcrypt-3.1.3[${PYTHON_USEDEP}] )
-	>=dev-python/cryptography-2.5[${PYTHON_USEDEP}]
+	|| ( >=dev-python/cryptography-py2-2.5[${PYTHON_USEDEP}] >=dev-python/cryptography-2.5[${PYTHON_USEDEP}] )
 	|| ( >=dev-python/pynacl-py2-1.0.1[${PYTHON_USEDEP}] >=dev-python/pynacl-1.0.1[${PYTHON_USEDEP}] )
-	>=dev-python/pyasn1-0.1.7[${PYTHON_USEDEP}]
+	|| ( >=dev-python/pyasn1-py2-0.1.7[${PYTHON_USEDEP}] >=dev-python/pyasn1-0.1.7[${PYTHON_USEDEP}] )
 "
 BDEPEND="
 	test? (
