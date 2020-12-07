@@ -22,15 +22,18 @@ dev-perl/URI-imap 1.01: Support IMAP schemas with URI
 dev-perl/asterisk-perl 0.10: asterisk-perl is a collection of perl modules to be used with the Asterisk PBX
 dev-python/bcrypt-py2 3.1.7-r2: Modern password hashing for software and servers
 dev-python/cffi-py2 1.14.4: Foreign Function Interface for Python calling C code
+dev-python/cryptography-py2 3.2.1: Library providing cryptographic recipes and primitives
 dev-python/lz4-py2 0.8.2: LZ4 Bindings for Python
 dev-python/netifaces-py2 0.10.9: Portable network interface information
 dev-python/paramiko-py2 2.7.1: SSH2 protocol library
+dev-python/pyasn1-py2 0.4.8-r1: ASN.1 library for Python
 dev-python/pycups-py2 1.9.73-r2: Python bindings for the CUPS API
 dev-python/pycurl-py2 7.43.0.6: python binding for curl/libcurl
 dev-python/pynacl-py2 1.4.0: Python binding to the Networking and Cryptography (NaCl) library
 dev-python/pyrasite 2.0: Tools for injecting arbitrary code into running Python processes
 dev-python/python-lzo-py2 1.12-r1: Python interface to lzo
 dev-python/rencode-py2 1.0.6: similar to bencode from the BitTorrent project
+dev-python/six-py2 1.15.0-r1: Python 2 and 3 compatibility library
 dev-python/sleekxmpp 1.3.1-r1: Python library for XMPP
 dev-qt/designer 4.8.2020.02: WYSIWYG tool for designing and building Qt-based GUIs
 dev-qt/qt3support 4.8.2020.02: The Qt3Support module for the Qt toolkit
