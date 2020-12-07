@@ -25,7 +25,7 @@ RESTRICT="!test? ( test )"
 
 DEPEND="dev-libs/libffi:="
 RDEPEND="${DEPEND}
-	dev-python/pycparser[${PYTHON_USEDEP}]
+	|| ( dev-python/pycparser-py2[${PYTHON_USEDEP}] dev-python/pycparser[${PYTHON_USEDEP}] )
 	!!dev-python/cffi[python_targets_python2_7(-)]
 "
 BDEPEND="${RDEPEND}
