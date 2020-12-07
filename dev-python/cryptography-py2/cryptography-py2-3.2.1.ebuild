@@ -26,7 +26,7 @@ RDEPEND="
 	|| ( >=dev-python/six-py2-1.4.1[${PYTHON_USEDEP}] >=dev-python/six-1.4.1[${PYTHON_USEDEP}] )
 	idna? ( >=dev-python/idna-2.1[${PYTHON_USEDEP}] )
 	$(python_gen_cond_dep '
-		>=dev-python/cffi-1.8:=[${PYTHON_USEDEP}]
+		|| ( >=dev-python/cffi-py2-1.8:=[${PYTHON_USEDEP}] >=dev-python/cffi-1.8:=[${PYTHON_USEDEP}] )
 	' 'python*')
 	!!dev-python/cryptography[python_targets_python2_7(-)]
 	"
