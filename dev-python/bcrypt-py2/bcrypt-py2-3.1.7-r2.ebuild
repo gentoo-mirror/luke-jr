@@ -21,7 +21,7 @@ RDEPEND="
 	$(python_gen_cond_dep '
 		|| ( >=dev-python/cffi-py2-1.1:=[${PYTHON_USEDEP}] >=dev-python/cffi-1.1:=[${PYTHON_USEDEP}] )
 	' 'python*')
-	>=dev-python/six-1.4.1[${PYTHON_USEDEP}]
+	|| ( >=dev-python/six-py2-1.4.1[${PYTHON_USEDEP}] >=dev-python/six-1.4.1[${PYTHON_USEDEP}] )
 "
 DEPEND="${RDEPEND}
 	!!dev-python/bcrypt[python_targets_python2_7(-)]
