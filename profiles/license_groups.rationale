@@ -119,6 +119,7 @@
 	netcat
 	Texinfo-manual
 	Openwall
+	NPSL
 
 	AMBIGUOUS-no-fee:
 		CNRI
