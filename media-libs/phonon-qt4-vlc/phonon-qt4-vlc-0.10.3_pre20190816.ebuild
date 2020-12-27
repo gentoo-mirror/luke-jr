@@ -8,8 +8,9 @@ MY_P="${MY_PN}-${PV}"
 SNAPSHOT_COMMIT='2f3f94f42ccb6d61dd860e2413b2b7d182568edf'
 
 SRC_URI="https://cgit.kde.org/phonon-vlc.git/snapshot/${SNAPSHOT_COMMIT}.tar.xz -> ${MY_P}.tar.xz"
+SRC_URI="https://invent.kde.org/libraries/phonon-vlc/-/archive/${SNAPSHOT_COMMIT}/phonon-vlc-${SNAPSHOT_COMMIT}.tar.bz2 -> ${MyP}.tar.bz2"
 KEYWORDS="~amd64 ~arm ~ppc ~ppc64 ~x86 ~amd64-fbsd"
-S="${WORKDIR}/${SNAPSHOT_COMMIT}"
+S="${WORKDIR}/phonon-vlc-${SNAPSHOT_COMMIT}"
 
 inherit cmake-utils multibuild
 
