@@ -6,10 +6,10 @@ EAPI=6
 MyP="phonon-${PV}"
 SNAPSHOT_COMMIT='450c91493ce6d6e5ce0a0caa13ecf87133cf585b'
 
-SRC_URI="https://cgit.kde.org/phonon.git/snapshot/${SNAPSHOT_COMMIT}.tar.xz -> ${MyP}.tar.xz"
+SRC_URI="https://invent.kde.org/libraries/phonon/-/archive/${SNAPSHOT_COMMIT}/phonon-${SNAPSHOT_COMMIT}.tar.bz2 -> ${MyP}.tar.bz2"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sparc ~x86 ~amd64-fbsd ~x86-fbsd ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos"
 
-inherit cmake-multilib multibuild qmake-utils
+inherit cmake-multilib multibuild
 
 DESCRIPTION="KDE multimedia API"
 HOMEPAGE="https://phonon.kde.org/"
@@ -48,7 +48,16 @@ PDEPEND="
 
 PATCHES=( "${FILESDIR}/${PN}-4.7.0-plugin-install.patch" )
 
-S="${WORKDIR}/${SNAPSHOT_COMMIT}"
+S="${WORKDIR}/phonon-${SNAPSHOT_COMMIT}"
+
+qt4_get_bindir() {
+	local qtbindir="${EPREFIX}/usr/$(get_libdir)/qt4/bin"
+	if [[ -d "${qtbindir}" ]]; then
+		echo "${qtbindir}"
+	else
+		echo "${EPREFIX}/usr/bin"
+	fi
+}
 
 pkg_setup() {
 	MULTIBUILD_VARIANTS=( qt4 )
