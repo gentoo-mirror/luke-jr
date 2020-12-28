@@ -93,6 +93,7 @@ media-libs/glew 1.5.8: The OpenGL Extension Wrangler Library
 media-libs/phonon-qt4 4.10.3_pre20190719: KDE multimedia API
 media-libs/phonon-qt4-vlc 0.10.3_pre20190816: Phonon VLC backend
 media-video/syncplay 1.6.4a: Client/server to synchronize media playback
+net-im/psi-omemo 9999: Psi plugin for OMEMO
 net-irc/znc-otr 0.0.0_pre20170727 9999: Encrypt private conversations using the OTR protocol, on a ZNC server
 net-libs/libiaxclient 2.1_beta3: an open source, multiplatform library for creating telephony solutions that interoperate with Asterisk, the Open Source PBX
 net-libs/sofia-sip 9999: RFC3261 compliant SIP User-Agent library
