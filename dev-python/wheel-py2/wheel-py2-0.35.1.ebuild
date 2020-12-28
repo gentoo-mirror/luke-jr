@@ -20,6 +20,10 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~alpha amd64 arm arm64 hppa ~ia64 ~m68k ~mips ppc ppc64 ~riscv s390 sparc x86 ~x64-macos"
 
+RDEPEND="
+	!!dev-python/wheel[python_targets_python2_7(-)]
+"
+
 S="${WORKDIR}/${MY_P}"
 
 distutils_enable_tests pytest
