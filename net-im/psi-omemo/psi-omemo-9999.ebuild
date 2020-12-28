@@ -11,6 +11,7 @@ DESCRIPTION="Psi plugin for OMEMO"
 KEYWORDS=""
 IUSE=""
 
-RDEPEND=">=app-crypt/libsignal-protocol-c-2.3.1_p20180209
+RDEPEND="
+	|| ( >=net-libs/libsignal-protocol-c-2.3.1_p20180209 >=app-crypt/libsignal-protocol-c-2.3.1_p20180209 )
 	>=app-crypt/qca-2.1.3_p20180105"
 DEPEND="$RDEPEND"
