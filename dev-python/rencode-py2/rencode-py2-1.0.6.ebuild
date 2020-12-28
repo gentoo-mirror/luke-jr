@@ -22,6 +22,7 @@ IUSE=""
 RDEPEND=""
 DEPEND="dev-python/cython[${PYTHON_USEDEP}]
 	!!dev-python/rencode[python_targets_python2_7(-)]
-	dev-python/wheel[${PYTHON_USEDEP}]"
+	|| ( dev-python/wheel-py2[${PYTHON_USEDEP}] dev-python/wheel[${PYTHON_USEDEP}] )
+"
 
 S="${WORKDIR}/${MY_P}"
