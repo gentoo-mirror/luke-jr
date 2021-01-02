@@ -1,0 +1,9 @@
+DEFINED_PHASES=prepare
+DESCRIPTION=Calibrates the power consumption of a mobile device that has a battery power source.
+EAPI=7
+HOMEPAGE=https://kernel.ubuntu.com/~cking/power-calibrate/
+KEYWORDS=~amd64
+LICENSE=GPL-2
+SLOT=0
+SRC_URI=https://kernel.ubuntu.com/~cking/tarballs/power-calibrate/power-calibrate-0.01.31.tar.gz
+_md5_=78a9310d2e11723b3f471f7cdbef519e

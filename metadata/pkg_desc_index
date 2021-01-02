@@ -111,6 +111,7 @@ sys-libs/pdcurses 3.4 3.4-r1 3.4-r2 3.4-r3 3.4-r4 3.4-r5:
 sys-libs/plibc 0.1.7 0.1.8_pre147 9999: 
 sys-libs/pthreads-win32 2.9.1 9999: Provides the pthreads API on windows
 sys-power/nut-monitor 2.7.4: Network-UPS Tools
+sys-power/power-calibrate 0.01.31: Calibrates the power consumption of a mobile device that has a battery power source.
 trinity-base/certmanager 9999: Trinity certificate manager gui
 trinity-base/kaddressbook 9999: The Trinity Address Book
 trinity-base/kdialog 9999: KDialog can be used to show nice dialog boxes from shell scripts
