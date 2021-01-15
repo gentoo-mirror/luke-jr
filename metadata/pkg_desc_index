@@ -36,7 +36,6 @@ dev-python/pyrasite 2.0: Tools for injecting arbitrary code into running Python 
 dev-python/python-lzo-py2 1.12-r1: Python interface to lzo
 dev-python/rencode-py2 1.0.6: similar to bencode from the BitTorrent project
 dev-python/six-py2 1.15.0-r1: Python 2 and 3 compatibility library
-dev-python/sleekxmpp 1.3.1-r1: Python library for XMPP
 dev-python/wheel-py2 0.35.1: A built-package format for Python
 dev-qt/designer 4.8.2020.02: WYSIWYG tool for designing and building Qt-based GUIs
 dev-qt/qt3support 4.8.2020.02: The Qt3Support module for the Qt toolkit
