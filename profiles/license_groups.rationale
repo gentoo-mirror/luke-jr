@@ -120,6 +120,7 @@
 	Texinfo-manual
 	Openwall
 	NPSL
+	pngcrush
 
 	AMBIGUOUS-no-fee:
 		CNRI
