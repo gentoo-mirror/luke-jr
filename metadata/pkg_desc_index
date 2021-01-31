@@ -1,7 +1,6 @@
 app-arch/pbzx 1.0.2: Unpacker for pbzx-format macOS disk images
 app-crypt/libsignal-protocol-c 2.3.1_p20180209: Signal Protocol C Library
 app-crypt/qca-qt4 2.2.1: Qt Cryptographic Architecture (QCA)
-app-emulation/vmbuilder 0.12.4.481-r1 0.12.4.495 0.12.4.20180502: Install virtual machines in a snap without ever actually booting a virtual machine!
 app-eselect/eselect-qtgraphicssystem 1.1.1: Utility to change the active Qt Graphics System
 app-misc/adbren 3-r1 4 6.0.0.2010.03.13: AniDB Renamer
 app-misc/adbren-anidb 0.3_pre400: AniDB Renamer
@@ -12,7 +11,6 @@ dev-libs/DirectFB 1.6.3-r1 1.7.6-r1: Thin library on top of the Linux framebuffe
 dev-libs/dbus-1-tqt 9999: D-BUS TQt bindings
 dev-libs/libattica 0.4.2: A library providing access to Open Collaboration Services
 dev-libs/libdbusmenu-qt4 0.9.3_pre20160218-r1: Library providing Qt 4 implementation of DBusMenu specification
-dev-libs/protobuf 2.5.0: Google's Protocol Buffers -- an efficient method of encoding structured data
 dev-libs/protobuf-c 1.0.0_rc2: code generator and runtime libraries to use Protocol Buffers (protobuf) from pure C
 dev-libs/qjson 0.9.0: Library for mapping JSON data to QVariant objects
 dev-libs/win_backtrace 9999: DLL to dump a usable backtrace to stderr for MingW/GCC software on Windows (requires application support)
@@ -20,23 +18,7 @@ dev-perl/AniDB 0.3_pre414: Perl clients for AniDB
 dev-perl/Text-vCard 2.01: a package to parse, edit and create vCards
 dev-perl/URI-imap 1.01: Support IMAP schemas with URI
 dev-perl/asterisk-perl 0.10: asterisk-perl is a collection of perl modules to be used with the Asterisk PBX
-dev-python/bcrypt-py2 3.1.7-r2: Modern password hashing for software and servers
-dev-python/cffi-py2 1.14.4: Foreign Function Interface for Python calling C code
-dev-python/cryptography-py2 3.2.1: Library providing cryptographic recipes and primitives
-dev-python/lz4-py2 0.8.2: LZ4 Bindings for Python
-dev-python/netifaces-py2 0.10.9: Portable network interface information
-dev-python/paramiko-py2 2.7.1: SSH2 protocol library
-dev-python/ply-py2 3.11-r1: Python Lex-Yacc library
-dev-python/pyasn1-py2 0.4.8-r1: ASN.1 library for Python
-dev-python/pycparser-py2 2.20-r1: C parser and AST generator written in Python
-dev-python/pycups-py2 1.9.73-r2: Python bindings for the CUPS API
-dev-python/pycurl-py2 7.43.0.6: python binding for curl/libcurl
-dev-python/pynacl-py2 1.4.0: Python binding to the Networking and Cryptography (NaCl) library
 dev-python/pyrasite 2.0: Tools for injecting arbitrary code into running Python processes
-dev-python/python-lzo-py2 1.12-r1: Python interface to lzo
-dev-python/rencode-py2 1.0.6: similar to bencode from the BitTorrent project
-dev-python/six-py2 1.15.0-r1: Python 2 and 3 compatibility library
-dev-python/wheel-py2 0.35.1: A built-package format for Python
 dev-qt/designer 4.8.2020.02: WYSIWYG tool for designing and building Qt-based GUIs
 dev-qt/qt3support 4.8.2020.02: The Qt3Support module for the Qt toolkit
 dev-qt/qtcore 4.8.2020.02: Cross-platform application development framework
@@ -53,8 +35,6 @@ dev-qt/tqt 9999: The Trinitie's Qt toolkit fork.
 dev-qt/tqtinterface 9999: Interface and abstraction library for Qt and Trinity
 dev-util/automoc 0.9.88-r1: KDE Meta Object Compiler
 dev-util/nsis 2.51: Nullsoft Scriptable Install System
-dev-vcs/bzr 2.7.1_pre: Bazaar is a next generation distributed version control system
-dev-vcs/git 2.7.4: stupid content tracker: distributed VCS designed for speed and efficiency
 games-emulation/sameboy 0.10.1: A user friendly Game Boy and Game Boy Color emulator
 games-fps/openjk-academy 9999: Community-maintained Jedi Academy, story version
 games-fps/openjk-academy-mp 9999: Community-maintained Jedi Academy, multiplayer version
@@ -109,7 +89,6 @@ sys-libs/liblabjackusb 1.10 2.0.1: This package contains the USB library/example
 sys-libs/pdcurses 3.4 3.4-r1 3.4-r2 3.4-r3 3.4-r4 3.4-r5: 
 sys-libs/plibc 0.1.7 0.1.8_pre147 9999: 
 sys-libs/pthreads-win32 2.9.1 9999: Provides the pthreads API on windows
-sys-power/nut-monitor 2.7.4: Network-UPS Tools
 sys-power/power-calibrate 0.01.31: Calibrates the power consumption of a mobile device that has a battery power source.
 trinity-base/certmanager 9999: Trinity certificate manager gui
 trinity-base/kaddressbook 9999: The Trinity Address Book
@@ -133,4 +112,3 @@ trinity-base/tdeeject 9999: Trinity eject frontend
 trinity-base/tdelibs 9999: Trinity libraries needed by all TDE programs.
 trinity-base/tdepim-tdeioslaves 9999: PIM Trinity IO slaves
 x11-apps/inputplug 0.3: Simple daemon which monitors XInput events and runs arbitrary scripts on hierarchy change events
-x11-wm/xpra 2.2.6-r2 2.4.3: X Persistent Remote Apps (xpra) and Partitioning WM (parti) based on wimpiggy
