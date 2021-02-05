@@ -1,0 +1,95 @@
+--- a/src/_locales/en/messages.json
++++ b/src/_locales/en/messages.json
+@@ -47,6 +47,8 @@
+     "html_history_recent_sessions": { "message": "Recent sessions" },
+     "html_history_saved_sessions": { "message": "Saved sessions" },
+     "html_history_import_session": { "message": "Import session" },
++    "html_history_migrate_tabs": { "message": "Migrate tabs" },
++    "html_history_migrate_old_id": { "message": "Old TGS Extension id" },
+     "html_notice_title": { "message": "Notice" },
+     "html_notice_important_notice": { "message": "Important notice from The Great Suspender" },
+     "html_options_title": { "message": "Settings" },
+@@ -224,6 +226,15 @@
+     "js_history_confirm_delete": { "message": "Are you sure you want to delete this session?" },
+     "js_history_confirm_session_overwrite": { "message": "There is already a saved session with this name. Overwrite existing session?" },
+     "js_history_import_fail": { "message": "Failed to load file. Ensure file is plain text and contains a single url per line." },
++    "js_history_migrate_fail": { "message": "Need 32-character extension id to migrate from" },
++    "js_history_migrate_success": {
++      "message": "Successfully migrated $TABCOUNT$ tabs",
++      "placeholders": {
++        "tabcount": {
++          "content": "$1"
++        }
++      }
++    },
+     "js_suspended_remove_from_whitelist": { "message": "Remove site from whitelist" },
+     "js_suspended_hotkey_to_reload": { "message": "Set keyboard shortcuts" },
+     "js_suspended_low_memory": { "message": "Tab suspended due to low system memory" },
+--- a/src/history.html
++++ b/src/history.html
+@@ -48,6 +48,14 @@
+ 
+       <a href="#" id="importSession" class="btn" data-i18n="__MSG_html_history_import_session__"></a>
+       <input type="file" id="importSessionAction" hidden />
++
++      <br><br>
++
++		<div class="formRow">
++			<label for="migrateFromId" class="cbLabel" data-i18n="__MSG_html_history_migrate_old_id__"></label>
++			<input size="33" id="migrateFromId" class='option' value="klbibkeccnjlkjkiokjodocebajanakg" /><br>
++			<a href="#" id="migrateTabs" class="btn" data-i18n="__MSG_html_history_migrate_tabs__"></a>
++		</div>
+     </div>
+ 
+   </div>
+--- a/src/js/history.js
++++ b/src/js/history.js
+@@ -243,6 +243,12 @@
+       importSessionActionEl.click();
+     };
+ 
++    var migrateTabsEl = document.getElementById('migrateTabs');
++    migrateTabsEl.onclick = function() {
++      var migrateTabsFromIdEl = document.getElementById('migrateFromId');
++      historyUtils.migrateTabs(migrateTabsFromIdEl.value);
++    };
++
+     //hide incompatible sidebar items if in incognito mode
+     if (chrome.extension.inIncognitoContext) {
+       Array.prototype.forEach.call(
+--- a/src/js/historyUtils.js
++++ b/src/js/historyUtils.js
+@@ -185,11 +185,33 @@ var historyUtils = (function(global) {
+     });
+   }
+ 
++  function migrateTabs(from_id) {
++    if (from_id.length == 32) {
++      chrome.tabs.query({}, function(tabs){
++        var count = 0;
++        var prefix_before = 'chrome-extension://' + from_id;
++        var prefix_after  = 'chrome-extension://' + chrome.i18n.getMessage('@@extension_id');
++        for (var tab of tabs) {
++          if (!tab.url.startsWith(prefix_before)) {
++            continue;
++          }
++          count += 1;
++          var migrated_url = prefix_after + tab.url.substr(prefix_before.length);
++          chrome.tabs.update(tab.id, {url: migrated_url});
++        }
++        alert(chrome.i18n.getMessage('js_history_migrate_success', '' + count));
++      });
++    } else {
++      alert(chrome.i18n.getMessage('js_history_migrate_fail'));
++    }
++  }
++
+   return {
+     importSession,
+     exportSession,
+     exportSessionWithId,
+     validateNewSessionName,
+     saveSession,
++    migrateTabs
+   };
+ })(this);
