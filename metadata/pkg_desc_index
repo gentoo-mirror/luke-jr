@@ -111,4 +111,5 @@ trinity-base/tdebase-tdeioslaves 9999: Generic Trinity KIOslaves
 trinity-base/tdeeject 9999: Trinity eject frontend
 trinity-base/tdelibs 9999: Trinity libraries needed by all TDE programs.
 trinity-base/tdepim-tdeioslaves 9999: PIM Trinity IO slaves
+www-plugins/great-suspender 7.1.6: Chromium extension to reduce resource usage by suspending tabs
 x11-apps/inputplug 0.3: Simple daemon which monitors XInput events and runs arbitrary scripts on hierarchy change events
