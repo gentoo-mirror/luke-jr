@@ -6,13 +6,15 @@ EAPI=7
 DISTUTILS_USE_SETUPTOOLS=rdepend
 PYTHON_COMPAT=( python3_{7..9} pypy3 )
 PYTHON_REQ_USE="threads(+)"
+MY_PN="${PN/-py2/}"
+MY_P="${MY_PN}-${PV}"
 
 inherit distutils-r1 toolchain-funcs elisp-common
 
 DESCRIPTION="A Python to C compiler"
 HOMEPAGE="https://cython.org https://pypi.org/project/Cython/
 	https://github.com/cython/cython"
-SRC_URI="https://github.com/cython/cython/archive/${PV}.tar.gz -> ${P}.gh.tar.gz"
+SRC_URI="https://github.com/cython/cython/archive/${PV}.tar.gz -> ${MY_P}.gh.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
@@ -28,6 +30,8 @@ BDEPEND="${RDEPEND}
 		$(python_gen_cond_dep 'dev-python/numpy[${PYTHON_USEDEP}]' \
 			'python3*')
 	)"
+
+S="${WORKDIR}/${MY_P}"
 
 PATCHES=(
 	"${FILESDIR}/cython-0.29.14-sphinx-update.patch"
@@ -61,7 +65,7 @@ python_install_all() {
 	distutils-r1_python_install_all
 
 	if use emacs; then
-		elisp-install ${PN} Tools/cython-mode.*
+		elisp-install "${MY_PN}" Tools/cython-mode.*
 		elisp-site-file-install "${FILESDIR}/${SITEFILE}"
 	fi
 }
