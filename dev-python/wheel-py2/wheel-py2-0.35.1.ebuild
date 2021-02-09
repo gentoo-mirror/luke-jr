@@ -6,7 +6,7 @@ EAPI=7
 DISTUTILS_USE_SETUPTOOLS=rdepend
 PYTHON_COMPAT=( python2_7 )
 
-inherit distutils-r1 eutils
+inherit distutils-py2 eutils
 
 MY_PN="${PN/-py2/}"
 MY_P="${MY_PN}-${PV}"

@@ -9,7 +9,7 @@ PYTHON_COMPAT=( python2_7 )
 MY_PN="${PN/-py2/}"
 MY_P="${MY_PN}-${PV}"
 
-inherit distutils-r1 toolchain-funcs
+inherit distutils-py2 toolchain-funcs
 
 DESCRIPTION="python binding for curl/libcurl"
 HOMEPAGE="
@@ -54,6 +54,7 @@ DEPEND="${RDEPEND}
 S="${WORKDIR}/${MY_P}"
 
 python_prepare_all() {
+	eapply "${FILESDIR}/${PV}-revert-py3-decode.patch"
 	sed -e "/setup_args\['data_files'\] = /d" -i setup.py || die
 	# disable automagic use of setuptools
 	sed -e 's:import wheel:raise ImportError:' -i setup.py || die
@@ -75,7 +76,7 @@ src_test() {
 
 python_compile() {
 	python_is_python3 || local -x CFLAGS="${CFLAGS} -fno-strict-aliasing"
-	distutils-r1_python_compile
+	distutils-py2_python_compile
 }
 
 python_test() {

@@ -8,7 +8,7 @@ PYTHON_COMPAT=( python2_7 )
 MY_PN="${PN/-py2/}"
 MY_P="${MY_PN}-${PV}"
 
-inherit distutils-r1
+inherit distutils-py2
 
 DESCRIPTION="similar to bencode from the BitTorrent project"
 HOMEPAGE="https://github.com/aresch/rencode"

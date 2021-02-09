@@ -6,7 +6,7 @@ EAPI=7
 PYTHON_COMPAT=( python2_7 )
 PYTHON_REQ_USE="threads(+)"
 
-inherit distutils-r1 multiprocessing
+inherit distutils-py2 multiprocessing
 
 MY_PN="${PN/-py2/}"
 MY_P="${MY_PN}-${PV}"

@@ -8,7 +8,7 @@ MY_PN="${PN/-py2/}"
 MY_P="${MY_PN}-${PV}"
 
 DISTUTILS_USE_SETUPTOOLS=no
-inherit distutils-r1
+inherit distutils-py2
 
 DESCRIPTION="Python bindings for the CUPS API"
 HOMEPAGE="http://cyberelk.net/tim/data/pycups/"

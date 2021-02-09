@@ -8,7 +8,7 @@ PYTHON_REQ_USE="threads(+)"
 MY_PN="${PN/-py2/}"
 MY_P="${MY_PN}-${PV}"
 
-inherit distutils-r1
+inherit distutils-py2
 
 DESCRIPTION="SSH2 protocol library"
 HOMEPAGE="https://www.paramiko.org/ https://github.com/paramiko/paramiko/ https://pypi.org/project/paramiko/"

@@ -7,7 +7,7 @@ PYTHON_COMPAT=( python2_7 )
 MY_PN="${PN/-py2/}"
 MY_P="${MY_PN}-${PV}"
 
-inherit distutils-r1
+inherit distutils-py2
 
 DESCRIPTION="Modern password hashing for software and servers"
 HOMEPAGE="https://github.com/pyca/bcrypt/ https://pypi.org/project/bcrypt/"

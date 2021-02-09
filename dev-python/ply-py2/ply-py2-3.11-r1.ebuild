@@ -8,7 +8,7 @@ PYTHON_COMPAT=( python2_7 )
 MY_PN="${PN/-py2/}"
 MY_P="${MY_PN}-${PV}"
 
-inherit distutils-r1
+inherit distutils-py2
 
 DESCRIPTION="Python Lex-Yacc library"
 HOMEPAGE="http://www.dabeaz.com/ply/ https://pypi.org/project/ply/"
