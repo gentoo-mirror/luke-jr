@@ -5,6 +5,8 @@ EAPI=7
 DISTUTILS_USE_SETUPTOOLS=no
 PYTHON_COMPAT=( python2_7 python3_{6,7,8} pypy3 )
 PYTHON_REQ_USE="xml(+)"
+MY_PN="${PN/-py2/}"
+MY_P="${MY_PN}-${PV}"
 
 inherit distutils-r1
 
@@ -12,7 +14,7 @@ if [[ ${PV} == "9999" ]]; then
 	EGIT_REPO_URI="https://github.com/pypa/setuptools.git"
 	inherit git-r3
 else
-	SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.zip"
+	SRC_URI="mirror://pypi/${PN:0:1}/${MY_PN}/${MY_P}.zip"
 	KEYWORDS="~alpha amd64 arm arm64 hppa ~ia64 ~m68k ~mips ppc ppc64 ~riscv s390 sparc x86 ~x64-cygwin ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~sparc-solaris ~sparc64-solaris ~x64-solaris ~x86-solaris"
 fi
 
@@ -39,6 +41,8 @@ BDEPEND="
 "
 PDEPEND="
 	>=dev-python/certifi-2016.9.26[${PYTHON_USEDEP}]"
+
+S="${WORKDIR}/${MY_P}"
 
 # Force in-source build because build system modifies sources.
 DISTUTILS_IN_SOURCE_BUILD=1
@@ -74,7 +78,7 @@ python_test() {
 
 	# test_easy_install raises a SandboxViolation due to ${HOME}/.pydistutils.cfg
 	# It tries to sandbox the test in a tempdir
-	HOME="${PWD}" pytest -vv ${PN} || die "Tests failed under ${EPYTHON}"
+	HOME="${PWD}" pytest -vv "${MY_PN}" || die "Tests failed under ${EPYTHON}"
 }
 
 python_install() {
