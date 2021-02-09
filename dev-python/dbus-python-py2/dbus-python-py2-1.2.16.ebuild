@@ -24,11 +24,14 @@ REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 RESTRICT="!test? ( test )"
 
-RDEPEND="${PYTHON_DEPS}
+DEPEND="${PYTHON_DEPS}
+	!!dev-python/dbus-python[python_targets_python2_7(-)]
 	>=sys-apps/dbus-1.8:=
 	>=dev-libs/glib-2.40
 "
-DEPEND="${RDEPEND}"
+RDEPEND="${DEPEND}
+	~dev-python/dbus-python-${PV}
+"
 BDEPEND="
 	virtual/pkgconfig
 	doc? ( $(python_gen_any_dep 'dev-python/sphinx[${PYTHON_USEDEP}]') )
@@ -77,4 +80,7 @@ src_install() {
 	find "${D}" -name '*.la' -type f -delete || die
 
 	use examples && dodoc -r examples
+
+	# provided by py3 dbus-python
+	rm "${D}/usr/lib64/pkgconfig/dbus-python.pc" "${D}/usr/include/dbus-1.0/dbus/dbus-python.h" || die
 }
