@@ -5,12 +5,14 @@ EAPI=7
 
 PYTHON_COMPAT=( python3_{7,8,9} )
 PYTHON_REQ_USE="threads(+)"
+MY_PN="${PN/-py2/}"
+MY_P="${MY_PN}-${PV}"
 
 inherit autotools python-r1
 
 DESCRIPTION="Python bindings for the D-Bus messagebus"
 HOMEPAGE="https://www.freedesktop.org/wiki/Software/DBusBindings https://dbus.freedesktop.org/doc/dbus-python/"
-SRC_URI="https://dbus.freedesktop.org/releases/${PN}/${P}.tar.gz"
+SRC_URI="https://dbus.freedesktop.org/releases/${MY_PN}/${MY_P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
@@ -33,7 +35,9 @@ BDEPEND="
 		dev-python/tappy[${PYTHON_USEDEP}] )
 "
 
-PATCHES=( "${FILESDIR}/${P}-py39.patch" )
+S="${WORKDIR}/${MY_P}"
+
+PATCHES=( "${FILESDIR}/${MY_P}-py39.patch" )
 
 python_check_deps() {
 	has_version "dev-python/sphinx[${PYTHON_USEDEP}]"
