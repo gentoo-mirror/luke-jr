@@ -4,12 +4,12 @@
 EAPI=7
 
 DISTUTILS_USE_SETUPTOOLS=rdepend
-PYTHON_COMPAT=( python3_{7..9} pypy3 )
+PYTHON_COMPAT=( python2_7 )
 PYTHON_REQ_USE="threads(+)"
 MY_PN="${PN/-py2/}"
 MY_P="${MY_PN}-${PV}"
 
-inherit distutils-r1 toolchain-funcs elisp-common
+inherit distutils-py2 toolchain-funcs elisp-common
 
 DESCRIPTION="A Python to C compiler"
 HOMEPAGE="https://cython.org https://pypi.org/project/Cython/
@@ -25,11 +25,7 @@ RESTRICT="!test? ( test )"
 RDEPEND="
 	emacs? ( >=app-editors/emacs-23.1:* )
 "
-BDEPEND="${RDEPEND}
-	test? (
-		$(python_gen_cond_dep 'dev-python/numpy[${PYTHON_USEDEP}]' \
-			'python3*')
-	)"
+BDEPEND="${RDEPEND}"
 
 S="${WORKDIR}/${MY_P}"
 
@@ -45,7 +41,7 @@ python_compile() {
 	# Python gets confused when it is in sys.path before build.
 	local -x PYTHONPATH=
 
-	distutils-r1_python_compile
+	distutils-py2_python_compile
 }
 
 python_compile_all() {
