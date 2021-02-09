@@ -4,9 +4,9 @@
 EAPI=7
 
 DISTUTILS_USE_SETUPTOOLS=no
-PYTHON_COMPAT=( python2_7 python3_{6..9} pypy3 )
+PYTHON_COMPAT=( python2_7 )
 
-inherit distutils-r1
+inherit distutils-py2
 
 MY_P=certifi-shim-${PV}
 DESCRIPTION="Thin replacement for certifi using system certificate store"
