@@ -20,8 +20,9 @@ KEYWORDS="~amd64 ~arm ~ppc64 ~sparc ~x86 ~amd64-linux ~x86-linux"
 IUSE=""
 
 RDEPEND=""
-DEPEND="dev-python/cython[${PYTHON_USEDEP}]
+DEPEND="
 	!!dev-python/rencode[python_targets_python2_7(-)]
+	|| ( dev-python/cython-py2[${PYTHON_USEDEP}] dev-python/cython[${PYTHON_USEDEP}] )
 	|| ( dev-python/wheel-py2[${PYTHON_USEDEP}] dev-python/wheel[${PYTHON_USEDEP}] )
 "
 
