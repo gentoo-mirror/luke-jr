@@ -84,7 +84,8 @@ RDEPEND="${COMMON_DEPEND}
 		dev-python/pyinotify[${PYTHON_USEDEP}] )"
 DEPEND="${COMMON_DEPEND}
 	virtual/pkgconfig
-	>=dev-python/cython-0.16[${PYTHON_USEDEP}]"
+	|| ( >=dev-python/cython-py2-0.16[${PYTHON_USEDEP}] >=dev-python/cython-0.16[${PYTHON_USEDEP}] )
+"
 
 PATCHES=( "${FILESDIR}"/${PN}-0.13.1-ignore-gentoo-no-compile.patch
 	"${FILESDIR}"/${PN}-2.0-suid-warning.patch )
