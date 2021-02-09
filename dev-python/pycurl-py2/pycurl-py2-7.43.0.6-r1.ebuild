@@ -54,6 +54,7 @@ DEPEND="${RDEPEND}
 S="${WORKDIR}/${MY_P}"
 
 python_prepare_all() {
+	eapply "${FILESDIR}/${PV}-revert-py3-decode.patch"
 	sed -e "/setup_args\['data_files'\] = /d" -i setup.py || die
 	# disable automagic use of setuptools
 	sed -e 's:import wheel:raise ImportError:' -i setup.py || die
