@@ -37,7 +37,8 @@ BDEPEND="
 	app-arch/unzip
 "
 PDEPEND="
-	>=dev-python/certifi-2016.9.26[${PYTHON_USEDEP}]"
+	|| ( >=dev-python/certifi-py2-2016.9.26[${PYTHON_USEDEP}] >=dev-python/certifi-2016.9.26[${PYTHON_USEDEP}] )
+"
 
 S="${WORKDIR}/${MY_P}"
 
