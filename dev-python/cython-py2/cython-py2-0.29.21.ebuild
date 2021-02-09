@@ -23,6 +23,7 @@ IUSE="emacs test"
 RESTRICT="!test? ( test )"
 
 RDEPEND="
+	dev-python/cython
 	emacs? ( >=app-editors/emacs-23.1:* )
 "
 BDEPEND="${RDEPEND}"
@@ -64,6 +65,13 @@ python_install_all() {
 		elisp-install "${MY_PN}" Tools/cython-mode.*
 		elisp-site-file-install "${FILESDIR}/${SITEFILE}"
 	fi
+}
+
+src_install() {
+	distutils-r1_src_install
+
+	# We recycle the wrappers installed by the Py3 setuptools
+	rm -r "${D}/usr/bin" || die
 }
 
 pkg_postinst() {
