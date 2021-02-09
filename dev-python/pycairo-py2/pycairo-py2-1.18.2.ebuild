@@ -5,12 +5,14 @@ EAPI="7"
 
 PYTHON_COMPAT=( python2_7 python3_{6..9} )
 PYTHON_REQ_USE="threads(+)"
+MY_PN="${PN/-py2/}"
+MY_P="${MY_PN}-${PV}"
 
 inherit distutils-r1
 
 DESCRIPTION="Python bindings for the cairo library"
 HOMEPAGE="https://www.cairographics.org/pycairo/ https://github.com/pygobject/pycairo"
-SRC_URI="https://github.com/pygobject/${PN}/releases/download/v${PV}/${P}.tar.gz"
+SRC_URI="https://github.com/pygobject/${MY_PN}/releases/download/v${PV}/${MY_P}.tar.gz"
 
 LICENSE="|| ( LGPL-2.1 MPL-1.1 )"
 SLOT="0"
@@ -30,7 +32,9 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 
-PATCHES=( "${FILESDIR}/${PN}-1.19.1-py39.patch" )
+S="${WORKDIR}/${MY_P}"
+
+PATCHES=( "${FILESDIR}/${MY_PN}-1.19.1-py39.patch" )
 
 distutils_enable_sphinx docs \
 	dev-python/sphinx_rtd_theme
