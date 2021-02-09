@@ -29,6 +29,9 @@ RESTRICT="!test? ( test )"
 DEPEND="
 	!!dev-python/setuptools[python_targets_python2_7(-)]
 "
+RDEPEND="${DEPEND}
+	dev-python/setuptools
+"
 
 BDEPEND="
 	app-arch/unzip
@@ -73,6 +76,13 @@ python_test() {
 	# test_easy_install raises a SandboxViolation due to ${HOME}/.pydistutils.cfg
 	# It tries to sandbox the test in a tempdir
 	HOME="${PWD}" pytest -vv "${MY_PN}" || die "Tests failed under ${EPYTHON}"
+}
+
+src_install() {
+	distutils-r1_src_install
+
+	# We recycle the wrapper installed by the Py3 setuptools
+	rm "${D}/usr/bin/easy_install" || die
 }
 
 python_install() {
