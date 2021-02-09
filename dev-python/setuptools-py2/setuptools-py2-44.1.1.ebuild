@@ -3,12 +3,12 @@
 
 EAPI=7
 DISTUTILS_USE_SETUPTOOLS=no
-PYTHON_COMPAT=( python2_7 python3_{6,7,8} pypy3 )
+PYTHON_COMPAT=( python2_7 )
 PYTHON_REQ_USE="xml(+)"
 MY_PN="${PN/-py2/}"
 MY_P="${MY_PN}-${PV}"
 
-inherit distutils-r1
+inherit distutils-py2
 
 if [[ ${PV} == "9999" ]]; then
 	EGIT_REPO_URI="https://github.com/pypa/setuptools.git"
@@ -26,18 +26,12 @@ SLOT="0"
 IUSE="test"
 RESTRICT="!test? ( test )"
 
+DEPEND="
+	!!dev-python/setuptools[python_targets_python2_7(-)]
+"
+
 BDEPEND="
 	app-arch/unzip
-	test? (
-		$(python_gen_cond_dep '
-			dev-python/mock[${PYTHON_USEDEP}]
-			dev-python/pip[${PYTHON_USEDEP}]
-			>=dev-python/pytest-3.7.0[${PYTHON_USEDEP}]
-			dev-python/pytest-fixture-config[${PYTHON_USEDEP}]
-			dev-python/pytest-virtualenv[${PYTHON_USEDEP}]
-			dev-python/wheel[${PYTHON_USEDEP}]
-		' -3)
-	)
 "
 PDEPEND="
 	>=dev-python/certifi-2016.9.26[${PYTHON_USEDEP}]"
@@ -83,5 +77,5 @@ python_test() {
 
 python_install() {
 	export DISTRIBUTE_DISABLE_VERSIONED_EASY_INSTALL_SCRIPT=1
-	distutils-r1_python_install
+	distutils-py2_python_install
 }
