@@ -22,7 +22,7 @@ RESTRICT="!test? ( test )"
 RDEPEND=""
 DEPEND="
 	!!dev-python/lz4[python_targets_python2_7(-)]
-	dev-python/setuptools[${PYTHON_USEDEP}]
+	|| ( dev-python/setuptools-py2[${PYTHON_USEDEP}] dev-python/setuptools[${PYTHON_USEDEP}] )
 	test? ( dev-python/nose[${PYTHON_USEDEP}] )
 "
 
