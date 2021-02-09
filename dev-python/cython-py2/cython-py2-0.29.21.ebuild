@@ -22,7 +22,10 @@ KEYWORDS="~alpha amd64 arm arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~riscv ~s390 ~spa
 IUSE="emacs test"
 RESTRICT="!test? ( test )"
 
-RDEPEND="
+DEPEND="
+	!!dev-python/cython[python_targets_python2_7(-)]
+"
+RDEPEND="${DEPEND}
 	dev-python/cython
 	emacs? ( >=app-editors/emacs-23.1:* )
 "
