@@ -8,7 +8,7 @@ EAPI=7
 DISTUTILS_USE_SETUPTOOLS=rdepend
 PYTHON_COMPAT=( python2_7 )
 
-inherit distutils-r1 toolchain-funcs
+inherit distutils-py2 toolchain-funcs
 
 MY_PN="${PN/-py2/}"
 MY_P="${MY_PN}-${PV}"

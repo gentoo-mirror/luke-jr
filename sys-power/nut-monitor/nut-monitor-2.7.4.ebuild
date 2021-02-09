@@ -4,6 +4,7 @@
 EAPI=7
 
 PYTHON_COMPAT=( python2_7 )
+_PYTHON_ALLOW_PY27=1
 
 inherit desktop fixheadtails python-single-r1
 

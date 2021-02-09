@@ -9,7 +9,7 @@ PYTHON_COMPAT=( python2_7 )
 MY_PN="${PN/-py2/}"
 MY_P="${MY_PN}-${PV}"
 
-inherit distutils-r1 toolchain-funcs
+inherit distutils-py2 toolchain-funcs
 
 DESCRIPTION="python binding for curl/libcurl"
 HOMEPAGE="
@@ -75,7 +75,7 @@ src_test() {
 
 python_compile() {
 	python_is_python3 || local -x CFLAGS="${CFLAGS} -fno-strict-aliasing"
-	distutils-r1_python_compile
+	distutils-py2_python_compile
 }
 
 python_test() {
