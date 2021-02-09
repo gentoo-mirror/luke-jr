@@ -3,14 +3,14 @@
 
 EAPI="7"
 
-PYTHON_COMPAT=( python2_7 python3_{6..9} )
+PYTHON_COMPAT=( python2_7 )
 PYTHON_REQ_USE="threads(+)"
 MY_PN="${PN/-py2/}"
 MY_P="${MY_PN}-${PV}"
 
-inherit distutils-r1
+inherit distutils-py2
 
-DESCRIPTION="Python bindings for the cairo library"
+DESCRIPTION="Python2 bindings for the cairo library"
 HOMEPAGE="https://www.cairographics.org/pycairo/ https://github.com/pygobject/pycairo"
 SRC_URI="https://github.com/pygobject/${MY_PN}/releases/download/v${PV}/${MY_P}.tar.gz"
 
@@ -19,22 +19,13 @@ SLOT="0"
 KEYWORDS="~alpha amd64 arm arm64 hppa ~ia64 ~mips ppc ppc64 s390 sparc x86 ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos"
 IUSE="examples"
 
-BDEPEND="
-	test? (
-		$(python_gen_cond_dep '
-			dev-python/hypothesis[${PYTHON_USEDEP}]
-			dev-python/pytest[${PYTHON_USEDEP}]
-		' -3)
-	)
-"
 RDEPEND="
+	!!dev-python/pycairo[python_targets_python2_7(-)]
 	>=x11-libs/cairo-1.13.1[svg]
 "
 DEPEND="${RDEPEND}"
 
 S="${WORKDIR}/${MY_P}"
-
-PATCHES=( "${FILESDIR}/${MY_PN}-1.19.1-py39.patch" )
 
 distutils_enable_sphinx docs \
 	dev-python/sphinx_rtd_theme
@@ -45,12 +36,10 @@ python_test() {
 		einfo "Skipping tests on Python 2 to unblock deps"
 		return
 	fi
-
-	esetup.py test
 }
 
 python_install() {
-	distutils-r1_python_install \
+	distutils-py2_python_install \
 		install_pkgconfig --pkgconfigdir="${EPREFIX}/usr/$(get_libdir)/pkgconfig"
 }
 
