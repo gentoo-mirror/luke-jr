@@ -5,6 +5,7 @@ EAPI=6
 
 GNOME_TARBALL_SUFFIX="bz2"
 PYTHON_COMPAT=( python2_7 )
+_PYTHON_ALLOW_PY27=1
 inherit autotools flag-o-matic gnome2 python-r1 virtualx
 
 DESCRIPTION="GTK+2 bindings for Python"
@@ -23,7 +24,7 @@ RDEPEND="${PYTHON_DEPS}
 	>=x11-libs/pango-1.16
 	>=dev-libs/atk-1.12
 	>=x11-libs/gtk+-2.24:2
-	>=dev-python/pycairo-1.0.2[${PYTHON_USEDEP}]
+	|| ( >=dev-python/pycairo-py2-1.0.2[${PYTHON_USEDEP}] >=dev-python/pycairo-1.0.2[${PYTHON_USEDEP}] )
 	>=dev-python/pygobject-2.26.8-r53:2[${PYTHON_USEDEP}]
 	>=gnome-base/libglade-2.5:2.0
 "
