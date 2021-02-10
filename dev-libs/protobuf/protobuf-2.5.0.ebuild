@@ -7,11 +7,11 @@ JAVA_PKG_IUSE="source"
 PYTHON_COMPAT=( python{2_6,2_7} )
 DISTUTILS_OPTIONAL=1
 
-inherit autotools eutils distutils-r1 java-pkg-opt-2 elisp-common toolchain-funcs
+inherit autotools eutils distutils-py2 java-pkg-opt-2 elisp-common toolchain-funcs
 
 DESCRIPTION="Google's Protocol Buffers -- an efficient method of encoding structured data"
-HOMEPAGE="http://code.google.com/p/protobuf/"
-SRC_URI="http://protobuf.googlecode.com/files/${P}.tar.bz2"
+HOMEPAGE="https://github.com/protocolbuffers/protobuf/"
+SRC_URI="https://github.com/protocolbuffers/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0/8" # subslot = soname major version
@@ -22,17 +22,14 @@ CDEPEND="emacs? ( virtual/emacs )
 	python? ( ${PYTHON_DEPS} )"
 DEPEND="${CDEPEND}
 	java? ( >=virtual/jdk-1.5 )
-	python? ( dev-python/setuptools[${PYTHON_USEDEP}] )"
+	python? ( || ( dev-python/setuptools-py2[${PYTHON_USEDEP}] dev-python/setuptools[${PYTHON_USEDEP}] ) )
+"
 RDEPEND="${CDEPEND}
 	java? ( >=virtual/jre-1.5 )"
 
 src_prepare() {
 	epatch "${FILESDIR}"/${P}-x32.patch
-	if [[ ${CHOST} != *-darwin* ]] ; then
-		# breaks Darwin, bug #472514
-		epatch "${FILESDIR}"/${PN}-2.3.0-asneeded-2.patch
-		eautoreconf
-	fi
+	eautoreconf
 
 	if use python; then
 		cd python && distutils-r1_src_prepare
@@ -53,7 +50,7 @@ src_configure() {
 		fi
 	fi
 	econf \
-		${with_protoc}
+		${with_protoc} \
 		$(use_enable static-libs static)
 }
 
