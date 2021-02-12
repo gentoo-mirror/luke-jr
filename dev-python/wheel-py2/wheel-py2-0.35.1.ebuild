@@ -22,6 +22,7 @@ KEYWORDS="~alpha amd64 arm arm64 hppa ~ia64 ~m68k ~mips ppc ppc64 ~riscv s390 sp
 
 RDEPEND="
 	!!dev-python/wheel[python_targets_python2_7(-)]
+	dev-python/wheel
 "
 
 S="${WORKDIR}/${MY_P}"
@@ -33,6 +34,13 @@ src_prepare() {
 		-e 's:--cov=wheel::g' \
 		-i setup.cfg || die
 	distutils-r1_src_prepare
+}
+
+src_install() {
+	distutils-r1_src_install
+
+	# We recycle the wrappers installed by the Py3 wheel
+	rm -r "${D}/usr/bin" || die
 }
 
 python_test() {

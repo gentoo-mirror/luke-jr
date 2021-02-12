@@ -69,7 +69,7 @@ RDEPEND="${COMMON_DEPEND}
 	virtual/ssh
 	x11-apps/xmodmap
 	cups? ( || ( dev-python/pycups-py2[${PYTHON_USEDEP}] dev-python/pycups[${PYTHON_USEDEP}] ) )
-	dbus? ( dev-python/dbus-python[${PYTHON_USEDEP}] )
+	dbus? ( || ( dev-python/dbus-python-py2[${PYTHON_USEDEP}] dev-python/dbus-python[${PYTHON_USEDEP}] ) )
 	lz4? ( || ( dev-python/lz4-py2[${PYTHON_USEDEP}] dev-python/lz4[${PYTHON_USEDEP}] ) )
 	lzo? ( || ( >=dev-python/python-lzo-py2-0.7.0[${PYTHON_USEDEP}] >=dev-python/python-lzo-0.7.0[${PYTHON_USEDEP}] ) )
 	opengl? (
@@ -84,7 +84,8 @@ RDEPEND="${COMMON_DEPEND}
 		dev-python/pyinotify[${PYTHON_USEDEP}] )"
 DEPEND="${COMMON_DEPEND}
 	virtual/pkgconfig
-	>=dev-python/cython-0.16[${PYTHON_USEDEP}]"
+	|| ( >=dev-python/cython-py2-0.16[${PYTHON_USEDEP}] >=dev-python/cython-0.16[${PYTHON_USEDEP}] )
+"
 
 PATCHES=( "${FILESDIR}"/${PN}-0.13.1-ignore-gentoo-no-compile.patch
 	"${FILESDIR}"/${PN}-2.0-suid-warning.patch )

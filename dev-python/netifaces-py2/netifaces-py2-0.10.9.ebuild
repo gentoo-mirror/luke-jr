@@ -23,7 +23,7 @@ KEYWORDS="amd64 arm ~arm64 ~ppc64 x86 ~amd64-linux ~x86-linux"
 
 DEPEND="
 	!!dev-python/netifaces[python_targets_python2_7(-)]
-	dev-python/setuptools[${PYTHON_USEDEP}]
+	|| ( dev-python/setuptools-py2[${PYTHON_USEDEP}] dev-python/setuptools[${PYTHON_USEDEP}] )
 "
 
 S="${WORKDIR}/${MY_P}"

@@ -23,7 +23,8 @@ RDEPEND="
 	!!dev-python/pycparser[python_targets_python2_7(-)]
 "
 BDEPEND="${RDEPEND}
-	dev-python/setuptools[${PYTHON_USEDEP}]"
+	|| ( dev-python/setuptools-py2[${PYTHON_USEDEP}] dev-python/setuptools[${PYTHON_USEDEP}] )
+"
 
 S="${WORKDIR}/${MY_P}"
 

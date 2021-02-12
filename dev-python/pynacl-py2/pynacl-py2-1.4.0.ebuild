@@ -24,7 +24,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}
 	!!dev-python/pynacl[python_targets_python2_7(-)]
-	dev-python/setuptools[${PYTHON_USEDEP}]
+	|| ( dev-python/setuptools-py2[${PYTHON_USEDEP}] dev-python/setuptools[${PYTHON_USEDEP}] )
 	test? ( >=dev-python/hypothesis-3.27.0[${PYTHON_USEDEP}] )
 "
 
