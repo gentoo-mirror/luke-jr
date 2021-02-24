@@ -6,7 +6,7 @@ EAPI=6
 PYTHON_COMPAT=( python2_{5,6,7} )
 DISTUTILS_SINGLE_IMPL=1
 
-inherit git-r3 distutils-r1
+inherit git-r3 distutils-py2
 
 EGIT_REPO_URI="https://github.com/newroco/vmbuilder.git"
 EGIT_COMMIT='bbf1921aa090eb924379cca38838d7bb8009a781'
