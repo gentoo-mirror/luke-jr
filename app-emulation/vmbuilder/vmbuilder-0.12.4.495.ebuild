@@ -6,7 +6,7 @@ EAPI=5
 PYTHON_COMPAT=( python2_{5,6,7} )
 DISTUTILS_SINGLE_IMPL=1
 
-inherit bzr distutils-r1
+inherit bzr distutils-py2
 
 EBZR_REPO_URI="lp:${PN}"
 EBZR_REVISION=495
