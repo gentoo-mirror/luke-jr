@@ -1,7 +1,7 @@
 # Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 MyP="phonon-${PV}"
 SNAPSHOT_COMMIT='450c91493ce6d6e5ce0a0caa13ecf87133cf585b'
