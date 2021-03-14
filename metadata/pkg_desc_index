@@ -11,8 +11,10 @@ dev-lang/rgbds 0.3.7: Free assembler/linker package for the Game Boy and Game Bo
 dev-libs/DirectFB 1.6.3-r1 1.7.6-r1: Thin library on top of the Linux framebuffer devices
 dev-libs/dbus-1-tqt 9999: D-BUS TQt bindings
 dev-libs/libattica 0.4.2: A library providing access to Open Collaboration Services
+dev-libs/libdbusmenu-qt4 0.9.3_pre20160218-r1: Library providing Qt 4 implementation of DBusMenu specification
 dev-libs/protobuf 2.5.0: Google's Protocol Buffers -- an efficient method of encoding structured data
 dev-libs/protobuf-c 1.0.0_rc2: code generator and runtime libraries to use Protocol Buffers (protobuf) from pure C
+dev-libs/qjson 0.9.0: Library for mapping JSON data to QVariant objects
 dev-libs/win_backtrace 9999: DLL to dump a usable backtrace to stderr for MingW/GCC software on Windows (requires application support)
 dev-perl/AniDB 0.3_pre414: Perl clients for AniDB
 dev-perl/Text-vCard 2.01: a package to parse, edit and create vCards
@@ -93,6 +95,7 @@ media-fonts/tuffy 20120614: Public Domain TrueType font
 media-gfx/kodakaio 0.2.1: Kodak AIO SANE backend
 media-libs/fontconfig 2.11.1-r2: A library for configuring and customizing font access
 media-libs/glew 1.5.8: The OpenGL Extension Wrangler Library
+media-libs/phonon-qt4 4.10.3_pre20190719: KDE multimedia API
 media-libs/phonon-qt4-vlc 0.10.3_pre20190816: Phonon VLC backend
 media-video/syncplay 1.6.4a 1.6.7: Client/server to synchronize media playback
 net-im/psi-omemo 9999: Psi plugin for OMEMO
