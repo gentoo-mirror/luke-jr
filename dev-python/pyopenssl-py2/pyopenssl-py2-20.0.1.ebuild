@@ -3,10 +3,10 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{7..9} pypy3 )
+PYTHON_COMPAT=( python2_7 )
 PYTHON_REQ_USE="threads(+)"
 
-inherit distutils-r1 flag-o-matic
+inherit distutils-py2 flag-o-matic
 
 MY_PN=pyOpenSSL
 MY_P=${MY_PN}-${PV}
@@ -24,15 +24,17 @@ LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~alpha amd64 ~arm arm64 hppa ~ia64 ~m68k ~mips ~ppc ppc64 ~riscv ~s390 sparc ~x86 ~x64-cygwin ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~sparc-solaris ~sparc64-solaris ~x64-solaris ~x86-solaris"
 
+DEPEND="!!dev-python/pyopenssl[python_targets_python2_7(-)]"
 RDEPEND="
-	>=dev-python/six-1.5.2[${PYTHON_USEDEP}]
-	>=dev-python/cryptography-3.2[${PYTHON_USEDEP}]"
+	|| ( >=dev-python/six-py2-1.5.2[${PYTHON_USEDEP}] >=dev-python/six-1.5.2[${PYTHON_USEDEP}] )
+	|| ( >=dev-python/cryptography-py2-3.2[${PYTHON_USEDEP}] >=dev-python/cryptography-3.2[${PYTHON_USEDEP}] )
+"
 BDEPEND="
 	test? (
-		virtual/python-cffi[${PYTHON_USEDEP}]
-		dev-python/flaky[${PYTHON_USEDEP}]
-		dev-python/pretend[${PYTHON_USEDEP}]
-		>=dev-python/pytest-3.0.1[${PYTHON_USEDEP}]
+		|| ( dev-python/cffi-py2[${PYTHON_USEDEP}] virtual/python-cffi[${PYTHON_USEDEP}] )
+		|| ( dev-python/flaky-py2[${PYTHON_USEDEP}] dev-python/flaky[${PYTHON_USEDEP}] )
+		|| ( dev-python/pretend-py2[${PYTHON_USEDEP}] dev-python/pretend[${PYTHON_USEDEP}] )
+		|| ( >=dev-python/pytest-py2-3.0.1[${PYTHON_USEDEP}] >=dev-python/pytest-3.0.1[${PYTHON_USEDEP}] )
 	)"
 
 distutils_enable_sphinx doc \
