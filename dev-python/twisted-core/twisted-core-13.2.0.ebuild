@@ -19,7 +19,7 @@ DEPEND="
 	serial? ( || ( dev-python/pyserial-py2[${PYTHON_USEDEP}] dev-python/pyserial[${PYTHON_USEDEP}] ) )
 "
 RDEPEND="${DEPEND}
-	!dev-python/twisted
+	dev-python/twisted
 "
 
 PATCHES=(
@@ -111,6 +111,9 @@ python_install() {
 
 	# own the dropin.cache so we don't leave orphans
 	touch twisted/plugins/dropin.cache || die
+
+	# We recycle the wrappers installed by the Py3 version
+	rm "${D}/usr/bin/"{pyhtmlizer,trial,twistd} || die
 }
 
 python_install_all() {
