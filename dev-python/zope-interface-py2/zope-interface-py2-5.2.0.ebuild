@@ -5,9 +5,9 @@ EAPI=7
 
 # pkg_resources namespace
 DISTUTILS_USE_SETUPTOOLS=rdepend
-PYTHON_COMPAT=( python3_{7,8,9} pypy3 )
+PYTHON_COMPAT=( python2_7 )
 
-inherit distutils-r1 flag-o-matic
+inherit distutils-py2 flag-o-matic
 
 MY_PN=zope.interface
 MY_P=${MY_PN}-${PV}
@@ -20,11 +20,16 @@ LICENSE="ZPL"
 SLOT="0"
 KEYWORDS="~alpha amd64 arm arm64 hppa ~ia64 ~m68k ~mips ppc ppc64 ~riscv s390 sparc x86 ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~sparc-solaris ~sparc64-solaris ~x64-solaris ~x86-solaris"
 
-RDEPEND="dev-python/namespace-zope[${PYTHON_USEDEP}]"
+DEPEND="
+	!!dev-python/zope-interface[python_targets_python2_7(-)]
+"
+RDEPEND="
+	|| ( dev-python/namespace-zope-py2[${PYTHON_USEDEP}] dev-python/namespace-zope[${PYTHON_USEDEP}] )
+"
 BDEPEND="
 	test? (
-		dev-python/zope-event[${PYTHON_USEDEP}]
-		dev-python/zope-testing[${PYTHON_USEDEP}]
+		|| ( dev-python/zope-event-py2[${PYTHON_USEDEP}] dev-python/zope-event[${PYTHON_USEDEP}] )
+		|| ( dev-python/zope-testing-py2[${PYTHON_USEDEP}] dev-python/zope-testing[${PYTHON_USEDEP}] )
 	)
 "
 
@@ -42,7 +47,7 @@ python_compile() {
 		append-flags -fno-strict-aliasing
 	fi
 
-	distutils-r1_python_compile
+	distutils-py2_python_compile
 }
 
 python_install_all() {
