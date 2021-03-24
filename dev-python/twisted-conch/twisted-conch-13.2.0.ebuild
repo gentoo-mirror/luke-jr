@@ -16,7 +16,9 @@ DEPEND="
 	|| ( dev-python/pyasn1-py2[${PYTHON_USEDEP}] dev-python/pyasn1[${PYTHON_USEDEP}] )
 	|| ( dev-python/pycrypto-py2[${PYTHON_USEDEP}] dev-python/pycrypto[${PYTHON_USEDEP}] )
 "
-RDEPEND="${DEPEND}"
+RDEPEND="${DEPEND}
+	dev-python/twisted
+"
 
 python_prepare_all() {
 	if [[ "${EUID}" -eq 0 ]]; then
@@ -26,4 +28,11 @@ python_prepare_all() {
 	fi
 
 	distutils-r1_python_prepare_all
+}
+
+src_install() {
+       distutils-r1_src_install
+
+       # We recycle the wrappers installed by the Py3 version
+       rm "${D}/usr/bin/"{cftp,ckeygen,conch,tkconch} || die
 }
