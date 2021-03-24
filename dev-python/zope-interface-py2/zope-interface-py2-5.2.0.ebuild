@@ -9,7 +9,7 @@ PYTHON_COMPAT=( python3_{7,8,9} pypy3 )
 
 inherit distutils-r1 flag-o-matic
 
-MY_PN=${PN/-/.}
+MY_PN=zope.interface
 MY_P=${MY_PN}-${PV}
 
 DESCRIPTION="Interfaces for Python"
