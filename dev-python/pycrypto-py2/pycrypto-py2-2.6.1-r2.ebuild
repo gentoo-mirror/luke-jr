@@ -3,13 +3,13 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python2_7 python3_{6,7} )
+PYTHON_COMPAT=( python2_7 )
 PYTHON_REQ_USE="threads(+)"
 
 MY_PN="${PN/-py2/}"
 MY_P="${MY_PN}-${PV}"
 
-inherit distutils-r1 flag-o-matic
+inherit distutils-py2 flag-o-matic
 
 DESCRIPTION="Python Cryptography Toolkit"
 HOMEPAGE="https://www.dlitz.net/software/pycrypto/
@@ -24,6 +24,7 @@ RESTRICT="!test? ( test )"
 
 RDEPEND="gmp? ( dev-libs/gmp:0= )"
 DEPEND="${RDEPEND}
+	!!dev-python/pycrypto[python_targets_python2_7(-)]
 	doc? (
 		dev-python/docutils[${PYTHON_USEDEP}]
 		$(python_gen_cond_dep '>=dev-python/epydoc-3[${PYTHON_USEDEP}]' 'python2*')
@@ -68,12 +69,10 @@ python_compile_all() {
 }
 
 python_compile() {
-	if ! python_is_python3; then
-		local -x CFLAGS="${CFLAGS}"
-		append-cflags -fno-strict-aliasing
-	fi
+	local -x CFLAGS="${CFLAGS}"
+	append-cflags -fno-strict-aliasing
 
-	distutils-r1_python_compile
+	distutils-py2_python_compile
 }
 
 python_test() {
