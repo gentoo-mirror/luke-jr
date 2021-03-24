@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -6,12 +6,15 @@ EAPI=7
 PYTHON_COMPAT=( python2_7 python3_{6,7} )
 PYTHON_REQ_USE="threads(+)"
 
+MY_PN="${PN/-py2/}"
+MY_P="${MY_PN}-${PV}"
+
 inherit distutils-r1 flag-o-matic
 
 DESCRIPTION="Python Cryptography Toolkit"
 HOMEPAGE="https://www.dlitz.net/software/pycrypto/
 	https://pypi.org/project/pycrypto/"
-SRC_URI="http://ftp.dlitz.net/pub/dlitz/crypto/pycrypto/${P}.tar.gz"
+SRC_URI="http://ftp.dlitz.net/pub/dlitz/crypto/pycrypto/${MY_P}.tar.gz"
 
 LICENSE="PSF-2 public-domain"
 SLOT="0"
@@ -28,10 +31,12 @@ DEPEND="${RDEPEND}
 
 REQUIRED_USE="test? ( gmp )"
 
+S="${WORKDIR}/${MY_P}"
+
 DOCS=( ACKS ChangeLog README TODO )
 PATCHES=(
-	"${FILESDIR}"/${P}-cross-compile.patch
-	"${FILESDIR}"/${P}-CVE-2013-7459.patch
+	"${FILESDIR}"/${PV}-cross-compile.patch
+	"${FILESDIR}"/${PV}-CVE-2013-7459.patch
 )
 
 python_prepare_all() {
