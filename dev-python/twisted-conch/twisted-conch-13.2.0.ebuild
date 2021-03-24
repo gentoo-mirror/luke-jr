@@ -1,7 +1,7 @@
 # Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=7
 PYTHON_COMPAT=( python2_7 )
 
 inherit twisted-r1
@@ -13,12 +13,10 @@ IUSE=""
 
 DEPEND="
 	=dev-python/twisted-core-${TWISTED_RELEASE}*[${PYTHON_USEDEP}]
-	dev-python/pyasn1[${PYTHON_USEDEP}]
-	dev-python/pycrypto[${PYTHON_USEDEP}]
+	|| ( dev-python/pyasn1-py2[${PYTHON_USEDEP}] dev-python/pyasn1[${PYTHON_USEDEP}] )
+	|| ( dev-python/pycrypto-py2[${PYTHON_USEDEP}] dev-python/pycrypto[${PYTHON_USEDEP}] )
 "
-RDEPEND="${DEPEND}
-	!dev-python/twisted
-"
+RDEPEND="${DEPEND}"
 
 python_prepare_all() {
 	if [[ "${EUID}" -eq 0 ]]; then
