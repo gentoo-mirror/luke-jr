@@ -23,6 +23,8 @@ KEYWORDS="~alpha amd64 arm arm64 ~hppa ~ia64 ~m68k ~mips ppc ppc64 ~riscv ~s390 
 IUSE="libressl idna"
 
 RDEPEND="
+	dev-python/enum34[${PYTHON_USEDEP}]
+	dev-python/ipaddress[${PYTHON_USEDEP}]
 	|| ( >=dev-python/six-py2-1.4.1[${PYTHON_USEDEP}] >=dev-python/six-1.4.1[${PYTHON_USEDEP}] )
 	idna? ( >=dev-python/idna-2.1[${PYTHON_USEDEP}] )
 	$(python_gen_cond_dep '
