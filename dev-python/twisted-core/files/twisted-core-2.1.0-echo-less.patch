@@ -1,6 +1,5 @@
-=== modified file 'twisted/test/test_process.py'
---- twisted/test/test_process.py	
-+++ twisted/test/test_process.py	
+--- a/twisted/test/test_process.py	
++++ b/twisted/test/test_process.py	
 @@ -76,7 +76,7 @@
  
  class EchoProtocol(protocol.ProcessProtocol):

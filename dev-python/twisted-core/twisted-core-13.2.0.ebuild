@@ -1,7 +1,7 @@
 # Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 PYTHON_COMPAT=( python2_7 )
 PYTHON_REQ_USE="threads(+)"
 
@@ -13,10 +13,11 @@ KEYWORDS="~alpha amd64 arm arm64 hppa ia64 m68k ~mips ppc ppc64 s390 sh sparc x8
 IUSE="crypt gtk serial"
 
 DEPEND="
-	>=dev-python/zope-interface-3.6.0[${PYTHON_USEDEP}]
-	crypt? ( >=dev-python/pyopenssl-0.10[${PYTHON_USEDEP}] )
+	|| ( >=dev-python/zope-interface-py2-3.6.0[${PYTHON_USEDEP}] >=dev-python/zope-interface-3.6.0[${PYTHON_USEDEP}] )
+	crypt? ( || ( >=dev-python/pyopenssl-py2-0.10[${PYTHON_USEDEP}] >=dev-python/pyopenssl-0.10[${PYTHON_USEDEP}] ) )
 	gtk? ( dev-python/pygtk:2[${PYTHON_USEDEP}] )
-	serial? ( dev-python/pyserial[${PYTHON_USEDEP}] )"
+	serial? ( || ( dev-python/pyserial-py2[${PYTHON_USEDEP}] dev-python/pyserial[${PYTHON_USEDEP}] ) )
+"
 RDEPEND="${DEPEND}
 	!dev-python/twisted
 "
@@ -54,7 +55,7 @@ python_compile() {
 		local -x CXXFLAGS="${CXXFLAGS} -fno-strict-aliasing"
 	fi
 
-	distutils-r1_python_compile
+	distutils-py2_python_compile
 }
 
 python_test() {
@@ -99,7 +100,7 @@ python_test() {
 }
 
 python_install() {
-	distutils-r1_python_install
+	distutils-py2_python_install
 
 	cd "${D%/}$(python_get_sitedir)" || die
 
