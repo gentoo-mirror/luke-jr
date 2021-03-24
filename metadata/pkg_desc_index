@@ -26,6 +26,8 @@ dev-python/cffi-py2 1.14.4: Foreign Function Interface for Python calling C code
 dev-python/cryptography-py2 3.2.1: Library providing cryptographic recipes and primitives
 dev-python/cython-py2 0.29.21: A Python to C compiler
 dev-python/dbus-python-py2 1.2.16: Python2 bindings for the D-Bus messagebus
+dev-python/enum34 1.1.6-r1 1.1.10: Python 3.4 Enum backported
+dev-python/ipaddress 1.0.23: IPv4/IPv6 manipulation library, backport of the ipaddress module
 dev-python/lz4-py2 0.8.2: LZ4 Bindings for Python
 dev-python/netifaces-py2 0.10.9: Portable network interface information
 dev-python/paramiko-py2 2.7.1: SSH2 protocol library
@@ -38,6 +40,7 @@ dev-python/pycurl-py2 7.43.0.6-r1: python binding for curl/libcurl
 dev-python/pygobject 2.28.6-r56: GLib's GObject library bindings for Python
 dev-python/pygtk 2.24.0-r5: GTK+2 bindings for Python
 dev-python/pynacl-py2 1.4.0: Python binding to the Networking and Cryptography (NaCl) library
+dev-python/pyopenssl-py2 20.0.1: Python interface to the OpenSSL library
 dev-python/pyrasite 2.0: Tools for injecting arbitrary code into running Python processes
 dev-python/python-lzo-py2 1.12-r1: Python interface to lzo
 dev-python/rencode-py2 1.0.6: similar to bencode from the BitTorrent project
