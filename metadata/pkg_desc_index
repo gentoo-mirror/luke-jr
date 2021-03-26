@@ -29,12 +29,14 @@ dev-python/dbus-python-py2 1.2.16: Python2 bindings for the D-Bus messagebus
 dev-python/enum34 1.1.6-r1 1.1.10: Python 3.4 Enum backported
 dev-python/ipaddress 1.0.23: IPv4/IPv6 manipulation library, backport of the ipaddress module
 dev-python/lz4-py2 0.8.2: LZ4 Bindings for Python
+dev-python/namespace-zope-py2 1-r1: Namespace package declaration for zope
 dev-python/netifaces-py2 0.10.9: Portable network interface information
 dev-python/paramiko-py2 2.7.1: SSH2 protocol library
 dev-python/ply-py2 3.11-r1: Python Lex-Yacc library
 dev-python/pyasn1-py2 0.4.8-r1: ASN.1 library for Python
 dev-python/pycairo-py2 1.18.2: Python2 bindings for the cairo library
 dev-python/pycparser-py2 2.20-r1: C parser and AST generator written in Python
+dev-python/pycrypto-py2 2.6.1-r2: Python Cryptography Toolkit
 dev-python/pycups-py2 1.9.73-r2: Python bindings for the CUPS API
 dev-python/pycurl-py2 7.43.0.6-r1: python binding for curl/libcurl
 dev-python/pygobject 2.28.6-r56: GLib's GObject library bindings for Python
@@ -46,7 +48,11 @@ dev-python/python-lzo-py2 1.12-r1: Python interface to lzo
 dev-python/rencode-py2 1.0.6: similar to bencode from the BitTorrent project
 dev-python/setuptools-py2 44.1.1: Collection of extensions to Distutils
 dev-python/six-py2 1.15.0-r1: Python 2 and 3 compatibility library
+dev-python/twisted-conch 13.2.0: Twisted SSHv2 implementation
+dev-python/twisted-core 13.2.0: An asynchronous networking framework written in Python
+dev-python/twisted-web 13.2.0: Twisted web server, programmable in Python
 dev-python/wheel-py2 0.35.1: A built-package format for Python
+dev-python/zope-interface-py2 5.2.0: Interfaces for Python
 dev-qt/designer 4.8.2020.02: WYSIWYG tool for designing and building Qt-based GUIs
 dev-qt/qt3support 4.8.2020.02: The Qt3Support module for the Qt toolkit
 dev-qt/qtcore 4.8.2020.02: Cross-platform application development framework
