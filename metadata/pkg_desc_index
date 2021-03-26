@@ -94,13 +94,8 @@ kde-frameworks/kdelibs 4.14.2019.08: Libraries needed for programs by KDE
 kde-frameworks/kdelibs-env 4.14.3: Environment setting required for all KDELibs4 apps to run
 mail-filter/hashcash-milter 0.1.2: A milter-based application to mint and check HashCash stamps
 media-fonts/armagetronad-font 0_pre20100817: Font designed for games-action/armagetronad console
-media-fonts/console-font 0.0.20151103: Console font
-media-fonts/liberation-fonts 1.07.4: A Helvetica/Times/Courier replacement TrueType font set, courtesy of Red Hat
 media-fonts/ljr-free-fonts-meta 20180818 20201004 20201005: Metapackage for free fonts
 media-fonts/lohit-fonts 2.4.2: The Lohit family of Indic fonts
-media-fonts/overpass 2.1: An open source webfont family inspired by Highway Gothic
-media-fonts/symbola 9.17 10.24: Unicode font for Latin, IPA Extensions, Greek, Cyrillic and many Symbol Blocks
-media-fonts/tuffy 20120614: Public Domain TrueType font
 media-gfx/kodakaio 0.2.1: Kodak AIO SANE backend
 media-libs/fontconfig 2.11.1-r2: A library for configuring and customizing font access
 media-libs/glew 1.5.8: The OpenGL Extension Wrangler Library
