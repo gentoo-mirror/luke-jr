@@ -15,7 +15,7 @@ SRC_URI="https://github.com/RedHatOfficial/${MY_PN}/archive/${COMMITHASH}.tar.gz
 
 LICENSE="|| ( LGPL-2.1 OFL-1.1 )"
 SLOT="0"
-KEYWORDS="amd64 ~arm ~ppc ~ppc64 ~x86"
+KEYWORDS="~amd64 ~arm ~ppc ~ppc64 ~x86"
 
 S="${WORKDIR}/${MY_PN}-${COMMITHASH}/webfonts/overpass-webfont"
 FONT_SUFFIX="ttf"
