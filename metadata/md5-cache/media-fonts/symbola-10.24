@@ -1,0 +1,15 @@
+BDEPEND=X? ( >=x11-apps/mkfontscale-1.2.0 media-fonts/encodings )
+DEFINED_PHASES=install postinst postrm prepare setup
+DEPEND=app-arch/unzip
+DESCRIPTION=Unicode font for Latin, IPA Extensions, Greek, Cyrillic and many Symbol Blocks
+EAPI=7
+HOMEPAGE=https://web.archive.org/web/20180212144935/http://users.teilar.gr:80/~g1951d
+INHERIT=font
+IUSE=doc X
+KEYWORDS=amd64 arm ppc ppc64 x86
+LICENSE=public-domain
+RESTRICT=mirror bindist
+SLOT=0
+SRC_URI=https://luke.dashjr.org/mirror/misc/symbola-10.24.zip
+_eclasses_=font	0667878c2b594871023dd1833d05996f
+_md5_=34d4bdbac97653ed7ac4eb4e2a3cfaaa
