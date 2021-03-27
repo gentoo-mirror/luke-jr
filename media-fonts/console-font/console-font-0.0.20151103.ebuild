@@ -1,7 +1,7 @@
 # Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 inherit font font-ebdftopcf
 
 DESCRIPTION="Console font"
@@ -24,6 +24,7 @@ src_unpack() {
 
 src_prepare() {
 	echo 'Open($1); Generate($2)' >"build.pe" || die
+	default
 }
 
 src_compile() {
