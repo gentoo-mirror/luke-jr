@@ -1,7 +1,7 @@
 # Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
 MY_PN="${PN/s/S}"
 
@@ -28,4 +28,5 @@ src_prepare() {
 	if use doc; then
 		DOCS="${MY_PN}.pdf"
 	fi
+	default
 }
