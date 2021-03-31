@@ -3,6 +3,7 @@ DEPEND=sys-devel/binutils dev-vcs/git
 DESCRIPTION=DLL to dump a usable backtrace to stderr for MingW/GCC software on Windows (requires application support)
 EAPI=5
 HOMEPAGE=https://github.com/luke-jr/win_backtrace
+INHERIT=git-2
 LICENSE=BSD-2
 PROPERTIES=live
 SLOT=0
