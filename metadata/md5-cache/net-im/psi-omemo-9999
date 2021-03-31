@@ -4,9 +4,10 @@ DEPEND=|| ( >=net-libs/libsignal-protocol-c-2.3.1_p20180209 >=app-crypt/libsigna
 DESCRIPTION=Psi plugin for OMEMO
 EAPI=7
 HOMEPAGE=https://github.com/psi-im/
+INHERIT=psi-plugin
 LICENSE=GPL-2
 PROPERTIES=live
 RDEPEND=|| ( >=net-libs/libsignal-protocol-c-2.3.1_p20180209 >=app-crypt/libsignal-protocol-c-2.3.1_p20180209 ) >=app-crypt/qca-2.1.3_p20180105 net-im/psi
 SLOT=0
-_eclasses_=git-r3	3e7ec3d6619213460c85e2aa48398441	multilib	d410501a125f99ffb560b0c523cd3d1e	psi-plugin	be7c642563b7bc5d79d59edfe3516a46	qmake-utils	dc74fe3891abc25e80dad5cd3d7c6e47	toolchain-funcs	24921b57d6561d87cbef4916a296ada4
+_eclasses_=toolchain-funcs	24921b57d6561d87cbef4916a296ada4	multilib	d410501a125f99ffb560b0c523cd3d1e	qmake-utils	dc74fe3891abc25e80dad5cd3d7c6e47	git-r3	b8e8c92aa5fe8df7187e466138eb4e52	psi-plugin	be7c642563b7bc5d79d59edfe3516a46
 _md5_=7a167a10c421801adf0fa6800b75b3d9
