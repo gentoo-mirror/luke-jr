@@ -1,0 +1,10 @@
+DEFINED_PHASES=compile install
+DESCRIPTION=Chromium extension to manipulate tabs based on URL matching
+EAPI=7
+HOMEPAGE=https://github.com/sylouuu/chrome-tab-modifier
+KEYWORDS=~amd64 ~arm64 ~ppc64 ~x86
+LICENSE=MIT
+RDEPEND=www-client/chromium
+SLOT=0
+SRC_URI=https://clients2.google.com/service/update2/crx?response=redirect&prodversion=89.0.4389.114&acceptformat=crx2,crx3&x=id%3Dhcbgadmbdkiilgpifjgcakjehmafcjai%26uc -> chrome-tab-modifier-0.22.0.crx
+_md5_=755058138e6c17625e9ec6cc76888610
