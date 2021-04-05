@@ -4,11 +4,11 @@ EAPI=6
 HOMEPAGE=https://syncplay.pl
 INHERIT=python-r1
 IUSE=+client +server vlc python_targets_python3_7 python_targets_python3_8
-KEYWORDS=~amd64 ~ppc64 ~x86
+KEYWORDS=amd64 ppc64 ~x86
 LICENSE=Apache-2.0
 RDEPEND=python_targets_python3_7? ( dev-lang/python:3.7 ) python_targets_python3_8? ( dev-lang/python:3.8 ) >=dev-lang/python-exec-2:=[python_targets_python3_7(-)?,python_targets_python3_8(-)?,-python_single_target_python3_7(-),-python_single_target_python3_8(-)] >=dev-python/certifi-2018.11.29[python_targets_python3_7(-)?,python_targets_python3_8(-)?,-python_single_target_python3_7(-),-python_single_target_python3_8(-)] >=dev-python/twisted-16.4.0[crypt,python_targets_python3_7(-)?,python_targets_python3_8(-)?,-python_single_target_python3_7(-),-python_single_target_python3_8(-)] vlc? ( media-video/vlc[lua] )
 REQUIRED_USE=vlc? ( client ) || ( python_targets_python3_7 python_targets_python3_8 )
 SLOT=0
 SRC_URI=https://github.com/Syncplay/syncplay/archive/v1.6.7.tar.gz -> syncplay-1.6.7.tar.gz
 _eclasses_=multibuild	6b3d5ee849dafe6cdfd7b859c211fb01	toolchain-funcs	24921b57d6561d87cbef4916a296ada4	multilib	d410501a125f99ffb560b0c523cd3d1e	python-utils-r1	543b53e4d003ebd889082f4673e52af5	python-r1	a0dcde4775c7b2f7530678fc8143340e
-_md5_=ac1fd1c0cffeec719fd7b1d95b7d56ce
+_md5_=726f2759f645394978ccac6d3f528d34
