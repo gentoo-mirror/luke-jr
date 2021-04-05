@@ -11,7 +11,7 @@ inherit kde4-meta
 DESCRIPTION="Personal Organizer by KDE (noakonadi branch)"
 HOMEPAGE="https://launchpad.net/~pali/+archive/ubuntu/kdepim-noakonadi"
 
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="amd64 ~ppc64 x86"
 IUSE="debug"
 
 DEPEND="
