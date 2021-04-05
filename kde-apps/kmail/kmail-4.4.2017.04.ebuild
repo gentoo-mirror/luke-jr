@@ -12,7 +12,7 @@ inherit flag-o-matic kde4-meta
 DESCRIPTION="Email client, supporting POP3 and IMAP mailboxes (noakonadi branch)"
 HOMEPAGE="https://launchpad.net/~pali/+archive/ubuntu/kdepim-noakonadi"
 
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="amd64 x86"
 IUSE="debug"
 
 DEPEND="
