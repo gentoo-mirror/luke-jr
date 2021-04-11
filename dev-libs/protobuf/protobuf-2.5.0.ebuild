@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-libs/protobuf/protobuf-2.5.0.ebuild,v 1.12 2014/03/06 10:56:33 ago Exp $
 
-EAPI=5
+EAPI=6
 JAVA_PKG_IUSE="source"
 PYTHON_COMPAT=( python{2_6,2_7} )
 DISTUTILS_OPTIONAL=1
@@ -28,7 +28,8 @@ RDEPEND="${CDEPEND}
 	java? ( >=virtual/jre-1.5 )"
 
 src_prepare() {
-	epatch "${FILESDIR}"/${P}-x32.patch
+	eapply "${FILESDIR}"/${P}-x32.patch
+	default
 	eautoreconf
 
 	if use python; then
