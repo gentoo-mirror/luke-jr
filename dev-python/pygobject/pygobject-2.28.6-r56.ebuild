@@ -1,8 +1,7 @@
 # Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-GCONF_DEBUG="no"
+EAPI="6"
 GNOME2_LA_PUNT="yes"
 PYTHON_COMPAT=( python2_7 )
 _PYTHON_ALLOW_PY27=1
@@ -80,12 +79,13 @@ src_configure() {
 	DOCS="AUTHORS ChangeLog* NEWS README"
 	# --disable-introspection and --disable-cairo because we use pygobject:3
 	# for introspection support
-	G2CONF="${G2CONF}
+	local myconf=(
 		--disable-introspection
 		--disable-cairo
-		$(use_with libffi ffi)"
+		$(use_with libffi ffi)
+	)
 
-	python_foreach_impl run_in_build_dir gnome2_src_configure
+	python_foreach_impl run_in_build_dir gnome2_src_configure "${myconf[@]}"
 }
 
 src_compile() {
