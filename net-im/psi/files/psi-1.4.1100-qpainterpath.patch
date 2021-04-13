@@ -1,0 +1,48 @@
+diff --git a/src/avatars.cpp b/src/avatars.cpp
+index f70c2f63..44c5a4c3 100644
+--- a/src/avatars.cpp
++++ b/src/avatars.cpp
+@@ -50,6 +50,7 @@
+ #include <QFileInfo>
+ #include <QImageReader>
+ #include <QPainter>
++#include <QPainterPath>
+ #include <QPixmap>
+ #include <QtCrypto>
+ 
+diff --git a/src/contactlistdragview.cpp b/src/contactlistdragview.cpp
+index c82c2355..42317d9a 100644
+--- a/src/contactlistdragview.cpp
++++ b/src/contactlistdragview.cpp
+@@ -43,6 +43,7 @@
+ #include <QMimeData>
+ #include <QMouseEvent>
+ #include <QPainter>
++#include <QPainterPath>
+ #include <QScrollBar>
+ 
+ ContactListDragView::ContactListDragView(QWidget *parent) :
+diff --git a/src/multifiletransferdelegate.cpp b/src/multifiletransferdelegate.cpp
+index 8ef50279..fb5cc5d5 100644
+--- a/src/multifiletransferdelegate.cpp
++++ b/src/multifiletransferdelegate.cpp
+@@ -30,6 +30,7 @@
+ #include <QLineEdit>
+ #include <QMenu>
+ #include <QPainter>
++#include <QPainterPath>
+ #include <QPlainTextEdit>
+ #include <QStyledItemDelegate>
+ #include <QTextEdit>
+diff --git a/src/rosteravatarframe.cpp b/src/rosteravatarframe.cpp
+index e3945aff..681423d2 100644
+--- a/src/rosteravatarframe.cpp
++++ b/src/rosteravatarframe.cpp
+@@ -22,6 +22,7 @@
+ #include "iconset.h"
+ #include "psioptions.h"
+ #include "qpainter.h"
++#include <QPainterPath>
+ 
+ RosterAvatarFrame::RosterAvatarFrame(QWidget *parent) : QFrame(parent), statusMessage_("")
+ {
