@@ -69,6 +69,7 @@ dev-qt/tqtinterface 9999: Interface and abstraction library for Qt and Trinity
 dev-util/automoc 0.9.88-r1: KDE Meta Object Compiler
 dev-util/nsis 2.51: Nullsoft Scriptable Install System
 dev-vcs/bzr 2.7.1_pre: Bazaar is a next generation distributed version control system
+dev-vcs/git-signatures 0_pre20181003: Attach an arbitrary number of GPG signatures to git commits and tags
 games-emulation/sameboy 0.10.1: A user friendly Game Boy and Game Boy Color emulator
 games-fps/openjk-academy 9999: Community-maintained Jedi Academy, story version
 games-fps/openjk-academy-mp 9999: Community-maintained Jedi Academy, multiplayer version

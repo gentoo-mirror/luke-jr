@@ -1,0 +1,13 @@
+BDEPEND=sys-devel/make app-shells/bash test? ( dev-util/bats app-shells/bash sys-apps/util-linux sys-apps/coreutils >=app-crypt/gnupg-2.2 >=dev-vcs/git-2.1 )
+DEFINED_PHASES=compile install test
+DESCRIPTION=Attach an arbitrary number of GPG signatures to git commits and tags
+EAPI=7
+HOMEPAGE=https://github.com/hashbang/git-signatures
+IUSE=test
+KEYWORDS=~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86
+LICENSE=MIT
+RDEPEND=app-shells/bash sys-apps/util-linux sys-apps/coreutils >=app-crypt/gnupg-2.2 >=dev-vcs/git-2.1
+RESTRICT=!test? ( test )
+SLOT=0
+SRC_URI=https://github.com/hashbang/git-signatures/archive/979f207a1c1342b9342aa58be914fc51a0c62f87.tar.gz -> git-signatures-0_pre20181003.tar.gz
+_md5_=1d7b8a39aefae28a208492f474e30b29
