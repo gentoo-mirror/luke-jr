@@ -1,1 +1,0 @@
-This only works if you use GCC 4.9.4 and include -U_FORTIFY_SOURCE -fno-stack-protector in CFLAGS
