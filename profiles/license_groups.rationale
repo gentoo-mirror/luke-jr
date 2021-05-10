@@ -121,6 +121,7 @@
 	Openwall
 	NPSL
 	pngcrush
+	trio
 
 	AMBIGUOUS-no-fee:
 		CNRI
