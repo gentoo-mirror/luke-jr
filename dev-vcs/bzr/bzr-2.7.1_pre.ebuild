@@ -16,7 +16,7 @@ PLOCALES="ar ast bs ca cs de el en_AU en_GB es fa fo fr gl he id it ja ko ms my 
 
 inherit bash-completion-r1 distutils-py2 flag-o-matic l10n
 #SERIES=$(get_version_component_range 1-2)
-SRC_URI="https://dev.gentoo.org/~grozin/${P}.tar.gz"
+SRC_URI="https://luke.dashjr.org/mirror/misc/${P}.tar.gz"
 
 RDEPEND="curl? ( || ( dev-python/pycurl-py2[${PYTHON_USEDEP}] dev-python/pycurl[${PYTHON_USEDEP}] ) )
 	sftp? ( || ( dev-python/paramiko-py2[${PYTHON_USEDEP}] dev-python/paramiko[${PYTHON_USEDEP}] ) )"
