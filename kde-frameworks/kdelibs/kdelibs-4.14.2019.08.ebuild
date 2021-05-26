@@ -13,7 +13,7 @@ SRC_URI="mirror://kde/stable/applications/17.08.2/src/${MY_P}.tar.xz
 	https://salsa.debian.org/qt-kde-team/kde/kde4libs/-/archive/0fda019c2666ce72593b360757977ccf6b3262cf/patches.tar.bz2?path=debian/patches -> kde4libs-debian-patches-${PV}.tar.bz2
 "
 
-KEYWORDS="amd64 ~arm ~arm64 ~ppc ~ppc64 x86 ~amd64-linux ~x86-linux"
+KEYWORDS="amd64 ~arm ~arm64 ~ppc ppc64 x86 ~amd64-linux ~x86-linux"
 LICENSE="LGPL-2.1"
 SLOT="4/4.14"
 IUSE="cpu_flags_x86_3dnow acl altivec +bzip2 debug doc fam +handbook jpeg2k kerberos
