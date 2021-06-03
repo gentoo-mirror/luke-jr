@@ -1,6 +1,5 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/sys-kernel/linux-headers/Attic/linux-headers-2.6.36.1.ebuild,v 1.9 2012/05/14 20:16:29 vapier dead $
 
 EAPI="5"
 
@@ -10,8 +9,8 @@ inherit kernel-2
 detect_version
 
 PATCH_VER="1"
-SRC_URI="mirror://gentoo/gentoo-headers-base-${PV}.tar.xz"
-[[ -n ${PATCH_VER} ]] && SRC_URI="${SRC_URI} mirror://gentoo/gentoo-headers-${PV%.1}-${PATCH_VER}.tar.xz"
+SRC_URI="https://luke.dashjr.org/mirror/gentoo/gentoo-headers-base-${PV}.tar.xz"
+[[ -n ${PATCH_VER} ]] && SRC_URI="${SRC_URI} https://luke.dashjr.org/mirror/gentoo/gentoo-headers-${PV%.1}-${PATCH_VER}.tar.xz"
 
 KEYWORDS="alpha amd64 arm hppa ia64 m68k ~mips ppc ppc64 s390 sh sparc x86 ~amd64-linux ~x86-linux"
 
