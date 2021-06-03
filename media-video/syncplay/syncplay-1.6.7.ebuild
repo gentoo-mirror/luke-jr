@@ -11,7 +11,7 @@ DESCRIPTION="Client/server to synchronize media playback"
 HOMEPAGE="https://syncplay.pl"
 SRC_URI="https://github.com/Syncplay/syncplay/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
-LICENSE="Apache-2.0"
+LICENSE="Apache-2.0 BSD ISC MIT"
 SLOT="0"
 KEYWORDS="amd64 ppc64 ~x86"
 IUSE="+client +server vlc"
@@ -22,7 +22,7 @@ DEPEND=""
 RDEPEND="${PYTHON_DEPS}
 	>=dev-python/certifi-2018.11.29[${PYTHON_USEDEP}]
 	>=dev-python/twisted-16.4.0[crypt,${PYTHON_USEDEP}]
-	vlc? ( media-video/vlc[lua] )"
+	vlc? ( >=media-video/vlc-2.2.1[lua] )"
 
 src_prepare() {
 	sed -i 's/"noGui": False,/"noGui": True,/' \
