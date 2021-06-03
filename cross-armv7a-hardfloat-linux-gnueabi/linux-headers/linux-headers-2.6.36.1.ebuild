@@ -1,8 +1,7 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/sys-kernel/linux-headers/Attic/linux-headers-2.6.36.1.ebuild,v 1.9 2012/05/14 20:16:29 vapier dead $
 
-EAPI="5"
+EAPI=6
 
 ETYPE="headers"
 H_SUPPORTEDARCH="alpha amd64 arm bfin cris hppa m68k mips ia64 ppc ppc64 s390 sh sparc x86"
@@ -10,8 +9,8 @@ inherit kernel-2
 detect_version
 
 PATCH_VER="1"
-SRC_URI="mirror://gentoo/gentoo-headers-base-${PV}.tar.xz"
-[[ -n ${PATCH_VER} ]] && SRC_URI="${SRC_URI} mirror://gentoo/gentoo-headers-${PV%.1}-${PATCH_VER}.tar.xz"
+SRC_URI="https://luke.dashjr.org/mirror/gentoo/gentoo-headers-base-${PV}.tar.xz"
+[[ -n ${PATCH_VER} ]] && SRC_URI="${SRC_URI} https://luke.dashjr.org/mirror/gentoo/gentoo-headers-${PV%.1}-${PATCH_VER}.tar.xz"
 
 KEYWORDS="alpha amd64 arm hppa ia64 m68k ~mips ppc ppc64 s390 sh sparc x86 ~amd64-linux ~x86-linux"
 
@@ -25,27 +24,28 @@ src_unpack() {
 }
 
 src_prepare() {
-	[[ -n ${PATCH_VER} ]] && EPATCH_SUFFIX="patch" epatch "${WORKDIR}"/${PV%.1}
+	default
+
+	[[ -n ${PATCH_VER} ]] && eapply "${WORKDIR}/${PV%.1}"/*.patch
 }
 
-src_install() {
-	kernel-2_src_install
-	cd "${D}"
+src_test() {
+	einfo "Possible unescaped attribute/type usage"
 	egrep -r \
 		-e '(^|[[:space:](])(asm|volatile|inline)[[:space:](]' \
 		-e '\<([us](8|16|32|64))\>' \
 		.
-	headers___fix $(find -type f)
 
-	egrep -l -r -e '__[us](8|16|32|64)' "${D}" | xargs grep -L linux/types.h
-
-	# hrm, build system sucks
-	find "${D}" '(' -name '.install' -o -name '*.cmd' ')' -print0 | xargs -0 rm -f
-
-	# provided by libdrm (for now?)
-	rm -rf "${D}"/$(kernel_header_destdir)/drm
+	emake ARCH=$(tc-arch-kernel) headers_check
 }
 
-src_test() {
-	emake ARCH=$(tc-arch-kernel) headers_check || die
+src_install() {
+	kernel-2_src_install
+
+	# hrm, build system sucks
+	find "${ED}" '(' -name '.install' -o -name '*.cmd' ')' -delete
+	find "${ED}" -depth -type d -delete 2>/dev/null
+
+	# provided by libdrm (for now?)
+	rm -rf "${ED}"/$(kernel_header_destdir)/drm
 }
