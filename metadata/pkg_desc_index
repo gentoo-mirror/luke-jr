@@ -4,7 +4,7 @@ app-emulation/vmbuilder 0.12.4.20180502: Install virtual machines in a snap with
 app-eselect/eselect-qtgraphicssystem 1.1.1: Utility to change the active Qt Graphics System
 app-misc/adbren 3-r1 4 6.0.0.2010.03.13: AniDB Renamer
 app-misc/adbren-anidb 0.3_pre400: AniDB Renamer
-app-text/prince 6.0_p3 6.0_p5 6.0_p6 13.5: Prince is a computer program that converts XML and HTML into PDF documents.
+app-text/prince 6.0_p3 6.0_p5 6.0_p6 13.5 14.2: Prince is a computer program that converts XML and HTML into PDF documents.
 dev-embedded/xc3sprog 9999: A suite of utilities for programming Xilinx FPGAs, CPLDs, and EEPROMs
 dev-lang/rgbds 0.3.7: Free assembler/linker package for the Game Boy and Game Boy Color
 dev-libs/DirectFB 1.6.3-r1 1.7.6-r1: Thin library on top of the Linux framebuffer devices
