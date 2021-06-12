@@ -27,7 +27,7 @@ RDEPEND="
 		>=media-libs/phonon-qt4-4.9.0
 		>=media-libs/phonon-4.9.0[qt4]
 	)
-	>=media-video/vlc-2.0.1:=[dbus,ogg,vorbis]
+	>=media-video/vlc-2.0.1:=[dbus,ogg,vorbis(+)]
 	dev-qt/qtcore:4
 	dev-qt/qtgui:4
 "
