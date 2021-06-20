@@ -2,8 +2,6 @@ app-arch/pbzx 1.0.2: Unpacker for pbzx-format macOS disk images
 app-crypt/qca-qt4 2.2.1: Qt Cryptographic Architecture (QCA)
 app-emulation/vmbuilder 0.12.4.20180502: Install virtual machines in a snap without ever actually booting a virtual machine!
 app-eselect/eselect-qtgraphicssystem 1.1.1: Utility to change the active Qt Graphics System
-app-misc/adbren 3-r1 4 6.0.0.2010.03.13: AniDB Renamer
-app-misc/adbren-anidb 0.3_pre400: AniDB Renamer
 app-text/prince 6.0_p3 6.0_p5 6.0_p6 13.5 14.2: Prince is a computer program that converts XML and HTML into PDF documents.
 dev-embedded/xc3sprog 9999: A suite of utilities for programming Xilinx FPGAs, CPLDs, and EEPROMs
 dev-lang/rgbds 0.3.7: Free assembler/linker package for the Game Boy and Game Boy Color
@@ -101,7 +99,6 @@ media-fonts/lohit-fonts 2.4.2: The Lohit family of Indic fonts
 media-fonts/overpass 2.1 3.0.4: An open source webfont family inspired by Highway Gothic
 media-fonts/symbola 10.24: Unicode font for Latin, IPA Extensions, Greek, Cyrillic and many Symbol Blocks
 media-fonts/tuffy 20120614: Public Domain TrueType font
-media-libs/glew 1.5.8: The OpenGL Extension Wrangler Library
 media-libs/phonon-qt4 4.10.3_pre20190719: KDE multimedia API
 media-libs/phonon-qt4-vlc 0.10.3_pre20190816: Phonon VLC backend
 media-video/syncplay 1.6.7 1.6.8 1.6.8-r1: Client/server to synchronize media playback
@@ -112,17 +109,13 @@ net-libs/sofia-sip 9999: RFC3261 compliant SIP User-Agent library
 net-misc/asterisk-e164-800notes 0.1.27: Asterisk AGI script to search 800notes for CallerID info
 net-misc/asterisk-e164-vcard 0.1.26: Asterisk AGI script to search and append a vCard addressbook with CallerID
 net-misc/asterisk-e164imap 0.1.11 0.1.21: Asterisk AGI script to search and append an IMAP vCard addressbook with CallerID
-net-misc/gammamoo 1.8.2.4: a modern MOO server, based on LambdaMOO
 net-misc/knutclient 1.0.5: Visual client for UPS systems based on kdelibs-4
 sci-biology/gnaural 1.0.20080808: A programmable binaural-beat generator, implementing the principle of binaural beats as described in the October 1973 Scientific American article "Auditory Beats in the Brain" (Gerald Oster).
 sys-kernel/linux-headers 2.6.32: Linux system headers
-sys-libs/labjackusb-u3-driver 0.0.2008.08.11: 
 sys-libs/labjackusb-udev-rules 0.0.1: 
-sys-libs/labjackusb-ue9-driver 0.0.2008.08.11: 
-sys-libs/liblabjackusb 1.10 2.0.1: This package contains the USB library/examples (written in C) for calling low-level U3, U6 and UE9 functions over a USB connection.
+sys-libs/liblabjackusb 1.10 2.0.1: 
 sys-libs/pdcurses 3.4 3.4-r1 3.4-r2 3.4-r3 3.4-r4 3.4-r5: 
 sys-libs/plibc 0.1.7 0.1.8_pre147 9999: 
-sys-libs/pthreads-win32 2.9.1 9999: Provides the pthreads API on windows
 sys-power/nut-monitor 2.7.4: Network-UPS Tools
 sys-power/power-calibrate 0.01.31: Calibrates the power consumption of a mobile device that has a battery power source.
 trinity-base/certmanager 9999: Trinity certificate manager gui
