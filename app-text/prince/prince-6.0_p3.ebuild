@@ -1,3 +1,8 @@
+# Copyright 1999-2021 Gentoo Authors
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=7
+
 inherit eutils
 
 MyP="${P/_p/r}-linux"
@@ -13,10 +18,11 @@ RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${MyP}"
 
-src_unpack() {
-	unpack ${A}
-	cd "${S}"
-	epatch "${FILESDIR}/destdir.patch"
+QA_PREBUILT="/usr/lib/prince/bin/prince"
+
+src_prepare() {
+	eapply "${FILESDIR}/destdir.patch"
+	default
 }
 
 src_install() {
