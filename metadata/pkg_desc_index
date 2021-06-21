@@ -111,6 +111,7 @@ net-libs/sofia-sip 9999: RFC3261 compliant SIP User-Agent library
 net-misc/asterisk-e164-800notes 0.1.27: Asterisk AGI script to search 800notes for CallerID info
 net-misc/asterisk-e164-vcard 0.1.26: Asterisk AGI script to search and append a vCard addressbook with CallerID
 net-misc/asterisk-e164imap 0.1.11 0.1.21: Asterisk AGI script to search and append an IMAP vCard addressbook with CallerID
+net-misc/gammamoo 1.8.2.4-r1: A modern MOO server, based on LambdaMOO
 net-misc/knutclient 1.0.5: Visual client for UPS systems based on kdelibs-4
 sci-biology/gnaural 1.0.20080808: A programmable binaural-beat generator, implementing the principle of binaural beats as described in the October 1973 Scientific American article "Auditory Beats in the Brain" (Gerald Oster).
 sys-kernel/linux-headers 2.6.32: Linux system headers
