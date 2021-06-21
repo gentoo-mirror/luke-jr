@@ -2,6 +2,8 @@ app-arch/pbzx 1.0.2: Unpacker for pbzx-format macOS disk images
 app-crypt/qca-qt4 2.2.1: Qt Cryptographic Architecture (QCA)
 app-emulation/vmbuilder 0.12.4.20180502: Install virtual machines in a snap without ever actually booting a virtual machine!
 app-eselect/eselect-qtgraphicssystem 1.1.1: Utility to change the active Qt Graphics System
+app-misc/adbren 6.0.0.2010.03.13: AniDB Renamer
+app-misc/adbren-anidb 0.3_pre400: AniDB Renamer
 app-text/prince 6.0_p3 6.0_p5 6.0_p6 13.5 14.2: Prince is a computer program that converts XML and HTML into PDF documents.
 dev-embedded/xc3sprog 9999: A suite of utilities for programming Xilinx FPGAs, CPLDs, and EEPROMs
 dev-lang/rgbds 0.3.7: Free assembler/linker package for the Game Boy and Game Boy Color
