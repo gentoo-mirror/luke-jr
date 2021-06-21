@@ -1,3 +1,8 @@
+# Copyright 1999-2021 Gentoo Authors
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=7
+
 inherit eutils
 
 DESCRIPTION="AniDB Renamer"
@@ -9,7 +14,7 @@ SLOT="0"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~x86-fbsd"
 IUSE=""
 
-DEPEND="
+RDEPEND="
 	dev-perl/Getopt-ArgvFile
 	virtual/perl-Getopt-Long
 	virtual/perl-IO
@@ -17,7 +22,8 @@ DEPEND="
 	virtual/perl-File-Spec
 	dev-perl/File-HomeDir
 	virtual/perl-Storable
-	dev-lang/perl"
+	dev-lang/perl
+"
 
 S="${WORKDIR}/clip9-${PN}-a4110c5"
 
