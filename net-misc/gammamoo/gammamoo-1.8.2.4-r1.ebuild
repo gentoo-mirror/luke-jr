@@ -1,9 +1,14 @@
-inherit eutils
+# Copyright 1999-2021 Gentoo Authors
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=7
+
+inherit eutils flag-o-matic
 
 MyPV="1.8.2g4"
 MyP="${PN}-${MyPV}"
 
-DESCRIPTION="a modern MOO server, based on LambdaMOO"
+DESCRIPTION="A modern MOO server, based on LambdaMOO"
 HOMEPAGE="http://luke.dashjr.org/programs/${PN}/"
 SRC_URI="http://luke.dashjr.org/programs/${PN}/download/${MyP}.tbz2"
 
@@ -17,13 +22,13 @@ RDEPEND=""
 
 S="${WORKDIR}/MOO-${MyPV}"
 
-src_unpack() {
-	unpack ${A}
+src_configure() {
+	append-cflags -fcommon
+	default
 }
 
 src_compile() {
-	econf || die "econf failed!"
-	emake || die "emake failed!"
+	emake CFLAGS="${CFLAGS}"
 }
 
 src_install() {
