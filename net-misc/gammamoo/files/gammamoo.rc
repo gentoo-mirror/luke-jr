@@ -1,6 +1,5 @@
-#!/sbin/runscript
-# Copyright 1999-2004 Gentoo Foundation
-# Portions copyright 2007 Luke Dashjr
+#!/sbin/openrc-run
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # adapted from restart.sh
@@ -20,10 +19,10 @@ moo_prestart() {
 	if [ -r "${DB_PREFIX}.db.new" ] ; then
 		mv "${DB_PREFIX}.db" "${DB_PREFIX}.db.old"
 		mv "${DB_PREFIX}.db.new" "${DB_PREFIX}.db"
-		rm -f "${DB_PREFIX}.db.old."{bz2,gz}
-		if which bzip2 &>/dev/null; then
+		rm -f "${DB_PREFIX}.db.old.bz2" "${DB_PREFIX}.db.old.gz"
+		if which bzip2 >/dev/null 2>&1; then
 			nice bzip2 "${DB_PREFIX}.db.old" &
-		elsif which gzip &>/dev/null; then
+		elif which gzip >/dev/null 2>&1; then
 			nice gzip "${DB_PREFIX}.db.old" &
 		fi
 	fi
@@ -44,7 +43,7 @@ start() {
 	moo_prestart || return 1
 
 	case "${OUTBOUND_NETWORK}" in
-	| 0 | false | False | Off | off)
+	'' | 0 | false | False | Off | off)
 		OUTBOUND='-O'
 		;;
 	*)
