@@ -1,4 +1,7 @@
-EAPI=4
+# Copyright 1999-2021 Gentoo Authors
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=7
 
 inherit eutils
 
@@ -22,8 +25,7 @@ S="${WORKDIR}/${MyP}"
 myARCH="${CATEGORY/cross-/}"
 
 src_prepare() {
-	cd "${S}"
-	epatch "${FILESDIR}/${PV}-resize-fix.patch"
+	eapply -p0 "${FILESDIR}/${PV}-resize-fix.patch"
 	sed -i '
 		s/\\exp/\/exp/;
 		s/del /rm /;
@@ -34,7 +36,9 @@ src_prepare() {
 		s/\bgcc\b/$(CC)/;
 		s/^\([[:space:]]*\)\(CC[[:space:]]*=\)/\1#\2/;
 	' win32/mingwin32.mak
-	epatch "${FILESDIR}/${PV}-flags.patch"
+	eapply "${FILESDIR}/${PV}-flags.patch"
+
+	default
 }
 
 src_configure() {
@@ -67,5 +71,5 @@ src_install() {
 	insinto "${subroot}/usr/include"
 	doins curses.h panel.h
 	into "${subroot}/usr"
-	dolib win32/pdcurses.dll
+	dolib.so win32/pdcurses.dll
 }
