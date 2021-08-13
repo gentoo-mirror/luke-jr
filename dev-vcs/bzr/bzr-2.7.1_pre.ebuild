@@ -14,7 +14,7 @@ KEYWORDS="~alpha amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ppc64 ~s390 ~sparc ~x8
 IUSE="curl doc +sftp test"
 PLOCALES="ar ast bs ca cs de el en_AU en_GB es fa fo fr gl he id it ja ko ms my nb nl oc pl pt_BR ro ru sco si sk sr sv tr ug uk vi zh_CN"
 
-inherit bash-completion-r1 distutils-py2 flag-o-matic l10n
+inherit bash-completion-r1 distutils-py2 flag-o-matic plocale
 #SERIES=$(get_version_component_range 1-2)
 SRC_URI="https://luke.dashjr.org/mirror/misc/${P}.tar.gz"
 
@@ -36,7 +36,7 @@ python_configure_all() {
 	rm_loc() {
 		rm "${S}"/po/$1.po || die
 	}
-	l10n_for_each_disabled_locale_do rm_loc
+	plocale_for_each_disabled_locale rm_loc
 	# Generate the locales first to avoid a race condition.
 	esetup.py build_mo
 }
