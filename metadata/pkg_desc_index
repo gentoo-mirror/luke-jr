@@ -67,6 +67,7 @@ dev-qt/tqt 9999: The Trinitie's Qt toolkit fork.
 dev-qt/tqtinterface 9999: Interface and abstraction library for Qt and Trinity
 dev-util/automoc 0.9.88-r1: KDE Meta Object Compiler
 dev-util/nsis 2.51: Nullsoft Scriptable Install System
+dev-vcs/bzr 2.7.1_pre: Bazaar is a next generation distributed version control system
 dev-vcs/git-signatures 0_pre20181003: Attach an arbitrary number of GPG signatures to git commits and tags
 games-emulation/sameboy 0.10.1: A user friendly Game Boy and Game Boy Color emulator
 games-fps/openjk-academy 9999: Community-maintained Jedi Academy, story version
@@ -103,6 +104,7 @@ media-fonts/tuffy 20120614: Public Domain TrueType font
 media-libs/phonon-qt4 4.10.3_pre20190719: KDE multimedia API
 media-libs/phonon-qt4-vlc 0.10.3_pre20190816: Phonon VLC backend
 media-video/syncplay 1.6.7 1.6.8 1.6.8-r1: Client/server to synchronize media playback
+net-im/psi 1.4.1100 1.5.1484 9999: Qt XMPP client
 net-im/psi-omemo 1.2_pre20200425 9999: Psi plugin for OMEMO
 net-irc/znc-otr 0.0.0_pre20170727 9999: Encrypt private conversations using the OTR protocol, on a ZNC server
 net-misc/asterisk-e164-800notes 0.1.27: Asterisk AGI script to search 800notes for CallerID info
