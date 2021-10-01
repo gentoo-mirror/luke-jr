@@ -31,6 +31,7 @@ dev-python/namespace-zope-py2 1-r1: Namespace package declaration for zope
 dev-python/netifaces-py2 0.10.9: Portable network interface information
 dev-python/paramiko-py2 2.7.1: SSH2 protocol library
 dev-python/ply-py2 3.11-r1: Python Lex-Yacc library
+dev-python/pyModbusTCP 0.1.10: A simple Modbus/TCP client library for Python
 dev-python/pyasn1-py2 0.4.8-r1: ASN.1 library for Python
 dev-python/pycairo-py2 1.18.2: Python2 bindings for the cairo library
 dev-python/pycparser-py2 2.20-r1: C parser and AST generator written in Python
