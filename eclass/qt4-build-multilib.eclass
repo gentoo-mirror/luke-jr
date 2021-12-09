@@ -418,12 +418,6 @@ qt4_multilib_src_configure() {
 
 		# precompiled headers don't work on hardened, where the flag is masked
 		$(in_iuse pch && qt_use pch || echo -no-pch)
-
-		# enable linker optimizations to reduce relocations, except on Solaris
-		# where this flag seems to introduce major breakage to applications,
-		# mostly to be seen as a core dump with the message:
-		# "QPixmap: Must construct a QApplication before a QPaintDevice"
-		$([[ ${CHOST} != *-solaris* ]] && echo -reduce-relocations)
 	)
 
 	if in_iuse aqua && use aqua; then
