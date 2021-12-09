@@ -194,7 +194,7 @@ qt4-build-multilib_src_prepare() {
 
 		# Bug 503500
 		# undefined reference with -Os and --as-needed
-		if use x86 || use_if_iuse abi_x86_32; then
+		if use x86 || { in_iuse abi_x86_32 && use abi_x86_32; }; then
 			replace-flags -Os -O2
 		fi
 	fi
@@ -257,7 +257,7 @@ qt4-build-multilib_src_prepare() {
 		mkspecs/$(qt4_get_mkspec)/qmake.conf \
 		|| die "sed QMAKE_(LIB|INC)DIR failed"
 
-	if use_if_iuse aqua; then
+	if in_iuse aqua && use aqua; then
 		sed -i \
 			-e '/^CONFIG/s:app_bundle::' \
 			-e '/^CONFIG/s:plugin_no_soname:plugin_with_soname absolute_library_soname:' \
@@ -362,7 +362,7 @@ qt4_multilib_src_configure() {
 		-demosdir "${QT4_DEMOSDIR}"
 
 		# debug/release
-		$(use_if_iuse debug && echo -debug || echo -release)
+		$({ in_iuse debug && use debug; } && echo -debug || echo -release)
 		-no-separate-debug-info
 
 		# licensing stuff
@@ -418,15 +418,9 @@ qt4_multilib_src_configure() {
 
 		# precompiled headers don't work on hardened, where the flag is masked
 		$(in_iuse pch && qt_use pch || echo -no-pch)
-
-		# enable linker optimizations to reduce relocations, except on Solaris
-		# where this flag seems to introduce major breakage to applications,
-		# mostly to be seen as a core dump with the message:
-		# "QPixmap: Must construct a QApplication before a QPaintDevice"
-		$([[ ${CHOST} != *-solaris* ]] && echo -reduce-relocations)
 	)
 
-	if use_if_iuse aqua; then
+	if in_iuse aqua && use aqua; then
 		if [[ ${CHOST##*-darwin} -ge 9 ]]; then
 			conf+=(
 				# on (snow) leopard use the new (frameworked) cocoa code
@@ -767,7 +761,7 @@ qt4_regenerate_global_qconfigs() {
 # On OS X we need to add some symlinks when frameworks are being
 # used, to avoid complications with some more or less stupid packages.
 qt4_symlink_framework_headers() {
-	if use_if_iuse aqua && [[ ${CHOST##*-darwin} -ge 9 ]]; then
+	if in_iuse aqua && use aqua && [[ ${CHOST##*-darwin} -ge 9 ]]; then
 		local frw dest f h rdir
 		# Some packages tend to include <Qt/...>
 		dodir "${QT4_HEADERDIR#${EPREFIX}}"/Qt
@@ -816,7 +810,7 @@ qt4_get_mkspec() {
 		*-linux*)
 			spec=linux ;;
 		*-darwin*)
-			use_if_iuse aqua &&
+			in_iuse aqua && use aqua &&
 				spec=macx ||   # mac with carbon/cocoa
 				spec=darwin ;; # darwin/mac with X11
 		*-freebsd*|*-dragonfly*)

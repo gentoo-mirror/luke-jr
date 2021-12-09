@@ -776,7 +776,7 @@ kde4-base_src_configure() {
 	# Build tests in src_test only, where we override this value
 	local cmakeargs=(-DKDE4_BUILD_TESTS=OFF)
 
-	if use_if_iuse debug; then
+	if in_iuse debug && use debug; then
 		# Set "real" debug mode
 		CMAKE_KDE_BUILD_TYPE="Debugfull"
 	else

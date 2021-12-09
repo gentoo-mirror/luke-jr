@@ -251,7 +251,7 @@ kde4-meta_create_extractlists() {
 
 	# Add default handbook locations
 	# FIXME - legacy code - remove when 4.4.5 is gone or preferrably port 4.4.5.
-	if [[ $(get_kde_version) < 4.5 ]] && use_if_iuse handbook && [[ -z ${KMNOMODULE} ]]; then
+	if [[ $(get_kde_version) < 4.5 ]] && { in_iuse handbook && use handbook; } && [[ -z ${KMNOMODULE} ]]; then
 		# We use the basename of $KMMODULE because $KMMODULE can contain
 		# the path to the module subdirectory.
 		KMEXTRA_NONFATAL+="
@@ -300,7 +300,7 @@ kde4-meta_create_extractlists() {
 				CTestCustom.cmake
 				kdepim-version.h.cmake
 				kdepim-version.h"
-			if use_if_iuse kontact; then
+			if in_iuse kontact && use kontact; then
 				KMEXTRA+="
 					kontact/plugins/${PLUGINNAME:-${PN}}/"
 			fi
@@ -526,7 +526,7 @@ kde4-meta_change_cmakelists() {
 				-e 's/if[[:space:]]*([[:space:]]*[[:alnum:]]*_FOUND[[:space:]]*)[[:space:]]*$/if(1) # &/' \
 				-i CMakeLists.txt || die "failed to disable hardcoded checks"
 			# Disable broken or redundant build logic
-			if use_if_iuse kontact || [[ ${PN} = kontact ]]; then
+			if { in_iuse kontact && use kontact; } || [[ ${PN} = kontact ]]; then
 				sed -e 's/if[[:space:]]*([[:space:]]*BUILD_.*)[[:space:]]*$/if(1) # &/' \
 					-e 's/if[[:space:]]*([[:space:]]*[[:alnum:]]*_FOUND[[:space:]]*)[[:space:]]*$/if(1) # &/' \
 					-i kontact/plugins/CMakeLists.txt || die 'failed to override build logic'
