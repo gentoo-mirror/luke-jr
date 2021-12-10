@@ -149,6 +149,8 @@ PATCHES=(
 	"${FILESDIR}/${PN}-4.14.35-3dnow.patch"
 	"${FILESDIR}/${PN}-4.14.35-kde3support.patch"
 	"${FILESDIR}/${PN}-4.14.35-plasma4.patch"
+	"${FILESDIR}/${PN}-4.14.37-fix-contains-compare.patch"
+	"${FILESDIR}/${PN}-4.14.37-kdnssd-overflow.patch"
 )
 
 src_prepare() {

@@ -1,0 +1,47 @@
+commit 27c16941412d49730c3e91f1e102cd3bb339bea4
+Author: Your Name <you@example.com>
+Date:   Fri Dec 10 00:50:58 2021 +0000
+
+    contains fix
+
+diff --git a/kdecore/localization/klocale_kde.cpp b/kdecore/localization/klocale_kde.cpp
+index 41c3915..4521a91 100644
+--- a/kdecore/localization/klocale_kde.cpp
++++ b/kdecore/localization/klocale_kde.cpp
+@@ -2438,8 +2438,8 @@ QString KLocalePrivate::formatLocaleTime(const QTime &time, KLocale::TimeFormatO
+ 
+ bool KLocalePrivate::use12Clock() const
+ {
+-    if ((timeFormat().contains(QString::fromLatin1("%I")) > 0) ||
+-        (timeFormat().contains(QString::fromLatin1("%l")) > 0)) {
++    if (timeFormat().contains(QString::fromLatin1("%I")) ||
++        timeFormat().contains(QString::fromLatin1("%l"))) {
+         return true;
+     } else {
+         return false;
+diff --git a/kio/kfile/kopenwithdialog.cpp b/kio/kfile/kopenwithdialog.cpp
+index 9c1ace8..914efe9 100644
+--- a/kio/kfile/kopenwithdialog.cpp
++++ b/kio/kfile/kopenwithdialog.cpp
+@@ -713,7 +713,7 @@ void KOpenWithDialog::slotHighlighted(const QString& entryPath, const QString&)
+         // ### indicate that default value was restored
+         d->terminal->setChecked(d->curService->terminal());
+         QString terminalOptions = d->curService->terminalOptions();
+-        d->nocloseonexit->setChecked((terminalOptions.contains(QLatin1String("--noclose")) > 0));
++        d->nocloseonexit->setChecked(terminalOptions.contains(QLatin1String("--noclose")));
+         d->m_terminaldirty = false; // slotTerminalToggled changed it
+     }
+ }
+diff --git a/kio/kfile/kpropertiesdialog.cpp b/kio/kfile/kpropertiesdialog.cpp
+index af8d2b0..ed4da47 100644
+--- a/kio/kfile/kpropertiesdialog.cpp
++++ b/kio/kfile/kpropertiesdialog.cpp
+@@ -3323,7 +3323,7 @@ void KDesktopPropsPlugin::slotAdvanced()
+ 
+     if (preferredTerminal == "konsole")
+     {
+-        terminalCloseBool = (d->m_terminalOptionStr.contains( "--noclose" ) > 0);
++        terminalCloseBool = d->m_terminalOptionStr.contains( "--noclose" );
+         w.terminalCloseCheck->setChecked(terminalCloseBool);
+         d->m_terminalOptionStr.remove( "--noclose");
+     }
