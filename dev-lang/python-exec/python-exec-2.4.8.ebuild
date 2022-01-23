@@ -3,7 +3,7 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python2_7 python3_{8..10} pypy3 )
+PYTHON_COMPAT=( python2_7 python3_{6..10} pypy3 )
 _PYTHON_ALLOW_PY27=1
 inherit python-any-r1
 
@@ -15,7 +15,7 @@ LICENSE="BSD-2"
 SLOT="2"
 KEYWORDS="~alpha amd64 arm arm64 hppa ~ia64 ~m68k ~mips ppc ppc64 ~riscv ~s390 sparc x86 ~x64-cygwin ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~sparc-solaris ~sparc64-solaris ~x64-solaris ~x86-solaris"
 # Internal Python project hack.  Do not copy it.  Ever.
-IUSE="python_targets_python2_7 ${_PYTHON_ALL_IMPLS[@]/#/python_targets_} +native-symlinks test"
+IUSE="python_targets_python2_7 python_targets_python3_6 python_targets_python3_7 ${_PYTHON_ALL_IMPLS[@]/#/python_targets_} +native-symlinks test"
 RESTRICT="!test? ( test )"
 
 RDEPEND="
@@ -36,7 +36,7 @@ pkg_setup() {
 
 src_configure() {
 	local pyimpls=() i EPYTHON
-	for i in python2_7 "${_PYTHON_ALL_IMPLS[@]}"; do
+	for i in python{2_7,3_{6,7}} "${_PYTHON_ALL_IMPLS[@]}"; do
 		if use "python_targets_${i}"; then
 			_python_export "${i}" EPYTHON
 			pyimpls+=( "${EPYTHON}" )
