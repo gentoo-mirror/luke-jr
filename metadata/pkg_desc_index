@@ -119,7 +119,7 @@ sys-libs/liblabjackusb 2.0.1-r1: This package contains the USB library/examples 
 sys-libs/pdcurses 3.4-r5: 
 sys-libs/plibc 0.1.7 0.1.8_pre147 9999: 
 sys-libs/pthreads-win32 2.9.1: Provides the pthreads API on windows
-sys-power/nut-monitor 2.7.4: Network-UPS Tools
+sys-power/nut-monitor 1.3.1 2.0_pre20220220: GUI to manage devices connected a NUT server
 sys-power/power-calibrate 0.01.31: Calibrates the power consumption of a mobile device that has a battery power source.
 trinity-base/certmanager 9999: Trinity certificate manager gui
 trinity-base/kaddressbook 9999: The Trinity Address Book
