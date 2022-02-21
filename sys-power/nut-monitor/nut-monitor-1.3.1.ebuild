@@ -8,19 +8,19 @@ _PYTHON_ALLOW_PY27=1
 
 inherit desktop fixheadtails python-single-r1
 
-MY_P="nut-${PV}"
+MY_P="nut-2.7.4"
 
-DESCRIPTION="Network-UPS Tools"
+DESCRIPTION="GUI to manage devices connected a NUT server"
 HOMEPAGE="https://www.networkupstools.org/"
-SRC_URI="https://networkupstools.org/source/${PV%.*}/${MY_P}.tar.gz"
-LICENSE="GPL-2"
+SRC_URI="https://networkupstools.org/source/2/${MY_P}.tar.gz"
+LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64 arm ppc ppc64 x86"
 
 RDEPEND="
 	${PYTHON_DEPS}
 	$(python_gen_cond_dep '
-		dev-python/pygtk[${PYTHON_MULTI_USEDEP}]
+		dev-python/pygtk[${PYTHON_USEDEP}]
 	')
 "
 
