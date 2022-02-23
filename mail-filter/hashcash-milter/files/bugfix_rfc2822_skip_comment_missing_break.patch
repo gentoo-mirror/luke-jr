@@ -1,0 +1,18 @@
+commit 6d2e2b14d03f96b9fd9a0f10c72e04c9114a67de (personal-github/bugfix_rfc2822_skip_comment_missing_break, bugfix_rfc2822_skip_comment_missing_break)
+Author: Luke Dashjr <luke-jr+git@utopios.org>
+Date:   Wed Feb 23 00:47:19 2022 +0000
+
+    rfc2822: Add missing break in skip_comment
+
+diff --git a/rfc2822.c b/rfc2822.c
+index 418a2f2..3b69899 100644
+--- a/rfc2822.c
++++ b/rfc2822.c
+@@ -48,6 +48,7 @@ const char* skip_comment(const char* s) {
+         case ')':
+             if (!--brackets)
+                 return s + 1;
++            break;
+         case '\\':
+             if (s[1])
+                 s++;
