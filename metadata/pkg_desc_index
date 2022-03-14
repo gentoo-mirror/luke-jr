@@ -117,16 +117,13 @@ sci-biology/gnaural 1.0.20080808: A programmable binaural-beat generator, implem
 sys-kernel/linux-headers 2.6.32: Linux system headers
 sys-libs/liblabjackusb 2.0.1-r1: This package contains the USB library/examples (written in C) for calling low-level U3, U6 and UE9 functions over a USB connection
 sys-libs/pdcurses 3.4-r5: 
-sys-libs/plibc 0.1.7 0.1.8_pre147 9999: 
 sys-libs/pthreads-win32 2.9.1: Provides the pthreads API on windows
 sys-power/nut-monitor 1.3.1 2.0_pre20220220: GUI to manage devices connected a NUT server
 sys-power/power-calibrate 0.01.31: Calibrates the power consumption of a mobile device that has a battery power source.
 trinity-base/certmanager 9999: Trinity certificate manager gui
 trinity-base/kaddressbook 9999: The Trinity Address Book
-trinity-base/kdialog 9999: KDialog can be used to show nice dialog boxes from shell scripts
 trinity-base/kgantt 9999: A Trinity library for drawing and editing gantt-diagramms
 trinity-base/kmail 9999: An email client for Trinity
-trinity-base/knotes 9999: Trinity Notes application
 trinity-base/korganizer 9999: A Personal Organizer for Trinity
 trinity-base/ktnef 9999: Trinity Viewer for mail attachments using TNEF format
 trinity-base/libkcal 9999: Trinity kcal library for KOrganizer etc
@@ -139,7 +136,6 @@ trinity-base/libtdenetwork 9999: library common to many tdepim apps interacting 
 trinity-base/libtdepim 9999: Common library for Trinity PIM applications.
 trinity-base/mimelib 9999: Trinity MIME library
 trinity-base/tdebase-tdeioslaves 9999: Generic Trinity KIOslaves
-trinity-base/tdeeject 9999: Trinity eject frontend
 trinity-base/tdelibs 9999: Trinity libraries needed by all TDE programs.
 trinity-base/tdepim-tdeioslaves 9999: PIM Trinity IO slaves
 www-plugins/chrome-tab-modifier 0.22.0: Chromium extension to manipulate tabs based on URL matching

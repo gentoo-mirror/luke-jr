@@ -11,7 +11,6 @@ app-crypt/qca-qt4:pkcs11 - Enable PKCS#11 plugin
 app-crypt/qca-qt4:sasl - Enable SASL plugin
 app-crypt/qca-qt4:softstore - Enable softstore plugin
 app-text/prince:demo - Installs demo license file
-dev-embedded/xc3sprog:ftd2xx - Use dev-embedded/libftd2xx instead of dev-embedded/libftdi
 dev-lang/python-exec:native-symlinks - Install generic symlinks like python and python3. If this flag is disabled, only versioned python3.X executables will be available to end users and ebuilds not using python eclasses.
 dev-python/cryptography-py2:idna - enable support for the old, deprecated IDNA specification (RFC 3490)
 dev-python/paramiko-py2:server - Enable server feature
