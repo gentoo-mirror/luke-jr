@@ -114,6 +114,7 @@ net-misc/asterisk-e164imap 0.1.11 0.1.21: Asterisk AGI script to search and appe
 net-misc/gammamoo 1.8.2.4-r1: A modern MOO server, based on LambdaMOO
 net-misc/knutclient 1.0.5: Visual client for UPS systems based on kdelibs-4
 sci-biology/gnaural 1.0.20080808: A programmable binaural-beat generator, implementing the principle of binaural beats as described in the October 1973 Scientific American article "Auditory Beats in the Brain" (Gerald Oster).
+sys-kernel/linux-headers 2.6.32: Linux system headers
 sys-libs/liblabjackusb 2.0.1-r1: This package contains the USB library/examples (written in C) for calling low-level U3, U6 and UE9 functions over a USB connection
 sys-libs/pdcurses 3.4-r5: 
 sys-libs/pthreads-win32 2.9.1: Provides the pthreads API on windows
