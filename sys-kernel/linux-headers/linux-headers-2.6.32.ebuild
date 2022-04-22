@@ -1,7 +1,7 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 ETYPE="headers"
 H_SUPPORTEDARCH="alpha amd64 arm bfin cris hppa m68k mips ia64 ppc ppc64 s390 sh sparc x86"
@@ -12,22 +12,24 @@ PATCH_VER="1"
 SRC_URI="https://dev.gentoo.org/~vapier/dist/gentoo-headers-base-${PV}.tar.lzma"
 [[ -n ${PATCH_VER} ]] && SRC_URI="${SRC_URI} https://dev.gentoo.org/~vapier/dist/gentoo-headers-${PV}-${PATCH_VER}.tar.lzma"
 # also mirrored on https://luke.dashjr.org/mirror/misc/
+S="${WORKDIR}/gentoo-headers-base-${PV}"
 
 KEYWORDS="-* ~alpha ~amd64 ~arm ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~amd64-linux ~x86-linux"
 
-DEPEND="|| ( app-arch/xz-utils app-arch/lzma-utils )"
-RDEPEND=""
+BDEPEND="
+	|| ( app-arch/xz-utils app-arch/lzma-utils )
+"
 
-S=${WORKDIR}/gentoo-headers-base-${PV}
+[[ -n ${PATCH_VER} ]] && PATCHES=( "${WORKDIR}"/${PV} )
 
 src_unpack() {
-	unpack ${A}
+	# avoid kernel-2_src_unpack
+	default
 }
 
 src_prepare() {
+	# avoid kernel-2_src_prepare
 	default
-
-	[[ -n ${PATCH_VER} ]] && eapply "${WORKDIR}/${PV}"/*.patch
 }
 
 src_install() {
@@ -42,10 +44,10 @@ src_install() {
 	egrep -l -r -e '__[us](8|16|32|64)' "${ED}" | xargs grep -L linux/types.h
 
 	# hrm, build system sucks
-	find "${ED}" '(' -name '.install' -o -name '*.cmd' ')' -delete
+	find "${ED}" \( -name '.install' -o -name '*.cmd' \) -delete || die
 
 	# provided by libdrm (for now?)
-	rm -rf "${ED}"/$(kernel_header_destdir)/drm
+	rm -rf "${ED}"/$(kernel_header_destdir)/drm || die
 }
 
 src_test() {
