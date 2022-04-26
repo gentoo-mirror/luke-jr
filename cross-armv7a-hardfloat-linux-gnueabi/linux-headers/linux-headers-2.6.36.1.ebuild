@@ -1,7 +1,7 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 ETYPE="headers"
 H_SUPPORTEDARCH="alpha amd64 arm bfin cris hppa m68k mips ia64 ppc ppc64 s390 sh sparc x86"
@@ -11,22 +11,24 @@ detect_version
 PATCH_VER="1"
 SRC_URI="https://luke.dashjr.org/mirror/gentoo/gentoo-headers-base-${PV}.tar.xz"
 [[ -n ${PATCH_VER} ]] && SRC_URI="${SRC_URI} https://luke.dashjr.org/mirror/gentoo/gentoo-headers-${PV%.1}-${PATCH_VER}.tar.xz"
+S="${WORKDIR}/gentoo-headers-base-${PV}"
 
 KEYWORDS="alpha amd64 arm hppa ia64 m68k ~mips ppc ppc64 s390 sh sparc x86 ~amd64-linux ~x86-linux"
 
-DEPEND="app-arch/xz-utils"
-RDEPEND=""
+BDEPEND="
+	app-arch/xz-utils
+"
 
-S=${WORKDIR}/gentoo-headers-base-${PV}
+[[ -n ${PATCH_VER} ]] && PATCHES=( "${WORKDIR}"/${PV%.1} )
 
 src_unpack() {
-	unpack ${A}
+	# avoid kernel-2_src_unpack
+	default
 }
 
 src_prepare() {
+	# avoid kernel-2_src_prepare
 	default
-
-	[[ -n ${PATCH_VER} ]] && eapply "${WORKDIR}/${PV%.1}"/*.patch
 }
 
 src_test() {
@@ -43,9 +45,10 @@ src_install() {
 	kernel-2_src_install
 
 	# hrm, build system sucks
-	find "${ED}" '(' -name '.install' -o -name '*.cmd' ')' -delete
-	find "${ED}" -depth -type d -delete 2>/dev/null
+	find "${ED}" \( -name '.install' -o -name '*.cmd' \) -delete || die
+	# delete empty directories
+	find "${ED}" -empty -type d -delete || die
 
 	# provided by libdrm (for now?)
-	rm -rf "${ED}"/$(kernel_header_destdir)/drm
+	rm -rf "${ED}"/$(kernel_header_destdir)/drm || die
 }
