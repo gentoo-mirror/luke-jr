@@ -43,7 +43,7 @@ RDEPEND="
 	jpeg? ( virtual/jpeg )
 	jpeg2k? ( media-libs/jasper[jpeg] )
 	mng? ( media-libs/libmng )
-	opengl? ( media-libs/mesa[gbm,egl,gles2?] x11-libs/libdrm )
+	opengl? ( media-libs/mesa[gbm,egl(+),gles2?] x11-libs/libdrm )
 	png? ( media-libs/libpng:0 )
 	sdl? ( media-libs/libsdl )
 	svg? ( x11-libs/libsvg-cairo )
