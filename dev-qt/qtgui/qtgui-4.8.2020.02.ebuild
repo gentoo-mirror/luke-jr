@@ -42,7 +42,7 @@ RDEPEND="
 		xv? ( >=x11-libs/libXv-1.0.7-r1[${MULTILIB_USEDEP}] )
 	)
 	cups? ( net-print/cups[${MULTILIB_USEDEP}] )
-	egl? ( media-libs/mesa[egl,${MULTILIB_USEDEP}] )
+	egl? ( media-libs/mesa[egl(+),${MULTILIB_USEDEP}] )
 	glib? ( dev-libs/glib:2[${MULTILIB_USEDEP}] )
 	gtkstyle? (
 		>=x11-libs/cairo-1.12[-qt4(-),${MULTILIB_USEDEP}]
