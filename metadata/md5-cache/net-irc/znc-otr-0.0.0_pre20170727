@@ -9,5 +9,5 @@ LICENSE=Apache-2.0
 RDEPEND=net-irc/znc:= net-libs/libotr
 SLOT=0
 SRC_URI=https://github.com/mmilata/znc-otr/archive/11560d6700bdc57241968ada2f44f99220ef0bf6.tar.gz -> znc-otr-0.0.0_pre20170727.tar.gz
-_eclasses_=multilib	4a33c9008e5ee30cb8840a3fdc24df2b	toolchain-funcs	badd6e329e1f3e6bee99b35bf8763ce8
+_eclasses_=multilib	4a33c9008e5ee30cb8840a3fdc24df2b	toolchain-funcs	fd9cde67030b26e479eeadaced488253
 _md5_=48a1c92ba600518743cddcae7d980d49
