@@ -21,6 +21,7 @@ kde-apps/kwalletd:gpg - Support wallets with GnuPG encryption additionally to de
 kde-frameworks/kdelibs:qt3support - Enable kde3support/qt3support for very old applications
 media-fonts/ljr-free-fonts-meta:cyrillic - Install Cyrillic fonts
 media-fonts/ljr-free-fonts-meta:psf - Install fonts for the Linux text console
+sys-fs/zfs-kmod:rootfs - Pull dependencies and check kernel options required for root-on-zfs
 www-plugins/great-suspender:migration-tool - Adds functionality to migrate suspended tabs between Great Suspender extensions with different extension ids.
 x11-wm/xpra:client - Build client-side code
 x11-wm/xpra:clipboard - Enable clipboard support
