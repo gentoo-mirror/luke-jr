@@ -17,7 +17,6 @@ dev-libs/win_backtrace 9999: DLL to dump a usable backtrace to stderr for MingW/
 dev-perl/AniDB 0.3_pre414: Perl clients for AniDB
 dev-perl/Text-vCard 2.01: a package to parse, edit and create vCards
 dev-perl/URI-imap 1.01: Support IMAP schemas with URI
-dev-perl/asterisk-perl 0.10: asterisk-perl is a collection of perl modules to be used with the Asterisk PBX
 dev-python/bcrypt-py2 3.1.7-r2: Modern password hashing for software and servers
 dev-python/certifi-py2 10001: Thin replacement for certifi using system certificate store
 dev-python/cffi-py2 1.14.4: Foreign Function Interface for Python calling C code
