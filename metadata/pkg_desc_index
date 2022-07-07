@@ -5,7 +5,7 @@ app-eselect/eselect-qtgraphicssystem 1.1.1: Utility to change the active Qt Grap
 app-misc/adbren 6.0.0.2010.03.13: AniDB Renamer
 app-misc/adbren-anidb 0.3_pre400: AniDB Renamer
 app-text/prince 6.0_p3 6.0_p5 6.0_p6 13.5 14.2: Prince is a computer program that converts XML and HTML into PDF documents.
-dev-lang/python-exec 2.4.8: Python script wrapper
+dev-lang/python-exec 2.4.8 2.4.9: Python script wrapper
 dev-lang/rgbds 0.3.7: Free assembler/linker package for the Game Boy and Game Boy Color
 dev-libs/DirectFB 1.6.3-r1 1.7.6-r1: Thin library on top of the Linux framebuffer devices
 dev-libs/dbus-1-tqt 9999: D-BUS TQt bindings
