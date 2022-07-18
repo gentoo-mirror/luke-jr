@@ -1,7 +1,7 @@
 https://build.opensuse.org/package/view_file?expand=1&file=DirectFB-setregion.patch&package=DirectFB&project=openSUSE%3AFactory
 
---- gfxdrivers/cyber5k/cyber5k.c
-+++ gfxdrivers/cyber5k/cyber5k.c
+--- a/gfxdrivers/cyber5k/cyber5k.c
++++ b/gfxdrivers/cyber5k/cyber5k.c
 @@ -636,7 +636,8 @@ osdSetRegion( CoreLayer
                CoreLayerRegionConfigFlags  updated,
                CoreSurface                *surface,
@@ -21,8 +21,8 @@ https://build.opensuse.org/package/view_file?expand=1&file=DirectFB-setregion.pa
       if (ret)
            return ret;
  
---- gfxdrivers/radeon/radeon_crtc1.c
-+++ gfxdrivers/radeon/radeon_crtc1.c
+--- a/gfxdrivers/radeon/radeon_crtc1.c
++++ b/gfxdrivers/radeon/radeon_crtc1.c
 @@ -147,14 +147,15 @@ crtc1SetRegion( CoreLayer
                  CoreLayerRegionConfigFlags  updated,
                  CoreSurface                *surface,
@@ -41,8 +41,8 @@ https://build.opensuse.org/package/view_file?expand=1&file=DirectFB-setregion.pa
       }
  
       return DFB_OK;
---- gfxdrivers/cle266/uc_primary.c
-+++ gfxdrivers/cle266/uc_primary.c
+--- a/gfxdrivers/cle266/uc_primary.c
++++ b/gfxdrivers/cle266/uc_primary.c
 @@ -138,7 +138,8 @@ osdSetRegion( CoreLayer
                CoreLayerRegionConfigFlags  updated,
                CoreSurface                *surface,
@@ -62,8 +62,8 @@ https://build.opensuse.org/package/view_file?expand=1&file=DirectFB-setregion.pa
       if (ret)
            return ret;
  
---- gfxdrivers/unichrome/uc_primary.c
-+++ gfxdrivers/unichrome/uc_primary.c
+--- a/gfxdrivers/unichrome/uc_primary.c
++++ b/gfxdrivers/unichrome/uc_primary.c
 @@ -135,7 +135,8 @@ osdSetRegion( CoreLayer
                CoreLayerRegionConfigFlags  updated,
                CoreSurface                *surface,
