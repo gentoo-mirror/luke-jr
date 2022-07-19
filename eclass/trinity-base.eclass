@@ -12,7 +12,7 @@ inherit trinity-functions cmake-utils
 # ban EAPI 0, 1 and 2
 case $EAPI in
 	0|1|2|3|4) die "EAPI=${EAPI} is not supported" ;;
-	5|6) ;;
+	5|6|7) ;;
 	*) die "Unknown EAPI=${EAPI}"
 esac
 
