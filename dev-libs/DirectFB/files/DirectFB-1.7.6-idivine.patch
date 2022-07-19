@@ -1,5 +1,5 @@
---- lib/divine/idivine.h.orig
-+++ lib/divine/idivine.h
+--- a/lib/divine/idivine.h.orig
++++ b/lib/divine/idivine.h
 @@ -0,0 +1,54 @@
 +/*
 +   (c) Copyright 2012-2013  DirectFB integrated media GmbH

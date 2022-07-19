@@ -1,7 +1,7 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
-EAPI="5"
+
+EAPI=7
 TRINITY_MODULE_NAME="tdebase"
 
 inherit trinity-meta
@@ -40,12 +40,12 @@ src_configure() {
 
 	mycmakeargs=(
 		-DWITH_XCURSOR=ON
-		$(cmake-utils_use_with samba SAMBA)
-		$(cmake-utils_use_with ldap LDAP)
-		$(cmake-utils_use_with sasl SASL)
-		$(cmake-utils_use_with openexr OPENEXR)
-		$(cmake-utils_use_with hal HAL)
-		$(cmake-utils_use_with tdehw TDEHWLIB)
+		-DWITH_SAMBA="$(usex samba)"
+		-DWITH_LDAP="$(usex ldap)"
+		-DWITH_SASL="$(usex sasl)"
+		-DWITH_OPENEXR="$(usex openexr)"
+		-DWITH_HAL="$(usex hal)"
+		-DWITH_TDEHWLIB="$(usex tdehw)"
 	)
 
 	trinity-meta_src_configure

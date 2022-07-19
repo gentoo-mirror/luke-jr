@@ -1,7 +1,7 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 inherit autotools eutils toolchain-funcs
 
 # Map Gentoo IUSE expand vars to DirectFB drivers
@@ -9,77 +9,59 @@ inherit autotools eutils toolchain-funcs
 I_TO_D_intel="i810,i830"
 I_TO_D_mga="matrox"
 I_TO_D_r128="ati128"
+I_TO_D_s3="unichrome"
+I_TO_D_sis="sis315"
 I_TO_D_via="cle266"
 # cyber5k davinci ep9x omap pxa3xx sh772x savage pvr2d
-IUSE_VIDEO_CARDS=" intel mga nvidia r128 radeon tdfx via vmware"
+IUSE_VIDEO_CARDS=" intel mach64 mga neomagic nsc nvidia r128 radeon s3 sis tdfx via vmware"
 IUV=${IUSE_VIDEO_CARDS// / video_cards_}
 # echo `sed -n '/Possible inputdrivers are:/,/^$/{/\(Possible\|^input\)/d;s:\[ *::;s:\].*::;s:,::g;p}' configure.in`
 I_TO_D_elo2300="elo-input"
 I_TO_D_evdev="linuxinput"
 I_TO_D_mouse="ps2mouse,serialmouse"
 # dbox2remote dreamboxremote gunze h3600_ts penmount sonypijogdial ucb1x00 wm97xx zytronic
-IUSE_INPUT_DEVICES=" dynapro elo2300 evdev joystick keyboard lirc mouse tslib"
+IUSE_INPUT_DEVICES=" dynapro elo2300 evdev joystick keyboard lirc mouse mutouch tslib"
 IUD=${IUSE_INPUT_DEVICES// / input_devices_}
 
 DESCRIPTION="Thin library on top of the Linux framebuffer devices"
-HOMEPAGE="http://www.directfb.net/"
+HOMEPAGE="http://www.directfb.org/"
 SRC_URI="http://luke.dashjr.org/mirror/misc/${P}.tar.gz"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS="alpha amd64 arm ~arm64 hppa ia64 -mips ppc ppc64 sh -sparc x86"
-IUSE="alsa bmp cddb debug divine drmkms +dynload doc egl fbcon fusiondale fusionsound gif gles2 gstreamer imlib2 input_hub jpeg jpeg2k mad cpu_flags_x86_mmx mng mpeg2 mpeg3 multicore opengl oss png pnm sawman sdl cpu_flags_x86_sse static-libs swfdec tiff timidity tremor truetype v4l vdpau vorbis webp X xine zlib ${IUV} ${IUD}"
+KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 -mips ~ppc ~ppc64 ~sh -sparc ~x86"
+IUSE="bmp debug dynload doc fbcon gif gles2 imlib2 input_hub jpeg jpeg2k mmx mng mpeg2 multicore opengl png pnm sdl sse static-libs svg truetype v4l vdpau X zlib ${IUV} ${IUD}"
 REQUIRED_USE="gles2? ( opengl )"
 
-# ffmpeg useflag broken
-# ffmpeg? ( virtual/ffmpeg )
-#	$(use_enable ffmpeg) \
+# gstreamer useflag broken
+# gstreamer? ( media-libs/FusionSound media-libs/gst-plugins-base:0.10 )
+#	$(use_enable gstreamer) \
 RDEPEND="
-	alsa? ( media-libs/alsa-lib )
-	cddb? ( media-libs/libcddb )
-	drmkms? ( x11-libs/libdrm[libkms] )
 	gif? ( media-libs/giflib )
-	gstreamer? ( media-libs/gstreamer:1.0 media-libs/gst-plugins-base:1.0 )
 	imlib2? ( media-libs/imlib2 )
-	jpeg? ( virtual/jpeg:0= )
-	jpeg2k? ( media-libs/jasper:=[jpeg] )
-	mad? ( media-libs/libmad )
+	jpeg? ( virtual/jpeg )
+	jpeg2k? ( media-libs/jasper[jpeg] )
 	mng? ( media-libs/libmng )
-	mpeg3? ( media-libs/libmpeg3 )
-	opengl? ( media-libs/mesa[gbm,egl(+)?,gles2?] x11-libs/libdrm )
-	png? ( media-libs/libpng:0= )
+	opengl? ( media-libs/mesa[gbm,egl(+),gles2?] x11-libs/libdrm )
+	png? ( media-libs/libpng:0 )
 	sdl? ( media-libs/libsdl )
-	tiff? ( media-libs/tiff:0 )
-	timidity? (
-		media-libs/libtimidity
-		media-sound/timidity++
-	)
-	tremor? ( media-libs/tremor )
+	svg? ( x11-libs/libsvg-cairo )
 	truetype? ( >=media-libs/freetype-2.0.1 )
-	vdpau? ( x11-libs/libX11 x11-libs/libXext x11-libs/libvdpau )
-	vorbis? ( media-libs/libvorbis )
-	webp? ( media-libs/libwebp )
+	vdpau? ( x11-base/xorg-proto x11-libs/libX11 x11-libs/libXext x11-libs/libvdpau )
 	X? ( x11-libs/libXext x11-libs/libX11 )
-	xine? ( media-libs/xine-lib[vdpau?] )
 	zlib? ( sys-libs/zlib )	"
-DEPEND="${RDEPEND}"
+DEPEND="${RDEPEND}
+	X? ( x11-base/xorg-proto )"
 
 src_prepare() {
-	epatch \
-		"${FILESDIR}"/${PN}-1.7.5-flags.patch \
-		"${FILESDIR}"/${PN}-1.6.3-pkgconfig.patch \
-		"${FILESDIR}"/${PN}-1.7.1-build.patch \
-		"${FILESDIR}"/${PN}-1.6.3-setregion.patch \
-		"${FILESDIR}"/${PN}-1.6.3-atomic-fix-compiler-error-when-building-for-thumb2.patch \
-		"${FILESDIR}"/${PN}-1.7.6-cle266.patch \
-		"${FILESDIR}"/${PN}-1.7.6-idivine.patch \
-		"${FILESDIR}"/${PN}-1.7.6-tslib.patch
-	sed -i \
-		-e '/#define RASPBERRY_PI/d' \
-		systems/egl/egl_system.c || die #497124
-	sed -i \
-		-e '/^CXXFLAGS=.*-Werror-implicit-function-declaration/d' \
-		configure.in || die #526196
+	eapply \
+		"${FILESDIR}"/${P}-flags.patch \
+		"${FILESDIR}"/${P}-pkgconfig.patch \
+		"${FILESDIR}"/${P}-build.patch \
+		"${FILESDIR}"/${P}-setregion.patch \
+		"${FILESDIR}"/${P}-atomic-fix-compiler-error-when-building-for-thumb2.patch
+
+	default
 
 	mv configure.{in,ac} || die
 	eautoreconf
@@ -98,10 +80,6 @@ driver_list() {
 }
 
 src_configure() {
-	local myaudio="wave"
-	use alsa && myaudio+=",alsa"
-	use oss && myaudio+=",oss"
-
 	local sdlconf="--disable-sdl"
 	if use sdl ; then
 		# since SDL can link against DirectFB and trigger a
@@ -125,41 +103,23 @@ src_configure() {
 	use input_hub && inputdrivers="${inputdrivers},input_hub"
 	inputdrivers="$(echo ${inputdrivers} | sed 's/none,//')"
 
-	# The xine-vdpau flag requires a custom patch to xine-lib which we don't carry:
-	# http://git.directfb.org/?p=extras/DirectFB-extra.git;a=blob;f=interfaces/IDirectFBVideoProvider/xine-lib-1.2-vdpau-hooks.patch;hb=HEAD
 	econf \
 		$(use_enable static-libs static) \
 		$(use_enable X x11) \
-		$(use_enable divine) \
-		$(use_enable sawman) \
-		$(use_enable fusiondale) \
-		$(use_enable fusionsound) \
 		$(use_enable fbcon fbdev) \
-		$(use_enable cpu_flags_x86_mmx mmx) \
-		$(use_enable cpu_flags_x86_sse sse) \
-		$(use_enable egl) \
-		$(use_enable egl idirectfbgl-egl) \
+		$(use_enable mmx) \
+		$(use_enable sse) \
 		$(use_enable jpeg) \
 		$(use_enable png) \
 		$(use_enable mng) \
-		$(use_enable gstreamer) \
 		$(use_enable gif) \
-		$(use_enable tiff) \
 		$(use_enable imlib2) \
 		$(use_enable pnm) \
-		--disable-svg \
+		$(use_enable svg) \
 		$(use_enable mpeg2) \
-		$(use_enable mpeg3 libmpeg3) \
-		--disable-flash \
-		$(use_enable xine) \
-		--disable-xine-vdpau \
-		--disable-ffmpeg \
 		$(use_enable bmp) \
 		$(use_enable jpeg2k jpeg2000) \
-		--disable-openquicktime \
-		--disable-avifile \
 		$(use_enable truetype freetype) \
-		$(use_enable webp) \
 		$(use_enable debug) \
 		$(use_enable zlib) \
 		--disable-video4linux \
@@ -168,15 +128,6 @@ src_configure() {
 		$(use_enable multicore) \
 		$(use_enable dynload) \
 		$(use_enable opengl mesa) \
-		$(use_enable drmkms) \
-		--with-fs-drivers="${myaudio}" \
-		$(use_with timidity) \
-		--with-wave \
-		$(use_with vorbis) \
-		$(use_with tremor) \
-		$(use_with mad) \
-		$(use_with cddb cdda) \
-		--with-playlist \
 		${sdlconf} \
 		--with-gfxdrivers="${gfxdrivers}" \
 		--with-inputdrivers="${inputdrivers}" \

@@ -7,7 +7,8 @@
 # Purpose: basic trinity functions and variables
 #
 
-inherit versionator multilib
+inherit multilib
+[[ ${EAPI} == [56] ]] && inherit eapi7-ver versionator
 
 TRINITY_LIVEVER="14.0.0"
 
@@ -41,11 +42,11 @@ set-trinityver() {
 
 	case "$ETRINITY_VER" in
 		3.* )
-			export TRINITY_VER="$(get_version_component_range 1-2 "${ETRINITY_VER}")" ;;
+			export TRINITY_VER="$(ver_cut 1-2 "${ETRINITY_VER}")" ;;
 		9999 )
-			export TRINITY_VER="$(get_major_version "$TRINITY_LIVEVER" )" ;;
+			export TRINITY_VER="$(ver_cut 1 "$TRINITY_LIVEVER" )" ;;
 		* )
-			export TRINITY_VER="$(get_major_version "$ETRINITY_VER" )" ;;
+			export TRINITY_VER="$(ver_cut 1 "$ETRINITY_VER" )" ;;
 	esac
 
 	export TDEDIR="/usr/trinity/${TRINITY_VER}"

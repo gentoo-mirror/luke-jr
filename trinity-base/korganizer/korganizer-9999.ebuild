@@ -1,7 +1,7 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
-EAPI="5"
+
+EAPI=7
 TRINITY_MODULE_NAME="tdepim"
 
 inherit trinity-meta
@@ -40,7 +40,7 @@ TSM_EXTRACT_ALSO+=" libkpimexchange/core/" # required for USE=exchange
 
 src_configure () {
 	mycmakeargs=(
-		$(cmake-utils_use_with exchange EXCHANGE )
+		-DWITH_EXCHANGE="$(usex exchange)"
 	)
 	trinity-meta_src_configure
 }
