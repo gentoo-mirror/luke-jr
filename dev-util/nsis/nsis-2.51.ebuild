@@ -1,8 +1,7 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
-EAPI="5"
+EAPI=7
 mingw32_variants=$(echo {,i{6,5,4,3}86-{,pc-,w32-,w64-}}mingw32)
 
 inherit eutils
@@ -60,18 +59,18 @@ src_prepare() {
 	)
 	2to3 --write --no-diffs --nobackups "${files[@]}"
 
-	epatch "${FILESDIR}/${P}-build.patch"
-	epatch "${WORKDIR}/${P}-64bit.patch"
-	epatch "${FILESDIR}/${P}-py3.patch"
-	epatch "${FILESDIR}/${P}-scons3.patch"
-	epatch "${FILESDIR}/${P}-gcc10.patch"
-	epatch "${FILESDIR}/${P}-gcc11.patch"
-	epatch "${FILESDIR}/${P}-scons42.patch"
+	eapply "${FILESDIR}/${P}-build.patch"
+	eapply "${WORKDIR}/${P}-64bit.patch"
+	eapply "${FILESDIR}/${P}-py3.patch"
+	eapply "${FILESDIR}/${P}-scons3.patch"
+	eapply "${FILESDIR}/${P}-gcc10.patch"
+	eapply "${FILESDIR}/${P}-gcc11.patch"
+	eapply "${FILESDIR}/${P}-scons42.patch"
 
 	# a dirty but effective way of killing generated docs
 	use doc || echo > Docs/src/SConscript
 
-	epatch_user
+	default
 }
 
 get_additional_options() {
@@ -113,7 +112,7 @@ src_install() {
 
 	fperms -R go-w,a-x,a+X /usr/share/${PN}/ /usr/share/doc/${PF}/ /etc/nsisconf.nsh
 
-	env -uRESTRICT prepstrip "${D}/usr/bin"
+	dostrip /usr/bin
 	src_strip_win32
 }
 
@@ -127,7 +126,7 @@ src_strip_win32() {
 	echo "strip: ${STRIP_PROG} ${STRIP_FLAGS}"
 	local FILE
 	for FILE in $(find "${D}" -iregex '.*\.\(dll\|exe\|a\)$') ; do
-		echo "   /${FILE#${D}}"
+		echo "   ${FILE#${D}}"
 		${STRIP_PROG} ${STRIP_FLAGS} "${FILE}"
 	done
 }
