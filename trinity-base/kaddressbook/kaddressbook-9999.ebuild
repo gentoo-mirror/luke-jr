@@ -1,7 +1,7 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
-EAPI="5"
+
+EAPI=6
 TRINITY_MODULE_NAME="tdepim"
 
 inherit trinity-meta
@@ -27,7 +27,7 @@ TSM_EXTRACT_ALSO="certmanager/lib/
 
 src_configure () {
 	mycmakeargs=(
-		$(cmake-utils_use_with gnokii GNOKII )
+		-DWITH_GNOKII="$(usex gnokii)"
 	)
 	trinity-meta_src_configure
 }
