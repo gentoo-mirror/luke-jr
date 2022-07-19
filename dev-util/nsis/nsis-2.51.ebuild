@@ -65,6 +65,7 @@ src_prepare() {
 	epatch "${FILESDIR}/${P}-py3.patch"
 	epatch "${FILESDIR}/${P}-scons3.patch"
 	epatch "${FILESDIR}/${P}-gcc10.patch"
+	epatch "${FILESDIR}/${P}-gcc11.patch"
 
 	# a dirty but effective way of killing generated docs
 	use doc || echo > Docs/src/SConscript

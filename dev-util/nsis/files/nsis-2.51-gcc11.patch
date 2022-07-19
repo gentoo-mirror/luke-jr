@@ -1,0 +1,11 @@
+--- SCons/Config/gnu~	2022-07-19 03:11:56.655416435 +0000
++++ SCons/Config/gnu	2022-07-19 03:11:56.663415484 +0000
+@@ -33,6 +33,8 @@
+ defenv['MSVCRT_FLAG'] = ''
+ defenv['STDCALL'] = '"__attribute__((__stdcall__))"'
+ 
++defenv.Append(CXXFLAGS = ['-std=c++98'])
++
+ ### defines
+ 
+ defenv.Append(CPPDEFINES = [('NSISCALL', '$STDCALL')])
