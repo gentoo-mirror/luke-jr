@@ -174,7 +174,7 @@ if [[ -n "${TRINITY_EXTRAGEAR_PACKAGING}" ]]; then
 		"
 		case ${TRINITY_HANDBOOK} in
 			yes | always)
-				DEPEDND+=" ${trinityhandbookdepend}"
+				DEPEND+=" ${trinityhandbookdepend}"
 				;;
 			optional)
 				IUSE+=" +handbook"
