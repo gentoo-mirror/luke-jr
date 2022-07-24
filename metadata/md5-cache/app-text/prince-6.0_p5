@@ -7,5 +7,5 @@ KEYWORDS=~x86 ~amd64
 LICENSE=Prince-EULA
 SLOT=0
 SRC_URI=http://www.princexml.com/download/prince-6.0r5-linux.tar.gz
-_eclasses_=edos2unix	33e347e171066657f91f8b0c72ec8773	strip-linguas	ac3ee41ee2d31d8c41a77c0838320cc7	wrapper	4a1902f969e5718126434fc35f3a0d9c	eutils	6f9a4727973fc1e368f52777d871e769
+_eclasses_=edos2unix	33e347e171066657f91f8b0c72ec8773	strip-linguas	ac3ee41ee2d31d8c41a77c0838320cc7	wrapper	4a1902f969e5718126434fc35f3a0d9c	eutils	8f942ebdcf04334697649d4a0bf65a32
 _md5_=e2d89640faa7fd50d77c89b98e24b805
