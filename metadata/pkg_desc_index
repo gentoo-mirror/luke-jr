@@ -17,6 +17,7 @@ dev-libs/win_backtrace 9999: DLL to dump a usable backtrace to stderr for MingW/
 dev-python/bcrypt-py2 3.1.7-r2: Modern password hashing for software and servers
 dev-python/certifi-py2 10001: Thin replacement for certifi using system certificate store
 dev-python/cffi-py2 1.14.4: Foreign Function Interface for Python calling C code
+dev-python/cryptography 3.4.7-r3: Library providing cryptographic recipes and primitives
 dev-python/cryptography-py2 3.2.1: Library providing cryptographic recipes and primitives
 dev-python/cython-py2 0.29.21: A Python to C compiler
 dev-python/dbus-python-py2 1.2.16: Python2 bindings for the D-Bus messagebus
