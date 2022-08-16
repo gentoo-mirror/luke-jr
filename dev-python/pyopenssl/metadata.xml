@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<upstream>
+		<remote-id type="pypi">pyOpenSSL</remote-id>
+		<remote-id type="launchpad">pyopenssl</remote-id>
+		<remote-id type="sourceforge">pyopenssl</remote-id>
+		<remote-id type="cpe">cpe:/a:pyopenssl:pyopenssl</remote-id>
+		<remote-id type="github">pyca/pyopenssl</remote-id>
+	</upstream>
+</pkgmetadata>
