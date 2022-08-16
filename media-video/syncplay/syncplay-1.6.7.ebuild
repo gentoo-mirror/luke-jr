@@ -21,7 +21,10 @@ REQUIRED_USE="vlc? ( client )
 DEPEND=""
 RDEPEND="${PYTHON_DEPS}
 	>=dev-python/certifi-2018.11.29[${PYTHON_USEDEP}]
-	>=dev-python/twisted-16.4.0[crypt,${PYTHON_USEDEP}]
+	|| (
+		>=dev-python/twisted-16.4.0[ssl,${PYTHON_USEDEP}]
+		>=dev-python/twisted-16.4.0[crypt,${PYTHON_USEDEP}]
+	)
 	vlc? ( >=media-video/vlc-2.2.1[lua] )"
 
 src_prepare() {
