@@ -14,7 +14,7 @@ SRC_URI="https://github.com/Syncplay/syncplay/archive/v${PV}.tar.gz -> ${P}.tar.
 # + BSD for GUI stuff; + CC-BY-2.5 CC-BY-3.0 for icons
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~amd64 ~ppc64 ~x86"
+KEYWORDS="amd64 ppc64 x86"
 IUSE="+client +server vlc"
 REQUIRED_USE="vlc? ( client )
 	${PYTHON_REQUIRED_USE}"
