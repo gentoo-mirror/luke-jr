@@ -92,7 +92,7 @@ kde-frameworks/kdelibs 4.14.2019.08: Libraries needed for programs by KDE
 kde-frameworks/kdelibs-env 4.14.3: Environment setting required for all KDELibs4 apps to run
 mail-filter/hashcash-milter 0.1.3: A milter-based application to mint and check Hashcash stamps
 media-fonts/armagetronad-font 0_pre20100817: Font designed for games-action/armagetronad console
-media-fonts/console-font 0.0.20151103: Console font
+media-fonts/console-font 0.0.20151103 0.0.20220817: Console font
 media-fonts/jetbrains-mono 2.001: A free and open-source typeface for developers
 media-fonts/liberation-fonts 1.07.4: A Helvetica/Times/Courier replacement TrueType font set, courtesy of Red Hat
 media-fonts/ljr-free-fonts-meta 20180818 20201004 20201005: Metapackage for free fonts
