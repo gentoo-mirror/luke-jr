@@ -27,7 +27,7 @@ DEPEND="
 		<sys-libs/glibc-2.26[rpc]
 	)
 	trinity-base/libkmime
-	sasl? ( net-libs/libgsasl )
+	sasl? ( virtual/gsasl )
 "
 RDEPEND="${DEPEND}"
 
