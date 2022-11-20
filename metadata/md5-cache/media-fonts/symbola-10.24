@@ -11,5 +11,5 @@ LICENSE=public-domain
 RESTRICT=mirror bindist
 SLOT=0
 SRC_URI=https://luke.dashjr.org/mirror/misc/symbola-10.24.zip
-_eclasses_=font	9cdfddf092c05c7c4efd70cc30dea046
+_eclasses_=font	5e03cb70902daa9ff8967c61130f0f60
 _md5_=34d4bdbac97653ed7ac4eb4e2a3cfaaa
