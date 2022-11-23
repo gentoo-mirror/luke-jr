@@ -1,4 +1,4 @@
-BDEPEND=sys-devel/gnuconfig >=app-portage/elt-patches-20170815 || ( >=sys-devel/automake-1.16.5:1.16 ) >=sys-devel/autoconf-2.71 >=sys-devel/libtool-2.4
+BDEPEND=sys-devel/gnuconfig >=app-portage/elt-patches-20170815 || ( >=sys-devel/automake-1.16.5:1.16 ) >=sys-devel/autoconf-2.71-r5 >=sys-devel/libtool-2.4.7
 DEFINED_PHASES=configure install postinst prepare
 DEPEND=alsa? ( media-libs/alsa-lib ) cddb? ( media-libs/libcddb ) drmkms? ( x11-libs/libdrm[libkms] ) gif? ( media-libs/giflib ) gstreamer? ( media-libs/gstreamer:1.0 media-libs/gst-plugins-base:1.0 ) imlib2? ( media-libs/imlib2 ) jpeg? ( virtual/jpeg:0= ) jpeg2k? ( media-libs/jasper:=[jpeg] ) mad? ( media-libs/libmad ) mng? ( media-libs/libmng ) mpeg3? ( media-libs/libmpeg3 ) opengl? ( media-libs/mesa[gbm,egl(+)?,gles2?] x11-libs/libdrm ) png? ( media-libs/libpng:0= ) sdl? ( media-libs/libsdl ) tiff? ( media-libs/tiff:0 ) timidity? ( media-libs/libtimidity media-sound/timidity++ ) tremor? ( media-libs/tremor ) truetype? ( >=media-libs/freetype-2.0.1 ) vdpau? ( x11-libs/libX11 x11-libs/libXext x11-libs/libvdpau ) vorbis? ( media-libs/libvorbis ) webp? ( media-libs/libwebp ) X? ( x11-libs/libXext x11-libs/libX11 ) xine? ( media-libs/xine-lib[vdpau?] ) zlib? ( sys-libs/zlib )
 DESCRIPTION=Thin library on top of the Linux framebuffer devices
@@ -12,5 +12,5 @@ RDEPEND=alsa? ( media-libs/alsa-lib ) cddb? ( media-libs/libcddb ) drmkms? ( x11
 REQUIRED_USE=gles2? ( opengl )
 SLOT=0
 SRC_URI=http://luke.dashjr.org/mirror/misc/DirectFB-1.7.6.tar.gz
-_eclasses_=gnuconfig	b6b3e92f8b8c996400074b5f61a59256	toolchain-funcs	441f754fd75cd4fd1fa06fbc17da6144	multilib	5ca4e49abed8e3a2f7b56920eadee157	libtool	241a8f577b9781a42a7421e53448a44e	autotools	9e6965bfaa00f52cc61e0d4bc44c87b3	edos2unix	33e347e171066657f91f8b0c72ec8773	strip-linguas	ac3ee41ee2d31d8c41a77c0838320cc7	wrapper	4a1902f969e5718126434fc35f3a0d9c	eutils	8f942ebdcf04334697649d4a0bf65a32
+_eclasses_=gnuconfig	b6b3e92f8b8c996400074b5f61a59256	toolchain-funcs	441f754fd75cd4fd1fa06fbc17da6144	multilib	5ca4e49abed8e3a2f7b56920eadee157	libtool	241a8f577b9781a42a7421e53448a44e	autotools	914b385ae0716861815cb660457b6cdc	edos2unix	33e347e171066657f91f8b0c72ec8773	strip-linguas	ac3ee41ee2d31d8c41a77c0838320cc7	wrapper	4a1902f969e5718126434fc35f3a0d9c	eutils	8f942ebdcf04334697649d4a0bf65a32
 _md5_=6806d6409dba4dec4c1b15484ad9e4ac
