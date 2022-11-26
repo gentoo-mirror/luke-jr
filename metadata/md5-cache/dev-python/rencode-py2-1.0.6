@@ -1,4 +1,4 @@
-BDEPEND=python_targets_python2_7? ( >=dev-lang/python-2.7.10_p15:2.7 ) python_targets_python2_7? ( >=dev-lang/python-2.7.10_p15:2.7 ) || ( >=dev-python/setuptools-py2-42.0.2[python_targets_python2_7(-)?] >=dev-python/setuptools-42.0.2[python_targets_python2_7(-)?] )
+BDEPEND=python_targets_python2_7? ( >=dev-lang/python-2.7.10_p16:2.7 ) python_targets_python2_7? ( >=dev-lang/python-2.7.10_p16:2.7 ) || ( >=dev-python/setuptools-py2-42.0.2[python_targets_python2_7(-)?] >=dev-python/setuptools-42.0.2[python_targets_python2_7(-)?] )
 DEFINED_PHASES=compile configure install prepare test
 DEPEND=!!dev-python/rencode[python_targets_python2_7(-)] || ( dev-python/cython-py2[python_targets_python2_7(-)?] dev-python/cython[python_targets_python2_7(-)?] ) || ( dev-python/wheel-py2[python_targets_python2_7(-)?] dev-python/wheel[python_targets_python2_7(-)?] )
 DESCRIPTION=similar to bencode from the BitTorrent project
@@ -8,9 +8,9 @@ INHERIT=distutils-py2
 IUSE=python_targets_python2_7
 KEYWORDS=amd64 ~arm ppc64 ~sparc ~x86 ~amd64-linux ~x86-linux
 LICENSE=GPL-3
-RDEPEND=python_targets_python2_7? ( >=dev-lang/python-2.7.10_p15:2.7 ) python_targets_python2_7? ( >=dev-lang/python-2.7.10_p15:2.7 )
+RDEPEND=python_targets_python2_7? ( >=dev-lang/python-2.7.10_p16:2.7 ) python_targets_python2_7? ( >=dev-lang/python-2.7.10_p16:2.7 )
 REQUIRED_USE=|| ( python_targets_python2_7 ) || ( python_targets_python2_7 )
 SLOT=0
 SRC_URI=https://github.com/aresch/rencode/archive/v1.0.6.tar.gz -> rencode-1.0.6.tar.gz
-_eclasses_=multibuild	d26d81f242cb193d899a72bca423d0bd	eapi8-dosym	cd7d420bb5be5ee079f27239ce76b8f5	multiprocessing	b4e253ab22cef7b1085e9b67c7a3b730	toolchain-funcs	441f754fd75cd4fd1fa06fbc17da6144	multilib	5ca4e49abed8e3a2f7b56920eadee157	python-utils-r1	b9fc5e97e886514e5132f50465185401	python-r1	2d51fd03931e743811ce30d198e4dcfd	distutils-r1	8c1ceb6b71a65547b0ea7bc901d906cb	distutils-py2	6d8fbe388edb828c8ed9639b3d4d065f
+_eclasses_=multibuild	d26d81f242cb193d899a72bca423d0bd	eapi8-dosym	cd7d420bb5be5ee079f27239ce76b8f5	multiprocessing	b4e253ab22cef7b1085e9b67c7a3b730	toolchain-funcs	441f754fd75cd4fd1fa06fbc17da6144	multilib	5ca4e49abed8e3a2f7b56920eadee157	python-utils-r1	25c880c1db58e21b80b684bacc964958	python-r1	2d51fd03931e743811ce30d198e4dcfd	ninja-utils	8ed38f92fe095be374d6c4c8d4c0dda7	distutils-r1	da32ffc285e9f13313f2387570e35b87	distutils-py2	6d8fbe388edb828c8ed9639b3d4d065f
 _md5_=e0f27760b1bc99a3e37c4c7301bb858f
