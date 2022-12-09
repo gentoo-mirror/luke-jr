@@ -34,7 +34,7 @@ RDEPEND="${DEPEND}
 
 BDEPEND="
 	dev-lang/perl
-	virtual/awk
+	app-alternatives/awk
 	dist-kernel? ( <virtual/dist-kernel-${ZFS_KERNEL_DEP}:= )
 "
 
