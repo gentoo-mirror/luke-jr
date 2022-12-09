@@ -56,7 +56,6 @@ DEPEND="
 	media-fonts/font-screen-cyrillic
 	media-fonts/font-sony-misc
 	media-fonts/font-sun-misc
-	media-fonts/font-util
 	media-fonts/font-xfree86-type1
 	media-fonts/freefont
 	media-fonts/fs-fonts
