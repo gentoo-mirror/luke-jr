@@ -2,6 +2,11 @@
 # Please add your descriptions to your package's metadata.xml ONLY.
 # * generated automatically using pmaint *
 
+app-accessibility/whisper-cpp:command - Installs the example spoken-command interface
+app-accessibility/whisper-cpp:models - Adds a runtime dependency on app-accessibility/whisepr-ggml-models
+app-accessibility/whisper-cpp:stream - Installs the example of speech-to-text from microphone audio stream
+app-accessibility/whisper-ggml-models:whisper_models_base-en - Installs the basic English-only speech model (aka base.en)
+app-accessibility/whisper-ggml-models:whisper_models_large - Installs the large multilingual speech model
 app-crypt/qca-qt4:botan - Enable botan plugin
 app-crypt/qca-qt4:gcrypt - Enable gcrypt plugin
 app-crypt/qca-qt4:gpg - Enable GnuPG plugin

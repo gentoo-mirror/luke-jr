@@ -1,3 +1,5 @@
+app-accessibility/whisper-cpp 0.0_pre20221210: High-performance automatic speech recognition (ASR) using inference
+app-accessibility/whisper-ggml-models 0.0_pre20221210: Automatic speech recognition (ASR) models in whisper-cpp's ggml format
 app-arch/pbzx 1.0.2: Unpacker for pbzx-format macOS disk images
 app-crypt/qca-qt4 2.2.1: Qt Cryptographic Architecture (QCA)
 app-emulation/vmbuilder 0.12.4.20180502: Install virtual machines in a snap without ever actually booting a virtual machine!
