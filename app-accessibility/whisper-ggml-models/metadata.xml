@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <use>
+    <flag name="whisper_models_base-en">Installs the basic English-only speech model (aka base.en)</flag>
+    <flag name="whisper_models_large">Installs the large multilingual speech model</flag>
+  </use>
+</pkgmetadata>
