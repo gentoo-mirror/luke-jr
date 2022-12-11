@@ -9,6 +9,7 @@ LICENSE="MIT"
 
 SRC_URI="
 	whisper_models_base-en? ( https://huggingface.co/datasets/ggerganov/whisper.cpp/resolve/2913f38099001306a20524ed6cd68630b6dfd31e/ggml-base.en.bin -> ${P}-base.en.bin )
+	whisper_models_base? ( https://huggingface.co/datasets/ggerganov/whisper.cpp/resolve/2913f38099001306a20524ed6cd68630b6dfd31e/ggml-base.en.bin -> ${P}-base.bin )
 	whisper_models_large? ( https://huggingface.co/datasets/ggerganov/whisper.cpp/resolve/2913f38099001306a20524ed6cd68630b6dfd31e/ggml-large.bin -> ${P}-large.bin )
 "
 SLOT="0"
@@ -16,10 +17,10 @@ KEYWORDS="~amd64 ~ppc64"
 
 S="${WORKDIR}"
 
-IUSE="+whisper_models_base-en whisper_models_large"
-# TODO (when someone has time to download to get Manifest hashes): base large_v1 medium medium_en small small_en tiny tiny_en
+IUSE="+whisper_models_base-en whisper_models_base whisper_models_large"
+# TODO (when someone has time to download to get Manifest hashes): large_v1 medium medium_en small small_en tiny tiny_en
 
-REQUIRED_USE="|| ( whisper_models_base-en whisper_models_large )"
+REQUIRED_USE="|| ( whisper_models_base-en whisper_models_base whisper_models_large )"
 
 src_install() {
 	insinto /usr/share/whisper/ggml-models/
