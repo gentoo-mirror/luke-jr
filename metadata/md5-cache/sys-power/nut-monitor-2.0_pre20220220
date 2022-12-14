@@ -6,8 +6,8 @@ INHERIT=desktop fixheadtails python-single-r1
 IUSE=python_single_target_python3_8 python_single_target_python3_9
 KEYWORDS=~amd64 ~arm ~ppc ~ppc64 ~x86
 LICENSE=GPL-3
-RDEPEND=python_single_target_python3_8? ( >=dev-lang/python-3.8.15_p3:3.8 ) python_single_target_python3_9? ( >=dev-lang/python-3.9.15_p3:3.9 ) python_single_target_python3_8? ( dev-python/PyQt5[python_targets_python3_8(-)] ) python_single_target_python3_9? ( dev-python/PyQt5[python_targets_python3_9(-)] )
+RDEPEND=python_single_target_python3_8? ( >=dev-lang/python-3.8.16:3.8 ) python_single_target_python3_9? ( >=dev-lang/python-3.9.16:3.9 ) python_single_target_python3_8? ( dev-python/PyQt5[python_targets_python3_8(-)] ) python_single_target_python3_9? ( dev-python/PyQt5[python_targets_python3_9(-)] )
 SLOT=0
 SRC_URI=https://github.com/luke-jr/nut/archive/bb73c54b50ecd3b2eb961e9082086b8934a0b86b.tar.gz -> nut-monitor-2.0_pre20220220.tar.gz
-_eclasses_=desktop	7eb20ad915a0a318176d51bc2508ff5c	fixheadtails	1721997ed44d035654efe12da50797ef	multiprocessing	b4e253ab22cef7b1085e9b67c7a3b730	toolchain-funcs	37a4612ce5522df5a100359a8dbc8491	multilib	5ca4e49abed8e3a2f7b56920eadee157	python-utils-r1	25c880c1db58e21b80b684bacc964958	python-single-r1	a5747fe6dc0651d95cb78eddd5e160a8
+_eclasses_=desktop	7eb20ad915a0a318176d51bc2508ff5c	fixheadtails	1721997ed44d035654efe12da50797ef	multiprocessing	b4e253ab22cef7b1085e9b67c7a3b730	toolchain-funcs	37a4612ce5522df5a100359a8dbc8491	multilib	5ca4e49abed8e3a2f7b56920eadee157	python-utils-r1	6a75203e8a499f0fb42971452ce15388	python-single-r1	a5747fe6dc0651d95cb78eddd5e160a8
 _md5_=c4fcfc199a3ece41edb0d191a302897f
