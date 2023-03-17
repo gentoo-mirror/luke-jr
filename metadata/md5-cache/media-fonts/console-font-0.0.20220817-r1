@@ -10,5 +10,5 @@ LICENSE=public-domain
 REQUIRED_USE=|| ( bdf otb )
 SLOT=0
 SRC_URI=https://luke.dashjr.org/education/tonal/glyphs/fonts/Console/luke.console8x16-20220817.sfd -> console-font-0.0.20220817.sfd
-_eclasses_=font	5e03cb70902daa9ff8967c61130f0f60
+_eclasses_=font	aa113a3df9cd0a9693a1c1ee7c34a6eb
 _md5_=4d3dfd568ecd7835282c021c1f596fca

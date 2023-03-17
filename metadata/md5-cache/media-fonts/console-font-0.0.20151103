@@ -9,5 +9,5 @@ KEYWORDS=alpha amd64 arm ~arm64 hppa ia64 ~m68k ~mips ppc ppc64 ~s390 ~sh sparc 
 LICENSE=public-domain
 SLOT=0
 SRC_URI=https://luke.dashjr.org/education/tonal/glyphs/fonts/Console/luke.console8x16.sfd -> console-font-0.0.20151103.sfd
-_eclasses_=font	5e03cb70902daa9ff8967c61130f0f60	font-ebdftopcf	840fc70bac32a44ea27e63569c1ffea6
+_eclasses_=font	aa113a3df9cd0a9693a1c1ee7c34a6eb	font-ebdftopcf	39dc8195299452f48380cb51392cba37
 _md5_=238d4341071563e1d5dd51ed4e9dcd8a
