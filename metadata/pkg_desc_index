@@ -14,9 +14,7 @@ dev-libs/libdbusmenu-qt4 0.9.3_pre20160218-r1: Library providing Qt 4 implementa
 dev-libs/qjson 0.9.0: Library for mapping JSON data to QVariant objects
 dev-libs/win_backtrace 9999: DLL to dump a usable backtrace to stderr for MingW/GCC software on Windows (requires application support)
 dev-python/cryptography 3.4.7-r3: Library providing cryptographic recipes and primitives
-dev-python/pyModbusTCP 0.1.10: A simple Modbus/TCP client library for Python
 dev-python/pyopenssl 20.0.1-r1 21.0.0: Python interface to the OpenSSL library
-dev-python/pyrasite 2.0: Tools for injecting arbitrary code into running Python processes
 dev-qt/designer 4.8.2020.02: WYSIWYG tool for designing and building Qt-based GUIs
 dev-qt/qt3support 4.8.2020.02: The Qt3Support module for the Qt toolkit
 dev-qt/qtcore 4.8.2020.02: Cross-platform application development framework
@@ -60,7 +58,6 @@ sys-kernel/linux-headers 2.6.32: Linux system headers
 sys-libs/liblabjackusb 2.0.1-r1: This package contains the USB library/examples (written in C) for calling low-level U3, U6 and UE9 functions over a USB connection
 sys-libs/pdcurses 3.4-r5: 
 sys-libs/pthreads-win32 2.9.1: Provides the pthreads API on windows
-sys-power/nut-monitor 1.3.1 2.0_pre20220220: GUI to manage devices connected a NUT server
 sys-power/power-calibrate 0.01.31: Calibrates the power consumption of a mobile device that has a battery power source.
 trinity-base/korganizer 9999: A Personal Organizer for Trinity
 trinity-base/ktnef 9999: Trinity Viewer for mail attachments using TNEF format
