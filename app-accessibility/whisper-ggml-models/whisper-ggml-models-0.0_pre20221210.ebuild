@@ -9,7 +9,7 @@ LICENSE="MIT"
 
 SRC_URI="
 	whisper_models_base-en? ( https://huggingface.co/datasets/ggerganov/whisper.cpp/resolve/2913f38099001306a20524ed6cd68630b6dfd31e/ggml-base.en.bin -> ${P}-base.en.bin )
-	whisper_models_base? ( https://huggingface.co/datasets/ggerganov/whisper.cpp/resolve/2913f38099001306a20524ed6cd68630b6dfd31e/ggml-base.en.bin -> ${P}-base.bin )
+	whisper_models_base? ( https://huggingface.co/datasets/ggerganov/whisper.cpp/resolve/2913f38099001306a20524ed6cd68630b6dfd31e/ggml-base.bin -> ${P}-base.bin )
 	whisper_models_large? ( https://huggingface.co/datasets/ggerganov/whisper.cpp/resolve/2913f38099001306a20524ed6cd68630b6dfd31e/ggml-large.bin -> ${P}-large.bin )
 "
 SLOT="0"
