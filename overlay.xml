@@ -10,6 +10,5 @@
 			<name><![CDATA[Luke-Jr]]></name>
 		</owner>
 		<source type="git">https://scm.dashjr.org/scmroot/git/portage-overlays/luke-jr</source>
-		<source type="svn">svn://svn.dashjr.org/luke-portage-overlay/trunk</source>
 	</repo>
 </repositories>
