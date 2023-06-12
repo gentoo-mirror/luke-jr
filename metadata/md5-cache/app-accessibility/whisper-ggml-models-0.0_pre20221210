@@ -7,5 +7,5 @@ KEYWORDS=~amd64 ~ppc64
 LICENSE=MIT
 REQUIRED_USE=|| ( whisper_models_base-en whisper_models_base whisper_models_large )
 SLOT=0
-SRC_URI=whisper_models_base-en? ( https://huggingface.co/datasets/ggerganov/whisper.cpp/resolve/2913f38099001306a20524ed6cd68630b6dfd31e/ggml-base.en.bin -> whisper-ggml-models-0.0_pre20221210-base.en.bin ) whisper_models_base? ( https://huggingface.co/datasets/ggerganov/whisper.cpp/resolve/2913f38099001306a20524ed6cd68630b6dfd31e/ggml-base.en.bin -> whisper-ggml-models-0.0_pre20221210-base.bin ) whisper_models_large? ( https://huggingface.co/datasets/ggerganov/whisper.cpp/resolve/2913f38099001306a20524ed6cd68630b6dfd31e/ggml-large.bin -> whisper-ggml-models-0.0_pre20221210-large.bin )
-_md5_=92bd036a43b4648bfbeadc5952dc5021
+SRC_URI=whisper_models_base-en? ( https://huggingface.co/datasets/ggerganov/whisper.cpp/resolve/2913f38099001306a20524ed6cd68630b6dfd31e/ggml-base.en.bin -> whisper-ggml-models-0.0_pre20221210-base.en.bin ) whisper_models_base? ( https://huggingface.co/datasets/ggerganov/whisper.cpp/resolve/2913f38099001306a20524ed6cd68630b6dfd31e/ggml-base.bin -> whisper-ggml-models-0.0_pre20221210-base.bin ) whisper_models_large? ( https://huggingface.co/datasets/ggerganov/whisper.cpp/resolve/2913f38099001306a20524ed6cd68630b6dfd31e/ggml-large.bin -> whisper-ggml-models-0.0_pre20221210-large.bin )
+_md5_=de9a0c2356699c700c381ffe32253257
