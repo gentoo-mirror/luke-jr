@@ -29,6 +29,8 @@ RDEPEND="${PYTHON_DEPS}
 	vlc? ( >=media-video/vlc-2.2.1[lua] )"
 
 src_prepare() {
+	eapply "${FILESDIR}/${PN}-no-pem.patch"
+
 	sed -i 's/"noGui": False,/"noGui": True,/' \
 		syncplay/ui/ConfigurationGetter.py \
 		|| die "Failed to patch ConfigurationGetter.py"
