@@ -2,9 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=6
+EAPI=7
 
-inherit cmake-utils git-r3
+inherit cmake-utils git-r3 wrapper
 
 DESCRIPTION="Community-maintained Jedi Academy, multiplayer version"
 HOMEPAGE="https://github.com/JACoders/OpenJK"
@@ -65,7 +65,7 @@ openjk_make_wrapper() {
 src_install() {
 	cmake-utils_src_install
 	use opengl && openjk_make_wrapper openjk
-	use opengl && openjk_make_wrapper openjkded
+	use dedicated && openjk_make_wrapper openjkded
 	cd "${ED}/opt"
 	use test && mv UnitTests JediAcademy/UnitTests-MP
 }
