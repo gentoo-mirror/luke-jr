@@ -2,9 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=6
+EAPI=7
 
-inherit cmake-utils eutils git-r3
+inherit cmake-utils git-r3 wrapper
 
 DESCRIPTION="Community-maintained Jedi Outcast, story version"
 HOMEPAGE="https://github.com/JACoders/OpenJK"
