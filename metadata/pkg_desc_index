@@ -1,24 +1,17 @@
 app-accessibility/whisper-cpp 0.0_pre20221210: High-performance automatic speech recognition (ASR) using inference
 app-accessibility/whisper-ggml-models 0.0_pre20221210: Automatic speech recognition (ASR) models in whisper-cpp's ggml format
 app-arch/pbzx 1.0.2: Unpacker for pbzx-format macOS disk images
-app-misc/adbren 6.0.0.2010.03.13: AniDB Renamer
-app-misc/adbren-anidb 0.3_pre400: AniDB Renamer
 app-text/prince 6.0_p3 6.0_p5 6.0_p6 13.5 14.2: Prince is a computer program that converts XML and HTML into PDF documents.
 cross-armv7a-hardfloat-linux-gnueabi/linux-headers 2.6.36.1: Linux system headers
 cross-armv7a-softfloat-linux-gnueabi/linux-headers 2.6.36.1: Linux system headers
 cross-avr32/atmel-headers 6.1.3.1475: 
-cross-i686-pc-mingw32/pdcurses 3.4-r5: 
-cross-x86_64-w64-mingw32/pdcurses 3.4-r5: 
 dev-lang/rgbds 0.3.7: Free assembler/linker package for the Game Boy and Game Boy Color
-dev-libs/DirectFB 1.6.3-r2 1.7.6-r2: Thin library on top of the Linux framebuffer devices
 dev-libs/win_backtrace 9999: DLL to dump a usable backtrace to stderr for MingW/GCC software on Windows (requires application support)
-dev-util/nsis 2.51: Nullsoft Scriptable Install System
 dev-vcs/git-signatures 0_pre20181003: Attach an arbitrary number of GPG signatures to git commits and tags
 games-emulation/sameboy 0.10.1: A user friendly Game Boy and Game Boy Color emulator
 games-fps/openjk-academy 9999: Community-maintained Jedi Academy, story version
 games-fps/openjk-academy-mp 9999: Community-maintained Jedi Academy, multiplayer version
 games-fps/openjk-outcast 9999: Community-maintained Jedi Outcast, story version
-mail-filter/hashcash-milter 0.1.3: A milter-based application to mint and check Hashcash stamps
 media-fonts/armagetronad-font 0_pre20100817: Font designed for games-action/armagetronad console
 media-fonts/console-font 0.0.20151103 0.0.20220817 0.0.20220817-r1: Console font
 media-fonts/jetbrains-mono 2.001: A free and open-source typeface for developers
@@ -35,13 +28,10 @@ net-irc/znc-otr 0.0.0_pre20170727 9999: Encrypt private conversations using the 
 net-misc/asterisk-e164-800notes 0.1.27: Asterisk AGI script to search 800notes for CallerID info
 net-misc/asterisk-e164-vcard 0.1.26: Asterisk AGI script to search and append a vCard addressbook with CallerID
 net-misc/asterisk-e164imap 0.1.11 0.1.21: Asterisk AGI script to search and append an IMAP vCard addressbook with CallerID
-net-misc/gammamoo 1.8.2.4-r1: A modern MOO server, based on LambdaMOO
 sci-biology/gnaural 1.0.20080808: A programmable binaural-beat generator, implementing the principle of binaural beats as described in the October 1973 Scientific American article "Auditory Beats in the Brain" (Gerald Oster).
 sys-auth/dumb_runtime_dir 1.0.4: Creates an XDG_RUNTIME_DIR on login and never removes it.
 sys-kernel/linux-headers 2.6.32: Linux system headers
 sys-libs/liblabjackusb 2.0.1-r1: This package contains the USB library/examples (written in C) for calling low-level U3, U6 and UE9 functions over a USB connection
-sys-libs/pdcurses 3.4-r5: 
-sys-libs/pthreads-win32 2.9.1: Provides the pthreads API on windows
 sys-power/power-calibrate 0.01.31: Calibrates the power consumption of a mobile device that has a battery power source.
 www-plugins/chrome-tab-modifier 0.22.0: Chromium extension to manipulate tabs based on URL matching
 www-plugins/great-suspender 7.1.6: Chromium extension to reduce resource usage by suspending tabs
