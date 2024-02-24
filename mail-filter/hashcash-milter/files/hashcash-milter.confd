@@ -1,2 +1,0 @@
-SOCKETSPEC="inet:8029@localhost"
-HASHCASH_MILTER_OPTS="-p $SOCKETSPEC -u milter -P /var/run/sid-filter.pid -a -m 20"

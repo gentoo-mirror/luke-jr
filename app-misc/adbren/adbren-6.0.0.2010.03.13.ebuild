@@ -3,8 +3,6 @@
 
 EAPI=7
 
-inherit eutils
-
 DESCRIPTION="AniDB Renamer"
 SRC_URI="https://github.com/clip9/${PN}/tarball/a4110c5ef74a96ff914b7365db2ce91ea9ce629c?.tgz"
 HOMEPAGE="${SRC_URI}"

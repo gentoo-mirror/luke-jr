@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-inherit autotools eutils toolchain-funcs
+inherit autotools toolchain-funcs
 
 # Map Gentoo IUSE expand vars to DirectFB drivers
 # echo `sed -n '/Possible gfxdrivers are:/,/^$/{/Possible/d;s:\[ *::;s:\].*::;s:,::g;p}' configure.in`
