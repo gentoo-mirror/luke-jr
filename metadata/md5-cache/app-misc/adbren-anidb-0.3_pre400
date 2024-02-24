@@ -1,0 +1,10 @@
+DEFINED_PHASES=install
+DESCRIPTION=AniDB Renamer
+EAPI=7
+HOMEPAGE=http://dev.anidb.info/websvn/listing.php?repname=AniDB+CSS&path=%2Ftrunk%2Fudp_clients%2Fadbren
+KEYWORDS=~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~x86-fbsd
+LICENSE=as-is
+RDEPEND=!app-misc/adbren dev-perl/Getopt-ArgvFile virtual/perl-Getopt-Long dev-perl/AniDB dev-lang/perl
+SLOT=0
+SRC_URI=http://luke.dashjr.org/pub/adbren-anidb-r400.tgz
+_md5_=1a4fb84605fe443ed1d9269db51fe3e0

@@ -8,7 +8,6 @@ app-accessibility/whisper-cpp:stream - Installs the example of speech-to-text fr
 app-accessibility/whisper-ggml-models:whisper_models_base-en - Installs the basic English-only speech model (aka base.en)
 app-accessibility/whisper-ggml-models:whisper_models_large - Installs the large multilingual speech model
 app-text/prince:demo - Installs demo license file
-dev-util/nsis:config-log - Enable the logging facility (useful in debugging installers)
 media-fonts/ljr-free-fonts-meta:cyrillic - Install Cyrillic fonts
 media-fonts/ljr-free-fonts-meta:psf - Install fonts for the Linux text console
 www-plugins/great-suspender:migration-tool - Adds functionality to migrate suspended tabs between Great Suspender extensions with different extension ids.

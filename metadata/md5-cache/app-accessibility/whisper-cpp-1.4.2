@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile configure install prepare
+DEPEND=command? ( media-libs/libsdl2 ) stream? ( media-libs/libsdl2 )
+DESCRIPTION=High-performance automatic speech recognition (ASR) using inference
+EAPI=7
+HOMEPAGE=https://github.com/ggerganov/whisper.cpp
+IUSE=debug +command +models +quantize +stream
+KEYWORDS=~amd64 ~ppc64
+LICENSE=MIT
+RDEPEND=command? ( media-libs/libsdl2 ) stream? ( media-libs/libsdl2 ) models? ( app-accessibility/whisper-ggml-models )
+SLOT=0
+SRC_URI=https://github.com/ggerganov/whisper.cpp/archive/refs/tags/v1.4.2.tar.gz -> whisper-cpp-1.4.2.tar.gz
+_md5_=b9f4dd9905edda8609aff53ed632a43f
