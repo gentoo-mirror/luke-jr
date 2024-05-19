@@ -47,7 +47,7 @@ LICENSE="GPL-2"
 SLOT="0"
 
 IUSE="qt6 ${IUSE}"
-DEPEND="net-im/psi[qt6?]"
+DEPEND="net-im/psi[qt6(-)?]"
 RDEPEND="${DEPEND}"
 
 # Eclass exported functions
