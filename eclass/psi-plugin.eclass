@@ -31,7 +31,7 @@ if [ "${PV#9999}" != "${PV}" ] ; then
 	EGIT_CHECKOUT_DIR="${WORKDIR}/plugins"
 fi
 
-inherit qmake-utils ${SCM}
+inherit cmake ${SCM}
 
 # general common
 
@@ -40,19 +40,18 @@ if [ "${PV#9999}" != "${PV}" ] ; then
 	SRC_URI=""
 	S="${WORKDIR}/plugins/${PLUGIN_DIR}/${MY_PN}"
 else
-	SRC_URI="https://github.com/psi-im/plugins/archive/${PV}.tar.gz -> psi-plugins-${PV}.tar.gz"
-	S="${WORKDIR}/plugins-${PV}/${PLUGIN_DIR}/${MY_PN}"
+	SRC_URI="http://rion-overlay.googlecode.com/files/${P}.tar.xz"
 fi
 
 LICENSE="GPL-2"
 SLOT="0"
 
-
-DEPEND="net-im/psi"
+IUSE="qt6 ${IUSE}"
+DEPEND="net-im/psi[qt6?]"
 RDEPEND="${DEPEND}"
 
 # Eclass exported functions
-EXPORT_FUNCTIONS src_unpack src_prepare src_configure src_install
+EXPORT_FUNCTIONS src_unpack src_configure
 
 psi-plugin_src_unpack() {
 	if [ -n "$SCM" ]; then
@@ -62,16 +61,9 @@ psi-plugin_src_unpack() {
 	fi
 }
 
-psi-plugin_src_prepare() {
-	default
-	sed -e 's#\.\./\.\./psiplugin.pri#/usr/share/psi-plus/plugins/psiplugin.pri#' \
-               -i "${MY_PN}".pro || die
-}
-
 psi-plugin_src_configure() {
-	eqmake5 "${MY_PN}".pro
-}
-
-psi-plugin_src_install() {
-	emake install INSTALL_ROOT="${D}"
+	local mycmakeargs=(
+		-DQT_DEFAULT_MAJOR_VERSION=$(usex qt6 6 5)
+	)
+	cmake_src_configure
 }
