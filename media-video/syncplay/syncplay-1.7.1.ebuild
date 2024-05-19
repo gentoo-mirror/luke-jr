@@ -13,18 +13,16 @@ DESCRIPTION="Client/server to synchronize media playback"
 HOMEPAGE="https://github.com/Syncplay/syncplay https://syncplay.pl"
 SRC_URI="https://github.com/${PN^}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
-LICENSE="Apache-2.0"
+LICENSE="Apache-2.0 CC-BY-2.5 CC-BY-3.0 MIT"
 SLOT="0"
 KEYWORDS="~amd64"
 
-IUSE="+client server +gui"
+IUSE="+client server +gui +ssl"
 REQUIRED_USE="|| ( client server )"
 
 RDEPEND="
 	$( python_gen_cond_dep \
-		'>=dev-python/certifi-2018.11.29[${PYTHON_USEDEP}]
-		>=dev-python/twisted-16.4.0[${PYTHON_USEDEP},ssl]
-		>=dev-python/pem-21.2.0[${PYTHON_USEDEP}]'
+		'>=dev-python/twisted-16.4.0[${PYTHON_USEDEP},ssl]'
 	)
 	client? (
 		gui? (
@@ -35,6 +33,12 @@ RDEPEND="
 			$( python_gen_cond_dep \
 				'dev-python/QtPy[${PYTHON_USEDEP},gui,pyside6]' \
 				python3_12
+			)
+		)
+		ssl? (
+			$( python_gen_cond_dep \
+				'>=dev-python/certifi-2018.11.29[${PYTHON_USEDEP}]
+				>=dev-python/pem-21.2.0[${PYTHON_USEDEP}]'
 			)
 		)
 		|| (

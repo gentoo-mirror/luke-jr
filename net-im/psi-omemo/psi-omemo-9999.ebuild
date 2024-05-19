@@ -1,17 +1,14 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2024 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-PLUGIN_DIR="generic"
 inherit psi-plugin
 
-DESCRIPTION="Psi plugin for OMEMO"
+DESCRIPTION="OMEMO encryption support for Psi instant messenger"
 
 KEYWORDS=""
 IUSE=""
 
-RDEPEND="
-	|| ( >=net-libs/libsignal-protocol-c-2.3.1_p20180209 >=app-crypt/libsignal-protocol-c-2.3.1_p20180209 )
-	>=app-crypt/qca-2.1.3_p20180105"
+RDEPEND="net-libs/libomemo-c"
 DEPEND="$RDEPEND"
