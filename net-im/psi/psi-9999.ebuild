@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -17,10 +17,10 @@ EGIT_REPO_URI="${PSI_URI}/${PN}.git"
 PSI_LANGS_URI="${PSI_URI}/psi-l10n.git"
 PSI_PLUS_LANGS_URI="${PSI_PLUS_URI}/psi-plus-l10n.git"
 EGIT_MIN_CLONE_TYPE="single"
-LICENSE="GPL-2"
+LICENSE="GPL-2 iconsets? ( all-rights-reserved )"
 SLOT="0"
 KEYWORDS=""
-IUSE="aspell crypt dbus debug doc enchant extras +hunspell iconsets keyring webengine webkit xscreensaver"
+IUSE="aspell crypt dbus debug doc enchant extras +hunspell iconsets keyring webengine xscreensaver"
 
 REQUIRED_USE="
 	?? ( aspell enchant hunspell )
@@ -30,11 +30,11 @@ REQUIRED_USE="
 BDEPEND="
 	dev-qt/linguist-tools:5
 	virtual/pkgconfig
-	doc? ( app-doc/doxygen )
-	extras? ( >=sys-devel/qconf-2.4 )
+	doc? ( app-text/doxygen[dot] )
+	extras? ( >=dev-build/qconf-2.4 )
 "
 DEPEND="
-	app-crypt/qca:2[ssl]
+	app-crypt/qca:2[qt5(+),ssl]
 	dev-qt/qtconcurrent:5
 	dev-qt/qtcore:5
 	dev-qt/qtgui:5
@@ -55,13 +55,12 @@ DEPEND="
 	dbus? ( dev-qt/qtdbus:5 )
 	enchant? ( app-text/enchant:2 )
 	hunspell? ( app-text/hunspell:= )
-	keyring? ( dev-libs/qtkeychain:= )
+	keyring? ( dev-libs/qtkeychain:=[qt5(+)] )
 	webengine? (
 		dev-qt/qtwebchannel:5
 		dev-qt/qtwebengine:5[widgets]
 		net-libs/http-parser
 	)
-	webkit? ( dev-qt/qtwebkit:5 )
 "
 RDEPEND="${DEPEND}
 	dev-qt/qtimageformats
@@ -114,10 +113,6 @@ src_prepare() {
 }
 
 src_configure() {
-	local chattype=basic
-	use webengine && chattype=webengine
-	use webkit && chattype=webkit
-
 	local mycmakeargs=(
 		-DPRODUCTION=OFF
 		-DUSE_ASPELL=$(usex aspell)
@@ -126,7 +121,7 @@ src_configure() {
 		-DUSE_DBUS=$(usex dbus)
 		-DINSTALL_PLUGINS_SDK=1
 		-DUSE_KEYCHAIN=$(usex keyring)
-		-DCHAT_TYPE=$chattype
+		-DCHAT_TYPE=$(usex webengine webengine basic)
 		-DUSE_XSS=$(usex xscreensaver)
 		-DPSI_PLUS=$(usex extras)
 	)
