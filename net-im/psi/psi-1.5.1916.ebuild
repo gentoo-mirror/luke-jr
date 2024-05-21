@@ -17,12 +17,14 @@ EGIT_REPO_URI="${PSI_URI}/${PN}.git"
 PSI_LANGS_URI="${PSI_URI}/psi-l10n.git"
 PSI_PLUS_LANGS_URI="${PSI_PLUS_URI}/psi-plus-l10n.git"
 EGIT_MIN_CLONE_TYPE="single"
+EGIT_COMMIT="${PV}"
 LICENSE="GPL-2 iconsets? ( all-rights-reserved )"
 SLOT="0"
-KEYWORDS=""
-IUSE="aspell crypt dbus debug doc enchant extras +hunspell iconsets keyring webengine xscreensaver"
+KEYWORDS="amd64 ~x86"
+IUSE="aspell crypt dbus debug doc enchant +extras +hunspell iconsets keyring webengine xscreensaver"
 
 REQUIRED_USE="
+	extras
 	?? ( aspell enchant hunspell )
 	iconsets? ( extras )
 "
@@ -92,13 +94,11 @@ src_unpack() {
 	git-r3_src_unpack
 
 	# fetch translations
-	unset EGIT_BRANCH EGIT_COMMIT
 	EGIT_REPO_URI=$(usex extras "${PSI_PLUS_LANGS_URI}" "${PSI_LANGS_URI}")
 	EGIT_CHECKOUT_DIR="${WORKDIR}/psi-l10n"
 	git-r3_src_unpack
 
 	if use iconsets; then
-		unset EGIT_BRANCH EGIT_COMMIT
 		EGIT_CHECKOUT_DIR="${WORKDIR}/resources" \
 		EGIT_REPO_URI="${PSI_URI}/resources.git" \
 		git-r3_src_unpack
