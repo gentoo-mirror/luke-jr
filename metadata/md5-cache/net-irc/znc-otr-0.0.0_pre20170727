@@ -1,13 +1,11 @@
 DEFINED_PHASES=install prepare
 DEPEND=net-irc/znc:= net-libs/libotr
 DESCRIPTION=Encrypt private conversations using the OTR protocol, on a ZNC server
-EAPI=6
+EAPI=8
 HOMEPAGE=https://wiki.znc.in/Otr
-INHERIT=multilib
 KEYWORDS=~amd64
 LICENSE=Apache-2.0
 RDEPEND=net-irc/znc:= net-libs/libotr
 SLOT=0
 SRC_URI=https://github.com/mmilata/znc-otr/archive/11560d6700bdc57241968ada2f44f99220ef0bf6.tar.gz -> znc-otr-0.0.0_pre20170727.tar.gz
-_eclasses_=multilib	7e1347c006a76bb812f3a9f663b79991	toolchain-funcs	948855ec7ad9f11351edf9066708dfa9
-_md5_=48a1c92ba600518743cddcae7d980d49
+_md5_=2264e9dab5c7708eabb5248b5a3cab0c
