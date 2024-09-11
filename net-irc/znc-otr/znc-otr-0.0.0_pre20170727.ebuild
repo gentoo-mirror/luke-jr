@@ -1,9 +1,7 @@
 # Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
-
-inherit multilib
+EAPI=8
 
 ZNC_COMMITHASH="11560d6700bdc57241968ada2f44f99220ef0bf6"
 
