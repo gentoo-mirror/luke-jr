@@ -10,7 +10,6 @@ dev-lang/rgbds 0.3.7: Free assembler/linker package for the Game Boy and Game Bo
 dev-libs/DirectFB 1.7.6-r2: Thin library on top of the Linux framebuffer devices
 dev-libs/win_backtrace 9999: DLL to dump a usable backtrace to stderr for MingW/GCC software on Windows (requires application support)
 dev-vcs/git-signatures 0_pre20181003: Attach an arbitrary number of GPG signatures to git commits and tags
-games-emulation/sameboy 0.10.1: A user friendly Game Boy and Game Boy Color emulator
 games-fps/openjk-academy 9999: Community-maintained Jedi Academy, story version
 games-fps/openjk-academy-mp 9999: Community-maintained Jedi Academy, multiplayer version
 games-fps/openjk-outcast 9999: Community-maintained Jedi Outcast, story version
