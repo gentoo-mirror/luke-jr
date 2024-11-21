@@ -1,7 +1,9 @@
 # Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
+
+inherit flag-o-matic
 
 DESCRIPTION="Free assembler/linker package for the Game Boy and Game Boy Color"
 HOMEPAGE="https://rednex.github.io/rgbds/"
@@ -16,15 +18,20 @@ RDEPEND="
 	media-libs/libpng:=
 "
 DEPEND="${RDEPEND}
-	virtual/yacc
+	app-alternatives/yacc
 	sys-devel/flex
 	virtual/pkgconfig
 "
 
+src_prepare() {
+	default
+	append-cflags -fcommon
+}
+
 src_compile() {
-	emake Q= || die
+	emake Q= CFLAGS="${CFLAGS}" || die
 }
 
 src_install() {
-	emake Q= STRIP= DESTDIR="${D}" PREFIX=/usr mandir=/usr/share/man install || die
+	emake Q= CFLAGS="${CFLAGS}" STRIP= DESTDIR="${D}" PREFIX=/usr mandir=/usr/share/man install || die
 }
