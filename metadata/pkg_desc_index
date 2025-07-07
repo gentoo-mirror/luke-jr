@@ -14,6 +14,7 @@ games-emulation/sameboy 0.10.1: A user friendly Game Boy and Game Boy Color emul
 games-fps/openjk-academy 9999: Community-maintained Jedi Academy, story version
 games-fps/openjk-academy-mp 9999: Community-maintained Jedi Academy, multiplayer version
 games-fps/openjk-outcast 9999: Community-maintained Jedi Outcast, story version
+games-strategy/freeciv-ruleset-goldkeep 3.1.5: Goldkeep ruleset for Freeciv (formerly known as 'experimental')
 media-fonts/armagetronad-font 0_pre20100817: Font designed for games-action/armagetronad console
 media-fonts/console-font 0.0.20151103 0.0.20220817 0.0.20220817-r1: Console font
 media-fonts/inter 4.0-r2: The Inter font family
