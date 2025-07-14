@@ -9,5 +9,5 @@ LICENSE=MIT
 RDEPEND=media-libs/libpng:=
 SLOT=0
 SRC_URI=https://github.com/rednex/rgbds/releases/download/v0.3.7/rgbds-0.3.7.tar.gz
-_eclasses_=toolchain-funcs	a6df79c1e9bc84369dbf3d44206ac772	flag-o-matic	a7afe42e95fb46ce9691605acfb24672
+_eclasses_=toolchain-funcs	a0b29008c671a362b505f96fa80ce9c0	flag-o-matic	a7afe42e95fb46ce9691605acfb24672
 _md5_=624794e1cc5e6ab28c36e2a7b1c1a414
